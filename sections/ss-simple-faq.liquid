@@ -1,0 +1,276 @@
+<div class="rb-faq-shopify-section" style="background-color:{{ section.settings.section_background_color | default: '#1a1a1a' }};">
+    <div class="rb-faq-layout">
+      <div class="rb-faq-layout__side">
+        {%- if section.settings.kicker != blank -%}
+          <p class="rb-faq-kicker">{{ section.settings.kicker }}</p>
+        {%- endif -%}
+        <h2 class="rb-faq-heading">{{ section.settings.heading }}</h2>
+      </div>
+      <div class="rb-faq-layout__card">
+        <div class="rb-faq-container">
+            {%for block in section.blocks %}
+            <div class="rb-faq-container-item">
+                <input style="display:none!important;" type="checkbox" id="tab{{ section.id }}{{forloop.index}}" class="tab-toggle">
+                <label for="tab{{ section.id }}{{forloop.index}}" class="rb-faq-question">{{block.settings.question}}</label>
+                <div class="rb-faq-answer">{{block.settings.answer}}</div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% schema %}
+  {
+    "name": "SS - FAQ #1",
+    "presets" : [
+        {
+            "category":"Custom sections",
+            "name":"SS - FAQ #1",
+            "blocks": [
+                        {
+                          "type": "text",
+                          "settings": {
+                            "question": "Do you offer free shipping?",
+                            "answer": "<p>Yes, we provide free standard shipping on all orders over $100. For orders under $100, a small shipping fee applies, which will be shown at checkout.</p>"
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "settings": {
+                            "question": "What is your refund policy?",
+                            "answer": "<p>If you're not completely satisfied with your purchase, you can return it within 14 for a full refund. Please ensure the item is unused and in its original packaging.</p>"
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "settings": {
+                            "question": "How can I create headshots with AI?",
+                            "answer": "<p>Need professional headshots quickly? <a href=\"https://headshots.so\">headshots.so</a>, <a href=\"https://headshots.dk\">headshots.dk</a>, <a href=\"https://headshots.se\">headshots.se</a>, and <a href=\"https://headshots.no\">headshots.no</a> make it easy to produce high-quality images in just a few minutes. Whether you're updating your LinkedIn profile or website, these platforms help you get a polished look without any hassle.</p>"
+                          }
+                        }
+                      ]
+
+        }
+    ],
+    "settings": [
+        {
+            "type":"header",
+            "content":"Left column text"
+        },
+        {
+            "type":"text",
+            "label":"Kicker",
+            "id":"kicker",
+            "default":"Got Questions?"
+        },
+        {
+            "type":"text",
+            "label":"Heading",
+            "id":"heading",
+            "default":"Frequently Asked Questions"
+        },
+        {
+            "type":"header",
+            "content":"Colors"
+        },
+        {
+            "type":"color",
+            "label":"Section background color",
+            "id":"section_background_color",
+            "default":"#1a1a1a"
+        },
+        {
+            "type":"color",
+            "label":"Kicker/heading text color",
+            "id":"side_text_color",
+            "default":"#ffffff"
+        },
+        {
+            "type":"color",
+            "label":"Icon color",
+            "id":"icon_color",
+            "default":"#ec7901"
+        },
+        {
+            "type":"color",
+            "label":"Question hover color",
+            "id":"hover_color",
+            "default":"#ec7901"
+        },
+        {
+            "type":"color",
+            "label":"Question color",
+            "id":"question_color",
+            "default":"#1a1a1a"
+        },
+        {
+            "type":"color",
+            "label":"Question Background color",
+            "id":"background_color",
+            "default":"#ffffff"
+        },
+        {
+            "type":"color",
+            "label":"Answer color",
+            "id":"answer_color",
+            "default":"#444444"
+        },
+        {
+            "type":"color",
+            "label":"Answer Background color",
+            "id":"answer_bg_color",
+            "default":"#ffffff"
+        },
+        {
+            "type":"color",
+            "label":"Card background color",
+            "id":"card_background_color",
+            "default":"#ffffff"
+        },
+        {
+            "type":"range",
+            "id":"questions-font-size",
+            "label":"Questions font size",
+            "default":1.1,
+            "min":0.8,
+            "max":3.0,
+            "step":0.1
+        }
+    ],
+    "blocks":	[
+        {
+        "type":"text",
+        "name":"Questions/Answer",
+        "settings": [
+            {
+                "type":"text",
+                "label":"Question",
+                "id":"question",
+                "default":"Question text"
+            },
+            {
+                "type":"richtext",
+                "label":"Answer",
+                "id":"answer",
+                "default":"<p>Answer richtext</p>"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}
+
+  {% style %}
+
+    .rb-faq-answer a {
+      color: inherit;
+      text-decoration: inherit;
+    }
+
+    .rb-faq-shopify-section {
+      padding: 60px 30px;
+    }
+
+    .rb-faq-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .rb-faq-kicker {
+      margin: 0 0 8px;
+      color: {{ section.settings.side_text_color | default: '#ffffff' }};
+      opacity: 0.7;
+    }
+
+    .rb-faq-heading {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: {{ section.settings.side_text_color | default: '#ffffff' }};
+    }
+
+    .rb-faq-layout__card {
+      background: {{ section.settings.card_background_color | default: '#ffffff' }};
+      border-radius: 16px;
+      padding: 12px 24px;
+    }
+
+    .rb-faq-container {
+        margin:auto;
+    }
+
+    .rb-faq-container-item {
+          margin-bottom:4px;
+          overflow: hidden;
+          border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .rb-faq-container-item:last-child {
+          border-bottom: none;
+    }
+
+    .rb-faq-question::after{
+          color: {{section.settings.icon_color}};
+          content: '\002B';
+          font-size: 1.3em;
+          line-height: 1;
+          transition: all 0.2s ease;
+      }
+
+    .rb-faq-question {
+        display:flex !important;
+        justify-content: space-between;
+        align-items: center;
+        background-color:{{section.settings.background_color}};
+        padding:18px 4px;
+        font-weight: bold;
+        color: {{section.settings.question_color}};
+        font-size: {{section.settings.questions-font-size}}rem;
+        cursor: pointer;
+    }
+
+    .rb-faq-question:hover {
+          color: {{section.settings.hover_color}};
+      }
+    .rb-faq-answer {
+          padding: 0px 4px;
+          position: relative;
+          width: 100%;
+          height: 0;
+          opacity: 0;
+          overflow: hidden;
+          visibility: hidden;
+          will-change: height;
+          transform: translateY(25px);
+          transition: all .2s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+    }
+    .tab-toggle:checked ~ .rb-faq-answer {
+      transform: translateY(0);
+      padding: 0 4px 18px;
+      height:auto;
+      opacity: 1;
+      overflow: unset;
+      visibility: visible;
+      transition: all .3s ease,opacity 1s ease,height .3s ease;
+      color: {{section.settings.answer_color}};
+      background-color: {{section.settings.answer_bg_color}};
+    }
+    .tab-toggle:checked ~ .rb-faq-question::after {
+          content: '\2212';
+    }
+    .tab-toggle{
+          display:none;
+    }
+
+    @media (max-width: 800px) {
+      .rb-faq-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  {% endstyle %}

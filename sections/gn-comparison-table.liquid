@@ -1,0 +1,193 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-comparison-table {
+    padding: {{ section.settings.padding_top | default: 60 }}px 20px {{ section.settings.padding_bottom | default: 60 }}px;
+    background: {{ section.settings.background_color | default: '#f2f0e6' }};
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__heading {
+    margin: 0 0 40px;
+    font-size: 2rem;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__grid {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 24px 16px;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__header-others {
+    width: 90px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__row:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__feature {
+    font-weight: 600;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__check {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 22px;
+    height: 22px;
+    color: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__others {
+    width: 90px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.35);
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__others svg {
+    width: 18px;
+    height: 18px;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__center-card {
+    position: absolute;
+    top: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ section.settings.card_width | default: 220 }}px;
+    height: calc(100% + 72px);
+    border-radius: 18px;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    background: #eae6d8;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__center-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__brand {
+    position: absolute;
+    top: 18px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: {{ section.settings.brand_color | default: '#1d3d2a' }};
+  }
+  #shopify-section-{{ section.id }} .gn-comparison-table__brand img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+  @media (max-width: 700px) {
+    #shopify-section-{{ section.id }} .gn-comparison-table__center-card {
+      width: 130px;
+    }
+    #shopify-section-{{ section.id }} .gn-comparison-table__feature {
+      font-size: 0.85rem;
+      max-width: 40%;
+    }
+  }
+</style>
+
+<div class="gn-comparison-table">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="gn-comparison-table__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  <div class="gn-comparison-table__grid">
+    <div class="gn-comparison-table__header">
+      <span class="gn-comparison-table__header-others">{{ section.settings.others_label | default: 'Others' }}</span>
+    </div>
+    {%- for block in section.blocks -%}
+      <div class="gn-comparison-table__row" {{ block.shopify_attributes }}>
+        <span class="gn-comparison-table__feature">{{ block.settings.feature_text }}</span>
+        <span class="gn-comparison-table__check">
+          {%- if block.settings.brand_check -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          {%- else -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          {%- endif -%}
+        </span>
+        <span class="gn-comparison-table__others">
+          {%- if block.settings.others_check -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          {%- else -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          {%- endif -%}
+        </span>
+      </div>
+    {%- endfor -%}
+    <div class="gn-comparison-table__center-card">
+      {%- if section.settings.center_image != blank -%}
+        {{ section.settings.center_image | image_url: width: 440 | image_tag: loading: 'lazy' }}
+      {%- endif -%}
+      <div class="gn-comparison-table__brand">
+        {%- if section.settings.brand_logo != blank -%}
+          {{ section.settings.brand_logo | image_url: width: 44 | image_tag: loading: 'lazy' }}
+        {%- endif -%}
+        {{ section.settings.brand_name | default: shop.name }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sets the Standard" },
+    { "type": "text", "id": "brand_name", "label": "Brand column name", "default": "Golfer Now" },
+    { "type": "image_picker", "id": "brand_logo", "label": "Small brand logo (optional)" },
+    { "type": "text", "id": "others_label", "label": "Other column name", "default": "Others" },
+    { "type": "color", "id": "brand_color", "label": "Brand text color", "default": "#1d3d2a" },
+    { "type": "header", "content": "Center image" },
+    { "type": "image_picker", "id": "center_image", "label": "Product photo" },
+    { "type": "range", "id": "card_width", "min": 140, "max": 320, "step": 10, "unit": "px", "label": "Card width", "default": 220 },
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#f2f0e6" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 60 }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison row",
+      "settings": [
+        { "type": "text", "id": "feature_text", "label": "Feature", "default": "Feature name" },
+        { "type": "checkbox", "id": "brand_check", "label": "Your brand has this", "default": true },
+        { "type": "checkbox", "id": "others_check", "label": "Others have this", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison table",
+      "blocks": [
+        { "type": "row", "settings": { "feature_text": "Feature 1", "brand_check": true, "others_check": false } },
+        { "type": "row", "settings": { "feature_text": "Feature 2", "brand_check": true, "others_check": false } },
+        { "type": "row", "settings": { "feature_text": "Feature 3", "brand_check": true, "others_check": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

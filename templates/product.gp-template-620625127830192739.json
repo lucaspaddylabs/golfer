@@ -1,0 +1,193 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "gp_section_620625127930921571": {
+      "settings": {
+        "checksum": "2811fe66c4a1e882f409d72a06be5e40dcd580fa1510b02f9d6214ec06235a6c_1_1_1_0__1",
+        "gg5DDgHfLWc_text": "<p>Order today, receive tomorrow</p>",
+        "gg6NZcudZZ8_text": "Golfer Now Guarantee",
+        "ggBvZGJ-NY1_text": "<p>Our suport team always ready for all days a week</p>",
+        "ggGUl01EQgN_text": "<p>Secure shipping</p>",
+        "ggYlx3Cawrm_text": "<p>Fast customer support</p>",
+        "ggh-lzSuk1Q_text": "<p>Flexible returns for your peace of mind</p>",
+        "ggxF3DWxyHz_text": "<p>Satisfaction guaranteed</p>"
+      },
+      "type": "gp-section-620625127930921571"
+    },
+    "gp_section_620625127931249251": {
+      "settings": {
+        "checksum": "d19671bd2b980d36c0608b6774bf9d3db8d28cfd86f35426edbf07912815ac2a_1_1_1_0__1",
+        "ggB9gWrFLRt_text": "<p>Every order includes the Pro Swing Click Trainer rod (extends from 38.5cm to 65cm) and the elbow corrector arm band. Together they target the two most common swing faults: early release and chicken wing. No extra purchases needed.</p>",
+        "ggDb_MyrWGg_text": "<p>Got Questions?</p>",
+        "ggU7kZp_UF4_childItem_0": "<p>How does the click trainer actually work?</p>",
+        "ggU7kZp_UF4_childItem_1": "<p>Which clubs does it work with?</p>",
+        "ggU7kZp_UF4_childItem_2": "<p>Does it work for left-handed golfers?</p>",
+        "ggU7kZp_UF4_childItem_3": "<p>What&#039;s included in the kit?</p>",
+        "ggYzEOathXK_text": "<p>The Pro Swing Click Trainer is a standalone training aid, not a club — you swing it in place of your club during practice. It works for drivers, irons, and short game. Practice with it before a round or at home in your garden.</p>",
+        "ggcx7tsDpjH_text": "<p>The trainer uses a spring-loaded mechanism that stays contracted at rest. When you swing through with the correct lag and release timing, the spring extends and produces an audible click. If you release too early, there's no click — giving you instant, honest feedback every single rep.</p>",
+        "ggoapyZLxQg_text": "<p>Frequently Asked Questions</p>",
+        "ggpz5A2eo3e_text": "<p>Yes — the trainer is symmetrical and works equally well for left- and right-handed golfers. The grip and spring mechanism function the same way regardless of your dominant hand.</p>"
+      },
+      "type": "gp-section-620625127931249251"
+    },
+    "gp_section_620625127931576931": {
+      "settings": {
+        "checksum": "db9d12a77a40c70a15ebdf2dead944f5484bc9b116dbb256144a9d07ddd6a4ea_1_1_1_0__1",
+        "gg6j_g8jp4u_childItem_0": "<p><strong>Instant Feedback To Stop Early Releasing</strong></p>",
+        "gg6j_g8jp4u_childItem_1": "<p><strong>Creates More Lag &amp; Power At Impact</strong></p>",
+        "gg6j_g8jp4u_childItem_2": "<p><strong>Generates More Speed &amp; Distance</strong></p>",
+        "gg6j_g8jp4u_childItem_3": "<p><strong>Builds a Smoother Tempo</strong></p>",
+        "gg6j_g8jp4u_childItem_4": "<p><strong>Practice Anywhere, Anytime</strong></p>",
+        "ggNPVyZY1sU_continueSelling": "Restock soon! PREORDER NOW",
+        "ggNPVyZY1sU_outOfStockMessage": "OUT OF STOCK",
+        "ggNPVyZY1sU_template": "Only <span class='gp-text-g-text-2'><$quantity$></span> left",
+        "ggNPVyZY1sU_unlimitedQuantityMessage": "Low stock - selling fast",
+        "ggYuvoOq3G8_text": "<p>Easy Returns</p>",
+        "ggYzlkhRk57_errorMessage": "Cannot add product to cart",
+        "ggYzlkhRk57_label": "Add to Cart",
+        "ggYzlkhRk57_outOfStockLabel": "Out of stock",
+        "ggYzlkhRk57_successMessage": "Add product to cart successfully",
+        "ggYzlkhRk57_unavailableLabel": "Unavailable",
+        "ggeR1Y7o3Uh_text": "<p>Don't miss out! Your offer ends in</p>",
+        "ggfQXy-yJpB_text": "<p>Stop guessing whether your form is right. Our golf swing trainer gives you instant audible feedback so you know the moment you nail a proper swing.</p>",
+        "gguMp53a5Vo_text": "<p>Free shipping&nbsp;</p>",
+        "gguZPljbmEJ_text": "<p>Support 24/7</p>",
+        "ggwzXYbyDQM_text": "<p>2,500+ Verified Reviews!</p>",
+        "section_preload": "true"
+      },
+      "type": "gp-section-620625127931576931"
+    },
+    "gp_section_620625461076034147": {
+      "settings": {
+        "checksum": "348dde9c4f96379634b21115ae0ed98d0546abc94b2581c27fe48657c065904d_1_1_1_0__1",
+        "gg76H7yI87a_text": "Timing",
+        "ggZK1iMneAM_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/image_42.png",
+        "gg_76OKJFSV_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/image_43.png",
+        "gg_uo1EgxX-_text": "Power",
+        "ggbSG3gY_ti_text": "Consistency",
+        "ggdNFaEqq7W_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/image_41.png",
+        "ggectBLkdIp_background_desktop_image_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/image_44.png",
+        "section_preload": "true"
+      },
+      "type": "gp-section-620625461076034147"
+    },
+    "gp_section_620625461965226954": {
+      "settings": {
+        "checksum": "84f36179272e7a93760a66f7cf51bf76ab991c339c5700e6b5eef58ab1ccf98c_1_1_1_0__1",
+        "gg6so9fI-NN_text": "<p>The Click That Trains Your Timing</p>",
+        "gg8q4hPlQwc_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/click-test-still-4.png",
+        "ggB_U7WUUCd_text": "<p>Anti-Slip Natural Rubber Grip</p>",
+        "ggQ4B1rVl4N_text": "<p>Engineered for control on every swing — the ergonomic grip keeps your hands locked in position so you can focus on form, not your hold.</p>",
+        "ggQXBMkWI0I_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/click-test-still-2.jpg",
+        "ggRiczKSR0z_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/click-test-still-6_1.png",
+        "ggcnpRd51XE_text": "Engineered for the Swing That Wins More Holes",
+        "ggiOf_H0zOG_text": "<p>The included elbow corrector keeps your lead arm connected through impact — fixing the most common swing fault without a single lesson.</p>",
+        "ggndsTEP8yc_text": "<p>Arm Band That Kills Chicken Wing</p>",
+        "ggrs9_0T49R_text": "<p>The spring-loaded mechanism extends at the exact moment of correct release — and clicks audibly. No guessing. You hear it when you get it right.</p>"
+      },
+      "type": "gp-section-620625461965226954"
+    },
+    "gp_section_620625463827497631": {
+      "settings": {
+        "checksum": "94f9d5add9aa402605b11814cd91cc6af7de6016324bcb20eb8f7f0679810310_1_1_1_0__1",
+        "ggZA0j_XHjR_html5Url": "https://cdn.shopify.com/videos/c/o/v/d31dab14dd9b4f79a9e13f6982f2043c.mp4",
+        "ggZA0j_XHjR_vimeoUrl": "https://vimeo.com/1095883398",
+        "ggZA0j_XHjR_youtubeUrl": "https://www.youtube.com/watch?v=NfASaHFN1zg"
+      },
+      "type": "gp-section-620625463827497631"
+    },
+    "gp_section_620625464532140703": {
+      "settings": {
+        "checksum": "95b389eebe2dbd62e882bbc8619c75ad9d7a8065ac780dc9dcfc49c2aacab7b3_1_1_1_0__1",
+        "gg-zSaWBCHM_text": "<p>Corrects Elbow Posture</p>",
+        "gg1yzbYZ9ra_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/golferNOwLogoDarkcopy.png",
+        "gg2HEOdGvtT_text": "<p>Practice Anywhere</p>",
+        "gg2HJQrfUir_text": "<p>Stops Early Release</p>",
+        "ggJrOirF24m_text": "Pro Swing Sets&nbsp;the Standard",
+        "ggLLDaNzToV_text": "<p>Instant Audible Feedback</p>",
+        "ggOPksW_aOb_text": "<p>Anti-Slip Rubber Grip</p>",
+        "ggP1q41vhOk_background_desktop_image_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/shutterstock_2526959163_1.jpg",
+        "ggYJkmuxGXk_text": "<p>Others</p>",
+        "ggdLTsWkEF__text": "<p>Others</p>",
+        "ggn_dE8QJTn_text": "<p>Builds Muscle Memory</p>"
+      },
+      "type": "gp-section-620625464532140703"
+    },
+    "gp_section_620625464968348259": {
+      "settings": {
+        "checksum": "4847bdb237a28f158f11dc1094827f10035a57378a49b85e7eb1fdee05b18c69_1_1_1_0__1",
+        "gg-A6LFtF6A_text": "<p><strong>GemTrail</strong> replied</p>",
+        "gg6QI7W0XMR_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/2005/9307/files/456786.png",
+        "gg74FjjuAr1_text": "<p>13/05/2025</p>",
+        "gg99kNJ5ivZ_text": "<p>\"I've bought alignment sticks, impact bags, weighted clubs — most end up in the garage after a month. The Pro Swing Click Trainer is different because the feedback is immediate and honest. It doesn't lie to you. If your timing is off, there's no click. When it clicks, you know your lag and release are exactly where they need to be. I use it for 10 minutes before every round as a warm-up now.\"</p>",
+        "ggE2_tqLnNI_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/2005/9307/files/768657543.png",
+        "ggIXOrhvd2H_text": "<p><strong>Golfer Now </strong>replied</p>",
+        "ggJpim0BNcR_text": "<p>Took a couple of weeks to get used to — but it works.</p>",
+        "ggNXGx6y8wY_text": "<p>Club Member</p>",
+        "ggOgXkf8oj4_text": "<p>\"I've been playing for six years and always struggled with early release — my coach kept telling me but I couldn't feel it. Within three days of using the Pro Swing Click Trainer, I actually heard the difference between a good release and a bad one. By the end of the week my divots were in front of the ball for the first time. It's the kind of feedback no lesson ever gave me.\"</p>",
+        "ggPaP3S5e7g_text": "<p>Derek S.</p>",
+        "ggSlAY1pKWQ_text": "<p>Mark T.&nbsp;</p>",
+        "ggU4PxSsZHl_text": "<p>24/10/2025</p>",
+        "gg_C_DhuHL4_text": "<p>I've tried every training aid. This is the only one I still use.</p>",
+        "ggcXmxhlLXs_text": "<p><strong>GemTrail</strong> replied</p>",
+        "gghVhulzgX9_text": "<p>Weekend Golfer</p>",
+        "ggiZGlo-Vkd_text": "<p>10/12/2025</p>",
+        "ggkLC3foaPZ_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/2005/9307/files/423564678.png",
+        "ggksxuAmHxc_text": "<p>Weekend Golfer</p>",
+        "ggnkWs1xN7m_text": "<p>\"Honestly the first few sessions were a bit frustrating. I wasn't clicking at all and started to wonder if I was doing something wrong. But I stuck with it and around day 10 something clicked — literally. My release timing is noticeably better and my divots are finally in front of the ball. Would've given 5 stars but the instructions that come with it are pretty basic, took me a while to figure out the right grip pressure. Once I got it though, real difference.\"</p>",
+        "ggoWUnVb3kF_text": "<p>I heard the click on day three. My ball striking changed that week.</p>",
+        "ggr1emIvuHD_text": "<p>Sophie Tran</p>",
+        "ggu5gULoMvk_text": "<p>10 minutes before a round — that's the perfect warm-up routine, Derek. Love hearing this. 🏌️</p>",
+        "ggvX1zYlwTv_text": "<p>That's exactly what it's designed for, Mark — turning feel into something you can actually hear. Keep clicking. 🏌️</p>",
+        "ggvoRov3wIb_text": "<p>Thank you Sophie — the first few sessions are always the hardest part. That frustration usually means your old habit is fighting back. Glad you pushed through it. We appreciate the note!</p>"
+      },
+      "type": "gp-section-620625464968348259"
+    },
+    "gp_section_620625478021022307": {
+      "settings": {
+        "checksum": "471674d2e9787385b29894d68bd6a309f87750d27d5786e54b8c9c585f0c159e_1_1_1_0__1",
+        "ggSfB-8gpx0_text": "Your Best Round Starts With One Click",
+        "ggXfxU5eZNd_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/image_40.png",
+        "gggVikE6Lmf_background_desktop_image_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/image_44.png",
+        "ggxFjegxP84_errorMessage": "Cannot add product to cart",
+        "ggxFjegxP84_label": "Get the Click Trainer",
+        "ggxFjegxP84_outOfStockLabel": "Out of stock",
+        "ggxFjegxP84_successMessage": "Add product to cart successfully",
+        "ggxFjegxP84_unavailableLabel": "Unavailable",
+        "ggxFjegxP84_variantSelectionRequiredMessage": "Please select a variant to add product to cart",
+        "ggzuJ0TMILy_text": "<p>Train smarter. Release later. Score lower. The Pro Swing Click Trainer is $20.99 — less than one lesson.</p>"
+      },
+      "type": "gp-section-620625478021022307"
+    },
+    "gp_section_620646778726777802": {
+      "settings": {
+        "checksum": "e37c7ba317703e2210eafc816212cfea4134e45147ff4069e06cd5f4bed04f60_1_1_1_0__1",
+        "ggGcN-RBmtA_text": "<p>Effortless Power</p>",
+        "ggL7R21N16y_text": "<p>Increase your performance</p>",
+        "ggj6i-Pvzor_text": "<p>Instant Feedback</p>",
+        "ggrbIj7WfG0_text": "<p>Become a pro</p>"
+      },
+      "type": "gp-section-620646778726777802"
+    }
+  },
+  "order": [
+    "gp_section_620625127931576931",
+    "gp_section_620625461076034147",
+    "gp_section_620625464532140703",
+    "gp_section_620625461965226954",
+    "gp_section_620646778726777802",
+    "gp_section_620625463827497631",
+    "gp_section_620625464968348259",
+    "gp_section_620625478021022307",
+    "gp_section_620625127931249251",
+    "gp_section_620625127930921571"
+  ]
+}

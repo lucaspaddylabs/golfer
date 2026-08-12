@@ -1,0 +1,2249 @@
+{% liquid
+  assign primary_cta_url = section.settings.primary_cta_url
+  if primary_cta_url == blank
+    assign primary_cta_url = '/products/pro-swing-click-trainer'
+  endif
+
+  assign secondary_cta_url = section.settings.secondary_cta_url
+  if secondary_cta_url == blank
+    assign secondary_cta_url = '#gn-click-test-demo-' | append: section.id
+  endif
+
+  assign hero_bullets = section.blocks | where: 'type', 'hero_bullet'
+  assign problem_cards = section.blocks | where: 'type', 'problem_card'
+  assign diagnosis_steps = section.blocks | where: 'type', 'diagnosis_step'
+  assign meaning_cards = section.blocks | where: 'type', 'meaning_card'
+  assign comparison_rows = section.blocks | where: 'type', 'comparison_row'
+  assign fit_cards = section.blocks | where: 'type', 'fit_card'
+  assign product_points = section.blocks | where: 'type', 'product_point'
+  assign faq_blocks = section.blocks | where: 'type', 'faq'
+%}
+
+<section
+  id="gn-click-test-{{ section.id }}"
+  class="gn-click gn-click-{{ section.id }}"
+  data-gn-click-section
+>
+  <style>
+    .gn-click-{{ section.id }} {
+      --gn-click-bg: {{ section.settings.background_color }};
+      --gn-click-panel: {{ section.settings.panel_color }};
+      --gn-click-ink: {{ section.settings.text_color }};
+      --gn-click-muted: {{ section.settings.muted_text_color }};
+      --gn-click-green: {{ section.settings.accent_color }};
+      --gn-click-green-dark: {{ section.settings.button_color }};
+      --gn-click-amber: {{ section.settings.amber_color }};
+      --gn-click-rust: {{ section.settings.rust_color }};
+      --gn-click-blue: {{ section.settings.blue_color }};
+      --gn-click-line: rgba(19, 38, 31, 0.14);
+      --gn-click-soft: rgba(19, 92, 66, 0.08);
+      --gn-click-radius: 8px;
+      --gn-click-shadow: 0 24px 80px rgba(17, 35, 31, 0.11);
+      background: var(--gn-click-bg);
+      color: var(--gn-click-ink);
+      font-family: inherit;
+      overflow-x: clip;
+    }
+
+    .gn-click-{{ section.id }} *,
+    .gn-click-{{ section.id }} *::before,
+    .gn-click-{{ section.id }} *::after {
+      box-sizing: border-box;
+    }
+
+    .gn-click-{{ section.id }} a {
+      color: inherit;
+    }
+
+    .gn-click-{{ section.id }} button,
+    .gn-click-{{ section.id }} input {
+      font: inherit;
+    }
+
+    .gn-click-{{ section.id }} button:focus-visible,
+    .gn-click-{{ section.id }} a:focus-visible {
+      outline: 3px solid rgba(184, 132, 45, 0.95);
+      outline-offset: 3px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__topline {
+      border-bottom: 1px solid var(--gn-click-line);
+      background: #071c17;
+      backdrop-filter: blur(14px);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__topline-inner {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__topline-label {
+      color: #ffffff;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__topline a {
+      color: #ffffff;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero {
+      position: relative;
+      padding: clamp(54px, 7vw, 96px) 0 clamp(64px, 8vw, 108px);
+      background:
+        radial-gradient(circle at 18% 16%, rgba(184, 132, 45, 0.22), transparent 28%),
+        linear-gradient(135deg, #08231c 0%, #0e3a2d 58%, #eef4ec 58%, #eef4ec 100%);
+      overflow: hidden;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero-copy {
+      padding: 22px 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__eyebrow,
+    .gn-click-{{ section.id }} .gn-click__section-kicker {
+      margin: 0 0 14px;
+      color: var(--gn-click-green);
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} h1,
+    .gn-click-{{ section.id }} h2,
+    .gn-click-{{ section.id }} h3 {
+      margin: 0;
+      color: var(--gn-click-ink);
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} h1 {
+      max-width: 11ch;
+      font-size: 4.7rem;
+      line-height: 0.98;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero h1 {
+      color: #ffffff;
+      text-wrap: balance;
+    }
+
+    .gn-click-{{ section.id }} h2 {
+      font-size: 2.65rem;
+      line-height: 1.05;
+    }
+
+    .gn-click-{{ section.id }} h3 {
+      font-size: 1.16rem;
+      line-height: 1.2;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__lede,
+    .gn-click-{{ section.id }} .gn-click__richtext {
+      color: var(--gn-click-muted);
+      font-size: 1.08rem;
+      line-height: 1.68;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__lede {
+      max-width: 660px;
+      margin: 20px 0 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero .gn-click__lede,
+    .gn-click-{{ section.id }} .gn-click__hero .gn-click__richtext {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__richtext p {
+      margin: 0 0 1em;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__richtext p:last-child {
+      margin-bottom: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bullets {
+      display: grid;
+      gap: 10px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__check {
+      position: relative;
+      padding-left: 30px;
+      color: var(--gn-click-ink);
+      line-height: 1.45;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero .gn-click__check {
+      color: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__check::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.15em;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gn-click-green);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__check::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: calc(0.15em + 4px);
+      width: 6px;
+      height: 9px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 22px;
+      border: 1px solid var(--gn-click-green-dark);
+      border-radius: var(--gn-click-radius);
+      background: var(--gn-click-green-dark);
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1;
+      text-decoration: none;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 35px rgba(15, 73, 54, 0.22);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__button--secondary {
+      background: transparent;
+      color: var(--gn-click-green-dark);
+      border-color: rgba(15, 73, 54, 0.26);
+      box-shadow: none;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__button--secondary:hover {
+      background: rgba(15, 73, 54, 0.06);
+      box-shadow: none;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero .gn-click__button {
+      border-color: #ffffff;
+      background: #ffffff;
+      color: var(--gn-click-green-dark);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero .gn-click__button--secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meta {
+      margin: 16px 0 0;
+      color: var(--gn-click-muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__hero .gn-click__meta {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__demo-card {
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: var(--gn-click-panel);
+      box-shadow: var(--gn-click-shadow);
+      overflow: hidden;
+      transform: rotate(1deg);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__media-stage {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(19, 92, 66, 0.08), rgba(37, 69, 90, 0.06)),
+        #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__media-stage video,
+    .gn-click-{{ section.id }} .gn-click__media-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__placeholder {
+      width: min(430px, calc(100% - 44px));
+      display: grid;
+      gap: 18px;
+      padding: 28px;
+      border: 1px solid rgba(17, 35, 31, 0.14);
+      border-radius: var(--gn-click-radius);
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--gn-click-ink);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__placeholder-title {
+      font-size: 1.36rem;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__placeholder-copy {
+      margin: 0;
+      color: var(--gn-click-muted);
+      line-height: 1.55;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__timeline span {
+      min-height: 54px;
+      display: grid;
+      align-content: center;
+      gap: 3px;
+      padding: 10px;
+      border-radius: 7px;
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 900;
+      line-height: 1.12;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__timeline small {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.68rem;
+      font-weight: 800;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__timeline span:nth-child(1) {
+      background: var(--gn-click-blue);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__timeline span:nth-child(2) {
+      background: var(--gn-click-rust);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__timeline span:nth-child(3) {
+      background: var(--gn-click-green);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__demo-caption {
+      padding: 16px 18px;
+      border-top: 1px solid var(--gn-click-line);
+      color: var(--gn-click-muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__section {
+      padding: 72px 0;
+      border-top: 1px solid rgba(19, 38, 31, 0.08);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__section--white {
+      background: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__section:nth-of-type(even) {
+      background: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__section-head {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__grid-3,
+    .gn-click-{{ section.id }} .gn-click__fit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__card {
+      min-height: 100%;
+      padding: clamp(20px, 2.2vw, 28px);
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: var(--gn-click-panel);
+      box-shadow: 0 16px 42px rgba(17, 35, 31, 0.06);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__card-kicker {
+      margin: 0 0 12px;
+      color: var(--gn-click-green);
+      font-size: 0.76rem;
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__card p {
+      margin: 12px 0 0;
+      color: var(--gn-click-muted);
+      line-height: 1.58;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-panel {
+      padding: 24px;
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-options {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-choice {
+      width: 100%;
+      min-height: 60px;
+      padding: 14px 16px;
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+      color: var(--gn-click-ink);
+      font-weight: 900;
+      line-height: 1.25;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-choice[aria-pressed="true"] {
+      border-color: rgba(19, 92, 66, 0.45);
+      background: rgba(19, 92, 66, 0.08);
+      color: var(--gn-click-green-dark);
+      box-shadow: inset 0 0 0 1px rgba(19, 92, 66, 0.18);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-result {
+      display: none;
+      min-height: 100%;
+      padding: 28px;
+      border-radius: var(--gn-click-radius);
+      background: var(--gn-click-green-dark);
+      color: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-result.is-active {
+      display: grid;
+      align-content: center;
+      gap: 12px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-result h3 {
+      color: #ffffff;
+      font-size: 1.55rem;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__diagnostic-result p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.62;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__asset-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__asset {
+      min-height: 320px;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__asset img {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__asset:nth-child(1),
+    .gn-click-{{ section.id }} .gn-click__asset:nth-child(2) {
+      grid-column: span 2;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__asset:nth-child(1) img,
+    .gn-click-{{ section.id }} .gn-click__asset:nth-child(2) img {
+      min-height: 430px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__asset figcaption {
+      padding: 14px 16px;
+      color: var(--gn-click-muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__article-copy {
+      max-width: 680px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__callout {
+      padding: 24px;
+      border-left: 4px solid var(--gn-click-amber);
+      background: rgba(184, 132, 45, 0.08);
+      color: var(--gn-click-ink);
+      line-height: 1.62;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__test-box {
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: var(--gn-click-panel);
+      overflow: hidden;
+      box-shadow: 0 18px 54px rgba(17, 35, 31, 0.08);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__test-visual {
+      min-height: 310px;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(37, 69, 90, 0.1), rgba(19, 92, 66, 0.08)),
+        #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sound-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sound-pill {
+      min-height: 76px;
+      display: grid;
+      align-content: center;
+      padding: 14px;
+      border-radius: var(--gn-click-radius);
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sound-pill small {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sound-pill--early {
+      background: var(--gn-click-rust);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sound-pill--later {
+      background: var(--gn-click-green);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__arrow {
+      color: var(--gn-click-muted);
+      font-weight: 900;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__test-caption {
+      padding: 18px 20px;
+      border-top: 1px solid var(--gn-click-line);
+      color: var(--gn-click-muted);
+      line-height: 1.55;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__steps {
+      display: grid;
+      gap: 12px;
+      counter-reset: step;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__step {
+      position: relative;
+      padding: 20px 20px 20px 68px;
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+      counter-increment: step;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__step::before {
+      content: counter(step);
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--gn-click-green-dark);
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__step p {
+      margin: 8px 0 0;
+      color: var(--gn-click-muted);
+      line-height: 1.55;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meaning-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meaning {
+      padding: 24px;
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meaning-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 16px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(37, 69, 90, 0.1);
+      color: var(--gn-click-blue);
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meaning:nth-child(1) .gn-click__meaning-label {
+      background: rgba(154, 74, 47, 0.1);
+      color: var(--gn-click-rust);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meaning:nth-child(2) .gn-click__meaning-label {
+      background: rgba(19, 92, 66, 0.1);
+      color: var(--gn-click-green);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__meaning p {
+      margin: 12px 0 0;
+      color: var(--gn-click-muted);
+      line-height: 1.6;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison {
+      overflow: hidden;
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      border-top: 1px solid var(--gn-click-line);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison-row:first-child {
+      border-top: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison-cell {
+      padding: 20px;
+      line-height: 1.55;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison-cell:first-child {
+      border-right: 1px solid var(--gn-click-line);
+      color: var(--gn-click-muted);
+      background: rgba(154, 74, 47, 0.05);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison-cell:last-child {
+      background: rgba(19, 92, 66, 0.06);
+      color: var(--gn-click-ink);
+      font-weight: 700;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__comparison-heading {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--gn-click-green-dark);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge {
+      padding: clamp(64px, 8vw, 104px) 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(184, 132, 45, 0.2), transparent 28%),
+        var(--gn-click-green-dark);
+      color: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 0.8fr);
+      gap: 44px;
+      align-items: center;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge h2,
+    .gn-click-{{ section.id }} .gn-click__bridge h3 {
+      color: #ffffff;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge .gn-click__richtext,
+    .gn-click-{{ section.id }} .gn-click__bridge p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge-card {
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--gn-click-radius);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge-card ul {
+      display: grid;
+      gap: 12px;
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge-card li {
+      position: relative;
+      padding-left: 28px;
+      color: #ffffff;
+      line-height: 1.45;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.22em;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--gn-click-amber);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge-card li::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: calc(0.22em + 4px);
+      width: 5px;
+      height: 8px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__bridge .gn-click__button {
+      width: 100%;
+      border-color: #ffffff;
+      background: #ffffff;
+      color: var(--gn-click-green-dark);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq {
+      display: grid;
+      gap: 10px;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq-item {
+      border: 1px solid var(--gn-click-line);
+      border-radius: var(--gn-click-radius);
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq-button {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 20px;
+      border: 0;
+      background: transparent;
+      color: var(--gn-click-ink);
+      font-weight: 900;
+      line-height: 1.25;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq-icon {
+      flex: 0 0 auto;
+      color: var(--gn-click-green);
+      font-weight: 900;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq-panel {
+      padding: 0 20px 20px;
+      color: var(--gn-click-muted);
+      line-height: 1.62;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq-panel p {
+      margin: 0 0 1em;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__faq-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sticky {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--gn-click-radius);
+      background: rgba(15, 73, 54, 0.96);
+      color: #ffffff;
+      box-shadow: 0 18px 60px rgba(17, 35, 31, 0.26);
+      transform: translateY(120%);
+      transition: transform 180ms ease;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sticky.is-visible {
+      transform: translateY(0);
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sticky strong {
+      display: block;
+      line-height: 1.25;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sticky span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.86rem;
+      line-height: 1.3;
+    }
+
+    .gn-click-{{ section.id }} .gn-click__sticky .gn-click__button {
+      min-height: 44px;
+      border-color: #ffffff;
+      background: #ffffff;
+      color: var(--gn-click-green-dark);
+      white-space: nowrap;
+    }
+
+    @media (min-width: 750px) {
+      .gn-click-{{ section.id }} .gn-click__sticky {
+        display: none;
+      }
+    }
+
+    @media (max-width: 989px) {
+      .gn-click-{{ section.id }} h1 {
+        max-width: 12ch;
+        font-size: 3.25rem;
+      }
+
+      .gn-click-{{ section.id }} h2 {
+        font-size: 2.08rem;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__hero-grid,
+      .gn-click-{{ section.id }} .gn-click__split,
+      .gn-click-{{ section.id }} .gn-click__bridge-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__hero {
+        background: linear-gradient(135deg, #08231c 0%, #0e3a2d 100%);
+      }
+
+      .gn-click-{{ section.id }} .gn-click__demo-card {
+        transform: none;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__media-stage {
+        min-height: 420px;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__grid-3,
+      .gn-click-{{ section.id }} .gn-click__fit-grid,
+      .gn-click-{{ section.id }} .gn-click__diagnostic,
+      .gn-click-{{ section.id }} .gn-click__asset-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 749px) {
+      .gn-click-{{ section.id }} .gn-click__topline-inner {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__topline a {
+        display: none;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__hero {
+        padding: 34px 0 50px;
+      }
+
+      .gn-click-{{ section.id }} h1 {
+        font-size: 2.54rem;
+      }
+
+      .gn-click-{{ section.id }} h2 {
+        font-size: 1.72rem;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__section,
+      .gn-click-{{ section.id }} .gn-click__bridge {
+        padding: 54px 0;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__media-stage {
+        min-height: 350px;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__ctas,
+      .gn-click-{{ section.id }} .gn-click__ctas .gn-click__button {
+        width: 100%;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__sound-row {
+        grid-template-columns: 1fr;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__arrow {
+        text-align: center;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__meaning-grid,
+      .gn-click-{{ section.id }} .gn-click__comparison-row {
+        grid-template-columns: 1fr;
+      }
+
+      .gn-click-{{ section.id }} .gn-click__comparison-cell:first-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--gn-click-line);
+      }
+
+      .gn-click-{{ section.id }} .gn-click__sticky {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <div class="gn-click__topline">
+    <div class="gn-click__page gn-click__topline-inner">
+      <span>{% if section.settings.advertorial_label != blank %}<span class="gn-click__topline-label">{{ section.settings.advertorial_label }}</span> {% endif %}{{ section.settings.topline_text }}</span>
+      <a href="{{ primary_cta_url }}">{{ section.settings.topline_cta_text }}</a>
+    </div>
+  </div>
+
+  <div class="gn-click__hero" data-gn-click-hero>
+    <div class="gn-click__page gn-click__hero-grid">
+      <div class="gn-click__hero-copy">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="gn-click__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+        <h1>{{ section.settings.hero_heading }}</h1>
+        {% if section.settings.hero_copy != blank %}
+          <div class="gn-click__lede gn-click__richtext">{{ section.settings.hero_copy }}</div>
+        {% endif %}
+
+        {% if hero_bullets.size > 0 %}
+          <ul class="gn-click__bullets">
+            {% for block in hero_bullets %}
+              <li class="gn-click__check" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <div class="gn-click__ctas">
+          <a class="gn-click__button" href="{{ primary_cta_url }}">{{ section.settings.primary_cta_text }}</a>
+          <a class="gn-click__button gn-click__button--secondary" href="{{ secondary_cta_url }}">{{ section.settings.secondary_cta_text }}</a>
+        </div>
+
+        {% if section.settings.hero_meta != blank %}
+          <p class="gn-click__meta">{{ section.settings.hero_meta }}</p>
+        {% endif %}
+      </div>
+
+      <div class="gn-click__demo-card" id="gn-click-test-demo-{{ section.id }}">
+        <div class="gn-click__media-stage">
+          {% if section.settings.hero_video != blank %}
+            {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true, playsinline: true, image_size: '1200x', class: 'gn-click__media-video' }}
+          {% elsif section.settings.hero_video_url != blank %}
+            <video class="gn-click__media-video" autoplay loop muted controls playsinline>
+              <source src="{{ section.settings.hero_video_url | escape }}" type="video/mp4">
+            </video>
+          {% elsif section.settings.hero_image != blank %}
+            {{ section.settings.hero_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '480, 720, 960, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw', class: 'gn-click__media-image', alt: section.settings.hero_image_alt }}
+          {% elsif section.settings.hero_image_url != blank %}
+            <img class="gn-click__media-image" src="{{ section.settings.hero_image_url | escape }}" alt="{{ section.settings.hero_image_alt | escape }}" width="1400" height="900" loading="eager">
+          {% else %}
+            <div class="gn-click__placeholder">
+              <div class="gn-click__placeholder-title">{{ section.settings.placeholder_heading }}</div>
+              <p class="gn-click__placeholder-copy">{{ section.settings.placeholder_copy }}</p>
+              <div class="gn-click__timeline" aria-label="Demo creative structure">
+                <span><small>0-1 sec</small> Swing</span>
+                <span><small>1-2 sec</small> Early click</span>
+                <span><small>2-3 sec</small> Later click</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        {% if section.settings.demo_caption != blank %}
+          <div class="gn-click__demo-caption">{{ section.settings.demo_caption }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="gn-click__section gn-click__section--white">
+    <div class="gn-click__page gn-click__split">
+      <div class="gn-click__article-copy">
+        {% if section.settings.problem_kicker != blank %}
+          <p class="gn-click__section-kicker">{{ section.settings.problem_kicker }}</p>
+        {% endif %}
+        <h2>{{ section.settings.problem_heading }}</h2>
+        {% if section.settings.problem_copy != blank %}
+          <div class="gn-click__lede gn-click__richtext">{{ section.settings.problem_copy }}</div>
+        {% endif %}
+      </div>
+      {% if section.settings.problem_callout != blank %}
+        <div class="gn-click__callout">{{ section.settings.problem_callout }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if problem_cards.size > 0 %}
+    <div class="gn-click__section">
+      <div class="gn-click__page">
+        <div class="gn-click__section-head">
+          {% if section.settings.problem_cards_kicker != blank %}
+            <p class="gn-click__section-kicker">{{ section.settings.problem_cards_kicker }}</p>
+          {% endif %}
+          <h2>{{ section.settings.problem_cards_heading }}</h2>
+        </div>
+        <div class="gn-click__grid-3">
+          {% for block in problem_cards %}
+            <div class="gn-click__card" {{ block.shopify_attributes }}>
+              {% if block.settings.kicker != blank %}
+                <p class="gn-click__card-kicker">{{ block.settings.kicker }}</p>
+              {% endif %}
+              <h3>{{ block.settings.heading }}</h3>
+              <p>{{ block.settings.copy }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="gn-click__section gn-click__section--white">
+    <div class="gn-click__page">
+      <div class="gn-click__section-head">
+        <p class="gn-click__section-kicker">Self-diagnosis</p>
+        <h2>Where Does Your Click Happen?</h2>
+        <div class="gn-click__lede gn-click__richtext">
+          <p>Pick the sound pattern that feels closest to your swing. The answer tells you what to look for before you move to the product page.</p>
+        </div>
+      </div>
+      <div class="gn-click__diagnostic" data-gn-diagnosis>
+        <div class="gn-click__diagnostic-panel">
+          <h3>Choose the closest match</h3>
+          <div class="gn-click__diagnostic-options">
+            <button class="gn-click__diagnostic-choice" type="button" data-gn-diagnosis-choice="early" aria-pressed="true">The click happens near the top</button>
+            <button class="gn-click__diagnostic-choice" type="button" data-gn-diagnosis-choice="middle" aria-pressed="false">The click happens halfway down</button>
+            <button class="gn-click__diagnostic-choice" type="button" data-gn-diagnosis-choice="late" aria-pressed="false">The click happens closer to impact</button>
+          </div>
+        </div>
+        <div>
+          <div class="gn-click__diagnostic-result is-active" data-gn-diagnosis-result="early">
+            <h3>Likely early release</h3>
+            <p>Your speed may be getting spent before the club reaches the ball. The goal is to smooth the transition and move the sound later.</p>
+          </div>
+          <div class="gn-click__diagnostic-result" data-gn-diagnosis-result="middle">
+            <h3>Timing is improving, but still early</h3>
+            <p>This is where feedback helps. You can use controlled reps to move the click closer to impact without adding more swing thoughts.</p>
+          </div>
+          <div class="gn-click__diagnostic-result" data-gn-diagnosis-result="late">
+            <h3>Better release window</h3>
+            <p>That later sound is the feel golfers are trying to repeat. The trainer gives you a simple cue to rehearse it before balls, range sessions, or rounds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.still_image_1_url != blank or section.settings.still_image_2_url != blank or section.settings.still_image_3_url != blank or section.settings.still_image_4_url != blank or section.settings.still_image_5_url != blank %}
+    <div class="gn-click__section">
+      <div class="gn-click__page">
+        <div class="gn-click__section-head">
+          <p class="gn-click__section-kicker">Up close</p>
+          <h2>See The Trainer Before You Decide</h2>
+          <div class="gn-click__lede gn-click__richtext">
+            <p>The click test is simple, but the product still needs to feel tangible. These shots show the grip, shaft, and training head up close.</p>
+          </div>
+        </div>
+        <div class="gn-click__asset-grid">
+          {% if section.settings.still_image_1_url != blank %}
+            <figure class="gn-click__asset">
+              <img src="{{ section.settings.still_image_1_url | escape }}" alt="{{ section.settings.still_image_1_alt | escape }}" width="1200" height="900" loading="lazy">
+              <figcaption>{{ section.settings.still_image_1_caption }}</figcaption>
+            </figure>
+          {% endif %}
+          {% if section.settings.still_image_2_url != blank %}
+            <figure class="gn-click__asset">
+              <img src="{{ section.settings.still_image_2_url | escape }}" alt="{{ section.settings.still_image_2_alt | escape }}" width="1200" height="900" loading="lazy">
+              <figcaption>{{ section.settings.still_image_2_caption }}</figcaption>
+            </figure>
+          {% endif %}
+          {% if section.settings.still_image_3_url != blank %}
+            <figure class="gn-click__asset">
+              <img src="{{ section.settings.still_image_3_url | escape }}" alt="{{ section.settings.still_image_3_alt | escape }}" width="1200" height="900" loading="lazy">
+              <figcaption>{{ section.settings.still_image_3_caption }}</figcaption>
+            </figure>
+          {% endif %}
+          {% if section.settings.still_image_4_url != blank %}
+            <figure class="gn-click__asset">
+              <img src="{{ section.settings.still_image_4_url | escape }}" alt="{{ section.settings.still_image_4_alt | escape }}" width="1200" height="900" loading="lazy">
+              <figcaption>{{ section.settings.still_image_4_caption }}</figcaption>
+            </figure>
+          {% endif %}
+          {% if section.settings.still_image_5_url != blank %}
+            <figure class="gn-click__asset">
+              <img src="{{ section.settings.still_image_5_url | escape }}" alt="{{ section.settings.still_image_5_alt | escape }}" width="1200" height="900" loading="lazy">
+              <figcaption>{{ section.settings.still_image_5_caption }}</figcaption>
+            </figure>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="gn-click__section gn-click__section--white">
+    <div class="gn-click__page gn-click__split">
+      <div class="gn-click__test-box">
+        <div class="gn-click__test-visual">
+          <div class="gn-click__sound-row">
+            <div class="gn-click__sound-pill gn-click__sound-pill--early"><small>Too early</small>{{ section.settings.early_click_label }}</div>
+            <div class="gn-click__arrow">then</div>
+            <div class="gn-click__sound-pill gn-click__sound-pill--later"><small>Better target</small>{{ section.settings.later_click_label }}</div>
+          </div>
+        </div>
+        {% if section.settings.test_caption != blank %}
+          <div class="gn-click__test-caption">{{ section.settings.test_caption }}</div>
+        {% endif %}
+      </div>
+
+      <div>
+        {% if section.settings.test_kicker != blank %}
+          <p class="gn-click__section-kicker">{{ section.settings.test_kicker }}</p>
+        {% endif %}
+        <h2>{{ section.settings.test_heading }}</h2>
+        {% if section.settings.test_copy != blank %}
+          <div class="gn-click__lede gn-click__richtext">{{ section.settings.test_copy }}</div>
+        {% endif %}
+
+        {% if diagnosis_steps.size > 0 %}
+          <div class="gn-click__steps">
+            {% for block in diagnosis_steps %}
+              <div class="gn-click__step" {{ block.shopify_attributes }}>
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.copy }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if meaning_cards.size > 0 %}
+    <div class="gn-click__section">
+      <div class="gn-click__page">
+        <div class="gn-click__section-head">
+          {% if section.settings.meaning_kicker != blank %}
+            <p class="gn-click__section-kicker">{{ section.settings.meaning_kicker }}</p>
+          {% endif %}
+          <h2>{{ section.settings.meaning_heading }}</h2>
+          {% if section.settings.meaning_copy != blank %}
+            <div class="gn-click__lede gn-click__richtext">{{ section.settings.meaning_copy }}</div>
+          {% endif %}
+        </div>
+        <div class="gn-click__meaning-grid">
+          {% for block in meaning_cards %}
+            <div class="gn-click__meaning" {{ block.shopify_attributes }}>
+              {% if block.settings.label != blank %}
+                <span class="gn-click__meaning-label">{{ block.settings.label }}</span>
+              {% endif %}
+              <h3>{{ block.settings.heading }}</h3>
+              <p>{{ block.settings.copy }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if comparison_rows.size > 0 %}
+    <div class="gn-click__section gn-click__section--white">
+      <div class="gn-click__page">
+        <div class="gn-click__section-head">
+          {% if section.settings.comparison_kicker != blank %}
+            <p class="gn-click__section-kicker">{{ section.settings.comparison_kicker }}</p>
+          {% endif %}
+          <h2>{{ section.settings.comparison_heading }}</h2>
+          {% if section.settings.comparison_copy != blank %}
+            <div class="gn-click__lede gn-click__richtext">{{ section.settings.comparison_copy }}</div>
+          {% endif %}
+        </div>
+        <div class="gn-click__comparison">
+          {% for block in comparison_rows %}
+            <div class="gn-click__comparison-row" {{ block.shopify_attributes }}>
+              <div class="gn-click__comparison-cell">
+                <span class="gn-click__comparison-heading">{{ section.settings.comparison_left_heading }}</span>
+                {{ block.settings.before }}
+              </div>
+              <div class="gn-click__comparison-cell">
+                <span class="gn-click__comparison-heading">{{ section.settings.comparison_right_heading }}</span>
+                {{ block.settings.after }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if fit_cards.size > 0 %}
+    <div class="gn-click__section">
+      <div class="gn-click__page">
+        <div class="gn-click__section-head">
+          {% if section.settings.fit_kicker != blank %}
+            <p class="gn-click__section-kicker">{{ section.settings.fit_kicker }}</p>
+          {% endif %}
+          <h2>{{ section.settings.fit_heading }}</h2>
+        </div>
+        <div class="gn-click__fit-grid">
+          {% for block in fit_cards %}
+            <div class="gn-click__card" {{ block.shopify_attributes }}>
+              {% if block.settings.kicker != blank %}
+                <p class="gn-click__card-kicker">{{ block.settings.kicker }}</p>
+              {% endif %}
+              <h3>{{ block.settings.heading }}</h3>
+              <p>{{ block.settings.copy }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="gn-click__bridge">
+    <div class="gn-click__page gn-click__bridge-grid">
+      <div>
+        {% if section.settings.bridge_kicker != blank %}
+          <p class="gn-click__section-kicker">{{ section.settings.bridge_kicker }}</p>
+        {% endif %}
+        <h2>{{ section.settings.bridge_heading }}</h2>
+        {% if section.settings.bridge_copy != blank %}
+          <div class="gn-click__lede gn-click__richtext">{{ section.settings.bridge_copy }}</div>
+        {% endif %}
+      </div>
+
+      <div class="gn-click__bridge-card">
+        {% if section.settings.bridge_card_heading != blank %}
+          <h3>{{ section.settings.bridge_card_heading }}</h3>
+        {% endif %}
+        {% if product_points.size > 0 %}
+          <ul>
+            {% for block in product_points %}
+              <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        <a class="gn-click__button" href="{{ primary_cta_url }}">{{ section.settings.primary_cta_text }}</a>
+      </div>
+    </div>
+  </div>
+
+  {% if faq_blocks.size > 0 %}
+    <div class="gn-click__section">
+      <div class="gn-click__page">
+        <div class="gn-click__section-head">
+          {% if section.settings.faq_kicker != blank %}
+            <p class="gn-click__section-kicker">{{ section.settings.faq_kicker }}</p>
+          {% endif %}
+          <h2>{{ section.settings.faq_heading }}</h2>
+        </div>
+        <div class="gn-click__faq">
+          {% for block in faq_blocks %}
+            <div class="gn-click__faq-item" {{ block.shopify_attributes }}>
+              <button
+                class="gn-click__faq-button"
+                type="button"
+                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-controls="gn-click-faq-{{ section.id }}-{{ block.id }}"
+                data-gn-click-faq
+              >
+                <span>{{ block.settings.question }}</span>
+                <span class="gn-click__faq-icon" aria-hidden="true">{% if forloop.first %}-{% else %}+{% endif %}</span>
+              </button>
+              <div
+                id="gn-click-faq-{{ section.id }}-{{ block.id }}"
+                class="gn-click__faq-panel"
+                {% unless forloop.first %}hidden{% endunless %}
+              >
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if section.settings.show_sticky_cta %}
+    <div class="gn-click__sticky" data-gn-click-sticky>
+      <div>
+        <strong>{{ section.settings.sticky_heading }}</strong>
+        <span>{{ section.settings.sticky_copy }}</span>
+      </div>
+      <a class="gn-click__button" href="{{ primary_cta_url }}">{{ section.settings.sticky_cta_text }}</a>
+    </div>
+  {% endif %}
+
+  <script>
+    (function () {
+      var root = document.getElementById('gn-click-test-{{ section.id }}');
+      if (!root) return;
+
+      root.querySelectorAll('[data-gn-click-faq]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var panel = document.getElementById(button.getAttribute('aria-controls'));
+          var icon = button.querySelector('.gn-click__faq-icon');
+          var expanded = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          if (panel) panel.hidden = expanded;
+          if (icon) icon.textContent = expanded ? '+' : '-';
+        });
+      });
+
+      root.querySelectorAll('[data-gn-diagnosis]').forEach(function (module) {
+        var choices = module.querySelectorAll('[data-gn-diagnosis-choice]');
+        var results = module.querySelectorAll('[data-gn-diagnosis-result]');
+        choices.forEach(function (choice) {
+          choice.addEventListener('click', function () {
+            var target = choice.getAttribute('data-gn-diagnosis-choice');
+            choices.forEach(function (item) {
+              item.setAttribute('aria-pressed', item === choice ? 'true' : 'false');
+            });
+            results.forEach(function (result) {
+              result.classList.toggle('is-active', result.getAttribute('data-gn-diagnosis-result') === target);
+            });
+          });
+        });
+      });
+
+      var sticky = root.querySelector('[data-gn-click-sticky]');
+      var hero = root.querySelector('[data-gn-click-hero]');
+      if (sticky && hero && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          sticky.classList.toggle('is-visible', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        observer.observe(hero);
+      } else if (sticky) {
+        sticky.classList.add('is-visible');
+      }
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "GN click test advertorial",
+  "tag": "section",
+  "class": "section-gn-click-test-advertorial",
+  "settings": [
+    {
+      "type": "text",
+      "id": "advertorial_label",
+      "label": "Optional topline label"
+    },
+    {
+      "type": "text",
+      "id": "topline_text",
+      "label": "Topline text",
+      "default": "A quick swing-timing check for golfers who feel powerful but lose speed before impact."
+    },
+    {
+      "type": "text",
+      "id": "topline_cta_text",
+      "label": "Topline CTA text",
+      "default": "See the trainer"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Hero eyebrow",
+      "default": "The early release click test"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "The 3-Second Click Test That Shows If You Release Too Early"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_copy",
+      "label": "Hero copy",
+      "default": "<p>If your swing feels powerful but the ball still comes off weak, your speed may be getting spent before impact. This simple click test helps you hear when the release is happening.</p>"
+    },
+    {
+      "type": "text",
+      "id": "hero_meta",
+      "label": "Hero meta",
+      "default": "Take the quick check, then see the trainer built for this exact feedback loop."
+    },
+    {
+      "type": "video",
+      "id": "hero_video",
+      "label": "Hero demo video"
+    },
+    {
+      "type": "text",
+      "id": "hero_video_url",
+      "label": "External hero video URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero demo image"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_url",
+      "label": "External hero image URL"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_alt",
+      "label": "Hero image alt text",
+      "default": "Golfer using the Pro Swing Click Trainer"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_heading",
+      "label": "Creative placeholder heading",
+      "default": "Place your 3-second click demo here"
+    },
+    {
+      "type": "textarea",
+      "id": "placeholder_copy",
+      "label": "Creative placeholder copy",
+      "default": "Show the swing starting, the early click, then the click moving closer to impact."
+    },
+    {
+      "type": "textarea",
+      "id": "demo_caption",
+      "label": "Demo caption",
+      "default": "Watch where the sound happens. Early in the downswing usually means the release is happening too soon."
+    },
+    {
+      "type": "header",
+      "content": "Supporting stills"
+    },
+    {
+      "type": "text",
+      "id": "still_image_1_url",
+      "label": "Still image 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "still_image_1_alt",
+      "label": "Still image 1 alt",
+      "default": "Close-up of golfer holding the Pro Swing Click Trainer"
+    },
+    {
+      "type": "text",
+      "id": "still_image_1_caption",
+      "label": "Still image 1 caption",
+      "default": "Close-up grip shot so you can see how it sits in the hands."
+    },
+    {
+      "type": "text",
+      "id": "still_image_2_url",
+      "label": "Still image 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "still_image_2_alt",
+      "label": "Still image 2 alt",
+      "default": "Pro Swing Click Trainer positioned near a golf ball"
+    },
+    {
+      "type": "text",
+      "id": "still_image_2_caption",
+      "label": "Still image 2 caption",
+      "default": "A simple training tool for release timing reps before you hit balls."
+    },
+    {
+      "type": "text",
+      "id": "still_image_3_url",
+      "label": "Still image 3 URL"
+    },
+    {
+      "type": "text",
+      "id": "still_image_3_alt",
+      "label": "Still image 3 alt",
+      "default": "Full Pro Swing Click Trainer on a light background"
+    },
+    {
+      "type": "text",
+      "id": "still_image_3_caption",
+      "label": "Still image 3 caption",
+      "default": "Compact enough for short practice sessions at home, range, or warm-up."
+    },
+    {
+      "type": "text",
+      "id": "still_image_4_url",
+      "label": "Still image 4 URL"
+    },
+    {
+      "type": "text",
+      "id": "still_image_4_alt",
+      "label": "Still image 4 alt",
+      "default": "Golfer practicing release timing with the Pro Swing Click Trainer"
+    },
+    {
+      "type": "text",
+      "id": "still_image_4_caption",
+      "label": "Still image 4 caption",
+      "default": "Controlled reps make it easier to notice when the release happens."
+    },
+    {
+      "type": "text",
+      "id": "still_image_5_url",
+      "label": "Still image 5 URL"
+    },
+    {
+      "type": "text",
+      "id": "still_image_5_alt",
+      "label": "Still image 5 alt",
+      "default": "Golfer using the Pro Swing Click Trainer during a backyard practice session"
+    },
+    {
+      "type": "text",
+      "id": "still_image_5_caption",
+      "label": "Still image 5 caption",
+      "default": "Use it for a quick timing reset before range sessions or rounds."
+    },
+    {
+      "type": "url",
+      "id": "primary_cta_url",
+      "label": "Primary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_text",
+      "label": "Primary CTA text",
+      "default": "See The Trainer"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_url",
+      "label": "Secondary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_text",
+      "label": "Secondary CTA text",
+      "default": "Watch The Click Test"
+    },
+    {
+      "type": "text",
+      "id": "problem_kicker",
+      "label": "Problem kicker",
+      "default": "Why the swing feels confusing"
+    },
+    {
+      "type": "text",
+      "id": "problem_heading",
+      "label": "Problem heading",
+      "default": "A Stronger Swing Does Not Help If The Release Happens Too Soon"
+    },
+    {
+      "type": "richtext",
+      "id": "problem_copy",
+      "label": "Problem copy",
+      "default": "<p>Many golfers try to fix weak shots by swinging harder. The issue is often timing: the wrists and club release early, speed leaks out, and impact arrives after the power has already been spent.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "problem_callout",
+      "label": "Problem callout",
+      "default": "The hard part is that early release can feel powerful. Without feedback, a golfer may keep rehearsing the same timing problem."
+    },
+    {
+      "type": "text",
+      "id": "problem_cards_kicker",
+      "label": "Problem cards kicker",
+      "default": "The pattern"
+    },
+    {
+      "type": "text",
+      "id": "problem_cards_heading",
+      "label": "Problem cards heading",
+      "default": "Three Signs The Release Is Happening Too Early"
+    },
+    {
+      "type": "text",
+      "id": "test_kicker",
+      "label": "Test kicker",
+      "default": "The 3-second check"
+    },
+    {
+      "type": "text",
+      "id": "test_heading",
+      "label": "Test heading",
+      "default": "Listen For The Click"
+    },
+    {
+      "type": "richtext",
+      "id": "test_copy",
+      "label": "Test copy",
+      "default": "<p>The trainer gives each practice swing a simple signal. If the click fires early in the downswing, the release is early. The goal is to move that click closer to impact with smoother timing.</p>"
+    },
+    {
+      "type": "text",
+      "id": "early_click_label",
+      "label": "Early click label",
+      "default": "Click near the top"
+    },
+    {
+      "type": "text",
+      "id": "later_click_label",
+      "label": "Later click label",
+      "default": "Click closer to impact"
+    },
+    {
+      "type": "textarea",
+      "id": "test_caption",
+      "label": "Test caption",
+      "default": "If the sound happens near the top, that is your cue to slow down and train the release later."
+    },
+    {
+      "type": "text",
+      "id": "meaning_kicker",
+      "label": "Meaning kicker",
+      "default": "What the sound means"
+    },
+    {
+      "type": "text",
+      "id": "meaning_heading",
+      "label": "Meaning heading",
+      "default": "The Click Turns A Vague Swing Feel Into Clear Feedback"
+    },
+    {
+      "type": "richtext",
+      "id": "meaning_copy",
+      "label": "Meaning copy",
+      "default": "<p>The product is not trying to overwhelm golfers with data. It gives one clear piece of feedback so each rep has a purpose.</p>"
+    },
+    {
+      "type": "text",
+      "id": "comparison_kicker",
+      "label": "Comparison kicker",
+      "default": "Why this is easier"
+    },
+    {
+      "type": "text",
+      "id": "comparison_heading",
+      "label": "Comparison heading",
+      "default": "Stop Guessing. Start Hearing The Timing."
+    },
+    {
+      "type": "richtext",
+      "id": "comparison_copy",
+      "label": "Comparison copy",
+      "default": "<p>Most golfers try to add effort. The click test gives you a cleaner goal: hear the release, adjust the timing, and repeat the feel.</p>"
+    },
+    {
+      "type": "text",
+      "id": "comparison_left_heading",
+      "label": "Comparison left heading",
+      "default": "Common approach"
+    },
+    {
+      "type": "text",
+      "id": "comparison_right_heading",
+      "label": "Comparison right heading",
+      "default": "Click-test approach"
+    },
+    {
+      "type": "text",
+      "id": "fit_kicker",
+      "label": "Fit kicker",
+      "default": "Who it helps"
+    },
+    {
+      "type": "text",
+      "id": "fit_heading",
+      "label": "Fit heading",
+      "default": "Use It When You Want Simple Feedback Before You Hit Balls"
+    },
+    {
+      "type": "text",
+      "id": "bridge_kicker",
+      "label": "Bridge kicker",
+      "default": "The next step"
+    },
+    {
+      "type": "text",
+      "id": "bridge_heading",
+      "label": "Bridge heading",
+      "default": "The Pro Swing Click Trainer Was Built For This Exact Feedback Loop"
+    },
+    {
+      "type": "richtext",
+      "id": "bridge_copy",
+      "label": "Bridge copy",
+      "default": "<p>If the early release pattern sounds familiar, the Pro Swing Click Trainer gives you the feedback cue to practice it on purpose.</p>"
+    },
+    {
+      "type": "text",
+      "id": "bridge_card_heading",
+      "label": "Bridge card heading",
+      "default": "What you will see next"
+    },
+    {
+      "type": "text",
+      "id": "faq_kicker",
+      "label": "FAQ kicker",
+      "default": "Before you click through"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "Questions About The Click Test"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_cta",
+      "label": "Show sticky CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sticky_heading",
+      "label": "Sticky heading",
+      "default": "Ready to see the trainer?"
+    },
+    {
+      "type": "text",
+      "id": "sticky_copy",
+      "label": "Sticky copy",
+      "default": "See the trainer, offer details, and checkout options."
+    },
+    {
+      "type": "text",
+      "id": "sticky_cta_text",
+      "label": "Sticky CTA text",
+      "default": "Continue"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f8faf6"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Panel",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#11231f"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text",
+      "default": "#5d655f"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#135c42"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button",
+      "default": "#0f4936"
+    },
+    {
+      "type": "color",
+      "id": "amber_color",
+      "label": "Amber",
+      "default": "#b8842d"
+    },
+    {
+      "type": "color",
+      "id": "rust_color",
+      "label": "Rust",
+      "default": "#9a4a2f"
+    },
+    {
+      "type": "color",
+      "id": "blue_color",
+      "label": "Blue",
+      "default": "#25455a"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero_bullet",
+      "name": "Hero bullet",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Find out if your release is happening too early"
+        }
+      ]
+    },
+    {
+      "type": "problem_card",
+      "name": "Problem card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Signal"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Weak contact"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "The swing feels fast, but the club arrives without the speed you expected."
+        }
+      ]
+    },
+    {
+      "type": "diagnosis_step",
+      "name": "Diagnosis step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Make a slow practice swing"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "Start controlled so you can feel and hear when the release happens."
+        }
+      ]
+    },
+    {
+      "type": "meaning_card",
+      "name": "Meaning card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Early click"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "The release is happening too soon"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "The trainer gives immediate feedback that your timing needs to move later in the swing."
+        }
+      ]
+    },
+    {
+      "type": "comparison_row",
+      "name": "Comparison row",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "before",
+          "label": "Before",
+          "default": "Swing harder and hope the ball flight improves."
+        },
+        {
+          "type": "textarea",
+          "id": "after",
+          "label": "After",
+          "default": "Use the click as feedback and train the release to happen later."
+        }
+      ]
+    },
+    {
+      "type": "fit_card",
+      "name": "Fit card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Best for"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "At-home reps"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "Use it when you want a short timing session without a ball, net, or app."
+        }
+      ]
+    },
+    {
+      "type": "product_point",
+      "name": "Product point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Product gallery and detailed trainer explanation"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What does an early click mean?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>It usually means the release is happening too soon in the downswing, so useful speed may be spent before impact.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GN click test advertorial",
+      "blocks": [
+        {
+          "type": "hero_bullet",
+          "settings": {
+            "text": "Understand the release timing problem before you shop"
+          }
+        },
+        {
+          "type": "hero_bullet",
+          "settings": {
+            "text": "See why an early click means speed is leaking too soon"
+          }
+        },
+        {
+          "type": "hero_bullet",
+          "settings": {
+            "text": "See the trainer once the release problem makes sense"
+          }
+        },
+        {
+          "type": "problem_card",
+          "settings": {
+            "kicker": "Power",
+            "heading": "The swing feels fast",
+            "copy": "Early release can feel like effort, which makes it hard to identify without feedback."
+          }
+        },
+        {
+          "type": "problem_card",
+          "settings": {
+            "kicker": "Impact",
+            "heading": "Speed arrives too soon",
+            "copy": "If the release happens near the top, less useful speed is left when the club reaches impact."
+          }
+        },
+        {
+          "type": "problem_card",
+          "settings": {
+            "kicker": "Practice",
+            "heading": "Reps become guesswork",
+            "copy": "Without a clear signal, each practice swing can reinforce the same timing pattern."
+          }
+        },
+        {
+          "type": "diagnosis_step",
+          "settings": {
+            "heading": "Grip the trainer like a club",
+            "copy": "Use a safe practice space and start with short, controlled swings."
+          }
+        },
+        {
+          "type": "diagnosis_step",
+          "settings": {
+            "heading": "Listen for when it clicks",
+            "copy": "A click near the top means the release is happening too early."
+          }
+        },
+        {
+          "type": "diagnosis_step",
+          "settings": {
+            "heading": "Move the click later",
+            "copy": "Use smoother tempo to train the feel of releasing closer to impact."
+          }
+        },
+        {
+          "type": "meaning_card",
+          "settings": {
+            "label": "Early click",
+            "heading": "You are casting or releasing early",
+            "copy": "The click gives a simple signal that the club is being released before the strongest part of the downswing."
+          }
+        },
+        {
+          "type": "meaning_card",
+          "settings": {
+            "label": "Later click",
+            "heading": "The timing is moving closer to impact",
+            "copy": "The goal is not to force the swing. It is to connect a smoother motion with a later release signal."
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "before": "Try another swing thought and hope it shows up in ball flight.",
+            "after": "Make a practice swing and immediately hear when the release happened."
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "before": "Assume weak contact means you need more effort.",
+            "after": "Check whether effort is being spent too early in the downswing."
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "before": "Wait until the range to find out if the feel changed.",
+            "after": "Build the feel anywhere with controlled, feedback-based reps."
+          }
+        },
+        {
+          "type": "fit_card",
+          "settings": {
+            "kicker": "Home",
+            "heading": "Short daily reps",
+            "copy": "Use it for quick timing practice when you do not have time for the range."
+          }
+        },
+        {
+          "type": "fit_card",
+          "settings": {
+            "kicker": "Range",
+            "heading": "Warm-up feedback",
+            "copy": "Rehearse release timing before moving into normal clubs and full shots."
+          }
+        },
+        {
+          "type": "fit_card",
+          "settings": {
+            "kicker": "Course",
+            "heading": "Pre-round feel",
+            "copy": "Use controlled swings to remind your body what later release timing should feel like."
+          }
+        },
+        {
+          "type": "product_point",
+          "settings": {
+            "text": "Demo-first explanation of the click mechanism"
+          }
+        },
+        {
+          "type": "product_point",
+          "settings": {
+            "text": "Product gallery, specs, offer details, and FAQ"
+          }
+        },
+        {
+          "type": "product_point",
+          "settings": {
+            "text": "Clear offer details, FAQ, and a secure checkout path"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What does an early click mean?",
+            "answer": "<p>It usually means the release is happening too soon in the downswing, so useful speed may be spent before impact.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do I need to hit golf balls to use it?",
+            "answer": "<p>No. The trainer is designed for controlled practice swings, so you can rehearse timing without a ball, net, or app.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I know if the timing is improving?",
+            "answer": "<p>The goal is to move the click later in the motion, closer to impact, while keeping the swing smooth and controlled.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

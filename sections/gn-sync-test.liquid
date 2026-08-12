@@ -1,0 +1,119 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-practice-system {
+    background: {{ section.settings.background_color | default: '#e8e9e6' }};
+    padding: {{ section.settings.padding_top | default: 60 }}px 32px {{ section.settings.padding_bottom | default: 70 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__eyebrow {
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__heading {
+    margin: 0;
+    font-size: 3.2rem;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: {{ section.settings.heading_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__image {
+    margin-top: {{ section.settings.image_spacing | default: 40 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__image img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__cta {
+    display: flex;
+    justify-content: center;
+    margin: {{ section.settings.cta_spacing | default: 40 }}px 0 0;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 30px;
+    border-radius: 6px;
+    background: {{ section.settings.accent_color | default: '#ec7901' }};
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__button:hover {
+    opacity: 0.88;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__button svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .gn-practice-system__heading {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<div class="gn-practice-system">
+  <div class="gn-practice-system__inner">
+    {%- if section.settings.eyebrow_text != blank -%}
+      <p class="gn-practice-system__eyebrow">{{ section.settings.eyebrow_text }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="gn-practice-system__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.image != blank -%}
+    <div class="gn-practice-system__image">
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 1100px, 100vw' }}
+    </div>
+    {%- endif -%}
+
+    {%- if section.settings.button_text != blank -%}
+    <div class="gn-practice-system__cta">
+      <a href="{{ section.settings.button_link | default: '#' }}" class="gn-practice-system__button">
+        {{ section.settings.button_text }}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Practice system showcase",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "The practice system" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Four tools.<br>One better practice.</p>" },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "range", "id": "image_spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Space above image", "default": 40 },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_text", "label": "Button label", "default": "Explore the system" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "range", "id": "cta_spacing", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Space above button", "default": 40 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#e8e9e6" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#464646" },
+    { "type": "color", "id": "accent_color", "label": "Accent color (eyebrow, button)", "default": "#ec7901" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 70 }
+  ],
+  "presets": [
+    { "name": "Practice system showcase" }
+  ]
+}
+{% endschema %}

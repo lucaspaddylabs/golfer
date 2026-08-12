@@ -1,0 +1,368 @@
+{% doc %}
+  @prompt
+    Create a scroll-triggered discount popup that appears in the bottom right corner of the page after the user scrolls down. The popup should display a promotional message like "Get 30% OFF today – limited stock" with a bold headline, a dismiss/close button, and an optional CTA button. It should animate in smoothly, only appear once per session, and be fully responsive on mobile.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-scroll-popup-{{ ai_gen_id }} {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 320px;
+    max-width: calc(100vw - 40px);
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 24px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    display: block;
+  }
+
+  .ai-scroll-popup-{{ ai_gen_id }}.ai-scroll-popup-visible-{{ ai_gen_id }} {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .ai-scroll-popup-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .ai-scroll-popup-close-{{ ai_gen_id }} {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  .ai-scroll-popup-close-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-scroll-popup-close-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  .ai-scroll-popup-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+  }
+
+  .ai-scroll-popup-message-{{ ai_gen_id }} {
+    font-size: {{ block.settings.message_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+  }
+
+  .ai-scroll-popup-cta-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: {{ block.settings.cta_background_color }};
+    color: {{ block.settings.cta_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.cta_border_radius }}px;
+    font-size: {{ block.settings.cta_font_size }}px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%;
+  }
+
+  .ai-scroll-popup-cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.cta_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-scroll-popup-{{ ai_gen_id }} {
+      bottom: 16px;
+      right: 16px;
+      width: 280px;
+      padding: 20px;
+    }
+
+    .ai-scroll-popup-headline-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.headline_size }}px * 0.9);
+    }
+
+    .ai-scroll-popup-message-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.message_size }}px * 0.9);
+    }
+
+    .ai-scroll-popup-cta-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.cta_font_size }}px * 0.9);
+      padding: 10px 20px;
+    }
+  }
+{% endstyle %}
+
+<scroll-popup-{{ ai_gen_id }}
+  class="ai-scroll-popup-{{ ai_gen_id }}"
+  data-scroll-threshold="{{ block.settings.scroll_threshold }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-scroll-popup-header-{{ ai_gen_id }}">
+    <div>
+      {% if block.settings.headline != blank %}
+        <h3 class="ai-scroll-popup-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h3>
+      {% endif %}
+    </div>
+    <button
+      class="ai-scroll-popup-close-{{ ai_gen_id }}"
+      aria-label="Close popup"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  {% if block.settings.message != blank %}
+    <p class="ai-scroll-popup-message-{{ ai_gen_id }}">{{ block.settings.message }}</p>
+  {% endif %}
+
+  {% if block.settings.show_cta and block.settings.cta_text != blank %}
+    <a
+      href="{{ block.settings.cta_link }}"
+      class="ai-scroll-popup-cta-{{ ai_gen_id }}"
+    >
+      {{ block.settings.cta_text }}
+    </a>
+  {% endif %}
+</scroll-popup-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ScrollPopup{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.hasShown = false;
+        this.scrollThreshold = parseInt(this.dataset.scrollThreshold) || 300;
+        this.sessionKey = 'ai_scroll_popup_{{ ai_gen_id }}_shown';
+      }
+
+      connectedCallback() {
+        if (sessionStorage.getItem(this.sessionKey)) {
+          return;
+        }
+
+        this.closeButton = this.querySelector('.ai-scroll-popup-close-{{ ai_gen_id }}');
+        this.setupEventListeners();
+        this.checkScroll();
+      }
+
+      setupEventListeners() {
+        window.addEventListener('scroll', this.handleScroll.bind(this));
+        this.closeButton.addEventListener('click', this.closePopup.bind(this));
+      }
+
+      handleScroll() {
+        if (!this.hasShown) {
+          this.checkScroll();
+        }
+      }
+
+      checkScroll() {
+        const scrollPosition = window.scrollY || window.pageYOffset;
+        
+        if (scrollPosition >= this.scrollThreshold && !this.hasShown) {
+          this.showPopup();
+        }
+      }
+
+      showPopup() {
+        this.hasShown = true;
+        this.classList.add('ai-scroll-popup-visible-{{ ai_gen_id }}');
+        sessionStorage.setItem(this.sessionKey, 'true');
+      }
+
+      closePopup() {
+        this.classList.remove('ai-scroll-popup-visible-{{ ai_gen_id }}');
+      }
+
+      disconnectedCallback() {
+        window.removeEventListener('scroll', this.handleScroll.bind(this));
+      }
+    }
+
+    customElements.define('scroll-popup-{{ ai_gen_id }}', ScrollPopup{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Scroll discount popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Get 30% OFF today"
+    },
+    {
+      "type": "textarea",
+      "id": "message",
+      "label": "Message",
+      "default": "Limited stock available – don't miss out!"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Behavior"
+    },
+    {
+      "type": "range",
+      "id": "scroll_threshold",
+      "label": "Scroll distance to trigger",
+      "min": 100,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 300,
+      "info": "Popup appears after scrolling this many pixels"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#304FFE"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Headline size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "message_size",
+      "label": "Message size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "Background color",
+      "default": "#304FFE"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_color",
+      "label": "Hover background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "cta_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll discount popup"
+    }
+  ]
+}
+{% endschema %}

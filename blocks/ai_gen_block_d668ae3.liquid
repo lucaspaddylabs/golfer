@@ -1,0 +1,268 @@
+{% doc %}
+  @prompt
+    Create a product page block called "Product Pros / Benefits" that displays a list of product benefits as styled bullet points with green checkmark icons. Each benefit should be on its own line, read from the product metafield with namespace "custom" and key "product_pros" (multi-line text type). Include a customizable heading (default: "Why you'll love it"). The block should gracefully hide itself if the metafield has no value. Design should be clean and modern.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign product_pros = product.metafields.custom.product_pros.value %}
+
+{% if product_pros != blank %}
+  {% style %}
+    .ai-product-pros-{{ ai_gen_id }} {
+      display: block;
+      width: {{ block.settings.desktop_width_percent }}%;
+      max-width: 100%;
+      padding: {{ block.settings.padding }}px;
+      background-color: {{ block.settings.background_color }};
+      border-radius: {{ block.settings.border_radius }}px;
+    }
+
+    .ai-product-pros-heading-{{ ai_gen_id }} {
+      margin: 0 0 {{ block.settings.spacing_below_heading }}px 0;
+      color: {{ block.settings.heading_color }};
+      font-size: {{ block.settings.heading_size }}px;
+    }
+
+    .ai-product-pros-list-{{ ai_gen_id }} {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: {{ block.settings.item_spacing }}px;
+    }
+
+    .ai-product-pros-item-{{ ai_gen_id }} {
+      display: flex;
+      align-items: flex-start;
+      gap: {{ block.settings.icon_text_gap }}px;
+    }
+
+    .ai-product-pros-icon-{{ ai_gen_id }} {
+      flex-shrink: 0;
+      width: {{ block.settings.icon_size }}px;
+      height: {{ block.settings.icon_size }}px;
+      margin-top: 2px;
+    }
+
+    .ai-product-pros-icon-{{ ai_gen_id }} svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ai-product-pros-text-{{ ai_gen_id }} {
+      flex: 1;
+      color: {{ block.settings.text_color }};
+      font-size: {{ block.settings.text_size }}px;
+      line-height: 1.5;
+    }
+
+    @media screen and (max-width: 749px) {
+      .ai-product-pros-heading-{{ ai_gen_id }} {
+        font-size: calc({{ block.settings.heading_size }}px * 0.9);
+      }
+
+      .ai-product-pros-text-{{ ai_gen_id }} {
+        font-size: calc({{ block.settings.text_size }}px * 0.95);
+      }
+    }
+  {% endstyle %}
+
+  <product-pros-{{ ai_gen_id }} class="ai-product-pros-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+    {% if block.settings.heading != blank %}
+      <h3 class="ai-product-pros-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h3>
+    {% endif %}
+
+    <ul class="ai-product-pros-list-{{ ai_gen_id }}">
+      {% assign pros_lines = product_pros | split: newline %}
+      {% for line in pros_lines %}
+        {% assign trimmed_line = line | strip %}
+        {% if trimmed_line != blank %}
+          <li class="ai-product-pros-item-{{ ai_gen_id }}">
+            <div class="ai-product-pros-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="{{ block.settings.checkmark_color }}" stroke-width="{{ block.settings.checkmark_stroke_width }}" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" fill="{{ block.settings.checkmark_background }}"></circle>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </div>
+            <div class="ai-product-pros-text-{{ ai_gen_id }}">{{ trimmed_line }}</div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </product-pros-{{ ai_gen_id }}>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product pros / benefits",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "This block displays product benefits from the product metafield: custom.product_pros (multi-line text). Each line becomes a separate benefit with a checkmark icon."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why you'll love it"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "spacing_below_heading",
+      "label": "Spacing below",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Benefits list"
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Space between items",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Checkmark icon"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "icon_text_gap",
+      "label": "Gap from text",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Checkmark color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_background",
+      "label": "Background color",
+      "default": "#22c55e"
+    },
+    {
+      "type": "range",
+      "id": "checkmark_stroke_width",
+      "label": "Stroke width",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product pros / benefits"
+    }
+  ]
+}
+{% endschema %}

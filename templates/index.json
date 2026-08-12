@@ -1,0 +1,807 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slider_playbetter_gn": {
+      "type": "slider",
+      "blocks": {
+        "banner_playbetter1": {
+          "type": "banner",
+          "settings": {
+            "content_type": "image",
+            "image": "shopify://shop_images/Firefly_adiciona_um_edificio_diferente_atras_e_faz_a_imagem_comprida_de_largura_860522.png",
+            "image_aligment": "center",
+            "image_overlay_opacity": 50,
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "video_slide_mode": "autoplay_muted",
+            "url": "shopify://collections/all",
+            "heading_text": "PREMIUM GOLF GEAR",
+            "desc": "<p>GOLFER NOW</p>",
+            "heading_after_description": true,
+            "button_name": "Shop Now",
+            "button_name_2": "",
+            "secondary_text": "",
+            "secondary_text_position": "bottom-right",
+            "customize_button_size": "default",
+            "btn_min_height": 40,
+            "btn_min_height_mobile": 40,
+            "btn_wide_width": 300,
+            "roundness_button": 20,
+            "heading_size_px": 124,
+            "heading_size_px_tablet": 40,
+            "heading_size_px_mobile": 45,
+            "hover_underline": false,
+            "heading_uppercase_bold": true,
+            "foreground_image": "shopify://shop_images/Firefly_remove_the_white_lines_around_the_person_645613.png",
+            "foreground_image_x": 75,
+            "foreground_image_width": 75,
+            "desktop_x": 3,
+            "desktop_y": 22,
+            "tablet_x": 8,
+            "tablet_y": 22,
+            "mobile_x": 8,
+            "mobile_y": 15,
+            "text_align": "text-left",
+            "description_width": 87,
+            "description_width_tablet": 65,
+            "description_width_mobile": 85,
+            "show_background": false,
+            "box_opacity": 90,
+            "show_countdown": false,
+            "year": 2026,
+            "month": 12,
+            "day": 12,
+            "hours": 0,
+            "minutes": 0,
+            "seconds": 0,
+            "heading_text_link": "#ffffff",
+            "heading_text_link_hover": "#ffffff",
+            "color_desc": "#ffffff",
+            "color_desc_hover": "#ffffff",
+            "color_countdown": "#ffffff",
+            "show_button_bg": true,
+            "color_button": "rgba(0,0,0,0)",
+            "color_button_gradient": "",
+            "color_button_border": "rgba(0,0,0,0)",
+            "color_button_text": "rgba(0,0,0,0)",
+            "show_button_bg_hover": true,
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_button_gradient_hover": "",
+            "color_button_border_hover": "rgba(0,0,0,0)",
+            "color_button_text_hover": "rgba(0,0,0,0)",
+            "show_shadow_button": true,
+            "color_shadow_button": "rgba(0,0,0,0)",
+            "color_shadow_hover_button": "rgba(0,0,0,0)",
+            "color_background_box": "rgba(0,0,0,0)",
+            "color_background_box_hover": "rgba(0,0,0,0)",
+            "image_overlay_color": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "banner_playbetter1"
+      ],
+      "settings": {
+        "top_spacing": "none",
+        "width": "page-fullwidth",
+        "image_size": "1.77777",
+        "desktop_image_height": 700,
+        "image_size_mobile": "fullscreen",
+        "mobile_image_height": 600,
+        "show_logo": true,
+        "logo_svg": "",
+        "logo_max_width": 50,
+        "logo_desktop_x": 50,
+        "logo_desktop_y": 50,
+        "logo_tablet_x": 50,
+        "logo_tablet_y": 50,
+        "logo_mobile_x": 50,
+        "logo_mobile_y": 50,
+        "transition_effect": "flip",
+        "parallax": false,
+        "autoplay_enabled": true,
+        "autoplay_time": 5,
+        "desktop_navigation": "dots_arrows",
+        "dots_alignment_desktop": "center",
+        "arrows_alignment_desktop": "center",
+        "mobile_navigation": "dots",
+        "dots_alignment_mobile": "center",
+        "show_lines": false,
+        "lines_width": "fullwidth",
+        "color_base": "rgba(0,0,0,0)",
+        "color_accent": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "color_media_background": "rgba(0,0,0,0)",
+        "color_media_icon": "rgba(0,0,0,0)",
+        "color_media_background_hover": "rgba(0,0,0,0)",
+        "color_media_icon_hover": "rgba(0,0,0,0)",
+        "color_media_dots": "rgba(0,0,0,0)"
+      }
+    },
+    "text_icons1_gn": {
+      "type": "text-columns-with-icons-type-1",
+      "blocks": {
+        "item_golf": {
+          "type": "item",
+          "settings": {
+            "card_image": "shopify://shop_images/samuel-girven-NRTyaKQaRn4-unsplash.jpg",
+            "card_overlay_opacity": 45,
+            "show_icon": "none",
+            "icon_name": "bag",
+            "block_heading": "Golf Equipment",
+            "block_text": "<p>Clubs, bags, and everything for the course.</p>",
+            "button_name": "",
+            "url": ""
+          }
+        },
+        "item_fishing": {
+          "type": "item",
+          "settings": {
+            "card_image": "shopify://shop_images/kawe-rodrigues-54bJ9bQyzuQ-unsplash.jpg",
+            "card_overlay_opacity": 45,
+            "show_icon": "svg",
+            "icon_name": "eco-friendly",
+            "block_heading": "Training & Tech",
+            "block_text": "<p>Dependable gear for every catch.</p>",
+            "button_name": "",
+            "url": ""
+          }
+        },
+        "item_outdoor": {
+          "type": "item",
+          "settings": {
+            "card_image": "shopify://shop_images/samuel-girven-5niGZPJeMAY-unsplash.jpg",
+            "card_overlay_opacity": 45,
+            "show_icon": "svg",
+            "icon_name": "globe",
+            "block_heading": "Accessories",
+            "block_text": "<p>Ready for your next adventure, wherever it takes you.</p>",
+            "button_name": "",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_golf",
+        "item_fishing",
+        "item_outdoor"
+      ],
+      "settings": {
+        "main_subheading": "",
+        "main_heading": "",
+        "main_desc": "",
+        "heading_aligment": "text-center",
+        "top_spacing": "none",
+        "top_spacing_none_index": true,
+        "width": "default",
+        "grid": "page-grid-3",
+        "grid_tablet": "page-grid-st-3",
+        "text_align": "text-left",
+        "heading_size": "h5",
+        "icon_width": 80,
+        "show_icon_box": true,
+        "icon_box_roundness": 10,
+        "hover_underline": true,
+        "swipe": false,
+        "desktop_navigation": "dots_arrows",
+        "mobile_navigation": "dots",
+        "autoplay_enabled": false,
+        "autoplay_time": 5,
+        "show_lines": false,
+        "lines_width": "fullwidth",
+        "background": "color",
+        "color_background": "#1d3d2a",
+        "gradient": "",
+        "image_overlay_opacity": 0,
+        "image_overlay_color": "rgba(0,0,0,0)",
+        "image_overlay_opacity_mobile": 0,
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "show_parallax": false,
+        "imagealign": "center",
+        "imagesize": "cover",
+        "background_width": "fullwidth",
+        "background_spacing": "normal",
+        "remove_bottom_spacing": false,
+        "color_base": "rgba(0,0,0,0)",
+        "color_accent": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "color_text_link": "rgba(0,0,0,0)",
+        "color_text_link_hover": "rgba(0,0,0,0)",
+        "color_desc": "rgba(0,0,0,0)",
+        "color_text_icons": "rgba(0,0,0,0)",
+        "color_text_icons_bg": "rgba(0,0,0,0)",
+        "color_link": "rgba(0,0,0,0)",
+        "color_link_icon": "rgba(0,0,0,0)",
+        "color_link_hover": "rgba(0,0,0,0)",
+        "color_link_icon_hover": "rgba(0,0,0,0)",
+        "color_background_box": "rgba(0,0,0,0)",
+        "color_media_arrows": "rgba(0,0,0,0)",
+        "color_media_dots": "rgba(0,0,0,0)"
+      }
+    },
+    "gn_method_steps_yrATw8": {
+      "type": "gn-method-steps",
+      "blocks": {
+        "step_QPT7dX": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "label": "CONNECT",
+            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_84219.png",
+            "product_name": "LINK ONE",
+            "product_link": "shopify://products/golf-training-belt",
+            "description": "Build connection and awareness."
+          }
+        },
+        "step_fBPiGP": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "label": "SEQUENCE",
+            "image": "shopify://shop_images/Firefly.png",
+            "product_name": "ARC ONE",
+            "product_link": "shopify://products/pro-swing-click-trainer",
+            "description": "Groove the sequence. Hear the release."
+          }
+        },
+        "step_nQAdd3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "label": "STRIKE",
+            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_66709.png",
+            "product_name": "TRACE ONE",
+            "product_link": "shopify://products/golf-putting-tutor",
+            "description": "Find center. Control low point."
+          }
+        },
+        "step_jifTN6": {
+          "type": "step",
+          "settings": {
+            "number": "04",
+            "label": "ROLL",
+            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_354254.png",
+            "product_name": "LINE ONE",
+            "product_link": "shopify://products/swing-detection-training-mat",
+            "description": "Start it on line. Build better rolls."
+          }
+        }
+      },
+      "block_order": [
+        "step_QPT7dX",
+        "step_fBPiGP",
+        "step_nQAdd3",
+        "step_jifTN6"
+      ],
+      "name": "Product method steps",
+      "settings": {
+        "heading": "<p>One method. <em>Four</em> feedback loops.</p>",
+        "background_color": "#f5f1e8",
+        "heading_color": "#182b20",
+        "label_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "image_height": 170,
+        "divider_gap": 56,
+        "heading_spacing": 56,
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "gn_flagship_trainer_banner_PeGFNi": {
+      "type": "gn-flagship-trainer-banner",
+      "blocks": {
+        "feature_4Pm4pg": {
+          "type": "feature",
+          "settings": {
+            "icon": "sound",
+            "title": "Audible feedback",
+            "description": "The click confirms correct sequence."
+          }
+        },
+        "feature_bg4iKr": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "title": "Feature title",
+            "description": "Feature description."
+          }
+        },
+        "feature_D6Xadk": {
+          "type": "feature",
+          "settings": {
+            "icon": "chart",
+            "title": "Immediate data",
+            "description": "Feel it right away. Adjust faster."
+          }
+        },
+        "feature_CPHFez": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "title": "Built for repetition",
+            "description": "Durable, balanced and tour tough."
+          }
+        }
+      },
+      "block_order": [
+        "feature_4Pm4pg",
+        "feature_bg4iKr",
+        "feature_D6Xadk",
+        "feature_CPHFez"
+      ],
+      "custom_css": [
+        ".gn-flagship-banner {padding-left: 100px; padding-right: 100px;}"
+      ],
+      "name": "Flagship trainer banner",
+      "settings": {
+        "eyebrow_text": "Our flagship trainer",
+        "heading": "ARC ONE",
+        "subheading": "Hear the moment sequence becomes release.",
+        "image": "shopify://shop_images/Firefly.png",
+        "enable_pulse": true,
+        "pulse_speed": 2.5,
+        "background_image": "shopify://shop_images/pexels-anntarazevich-6370119.jpg",
+        "overlay_opacity": 85,
+        "button_text": "Shop ARC ONE",
+        "button_link": "",
+        "secondary_text": "",
+        "secondary_link": "",
+        "background_color": "#1d3d2a",
+        "accent_color": "#4d846e",
+        "text_color": "#f5f3ec",
+        "min_height": 520,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "gn_sync_test_8RYXP6": {
+      "type": "gn-sync-test",
+      "name": "Practice system showcase",
+      "settings": {
+        "eyebrow_text": "The practice system",
+        "heading": "<p>Four tools.<br/>One better practice.</p>",
+        "image": "shopify://shop_images/Firefly_remove_o_texto_do_topo_784212_1.png",
+        "image_spacing": 40,
+        "button_text": "Explore the system",
+        "button_link": "",
+        "cta_spacing": 40,
+        "background_color": "#f2eee3",
+        "heading_color": "#161615",
+        "accent_color": "#1d3d2a",
+        "padding_top": 60,
+        "padding_bottom": 70
+      }
+    },
+    "gn_bundle_comparison_4iyWbm": {
+      "type": "gn-bundle-comparison",
+      "blocks": {
+        "tier_BbEQiP": {
+          "type": "tier",
+          "settings": {
+            "highlighted": false,
+            "badge_text": "Recommended",
+            "title": "ARC ONE",
+            "subtitle": "Flagship trainer only.",
+            "image": "shopify://shop_images/Firefly_make_the_product_centered_768839.png",
+            "button_text": "Explore ARC ONE",
+            "button_link": ""
+          }
+        },
+        "tier_9BpNGz": {
+          "type": "tier",
+          "settings": {
+            "highlighted": true,
+            "badge_text": "Recommended",
+            "title": "THE SWING SYSTEM",
+            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
+            "image": "shopify://shop_images/Firefly_1.png",
+            "button_text": "Explore the Swing System",
+            "button_link": ""
+          }
+        },
+        "tier_F4BnxD": {
+          "type": "tier",
+          "settings": {
+            "highlighted": false,
+            "badge_text": "Recommended",
+            "title": "THE COMPLETE SYSTEM",
+            "subtitle": "All four tools.",
+            "image": "shopify://shop_images/4prod.png",
+            "button_text": "Explore the Complete System",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tier_BbEQiP",
+        "tier_9BpNGz",
+        "tier_F4BnxD"
+      ],
+      "name": "Bundle comparison",
+      "settings": {
+        "heading": "Choose your system.",
+        "background_color": "#f1eee4",
+        "heading_color": "#464646",
+        "text_color": "#767671",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d2d3cc",
+        "highlight_border_color": "#1d3d2a",
+        "image_height": 150,
+        "heading_spacing": 48,
+        "padding_top": 60,
+        "padding_bottom": 70
+      }
+    },
+    "media_about_gn": {
+      "type": "media-with-text",
+      "blocks": {
+        "media_about": {
+          "type": "media",
+          "settings": {
+            "content_type": "video",
+            "video": "shopify://files/videos/videoaboutus.mov",
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "video_slide_mode": "autoplay_muted",
+            "image_hover": "default",
+            "image_ratio": "1.333333"
+          }
+        },
+        "heading_about": {
+          "type": "heading",
+          "settings": {
+            "main_subheading": "",
+            "main_heading": "About Golfer Now"
+          }
+        },
+        "richtext_about": {
+          "type": "richtext",
+          "settings": {
+            "show_icon": "none",
+            "icon_name": "check",
+            "block_text": "<p>Golfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service while continually expanding our selection of golf, fishing, and outdoor gear to help you enjoy every adventure.</p>"
+          }
+        },
+        "button_about": {
+          "type": "button",
+          "settings": {
+            "button_name": "See More",
+            "customize_button_size": "default",
+            "btn_min_height": 40,
+            "btn_min_height_mobile": 40,
+            "btn_wide_width": 300,
+            "roundness_button": 20
+          }
+        }
+      },
+      "block_order": [
+        "media_about",
+        "heading_about",
+        "richtext_about",
+        "button_about"
+      ],
+      "custom_css": [
+        ".page-width {padding-left: 80px !important; padding-right: 80px !important;}"
+      ],
+      "settings": {
+        "top_spacing": "normal",
+        "width": "default",
+        "align_content": "center",
+        "text_align": "text-left",
+        "align_text": "center",
+        "icon_width": 40,
+        "row_reverse": true,
+        "text_content_width": 25,
+        "text_content_padding": 140,
+        "hover_underline": true,
+        "url": "shopify://collections/all",
+        "show_lines": false,
+        "lines_width": "fullwidth",
+        "background": "hide",
+        "color_background": "rgba(0,0,0,0)",
+        "gradient": "",
+        "image_overlay_opacity": 0,
+        "image_overlay_color": "rgba(0,0,0,0)",
+        "image_overlay_opacity_mobile": 0,
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "show_parallax": false,
+        "imagealign": "center",
+        "imagesize": "cover",
+        "background_width": "fullwidth",
+        "background_spacing": "normal",
+        "remove_bottom_spacing": false,
+        "color_base": "rgba(0,0,0,0)",
+        "color_accent": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "color_text_link": "rgba(0,0,0,0)",
+        "color_text_link_hover": "rgba(0,0,0,0)",
+        "color_desc": "rgba(0,0,0,0)",
+        "color_text_icons": "rgba(0,0,0,0)",
+        "color_counter": "rgba(0,0,0,0)",
+        "color_secondary_background": "rgba(0,0,0,0)",
+        "show_button_bg": false,
+        "color_button": "rgba(0,0,0,0)",
+        "color_button_gradient": "",
+        "color_button_border": "#1f3d2b",
+        "color_button_text": "#1f3d2b",
+        "show_button_bg_hover": true,
+        "color_button_hover": "#1f3d2b",
+        "color_button_gradient_hover": "",
+        "color_button_border_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "show_shadow_button": true,
+        "color_shadow_button": "rgba(0,0,0,0)",
+        "color_shadow_hover_button": "rgba(0,0,0,0)",
+        "color_media_background": "rgba(0,0,0,0)",
+        "color_media_icon": "rgba(0,0,0,0)",
+        "color_media_background_hover": "rgba(0,0,0,0)",
+        "color_media_icon_hover": "rgba(0,0,0,0)"
+      }
+    },
+    "media_story_gn": {
+      "type": "media-with-text",
+      "blocks": {
+        "media_story": {
+          "type": "media",
+          "settings": {
+            "content_type": "video",
+            "video": "shopify://files/videos/19320486-uhd_3840_2160_30fps.mp4",
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "video_slide_mode": "autoplay_muted",
+            "image_hover": "default",
+            "image_ratio": "1.333333"
+          }
+        },
+        "heading_story": {
+          "type": "heading",
+          "settings": {
+            "main_subheading": "",
+            "main_heading": "Our Story"
+          }
+        },
+        "richtext_story": {
+          "type": "richtext",
+          "settings": {
+            "show_icon": "none",
+            "icon_name": "check",
+            "block_text": "<p>Golfer Now was created with a simple purpose: to make quality golf and outdoor products more accessible to enthusiasts of all skill levels. As part of Zinetic LLC's expansion into e-commerce, we combine years of experience in online business operations with a commitment to delivering a trusted, secure, and customer-focused shopping experience. Our mission is to help golfers and outdoor adventurers enjoy their passion by offering carefully selected products, competitive pricing, and dependable service every step of the way.</p>"
+          }
+        },
+        "button_story": {
+          "type": "button",
+          "settings": {
+            "button_name": "See More",
+            "customize_button_size": "default",
+            "btn_min_height": 40,
+            "btn_min_height_mobile": 40,
+            "btn_wide_width": 300,
+            "roundness_button": 20
+          }
+        }
+      },
+      "block_order": [
+        "media_story",
+        "heading_story",
+        "richtext_story",
+        "button_story"
+      ],
+      "custom_css": [
+        ".page-width {padding-left: 80px !important; padding-right: 80px !important;}"
+      ],
+      "settings": {
+        "top_spacing": "normal",
+        "width": "default",
+        "align_content": "center",
+        "text_align": "text-left",
+        "align_text": "center",
+        "icon_width": 40,
+        "row_reverse": false,
+        "text_content_width": 50,
+        "text_content_padding": 100,
+        "hover_underline": true,
+        "url": "shopify://collections/all",
+        "show_lines": false,
+        "lines_width": "fullwidth",
+        "background": "hide",
+        "color_background": "rgba(0,0,0,0)",
+        "gradient": "",
+        "image_overlay_opacity": 0,
+        "image_overlay_color": "rgba(0,0,0,0)",
+        "image_overlay_opacity_mobile": 0,
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "show_parallax": false,
+        "imagealign": "center",
+        "imagesize": "cover",
+        "background_width": "fullwidth",
+        "background_spacing": "normal",
+        "remove_bottom_spacing": false,
+        "color_base": "rgba(0,0,0,0)",
+        "color_accent": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "color_text_link": "rgba(0,0,0,0)",
+        "color_text_link_hover": "rgba(0,0,0,0)",
+        "color_desc": "rgba(0,0,0,0)",
+        "color_text_icons": "rgba(0,0,0,0)",
+        "color_counter": "rgba(0,0,0,0)",
+        "color_secondary_background": "rgba(0,0,0,0)",
+        "show_button_bg": false,
+        "color_button": "rgba(0,0,0,0)",
+        "color_button_gradient": "",
+        "color_button_border": "#1f3d2b",
+        "color_button_text": "#1f3d2b",
+        "show_button_bg_hover": true,
+        "color_button_hover": "#1f3d2b",
+        "color_button_gradient_hover": "",
+        "color_button_border_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "#ffffff",
+        "show_shadow_button": true,
+        "color_shadow_button": "rgba(0,0,0,0)",
+        "color_shadow_hover_button": "rgba(0,0,0,0)",
+        "color_media_background": "rgba(0,0,0,0)",
+        "color_media_icon": "rgba(0,0,0,0)",
+        "color_media_background_hover": "rgba(0,0,0,0)",
+        "color_media_icon_hover": "rgba(0,0,0,0)"
+      }
+    },
+    "media_parallax_gn": {
+      "type": "media-with-text",
+      "blocks": {
+        "heading_tour": {
+          "type": "heading",
+          "settings": {
+            "main_subheading": "",
+            "main_heading": "Golfer Now Collections"
+          }
+        },
+        "richtext_tour": {
+          "type": "richtext",
+          "settings": {
+            "show_icon": "none",
+            "icon_name": "check",
+            "block_text": "<p>Discover the gear golfers trust, season after season.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_tour",
+        "richtext_tour"
+      ],
+      "settings": {
+        "top_spacing": "normal",
+        "width": "default",
+        "align_content": "center",
+        "text_align": "text-center",
+        "align_text": "center",
+        "icon_width": 40,
+        "row_reverse": false,
+        "text_content_width": 60,
+        "text_content_padding": 40,
+        "hover_underline": true,
+        "url": "",
+        "show_lines": false,
+        "lines_width": "fullwidth",
+        "background": "image",
+        "color_background": "#65685d",
+        "gradient": "",
+        "background_image": "shopify://shop_images/lauren-smith-dupe.jpg",
+        "image_overlay_opacity": 70,
+        "image_overlay_color": "#1d3d2a",
+        "image_overlay_opacity_mobile": 0,
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "show_parallax": true,
+        "imagealign": "center",
+        "imagesize": "cover",
+        "background_width": "fullwidth",
+        "background_spacing": "normal",
+        "remove_bottom_spacing": false,
+        "color_base": "rgba(0,0,0,0)",
+        "color_accent": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "color_text_link": "#ffffff",
+        "color_text_link_hover": "rgba(0,0,0,0)",
+        "color_desc": "#ffffff",
+        "color_text_icons": "rgba(0,0,0,0)",
+        "color_counter": "rgba(0,0,0,0)",
+        "color_secondary_background": "rgba(0,0,0,0)",
+        "show_button_bg": true,
+        "color_button": "rgba(0,0,0,0)",
+        "color_button_gradient": "",
+        "color_button_border": "rgba(0,0,0,0)",
+        "color_button_text": "rgba(0,0,0,0)",
+        "show_button_bg_hover": true,
+        "color_button_hover": "rgba(0,0,0,0)",
+        "color_button_gradient_hover": "",
+        "color_button_border_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "rgba(0,0,0,0)",
+        "show_shadow_button": true,
+        "color_shadow_button": "rgba(0,0,0,0)",
+        "color_shadow_hover_button": "rgba(0,0,0,0)",
+        "color_media_background": "rgba(0,0,0,0)",
+        "color_media_icon": "rgba(0,0,0,0)",
+        "color_media_background_hover": "rgba(0,0,0,0)",
+        "color_media_icon_hover": "rgba(0,0,0,0)"
+      }
+    },
+    "gn_golf_content_feed_HG6ymF": {
+      "type": "gn-golf-content-feed",
+      "blocks": {
+        "card_wzpkJE": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pexels-anthony-2156384221-35918458.jpg",
+            "title": "The Best Part of Golf Isn't the Score",
+            "description": "Why the moments between shots often matter more than the number on the card.",
+            "link": ""
+          }
+        },
+        "card_BPwFdx": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pexels-kelly-32731086.jpg",
+            "title": "Building a Pre-Round Routine That Actually Works",
+            "description": "Five minutes at the mat can change your entire round.",
+            "link": ""
+          }
+        },
+        "card_qbbtny": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pexels-mikhail-nilov-9207645.jpg",
+            "title": "Why Clean Clubs Change Your Contact",
+            "description": "A dirty face costs you more spin and distance than you think.",
+            "link": ""
+          }
+        },
+        "card_RVwDH7": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pexels-criticalimagery-35320713.jpg",
+            "title": "Practice Reps vs. Real Rounds: What Actually Transfers",
+            "description": "The drills that translate to the course, and the ones that don't.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_wzpkJE",
+        "card_BPwFdx",
+        "card_qbbtny",
+        "card_RVwDH7"
+      ],
+      "disabled": true,
+      "name": "Golf content feed",
+      "settings": {
+        "heading": "Stay up-to-date with everything about golf and better practice.",
+        "background_color": "#ffffff",
+        "heading_color": "#464646",
+        "card_text_color": "#ffffff",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#e8e9e6",
+        "card_height": 520,
+        "expand_ratio": 3,
+        "padding_top": 50,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "slider_playbetter_gn",
+    "text_icons1_gn",
+    "gn_method_steps_yrATw8",
+    "gn_flagship_trainer_banner_PeGFNi",
+    "gn_sync_test_8RYXP6",
+    "gn_bundle_comparison_4iyWbm",
+    "media_about_gn",
+    "media_story_gn",
+    "media_parallax_gn",
+    "gn_golf_content_feed_HG6ymF"
+  ]
+}

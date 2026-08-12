@@ -1,0 +1,210 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-bundles {
+    background: {{ section.settings.background_color | default: '#ffffff' }};
+    padding: {{ section.settings.padding_top | default: 60 }}px 32px {{ section.settings.padding_bottom | default: 70 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__heading {
+    margin: 0 auto {{ section.settings.heading_spacing | default: 48 }}px;
+    max-width: 780px;
+    text-align: center;
+    font-size: 2.4rem;
+    line-height: 1.2;
+    color: {{ section.settings.heading_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__grid {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__col {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 28px;
+    text-align: center;
+    border-left: 1px solid {{ section.settings.divider_color | default: '#d2d3cc' }};
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__col:first-child {
+    border-left: none;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__col--highlighted {
+    position: relative;
+    margin: -20px 6px 0;
+    padding: 34px 22px 20px;
+    border: 1px solid {{ section.settings.highlight_border_color | default: '#ec7901' }};
+    border-radius: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__col--highlighted + .gn-bundles__col {
+    border-left: none;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 14px;
+    border-radius: 3px;
+    background: {{ section.settings.highlight_border_color | default: '#ec7901' }};
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__title {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__subtitle {
+    margin: 0 0 22px;
+    min-height: 1.4em;
+    font-size: 0.85rem;
+    letter-spacing: 0.01em;
+    color: {{ section.settings.text_color | default: '#767671' }};
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__images {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: {{ section.settings.image_height | default: 220 }}px;
+    margin: 0 0 22px;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__images img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__link:hover {
+    text-decoration: underline;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__link svg {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-bundles__heading {
+      font-size: 1.8rem;
+    }
+    #shopify-section-{{ section.id }} .gn-bundles__grid {
+      flex-direction: column;
+      gap: 32px;
+    }
+    #shopify-section-{{ section.id }} .gn-bundles__col {
+      border-left: none;
+      border-top: 1px solid {{ section.settings.divider_color | default: '#d2d3cc' }};
+      padding: 28px 8px 0;
+    }
+    #shopify-section-{{ section.id }} .gn-bundles__col:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-bundles__col--highlighted {
+      margin: 20px 0 0;
+      border-top: 1px solid {{ section.settings.highlight_border_color | default: '#ec7901' }};
+    }
+    #shopify-section-{{ section.id }} .gn-bundles__col--highlighted + .gn-bundles__col {
+      border-top: 1px solid {{ section.settings.divider_color | default: '#d2d3cc' }};
+    }
+  }
+</style>
+
+<div class="gn-bundles">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="gn-bundles__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="gn-bundles__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'tier' -%}
+        <div class="gn-bundles__col{% if block.settings.highlighted %} gn-bundles__col--highlighted{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.highlighted and block.settings.badge_text != blank -%}
+            <span class="gn-bundles__badge">{{ block.settings.badge_text }}</span>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <p class="gn-bundles__title">{{ block.settings.title }}</p>
+          {%- endif -%}
+          <p class="gn-bundles__subtitle">{{ block.settings.subtitle }}</p>
+          <div class="gn-bundles__images">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy' }}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.button_text != blank -%}
+            <a href="{{ block.settings.button_link | default: '#' }}" class="gn-bundles__link">
+              {{ block.settings.button_text }}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle comparison",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your system." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading / title color", "default": "#464646" },
+    { "type": "color", "id": "text_color", "label": "Subtitle text color", "default": "#767671" },
+    { "type": "color", "id": "accent_color", "label": "Link color", "default": "#ec7901" },
+    { "type": "color", "id": "divider_color", "label": "Divider line color", "default": "#d2d3cc" },
+    { "type": "color", "id": "highlight_border_color", "label": "Highlighted border / badge color", "default": "#ec7901" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "image_height", "min": 80, "max": 420, "step": 10, "unit": "px", "label": "Image height", "default": 220 },
+    { "type": "range", "id": "heading_spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Space below heading", "default": 48 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 70 }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Tier",
+      "settings": [
+        { "type": "checkbox", "id": "highlighted", "label": "Highlight this tier", "default": false },
+        { "type": "text", "id": "badge_text", "label": "Badge text", "default": "Recommended" },
+        { "type": "text", "id": "title", "label": "Title", "default": "TIER NAME" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "What's included." },
+        { "type": "header", "content": "Image" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "header", "content": "Link" },
+        { "type": "text", "id": "button_text", "label": "Link label", "default": "Explore" },
+        { "type": "url", "id": "button_link", "label": "Link URL" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle comparison",
+      "blocks": [
+        { "type": "tier", "settings": { "highlighted": false, "title": "ARC ONE", "subtitle": "Flagship trainer only.", "button_text": "Explore ARC ONE" } },
+        { "type": "tier", "settings": { "highlighted": true, "badge_text": "Recommended", "title": "THE SWING SYSTEM", "subtitle": "LINK ONE + ARC ONE + TRACE ONE", "button_text": "Explore the Swing System" } },
+        { "type": "tier", "settings": { "highlighted": false, "title": "THE COMPLETE SYSTEM", "subtitle": "All four tools.", "button_text": "Explore the Complete System" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

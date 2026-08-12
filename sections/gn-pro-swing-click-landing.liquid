@@ -1,0 +1,2651 @@
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'gn-product-form-' | append: section.id
+  assign current_compare_at = current_variant.compare_at_price
+  assign current_price = current_variant.price
+  assign show_sale_badge = false
+
+  if current_compare_at > current_price
+    assign show_sale_badge = true
+  endif
+%}
+
+<section
+  id="gn-pro-swing-click-{{ section.id }}"
+  class="gn-swing gn-swing-{{ section.id }}"
+  data-gn-product-section
+  data-section-id="{{ section.id }}"
+  data-money-format="{{ shop.money_format | escape }}"
+  data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+>
+  <style>
+    .gn-swing-{{ section.id }} {
+      --gn-bg: {{ section.settings.background_color }};
+      --gn-panel: {{ section.settings.panel_color }};
+      --gn-ink: {{ section.settings.text_color }};
+      --gn-muted: {{ section.settings.muted_text_color }};
+      --gn-green: {{ section.settings.accent_color }};
+      --gn-green-dark: {{ section.settings.button_color }};
+      --gn-gold: {{ section.settings.gold_color }};
+      --gn-line: rgba(19, 38, 31, 0.13);
+      --gn-soft: rgba(20, 96, 67, 0.08);
+      --gn-shadow: 0 24px 80px rgba(16, 37, 31, 0.11);
+      --gn-radius: 8px;
+      background: var(--gn-bg);
+      color: var(--gn-ink);
+      font-family: inherit;
+      overflow-x: clip;
+    }
+
+    .gn-swing-{{ section.id }} *,
+    .gn-swing-{{ section.id }} *::before,
+    .gn-swing-{{ section.id }} *::after {
+      box-sizing: border-box;
+    }
+
+    .gn-swing-{{ section.id }} button,
+    .gn-swing-{{ section.id }} input,
+    .gn-swing-{{ section.id }} select {
+      font: inherit;
+    }
+
+    .gn-swing-{{ section.id }} button {
+      cursor: pointer;
+    }
+
+    .gn-swing-{{ section.id }} button:focus-visible,
+    .gn-swing-{{ section.id }} a:focus-visible,
+    .gn-swing-{{ section.id }} input:focus-visible,
+    .gn-swing-{{ section.id }} select:focus-visible {
+      outline: 3px solid rgba(196, 161, 91, 0.95);
+      outline-offset: 3px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .gn-swing-{{ section.id }} .gn-visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero {
+      padding: clamp(34px, 5vw, 72px) 0 clamp(48px, 7vw, 92px);
+      background:
+        radial-gradient(circle at 82% 10%, rgba(196, 161, 91, 0.18), transparent 28%),
+        linear-gradient(180deg, #f7f8f3 0%, #edf4ec 100%);
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+      gap: clamp(28px, 4vw, 58px);
+      align-items: start;
+    }
+
+    .gn-swing-{{ section.id }} .gn-gallery {
+      position: sticky;
+      top: 18px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-media-stage {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: #ffffff;
+      box-shadow: var(--gn-shadow);
+      aspect-ratio: 1 / 1;
+    }
+
+    .gn-swing-{{ section.id }} .gn-media-panel {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+
+    .gn-swing-{{ section.id }} .gn-media-panel.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    .gn-swing-{{ section.id }} .gn-media-image,
+    .gn-swing-{{ section.id }} .gn-media-video,
+    .gn-swing-{{ section.id }} .gn-media-model,
+    .gn-swing-{{ section.id }} .gn-media-stage iframe,
+    .gn-swing-{{ section.id }} .gn-media-stage model-viewer {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gn-swing-{{ section.id }} .gn-media-placeholder {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      color: var(--gn-muted);
+      text-align: center;
+      background: linear-gradient(135deg, #ffffff 0%, #f2f5ef 100%);
+    }
+
+    .gn-swing-{{ section.id }} .gn-thumbs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-thumb {
+      min-height: 70px;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--gn-line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: inherit;
+    }
+
+    .gn-swing-{{ section.id }} .gn-thumb[aria-current="true"] {
+      border-color: var(--gn-green);
+      box-shadow: 0 0 0 2px rgba(16, 96, 67, 0.12);
+    }
+
+    .gn-swing-{{ section.id }} .gn-thumb img {
+      width: 100%;
+      height: 100%;
+      min-height: 70px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero__content {
+      padding-top: clamp(4px, 1vw, 14px);
+    }
+
+    .gn-swing-{{ section.id }} .gn-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: var(--gn-green);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .gn-swing-{{ section.id }} .gn-stars {
+      color: var(--gn-gold);
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero h1,
+    .gn-swing-{{ section.id }} .gn-section h2,
+    .gn-swing-{{ section.id }} .gn-final h2 {
+      margin: 0;
+      color: var(--gn-ink);
+      letter-spacing: 0;
+      line-height: 1.02;
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero h1 {
+      max-width: 11ch;
+      font-size: clamp(2.45rem, 6vw, 5.35rem);
+    }
+
+    .gn-swing-{{ section.id }} .gn-subhead {
+      margin: 18px 0 0;
+      color: var(--gn-muted);
+      font-size: clamp(1.03rem, 1.4vw, 1.2rem);
+      line-height: 1.65;
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero-proof {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid rgba(20, 96, 67, 0.18);
+      border-radius: var(--gn-radius);
+      background: var(--gn-soft);
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero-proof__item {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      color: var(--gn-muted);
+      font-size: 0.94rem;
+      line-height: 1.35;
+    }
+
+    .gn-swing-{{ section.id }} .gn-hero-proof__label {
+      color: var(--gn-green-dark);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .gn-swing-{{ section.id }} .gn-benefits {
+      display: grid;
+      gap: 10px;
+      margin: 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .gn-swing-{{ section.id }} .gn-benefits li {
+      position: relative;
+      padding-left: 30px;
+      color: var(--gn-ink);
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+
+    .gn-swing-{{ section.id }} .gn-benefits li::before,
+    .gn-swing-{{ section.id }} .gn-check::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 0;
+      top: 0.12em;
+      border-radius: 50%;
+      background: var(--gn-green);
+    }
+
+    .gn-swing-{{ section.id }} .gn-benefits li::after,
+    .gn-swing-{{ section.id }} .gn-check::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: calc(0.12em + 4px);
+      width: 6px;
+      height: 9px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .gn-swing-{{ section.id }} .gn-buybox {
+      margin-top: 26px;
+      padding: clamp(18px, 3vw, 26px);
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: var(--gn-panel);
+      box-shadow: 0 22px 70px rgba(16, 37, 31, 0.13);
+    }
+
+    .gn-swing-{{ section.id }} .gn-price-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 12px;
+      margin-bottom: 16px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-price {
+      color: var(--gn-ink);
+      font-size: clamp(1.7rem, 2.5vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .gn-swing-{{ section.id }} .gn-compare {
+      color: var(--gn-muted);
+      font-size: 1rem;
+      text-decoration: line-through;
+    }
+
+    .gn-swing-{{ section.id }} .gn-sale-badge,
+    .gn-swing-{{ section.id }} .gn-stock {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-sale-badge {
+      color: #ffffff;
+      background: var(--gn-green);
+    }
+
+    .gn-swing-{{ section.id }} .gn-stock {
+      margin: 0 0 16px;
+      color: #7a4f00;
+      background: #fff3d2;
+    }
+
+    .gn-swing-{{ section.id }} .gn-fieldset {
+      padding: 0;
+      margin: 0 0 16px;
+      border: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-label,
+    .gn-swing-{{ section.id }} .gn-fieldset legend {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--gn-ink);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .gn-swing-{{ section.id }} .gn-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-option {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .gn-swing-{{ section.id }} .gn-option input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-option span {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border: 1px solid var(--gn-line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--gn-ink);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .gn-swing-{{ section.id }} .gn-option input:checked + span {
+      border-color: var(--gn-green);
+      box-shadow: 0 0 0 2px rgba(16, 96, 67, 0.12);
+    }
+
+    .gn-swing-{{ section.id }} .gn-form-row {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .gn-swing-{{ section.id }} .gn-quantity input {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid var(--gn-line);
+      border-radius: 6px;
+      padding: 0 12px;
+      background: #ffffff;
+      color: var(--gn-ink);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .gn-swing-{{ section.id }} .gn-button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: 1px solid var(--gn-green-dark);
+      border-radius: 6px;
+      padding: 13px 18px;
+      background: var(--gn-green-dark);
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+    }
+
+    .gn-swing-{{ section.id }} .gn-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(15, 73, 54, 0.22);
+    }
+
+    .gn-swing-{{ section.id }} .gn-button:disabled,
+    .gn-swing-{{ section.id }} .gn-button[disabled],
+    .gn-swing-{{ section.id }} .gn-button[aria-disabled="true"] {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .gn-swing-{{ section.id }} .gn-button--secondary {
+      width: auto;
+      background: #ffffff;
+      color: var(--gn-green-dark);
+      border-color: rgba(15, 73, 54, 0.24);
+      box-shadow: none;
+    }
+
+    .gn-swing-{{ section.id }} .gn-button--secondary:hover {
+      box-shadow: 0 12px 24px rgba(15, 73, 54, 0.11);
+    }
+
+    .gn-swing-{{ section.id }} .shopify-payment-button {
+      margin-top: 10px;
+    }
+
+    .gn-swing-{{ section.id }} .shopify-payment-button__button {
+      min-height: 52px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gn-swing-{{ section.id }} .gn-product-form-shell {
+      display: block;
+    }
+
+    .gn-swing-{{ section.id }} .product-form__error-message-wrapper {
+      margin: 0 0 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(146, 42, 42, 0.24);
+      border-radius: 6px;
+      background: #fff4f4;
+      color: #8a2626;
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .gn-swing-{{ section.id }} .product-form__error-message-wrapper[hidden] {
+      display: none;
+    }
+
+    .gn-swing-{{ section.id }} .loading-overlay__spinner {
+      width: 18px;
+      height: 18px;
+      margin-left: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: gn-spin 700ms linear infinite;
+    }
+
+    .gn-swing-{{ section.id }} .loading-overlay__spinner.hidden {
+      display: none;
+    }
+
+    @keyframes gn-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .gn-swing-{{ section.id }} .gn-trust-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-trust-item {
+      position: relative;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      padding: 9px 10px 9px 28px;
+      border: 1px solid var(--gn-line);
+      border-radius: 6px;
+      color: var(--gn-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.25;
+      background: #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-trust-item::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gn-green);
+    }
+
+    .gn-swing-{{ section.id }} .gn-marquee {
+      border-block: 1px solid var(--gn-line);
+      background: #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-marquee__inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-marquee__item {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 10px;
+      color: var(--gn-ink);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo {
+      padding: clamp(40px, 6vw, 84px) 0;
+      background: #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+      gap: clamp(26px, 5vw, 68px);
+      align-items: center;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__media {
+      overflow: hidden;
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: #eef3ed;
+      box-shadow: var(--gn-shadow);
+      aspect-ratio: 16 / 10;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__media img,
+    .gn-swing-{{ section.id }} .gn-demo__media video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__placeholder {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: clamp(22px, 4vw, 44px);
+      color: var(--gn-muted);
+      text-align: center;
+      background:
+        linear-gradient(90deg, rgba(20, 96, 67, 0.12) 0 16%, transparent 16% 100%),
+        linear-gradient(135deg, #ffffff 0%, #eef3ed 100%);
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__placeholder strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gn-ink);
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__step {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__time {
+      color: var(--gn-green);
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__step h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .gn-swing-{{ section.id }} .gn-demo__step p {
+      margin: 6px 0 0;
+      color: var(--gn-muted);
+      line-height: 1.52;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset {
+      padding: clamp(46px, 6vw, 86px) 0;
+      background: var(--gn-ink);
+      color: #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: clamp(28px, 5vw, 68px);
+      align-items: center;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset h2 {
+      margin: 0;
+      max-width: 12ch;
+      color: #ffffff;
+      font-size: clamp(2rem, 4.6vw, 4rem);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset p {
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__copy {
+      margin: 18px 0 0;
+      font-size: clamp(1rem, 1.35vw, 1.15rem);
+      line-height: 1.7;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__card {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--gn-radius);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__time {
+      min-height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: var(--gn-gold);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.08;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__card h3 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 1.08rem;
+      line-height: 1.2;
+    }
+
+    .gn-swing-{{ section.id }} .gn-reset__card p {
+      margin: 6px 0 0;
+      line-height: 1.52;
+    }
+
+    .gn-swing-{{ section.id }} .gn-section {
+      padding: clamp(58px, 8vw, 112px) 0;
+      background: #fbfcf8;
+    }
+
+    .gn-swing-{{ section.id }} .gn-section--tint {
+      background: #eef4eb;
+    }
+
+    .gn-swing-{{ section.id }} .gn-section--problem {
+      background:
+        linear-gradient(90deg, rgba(15, 73, 54, 0.06), transparent 38%),
+        #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(28px, 5vw, 72px);
+      align-items: center;
+    }
+
+    .gn-swing-{{ section.id }} .gn-section h2,
+    .gn-swing-{{ section.id }} .gn-final h2 {
+      max-width: 13ch;
+      font-size: clamp(2rem, 4.8vw, 4.25rem);
+    }
+
+    .gn-swing-{{ section.id }} .gn-section__copy {
+      margin: 18px 0 0;
+      color: var(--gn-muted);
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      line-height: 1.72;
+    }
+
+    .gn-swing-{{ section.id }} .gn-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-card {
+      min-height: 168px;
+      padding: clamp(18px, 2.2vw, 26px);
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: #ffffff;
+      box-shadow: 0 18px 52px rgba(16, 37, 31, 0.08);
+    }
+
+    .gn-swing-{{ section.id }} .gn-card__kicker {
+      display: inline-flex;
+      margin-bottom: 16px;
+      color: var(--gn-green);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-card h3 {
+      margin: 0;
+      color: var(--gn-ink);
+      font-size: 1.22rem;
+      line-height: 1.12;
+    }
+
+    .gn-swing-{{ section.id }} .gn-card p {
+      margin: 10px 0 0;
+      color: var(--gn-muted);
+      line-height: 1.58;
+      font-size: 0.95rem;
+    }
+
+    .gn-swing-{{ section.id }} .gn-steps {
+      display: grid;
+      gap: 12px;
+      counter-reset: gn-step;
+    }
+
+    .gn-swing-{{ section.id }} .gn-step {
+      position: relative;
+      min-height: 78px;
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: #ffffff;
+      counter-increment: gn-step;
+    }
+
+    .gn-swing-{{ section.id }} .gn-step::before {
+      content: counter(gn-step);
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--gn-green);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .gn-swing-{{ section.id }} .gn-step h3 {
+      margin: 0;
+      font-size: 1.03rem;
+      line-height: 1.25;
+    }
+
+    .gn-swing-{{ section.id }} .gn-step p {
+      margin: 6px 0 0;
+      color: var(--gn-muted);
+      line-height: 1.5;
+    }
+
+    .gn-swing-{{ section.id }} .gn-note {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--gn-gold);
+      background: #fffaf0;
+      color: #5c451d;
+      line-height: 1.5;
+    }
+
+    .gn-swing-{{ section.id }} .gn-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-offer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-comparison__col {
+      padding: clamp(20px, 3vw, 30px);
+      border: 1px solid var(--gn-line);
+      border-radius: var(--gn-radius);
+      background: #ffffff;
+      box-shadow: 0 18px 48px rgba(16, 37, 31, 0.08);
+    }
+
+    .gn-swing-{{ section.id }} .gn-comparison__col:last-child {
+      border-color: rgba(20, 96, 67, 0.24);
+      background: rgba(20, 96, 67, 0.07);
+    }
+
+    .gn-swing-{{ section.id }} .gn-comparison__col h3 {
+      margin: 0 0 18px;
+      font-size: 1.3rem;
+    }
+
+    .gn-swing-{{ section.id }} .gn-comparison__list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .gn-swing-{{ section.id }} .gn-check {
+      position: relative;
+      padding-left: 30px;
+      color: var(--gn-muted);
+      line-height: 1.45;
+    }
+
+    .gn-swing-{{ section.id }} .gn-testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-testimonial {
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+    }
+
+    .gn-swing-{{ section.id }} .gn-testimonial__stars {
+      color: var(--gn-gold);
+      font-size: 0.95rem;
+      line-height: 1;
+    }
+
+    .gn-swing-{{ section.id }} .gn-testimonial blockquote {
+      margin: 16px 0 18px;
+      color: var(--gn-muted);
+      line-height: 1.62;
+    }
+
+    .gn-swing-{{ section.id }} .gn-testimonial__person {
+      margin-top: auto;
+      color: var(--gn-ink);
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .gn-swing-{{ section.id }} .gn-testimonial__meta {
+      display: block;
+      margin-top: 3px;
+      color: var(--gn-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .gn-swing-{{ section.id }} .gn-guarantee {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: center;
+      padding: clamp(24px, 4vw, 42px);
+      border: 1px solid rgba(196, 161, 91, 0.44);
+      border-radius: var(--gn-radius);
+      background:
+        linear-gradient(135deg, rgba(196, 161, 91, 0.16), transparent 48%),
+        #fffaf0;
+      box-shadow: 0 22px 62px rgba(92, 69, 29, 0.11);
+    }
+
+    .gn-swing-{{ section.id }} .gn-guarantee h2 {
+      max-width: none;
+    }
+
+    .gn-swing-{{ section.id }} .gn-final {
+      padding: clamp(48px, 8vw, 104px) 0;
+      background: var(--gn-green-dark);
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .gn-swing-{{ section.id }} .gn-final h2,
+    .gn-swing-{{ section.id }} .gn-final p {
+      color: #ffffff;
+      margin-inline: auto;
+    }
+
+    .gn-swing-{{ section.id }} .gn-final h2 {
+      max-width: 13ch;
+    }
+
+    .gn-swing-{{ section.id }} .gn-final p {
+      max-width: 620px;
+      margin-top: 18px;
+      line-height: 1.68;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .gn-swing-{{ section.id }} .gn-final .gn-button {
+      width: auto;
+      min-width: 220px;
+      margin-top: 26px;
+      background: #ffffff;
+      color: var(--gn-green-dark);
+      border-color: #ffffff;
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq {
+      max-width: 860px;
+      margin: 30px auto 0;
+      border-top: 1px solid var(--gn-line);
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__item {
+      border-bottom: 1px solid var(--gn-line);
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__button {
+      width: 100%;
+      min-height: 62px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 28px;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 0;
+      border: 0;
+      background: transparent;
+      color: var(--gn-ink);
+      font-weight: 900;
+      line-height: 1.25;
+      text-align: left;
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__icon {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--gn-line);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__icon::before,
+    .gn-swing-{{ section.id }} .gn-faq__icon::after {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 12px;
+      height: 2px;
+      background: var(--gn-green);
+      transform: translate(-50%, -50%);
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+      transition: opacity 150ms ease;
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__button[aria-expanded="true"] .gn-faq__icon::after {
+      opacity: 0;
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__panel {
+      display: none;
+      padding: 0 0 20px;
+      color: var(--gn-muted);
+      line-height: 1.65;
+    }
+
+    .gn-swing-{{ section.id }} .gn-faq__panel.is-open {
+      display: block;
+    }
+
+    .gn-swing-{{ section.id }} .gn-sticky-atc {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      display: none;
+      transform: translateY(110%);
+      transition: transform 180ms ease;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, 0.98);
+      border-top: 1px solid var(--gn-line);
+      box-shadow: 0 -10px 30px rgba(16, 37, 31, 0.12);
+    }
+
+    .gn-swing-{{ section.id }} .gn-sticky-atc.is-visible {
+      transform: translateY(0);
+    }
+
+    .gn-swing-{{ section.id }} .gn-sticky-atc__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(128px, auto);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .gn-swing-{{ section.id }} .gn-sticky-atc__title {
+      margin: 0;
+      color: var(--gn-ink);
+      font-size: 0.9rem;
+      font-weight: 900;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gn-swing-{{ section.id }} .gn-sticky-atc__price {
+      display: block;
+      margin-top: 2px;
+      color: var(--gn-muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .gn-swing-{{ section.id }} .gn-sticky-atc .gn-button {
+      min-height: 48px;
+      padding-inline: 14px;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 989px) {
+      .gn-swing-{{ section.id }} .gn-gallery {
+        position: static;
+      }
+
+      .gn-swing-{{ section.id }} .gn-hero__grid,
+      .gn-swing-{{ section.id }} .gn-two-col,
+      .gn-swing-{{ section.id }} .gn-demo__grid,
+      .gn-swing-{{ section.id }} .gn-reset__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gn-swing-{{ section.id }} .gn-hero h1,
+      .gn-swing-{{ section.id }} .gn-section h2,
+      .gn-swing-{{ section.id }} .gn-final h2 {
+        max-width: 14ch;
+      }
+
+      .gn-swing-{{ section.id }} .gn-card-grid,
+      .gn-swing-{{ section.id }} .gn-stats,
+      .gn-swing-{{ section.id }} .gn-offer-grid,
+      .gn-swing-{{ section.id }} .gn-testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      .gn-swing-{{ section.id }} .gn-guarantee {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 749px) {
+      .gn-swing-{{ section.id }} {
+        padding-bottom: {% if section.settings.show_sticky_atc %}82px{% else %}0{% endif %};
+      }
+
+      .gn-swing-{{ section.id }} .gn-page,
+      .gn-swing-{{ section.id }} .gn-marquee__inner {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .gn-swing-{{ section.id }} .gn-hero {
+        padding-top: 14px;
+      }
+
+      .gn-swing-{{ section.id }} .gn-media-stage {
+        border-radius: 6px;
+      }
+
+      .gn-swing-{{ section.id }} .gn-thumbs {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 4px;
+      }
+
+      .gn-swing-{{ section.id }} .gn-thumb {
+        flex: 0 0 76px;
+        scroll-snap-align: start;
+      }
+
+      .gn-swing-{{ section.id }} .gn-form-row,
+      .gn-swing-{{ section.id }} .gn-trust-row,
+      .gn-swing-{{ section.id }} .gn-marquee__inner,
+      .gn-swing-{{ section.id }} .gn-hero-proof__item,
+      .gn-swing-{{ section.id }} .gn-reset__card,
+      .gn-swing-{{ section.id }} .gn-demo__step,
+      .gn-swing-{{ section.id }} .gn-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .gn-swing-{{ section.id }} .gn-marquee__inner {
+        gap: 0;
+      }
+
+      .gn-swing-{{ section.id }} .gn-marquee__item {
+        min-height: 50px;
+        justify-content: flex-start;
+        border-bottom: 1px solid var(--gn-line);
+      }
+
+      .gn-swing-{{ section.id }} .gn-marquee__item:last-child {
+        border-bottom: 0;
+      }
+
+      .gn-swing-{{ section.id }} .gn-sticky-atc {
+        display: block;
+      }
+    }
+  </style>
+
+  <div class="gn-hero" data-gn-hero>
+    <div class="gn-page">
+      <div class="gn-hero__grid">
+        <div class="gn-gallery" aria-label="{{ product.title | escape }} media gallery">
+          {% if product.media.size > 0 %}
+            <div class="gn-media-stage">
+              {% for media in product.media %}
+                <div
+                  class="gn-media-panel{% if forloop.first %} is-active{% endif %}"
+                  data-gn-media-panel
+                  data-media-id="{{ media.id }}"
+                  data-media-index="{{ forloop.index0 }}"
+                >
+                  {% liquid
+                    assign media_alt = media.alt | default: product.title
+                  %}
+                  {% case media.media_type %}
+                    {% when 'image' %}
+                      {% if forloop.first %}
+                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, class: 'gn-media-image', loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1100, 1400', sizes: '(min-width: 990px) 54vw, 100vw' }}
+                      {% else %}
+                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, class: 'gn-media-image', loading: 'lazy', widths: '360, 540, 720, 900, 1100, 1400', sizes: '(min-width: 990px) 54vw, 100vw' }}
+                      {% endif %}
+                    {% when 'video' %}
+                      {{ media | video_tag: controls: true, image_size: '1200x', class: 'gn-media-video' }}
+                    {% when 'external_video' %}
+                      {{ media | external_video_tag: class: 'gn-media-video' }}
+                    {% when 'model' %}
+                      {{ media | model_viewer_tag: image_size: '1200x', class: 'gn-media-model' }}
+                    {% else %}
+                      {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, class: 'gn-media-image', loading: 'lazy', widths: '360, 540, 720, 900, 1100, 1400', sizes: '(min-width: 990px) 54vw, 100vw' }}
+                  {% endcase %}
+                </div>
+              {% endfor %}
+            </div>
+
+            {% if product.media.size > 1 %}
+              <div class="gn-thumbs" aria-label="Choose product media">
+                {% for media in product.media %}
+                  {% liquid
+                    assign thumb_alt = media.alt | default: product.title
+                  %}
+                  <button
+                    class="gn-thumb"
+                    type="button"
+                    data-gn-thumbnail
+                    data-media-id="{{ media.id }}"
+                    data-media-index="{{ forloop.index0 }}"
+                    aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                    aria-label="Show media {{ forloop.index }}: {{ thumb_alt | escape }}"
+                  >
+                    {{ media.preview_image | image_url: width: 180 | image_tag: alt: thumb_alt, loading: 'lazy', widths: '90, 140, 180', sizes: '90px' }}
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% elsif product.featured_image %}
+            <div class="gn-media-stage">
+              {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, class: 'gn-media-image', loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1100, 1400', sizes: '(min-width: 990px) 54vw, 100vw' }}
+            </div>
+          {% else %}
+            <div class="gn-media-stage">
+              <div class="gn-media-placeholder">{{ product.title }}</div>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="gn-hero__content">
+          {% if section.settings.eyebrow_text != blank %}
+            <p class="gn-eyebrow">
+              {% if section.settings.show_star_visual %}
+                <span class="gn-stars" aria-hidden="true">*****</span>
+              {% endif %}
+              <span>{{ section.settings.eyebrow_text }}</span>
+            </p>
+          {% endif %}
+
+          <h1>{{ section.settings.hero_heading | default: product.title }}</h1>
+
+          {% if section.settings.hero_subheading != blank %}
+            <div class="gn-subhead">{{ section.settings.hero_subheading }}</div>
+          {% endif %}
+
+          <div class="gn-hero-proof" aria-label="How the click feedback works">
+            <div class="gn-hero-proof__item">
+              <span class="gn-hero-proof__label">{{ section.settings.hero_signal_label_1 }}</span>
+              <span>{{ section.settings.hero_signal_text_1 }}</span>
+            </div>
+            <div class="gn-hero-proof__item">
+              <span class="gn-hero-proof__label">{{ section.settings.hero_signal_label_2 }}</span>
+              <span>{{ section.settings.hero_signal_text_2 }}</span>
+            </div>
+          </div>
+
+          <ul class="gn-benefits">
+            {% for block in section.blocks %}
+              {% if block.type == 'benefit' and block.settings.placement == 'hero' %}
+                <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+
+          <div class="gn-buybox" id="ProductForm-{{ section.id }}" data-gn-form-wrap>
+            <div class="gn-price-row">
+              <span class="gn-price" data-gn-price>{{ current_variant.price | money }}</span>
+              <span class="gn-compare" data-gn-compare{% unless show_sale_badge %} hidden{% endunless %}>
+                {{ current_variant.compare_at_price | money }}
+              </span>
+              <span class="gn-sale-badge" data-gn-sale-badge{% unless show_sale_badge %} hidden{% endunless %}>
+                {{ section.settings.sale_badge_text }}
+              </span>
+            </div>
+
+            {% if section.settings.low_stock_text != blank and current_variant.available %}
+              <p class="gn-stock" data-gn-stock>{{ section.settings.low_stock_text }}</p>
+            {% endif %}
+
+            <product-form class="product-form gn-product-form-shell" data-hide-errors="false">
+              <div class="product-form__error-message-wrapper" role="alert" hidden>
+                <span class="product-form__error-message"></span>
+              </div>
+
+              {% form 'product', product, id: product_form_id, class: 'gn-product-form form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+                <input type="hidden" name="id" value="{{ current_variant.id }}" data-gn-variant-input>
+
+                {% unless product.has_only_default_variant %}
+                  <div class="gn-variant-options" data-gn-options>
+                    {% for option in product.options_with_values %}
+                      <fieldset class="gn-fieldset">
+                        <legend>{{ option.name }}</legend>
+                        <div class="gn-options">
+                          {% for value in option.values %}
+                            {% liquid
+                              assign option_checked = false
+                              if option.selected_value == value
+                                assign option_checked = true
+                              endif
+                            %}
+                            <label class="gn-option">
+                              <input
+                                type="radio"
+                                name="gn-option-{{ section.id }}-{{ option.position }}"
+                                value="{{ value | escape }}"
+                                data-gn-option-input
+                                data-option-position="{{ option.position }}"
+                                {% if option_checked %}checked{% endif %}
+                              >
+                              <span>{{ value }}</span>
+                            </label>
+                          {% endfor %}
+                        </div>
+                      </fieldset>
+                    {% endfor %}
+                  </div>
+                {% endunless %}
+
+                <div class="gn-form-row">
+                  <div class="gn-quantity">
+                    <label class="gn-label" for="Quantity-{{ section.id }}">{{ section.settings.quantity_label }}</label>
+                    <input
+                      id="Quantity-{{ section.id }}"
+                      type="number"
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      inputmode="numeric"
+                    >
+                  </div>
+
+                  <button
+                    class="gn-button"
+                    type="submit"
+                    name="add"
+                    data-gn-submit
+                    {% unless current_variant.available %}disabled aria-disabled="true"{% endunless %}
+                  >
+                    <span data-gn-submit-label>
+                      {% if current_variant.available %}
+                        {{ section.settings.add_to_cart_text }}
+                      {% else %}
+                        {{ section.settings.sold_out_text }}
+                      {% endif %}
+                    </span>
+                    <span class="loading-overlay__spinner hidden" aria-hidden="true"></span>
+                  </button>
+                </div>
+
+                {% if section.settings.show_dynamic_checkout %}
+                  <div data-gn-payment-button{% unless current_variant.available %} hidden{% endunless %}>
+                    {{ form | payment_button }}
+                  </div>
+                {% endif %}
+              {% endform %}
+            </product-form>
+
+            <div class="gn-trust-row" aria-label="Checkout assurances">
+              {% for block in section.blocks %}
+                {% if block.type == 'trust_badge' %}
+                  <div class="gn-trust-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="gn-demo" aria-labelledby="gn-demo-heading-{{ section.id }}">
+    <div class="gn-page">
+      <div class="gn-demo__grid">
+        <div class="gn-demo__media">
+          {% if section.settings.demo_video != blank %}
+            {{ section.settings.demo_video | video_tag: image_size: '1400x', autoplay: true, loop: true, muted: true, controls: true, class: 'gn-demo__asset' }}
+          {% elsif section.settings.demo_video_url != blank %}
+            <video class="gn-demo__asset" autoplay loop muted controls playsinline>
+              <source src="{{ section.settings.demo_video_url | escape }}" type="video/mp4">
+            </video>
+          {% elsif section.settings.demo_image != blank %}
+            {{ section.settings.demo_image | image_url: width: 1400 | image_tag: alt: section.settings.demo_heading, loading: 'lazy', widths: '360, 540, 720, 900, 1100, 1400', sizes: '(min-width: 990px) 54vw, 100vw' }}
+          {% elsif section.settings.demo_image_url != blank %}
+            <img src="{{ section.settings.demo_image_url | escape }}" alt="{{ section.settings.demo_heading | escape }}" width="1400" height="875" loading="lazy">
+          {% else %}
+            <div class="gn-demo__placeholder">
+              <div>
+                <strong>{{ section.settings.demo_placeholder_heading }}</strong>
+                <span>{{ section.settings.demo_placeholder_copy }}</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <div>
+          <h2 id="gn-demo-heading-{{ section.id }}">{{ section.settings.demo_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.demo_copy }}</div>
+          <div class="gn-demo__timeline">
+            {% for block in section.blocks %}
+              {% if block.type == 'demo_step' %}
+                <article class="gn-demo__step" {{ block.shopify_attributes }}>
+                  <span class="gn-demo__time">{{ block.settings.kicker }}</span>
+                  <div>
+                    <h3>{{ block.settings.heading }}</h3>
+                    <p>{{ block.settings.copy }}</p>
+                  </div>
+                </article>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-reset" aria-labelledby="gn-reset-heading-{{ section.id }}">
+    <div class="gn-page">
+      <div class="gn-reset__grid">
+        <div>
+          <h2 id="gn-reset-heading-{{ section.id }}">Your 5-Minute Timing Reset</h2>
+          <p class="gn-reset__copy">A few controlled reps give you one clear sound cue and a release feel you can take back to your normal club.</p>
+        </div>
+        <div class="gn-reset__cards">
+          <article class="gn-reset__card">
+            <span class="gn-reset__time">Minute 1</span>
+            <div>
+              <h3>Find your current click</h3>
+              <p>Make slow swings and notice where the sound happens without trying to force speed.</p>
+            </div>
+          </article>
+          <article class="gn-reset__card">
+            <span class="gn-reset__time">Minutes 2-4</span>
+            <div>
+              <h3>Move the sound later</h3>
+              <p>Smooth the transition until the click starts moving closer to impact.</p>
+            </div>
+          </article>
+          <article class="gn-reset__card">
+            <span class="gn-reset__time">Minute 5</span>
+            <div>
+              <h3>Transfer the feel</h3>
+              <p>Switch back to a normal club and rehearse the same release timing without extra thoughts.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gn-marquee" aria-label="Product benefits">
+    <div class="gn-marquee__inner">
+      {% for block in section.blocks %}
+        {% if block.type == 'benefit' and block.settings.placement == 'strip' %}
+          <div class="gn-marquee__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <section class="gn-section gn-section--problem">
+    <div class="gn-page">
+      <div class="gn-two-col">
+        <div>
+          <h2>{{ section.settings.problem_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.problem_copy }}</div>
+          <button class="gn-button gn-button--secondary" type="button" data-gn-scroll-to-form>
+            {{ section.settings.problem_cta_text }}
+          </button>
+        </div>
+        <div class="gn-card-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'stat_card' %}
+              <article class="gn-card" {{ block.shopify_attributes }}>
+                <span class="gn-card__kicker">{{ block.settings.kicker }}</span>
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.copy }}</p>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-section gn-section--tint">
+    <div class="gn-page">
+      <div class="gn-two-col">
+        <div>
+          <h2>{{ section.settings.mechanism_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.mechanism_copy }}</div>
+        </div>
+        <div class="gn-card-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'mechanism_card' %}
+              <article class="gn-card" {{ block.shopify_attributes }}>
+                <span class="gn-card__kicker">{{ block.settings.kicker }}</span>
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.copy }}</p>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-section">
+    <div class="gn-page">
+      <div class="gn-two-col">
+        <div>
+          <h2>{{ section.settings.offer_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.offer_copy }}</div>
+        </div>
+        <div class="gn-offer-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'offer_item' %}
+              <article class="gn-card" {{ block.shopify_attributes }}>
+                <span class="gn-card__kicker">{{ block.settings.kicker }}</span>
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.copy }}</p>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-section">
+    <div class="gn-page">
+      <div class="gn-two-col">
+        <div>
+          <h2>{{ section.settings.how_to_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.how_to_copy }}</div>
+          {% if section.settings.how_to_note != blank %}
+            <div class="gn-note">{{ section.settings.how_to_note }}</div>
+          {% endif %}
+        </div>
+        <div class="gn-steps">
+          {% for block in section.blocks %}
+            {% if block.type == 'how_to_step' %}
+              <article class="gn-step" {{ block.shopify_attributes }}>
+                <div>
+                  <h3>{{ block.settings.heading }}</h3>
+                  {% if block.settings.copy != blank %}
+                    <p>{{ block.settings.copy }}</p>
+                  {% endif %}
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-section gn-section--tint">
+    <div class="gn-page">
+      <div class="gn-two-col">
+        <div>
+          <h2>{{ section.settings.proof_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.proof_copy }}</div>
+        </div>
+        <div class="gn-stats">
+          {% for block in section.blocks %}
+            {% if block.type == 'proof_card' %}
+              <article class="gn-card" {{ block.shopify_attributes }}>
+                <span class="gn-card__kicker">{{ block.settings.kicker }}</span>
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.copy }}</p>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-section">
+    <div class="gn-page">
+      <div class="gn-two-col">
+        <div>
+          <h2>{{ section.settings.comparison_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.comparison_copy }}</div>
+        </div>
+        <div class="gn-comparison">
+          <div class="gn-comparison__col">
+            <h3>{{ section.settings.before_heading }}</h3>
+            <ul class="gn-comparison__list">
+              {% for block in section.blocks %}
+                {% if block.type == 'comparison_item' and block.settings.column == 'before' %}
+                  <li class="gn-check" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="gn-comparison__col">
+            <h3>{{ section.settings.after_heading }}</h3>
+            <ul class="gn-comparison__list">
+              {% for block in section.blocks %}
+                {% if block.type == 'comparison_item' and block.settings.column == 'after' %}
+                  <li class="gn-check" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if section.settings.show_testimonials %}
+    <section class="gn-section gn-section--tint">
+      <div class="gn-page">
+        <h2>{{ section.settings.testimonials_heading }}</h2>
+        <div class="gn-section__copy">{{ section.settings.testimonials_copy }}</div>
+        <div class="gn-testimonials">
+          {% for block in section.blocks %}
+            {% if block.type == 'testimonial' %}
+              <article class="gn-card gn-testimonial" {{ block.shopify_attributes }}>
+                <div class="gn-testimonial__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                  {{ block.settings.rating }}/5
+                </div>
+                <h3>{{ block.settings.heading }}</h3>
+                <blockquote>{{ block.settings.quote }}</blockquote>
+                <div class="gn-testimonial__person">
+                  {{ block.settings.name }}
+                  {% if block.settings.meta != blank %}
+                    <span class="gn-testimonial__meta">{{ block.settings.meta }}</span>
+                  {% endif %}
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="gn-section">
+    <div class="gn-page">
+      <div class="gn-guarantee">
+        <div>
+          <h2>{{ section.settings.guarantee_heading }}</h2>
+          <div class="gn-section__copy">{{ section.settings.guarantee_copy }}</div>
+        </div>
+        <button class="gn-button gn-button--secondary" type="button" data-gn-scroll-to-form>
+          {{ section.settings.guarantee_cta_text }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="gn-final">
+    <div class="gn-page">
+      <h2>{{ section.settings.final_cta_heading }}</h2>
+      <p>{{ section.settings.final_cta_copy }}</p>
+      <button class="gn-button" type="button" data-gn-scroll-to-form>
+        {{ section.settings.final_cta_button_text }}
+      </button>
+    </div>
+  </section>
+
+  <section class="gn-section">
+    <div class="gn-page">
+      <h2>{{ section.settings.faq_heading }}</h2>
+      <div class="gn-faq">
+        {% for block in section.blocks %}
+          {% if block.type == 'faq' %}
+            {% liquid
+              assign faq_id = 'gn-faq-' | append: section.id | append: '-' | append: forloop.index
+            %}
+            <div class="gn-faq__item" {{ block.shopify_attributes }}>
+              <button
+                class="gn-faq__button"
+                type="button"
+                aria-expanded="false"
+                aria-controls="{{ faq_id }}"
+                data-gn-faq-button
+              >
+                <span>{{ block.settings.question }}</span>
+                <span class="gn-faq__icon" aria-hidden="true"></span>
+              </button>
+              <div id="{{ faq_id }}" class="gn-faq__panel" data-gn-faq-panel>
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% if section.settings.show_sticky_atc %}
+    <div class="gn-sticky-atc" data-gn-sticky-atc>
+      <div class="gn-sticky-atc__inner">
+        <div>
+          <p class="gn-sticky-atc__title">{{ product.title }}</p>
+          <span class="gn-sticky-atc__price" data-gn-sticky-price>{{ current_variant.price | money }}</span>
+        </div>
+        <button class="gn-button" type="button" data-gn-sticky-button>
+          {% if product.has_only_default_variant %}
+            {% if current_variant.available %}{{ section.settings.add_to_cart_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
+          {% else %}
+            {{ section.settings.choose_options_text }}
+          {% endif %}
+        </button>
+      </div>
+    </div>
+  {% endif %}
+
+  <script type="application/json" data-gn-variants>
+    {{ product.variants | json }}
+  </script>
+
+  <script>
+    (() => {
+      const section = document.getElementById('gn-pro-swing-click-{{ section.id }}');
+      if (!section || section.dataset.gnReady === 'true') return;
+      section.dataset.gnReady = 'true';
+
+      if (!customElements.get('product-form')) {
+        customElements.define('product-form', class ProductForm extends HTMLElement {
+          constructor() {
+            super();
+            this.form = this.querySelector('form');
+            this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+            this.submitButton = this.querySelector('[type="submit"]');
+            this.spinner = this.querySelector('.loading-overlay__spinner');
+            this.errorWrapper = this.querySelector('.product-form__error-message-wrapper');
+            this.errorMessage = this.querySelector('.product-form__error-message');
+
+            if (this.form) this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
+          }
+
+          onSubmitHandler(event) {
+            event.preventDefault();
+            if (!this.form || this.submitButton?.getAttribute('aria-disabled') === 'true') return;
+
+            this.handleErrorMessage();
+            this.submitButton?.setAttribute('aria-disabled', 'true');
+            this.submitButton?.classList.add('loading');
+            this.spinner?.classList.remove('hidden');
+
+            const formData = new FormData(this.form);
+            if (this.cart && typeof this.cart.getSectionsToRender === 'function') {
+              formData.append('sections', this.cart.getSectionsToRender().map((sectionToRender) => sectionToRender.id));
+              formData.append('sections_url', window.location.pathname);
+              if (typeof this.cart.setActiveElement === 'function') this.cart.setActiveElement(document.activeElement);
+            }
+
+            fetch(window.routes?.cart_add_url || '/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                Accept: 'application/json'
+              },
+              body: formData
+            })
+              .then((response) => response.json())
+              .then((response) => {
+                if (response.status) {
+                  this.handleErrorMessage(response.description || response.message);
+                  return;
+                }
+
+                if (this.cart && typeof this.cart.renderContents === 'function') {
+                  this.cart.renderContents(response);
+                } else {
+                  window.location = window.routes?.cart_url || '/cart';
+                }
+              })
+              .catch(() => {
+                this.handleErrorMessage({{ 'There was an error adding this item to your cart. Please try again.' | json }});
+              })
+              .finally(() => {
+                this.submitButton?.classList.remove('loading');
+                this.spinner?.classList.add('hidden');
+                if (this.submitButton && !this.submitButton.disabled) {
+                  this.submitButton.removeAttribute('aria-disabled');
+                }
+              });
+          }
+
+          handleErrorMessage(errorMessage = false) {
+            if (!this.errorWrapper || !this.errorMessage) return;
+            this.errorWrapper.toggleAttribute('hidden', !errorMessage);
+            if (errorMessage) this.errorMessage.textContent = errorMessage;
+          }
+        });
+      }
+
+      const variantsScript = section.querySelector('[data-gn-variants]');
+      const variants = variantsScript ? JSON.parse(variantsScript.textContent) : [];
+      const form = section.querySelector('#{{ product_form_id }}');
+      const variantInput = section.querySelector('[data-gn-variant-input]');
+      const optionInputs = [...section.querySelectorAll('[data-gn-option-input]')];
+      const submitButton = section.querySelector('[data-gn-submit]');
+      const submitLabel = section.querySelector('[data-gn-submit-label]');
+      const priceNode = section.querySelector('[data-gn-price]');
+      const stickyPrice = section.querySelector('[data-gn-sticky-price]');
+      const compareNode = section.querySelector('[data-gn-compare]');
+      const saleBadge = section.querySelector('[data-gn-sale-badge]');
+      const stockNode = section.querySelector('[data-gn-stock]');
+      const paymentButton = section.querySelector('[data-gn-payment-button]');
+      const sticky = section.querySelector('[data-gn-sticky-atc]');
+      const stickyButton = section.querySelector('[data-gn-sticky-button]');
+      const moneyFormat = section.dataset.moneyFormat || '';
+      const currency = section.dataset.currency || 'USD';
+      const labels = {
+        add: {{ section.settings.add_to_cart_text | json }},
+        sold: {{ section.settings.sold_out_text | json }},
+        choose: {{ section.settings.choose_options_text | json }}
+      };
+      const hasOnlyDefaultVariant = {{ product.has_only_default_variant | json }};
+
+      const formatMoney = (cents) => {
+        if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+          return window.Shopify.formatMoney(cents, moneyFormat);
+        }
+
+        try {
+          return new Intl.NumberFormat(undefined, {
+            style: 'currency',
+            currency
+          }).format(cents / 100);
+        } catch (error) {
+          return `$${(cents / 100).toFixed(2)}`;
+        }
+      };
+
+      const getSelectedOptions = () => {
+        const selected = [];
+        optionInputs.forEach((input) => {
+          if (input.checked) selected[Number(input.dataset.optionPosition) - 1] = input.value;
+        });
+        return selected;
+      };
+
+      const findVariant = () => {
+        if (!optionInputs.length) return variants.find((variant) => variant.id === Number(variantInput?.value)) || variants[0];
+        const selected = getSelectedOptions();
+        return variants.find((variant) => variant.options.every((option, index) => option === selected[index]));
+      };
+
+      const showMedia = (mediaId) => {
+        if (!mediaId) return;
+        const target = section.querySelector(`[data-gn-media-panel][data-media-id="${mediaId}"]`);
+        if (!target) return;
+
+        section.querySelectorAll('[data-gn-media-panel]').forEach((panel) => {
+          panel.classList.toggle('is-active', panel === target);
+        });
+
+        section.querySelectorAll('[data-gn-thumbnail]').forEach((thumb) => {
+          thumb.setAttribute('aria-current', String(thumb.dataset.mediaId === String(mediaId)));
+        });
+      };
+
+      const updateVariant = () => {
+        const variant = findVariant();
+        if (!variant) return;
+
+        if (variantInput) variantInput.value = variant.id;
+        if (priceNode) priceNode.textContent = formatMoney(variant.price);
+        if (stickyPrice) stickyPrice.textContent = formatMoney(variant.price);
+
+        const hasCompare = variant.compare_at_price && variant.compare_at_price > variant.price;
+        if (compareNode) {
+          compareNode.hidden = !hasCompare;
+          compareNode.textContent = hasCompare ? formatMoney(variant.compare_at_price) : '';
+        }
+        if (saleBadge) saleBadge.hidden = !hasCompare;
+
+        if (submitButton) {
+          submitButton.disabled = !variant.available;
+          submitButton.setAttribute('aria-disabled', String(!variant.available));
+        }
+        if (submitLabel) submitLabel.textContent = variant.available ? labels.add : labels.sold;
+        if (stockNode) stockNode.hidden = !variant.available;
+        if (paymentButton) paymentButton.hidden = !variant.available;
+
+        if (stickyButton) {
+          stickyButton.disabled = !variant.available && hasOnlyDefaultVariant;
+          if (hasOnlyDefaultVariant) stickyButton.textContent = variant.available ? labels.add : labels.sold;
+        }
+
+        if (variant.featured_media && variant.featured_media.id) showMedia(variant.featured_media.id);
+      };
+
+      section.querySelectorAll('[data-gn-thumbnail]').forEach((button) => {
+        button.addEventListener('click', () => showMedia(button.dataset.mediaId));
+      });
+
+      optionInputs.forEach((input) => input.addEventListener('change', updateVariant));
+
+      section.querySelectorAll('[data-gn-faq-button]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const panel = section.querySelector(`#${button.getAttribute('aria-controls')}`);
+          const expanded = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!expanded));
+          if (panel) panel.classList.toggle('is-open', !expanded);
+        });
+      });
+
+      const scrollToForm = () => {
+        const formWrap = section.querySelector('[data-gn-form-wrap]');
+        if (!formWrap) return;
+        formWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      section.querySelectorAll('[data-gn-scroll-to-form]').forEach((button) => {
+        button.addEventListener('click', scrollToForm);
+      });
+
+      if (stickyButton) {
+        stickyButton.addEventListener('click', () => {
+          if (!hasOnlyDefaultVariant) {
+            scrollToForm();
+            return;
+          }
+
+          if (form && typeof form.requestSubmit === 'function') form.requestSubmit();
+          else if (form) form.submit();
+        });
+      }
+
+      if (sticky) {
+        const hero = section.querySelector('[data-gn-hero]');
+        if ('IntersectionObserver' in window && hero) {
+          const observer = new IntersectionObserver(([entry]) => {
+            sticky.classList.toggle('is-visible', !entry.isIntersecting);
+          }, { threshold: 0.05 });
+          observer.observe(hero);
+        } else {
+          window.addEventListener('scroll', () => {
+            sticky.classList.toggle('is-visible', window.scrollY > 650);
+          }, { passive: true });
+        }
+      }
+
+      updateVariant();
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "GN Pro Swing Landing",
+  "class": "gn-pro-swing-click-template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow / trust text",
+      "default": "The audible swing trainer for release timing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_star_visual",
+      "label": "Show star visual before eyebrow",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "Hear Exactly When You Release The Club"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_subheading",
+      "label": "Hero subheading",
+      "default": "<p>Make a few controlled practice swings and listen for the click. If it fires too early, you are releasing from the top. Move it closer to impact to train cleaner timing without a ball, net, or app.</p>"
+    },
+    {
+      "type": "text",
+      "id": "hero_signal_label_1",
+      "label": "Hero signal label 1",
+      "default": "Early click"
+    },
+    {
+      "type": "text",
+      "id": "hero_signal_text_1",
+      "label": "Hero signal text 1",
+      "default": "Your release is happening too soon."
+    },
+    {
+      "type": "text",
+      "id": "hero_signal_label_2",
+      "label": "Hero signal label 2",
+      "default": "Later click"
+    },
+    {
+      "type": "text",
+      "id": "hero_signal_text_2",
+      "label": "Hero signal text 2",
+      "default": "You are learning to deliver speed closer to impact."
+    },
+    {
+      "type": "text",
+      "id": "low_stock_text",
+      "label": "Low-stock / urgency text",
+      "default": "Low stock - selling fast"
+    },
+    {
+      "type": "text",
+      "id": "sale_badge_text",
+      "label": "Sale badge text",
+      "default": "Sale"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_atc",
+      "label": "Show sticky mobile add-to-cart bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quantity_label",
+      "label": "Quantity label",
+      "default": "Qty"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_text",
+      "label": "Add-to-cart text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "choose_options_text",
+      "label": "Sticky button text for products with variants",
+      "default": "Choose Options"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_text",
+      "label": "Sold-out text",
+      "default": "Sold Out"
+    },
+    {
+      "type": "header",
+      "content": "Demo section"
+    },
+    {
+      "type": "video",
+      "id": "demo_video",
+      "label": "Demo video"
+    },
+    {
+      "type": "text",
+      "id": "demo_video_url",
+      "label": "External demo video URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "demo_image",
+      "label": "Demo fallback image"
+    },
+    {
+      "type": "text",
+      "id": "demo_image_url",
+      "label": "External demo fallback image URL"
+    },
+    {
+      "type": "text",
+      "id": "demo_placeholder_heading",
+      "label": "Demo placeholder heading",
+      "default": "Add your 3-second click demo here"
+    },
+    {
+      "type": "textarea",
+      "id": "demo_placeholder_copy",
+      "label": "Demo placeholder copy",
+      "default": "Use a short clip or GIF-style creative that shows early click versus click closer to impact."
+    },
+    {
+      "type": "text",
+      "id": "demo_heading",
+      "label": "Demo heading",
+      "default": "Understand Your Release Timing In One Swing"
+    },
+    {
+      "type": "richtext",
+      "id": "demo_copy",
+      "label": "Demo copy",
+      "default": "<p>Each rep gives you a clear sound cue. If the click fires early, slow the transition and rehearse until the sound moves closer to impact.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Problem section"
+    },
+    {
+      "type": "text",
+      "id": "problem_heading",
+      "label": "Problem heading",
+      "default": "The Real Reason Your Swing Feels Powerful But The Ball Does Not Fly"
+    },
+    {
+      "type": "richtext",
+      "id": "problem_copy",
+      "label": "Problem copy",
+      "default": "<p>Many golfers spend their speed too early by releasing from the top. By impact, speed has already leaked away, leaving weak strikes, inconsistent contact, and another range session spent guessing.</p>"
+    },
+    {
+      "type": "text",
+      "id": "problem_cta_text",
+      "label": "Problem CTA text",
+      "default": "Train Better Timing"
+    },
+    {
+      "type": "header",
+      "content": "Mechanism section"
+    },
+    {
+      "type": "text",
+      "id": "mechanism_heading",
+      "label": "Mechanism heading",
+      "default": "The Click Tells You What Your Swing Cannot"
+    },
+    {
+      "type": "richtext",
+      "id": "mechanism_copy",
+      "label": "Mechanism copy",
+      "default": "<p>An early click tells you the club is releasing too soon. A click closer to impact helps you connect the feel of better lag and release timing without an app, a net, or complicated swing thoughts.</p>"
+    },
+    {
+      "type": "header",
+      "content": "How to use"
+    },
+    {
+      "type": "text",
+      "id": "how_to_heading",
+      "label": "How-to heading",
+      "default": "How To Use The Pro Swing Click Trainer"
+    },
+    {
+      "type": "richtext",
+      "id": "how_to_copy",
+      "label": "How-to copy",
+      "default": "<p>Use short, focused reps to train the timing you want before you take the feel back to your normal club.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "how_to_note",
+      "label": "How-to note",
+      "default": "<p>Start slow. The point is timing, not swinging harder.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Proof section"
+    },
+    {
+      "type": "text",
+      "id": "proof_heading",
+      "label": "Proof heading",
+      "default": "Built Around A Simple Feedback Loop"
+    },
+    {
+      "type": "richtext",
+      "id": "proof_copy",
+      "label": "Proof copy",
+      "default": "<p>The value is the feedback loop: swing, hear the release, adjust, repeat. It gives every practice swing a clear job.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Offer and product facts"
+    },
+    {
+      "type": "text",
+      "id": "offer_heading",
+      "label": "Offer heading",
+      "default": "Everything You Need For Quick Timing Reps"
+    },
+    {
+      "type": "richtext",
+      "id": "offer_copy",
+      "label": "Offer copy",
+      "default": "<p>A compact audible-feedback trainer you can use for short timing reps at home, at the range, or before a round.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Comparison section"
+    },
+    {
+      "type": "text",
+      "id": "comparison_heading",
+      "label": "Comparison heading",
+      "default": "From Swinging Harder To Releasing Smarter"
+    },
+    {
+      "type": "richtext",
+      "id": "comparison_copy",
+      "label": "Comparison copy",
+      "default": "<p>Train the timing of your release so your effort is not spent before the club reaches the ball.</p>"
+    },
+    {
+      "type": "text",
+      "id": "before_heading",
+      "label": "Before column heading",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "after_heading",
+      "label": "After column heading",
+      "default": "After"
+    },
+    {
+      "type": "header",
+      "content": "Testimonials"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_testimonials",
+      "label": "Show testimonial section",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "testimonials_heading",
+      "label": "Testimonials heading",
+      "default": "Golfer Feedback"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonials_copy",
+      "label": "Testimonials copy",
+      "default": "<p>Use this section only after replacing placeholder cards with real customer testimonials.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_heading",
+      "label": "Guarantee heading",
+      "default": "Try It For 30 Days"
+    },
+    {
+      "type": "richtext",
+      "id": "guarantee_copy",
+      "label": "Guarantee copy",
+      "default": "<p>Use it at home, at the range, or before a round. If it is not right for you, return it within 30 days in line with our returns policy.</p>"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_cta_text",
+      "label": "Guarantee CTA text",
+      "default": "Get Yours Today"
+    },
+    {
+      "type": "header",
+      "content": "Final CTA"
+    },
+    {
+      "type": "text",
+      "id": "final_cta_heading",
+      "label": "Final CTA heading",
+      "default": "Start Training Better Release Timing Today"
+    },
+    {
+      "type": "textarea",
+      "id": "final_cta_copy",
+      "label": "Final CTA copy",
+      "default": "A few minutes of focused feedback beats another range session guessing what went wrong."
+    },
+    {
+      "type": "text",
+      "id": "final_cta_button_text",
+      "label": "Final CTA button text",
+      "default": "Get Yours Today"
+    },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "Questions Before You Train"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#fbfcf8"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Panel background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#10251f"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text",
+      "default": "#52605a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent green",
+      "default": "#146043"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button green",
+      "default": "#0f4936"
+    },
+    {
+      "type": "color",
+      "id": "gold_color",
+      "label": "Gold accent",
+      "default": "#c4a15b"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "placement",
+          "label": "Placement",
+          "options": [
+            {
+              "value": "hero",
+              "label": "Hero bullets"
+            },
+            {
+              "value": "strip",
+              "label": "Benefit strip"
+            }
+          ],
+          "default": "hero"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Instant click feedback when your release timing is right"
+        }
+      ]
+    },
+    {
+      "type": "trust_badge",
+      "name": "Trust badge",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Secure checkout"
+        }
+      ]
+    },
+    {
+      "type": "demo_step",
+      "name": "Demo step",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "0-1 sec"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Start the downswing"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "The viewer should immediately understand this is a swing timing trainer."
+        }
+      ]
+    },
+    {
+      "type": "stat_card",
+      "name": "Problem support card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Timing"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Speed leaks early"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "A rushed release can make a fast swing arrive at impact with less useful speed."
+        }
+      ]
+    },
+    {
+      "type": "mechanism_card",
+      "name": "Mechanism card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Feedback"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Early Release"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "An early click tells you the release is happening too soon."
+        }
+      ]
+    },
+    {
+      "type": "how_to_step",
+      "name": "How-to step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Grip it like your normal club"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy"
+        }
+      ]
+    },
+    {
+      "type": "proof_card",
+      "name": "Proof card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Practice"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Designed to improve release timing"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "A focused training aid for learning when your release is happening."
+        }
+      ]
+    },
+    {
+      "type": "offer_item",
+      "name": "Offer / product fact",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Included"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Pro Swing Click Trainer"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "A compact audible-feedback trainer for release timing practice."
+        }
+      ]
+    },
+    {
+      "type": "comparison_item",
+      "name": "Comparison item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "before",
+              "label": "Before"
+            },
+            {
+              "value": "after",
+              "label": "After"
+            }
+          ],
+          "default": "before"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Rushing from the top"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Replace placeholder testimonial content with real customer quotes before publishing. Only enable verified buyer wording if it is true."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Placeholder quote"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Replace this placeholder with a real customer quote before publishing."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Customer name"
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Location / handicap / note"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What does the Pro Swing Click Trainer do?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>It gives audible feedback during practice swings so you can better understand when your release is happening.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GN Pro Swing Landing"
+    }
+  ]
+}
+{% endschema %}

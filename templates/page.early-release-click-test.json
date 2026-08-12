@@ -1,0 +1,274 @@
+{
+  "sections": {
+    "main": {
+      "type": "gn-early-release-click-test",
+      "settings": {
+        "advertorial_label": "",
+        "topline_text": "A quick swing-timing check for golfers who feel powerful but lose speed before impact.",
+        "topline_cta_text": "See the trainer",
+        "eyebrow_text": "The early release click test",
+        "hero_heading": "The 3-Second Click Test That Shows If You Release Too Early",
+        "hero_copy": "<p>If your swing feels powerful but the ball still comes off weak, your speed may be getting spent before impact. This simple click test helps you hear when the release is happening.</p>",
+        "hero_meta": "Take the quick check, then see the trainer built for this exact feedback loop.",
+        "hero_video_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103701_ee8a3d44-3ef8-4cdb-9b09-fe1575a2c141.mp4",
+        "hero_image_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103339_354323a0-32fe-467d-82f9-6d8cdf5e4aed.jpeg",
+        "hero_image_alt": "Golfer using the Pro Swing Click Trainer",
+        "placeholder_heading": "Place your 3-second click demo here",
+        "placeholder_copy": "Show the swing starting, the early click, then the click moving closer to impact.",
+        "demo_caption": "Watch where the sound happens. Early in the downswing usually means the release is happening too soon.",
+        "still_image_1_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_113822_061a52f0-1204-4743-bd44-96355c54c47e.png",
+        "still_image_1_alt": "Golfer practicing release timing with the Pro Swing Click Trainer",
+        "still_image_1_caption": "Controlled reps make it easier to notice when the release happens.",
+        "still_image_2_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_113807_23f1d9f6-15d0-429f-94e3-0dece4429798.jpeg",
+        "still_image_2_alt": "Golfer using the Pro Swing Click Trainer during a backyard practice session",
+        "still_image_2_caption": "Use it for a quick timing reset before range sessions or rounds.",
+        "still_image_3_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103339_354323a0-32fe-467d-82f9-6d8cdf5e4aed.jpeg",
+        "still_image_3_alt": "Close-up of golfer holding the Pro Swing Click Trainer",
+        "still_image_3_caption": "Close-up grip shot so you can see how it sits in the hands.",
+        "still_image_4_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103328_6dbc1b12-3698-411b-9c64-13095ca4b9db.png",
+        "still_image_4_alt": "Pro Swing Click Trainer positioned near a golf ball",
+        "still_image_4_caption": "A simple training tool for release timing reps before you hit balls.",
+        "still_image_5_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103316_354c6581-ad4e-4310-bd92-443c08e9a037.png",
+        "still_image_5_alt": "Full Pro Swing Click Trainer on a light background",
+        "still_image_5_caption": "Compact enough for short practice sessions at home, range, or warm-up.",
+        "primary_cta_url": "/products/pro-swing-click-trainer",
+        "primary_cta_text": "See The Trainer",
+        "secondary_cta_text": "Watch The Click Test",
+        "problem_kicker": "Why the swing feels confusing",
+        "problem_heading": "A Stronger Swing Does Not Help If The Release Happens Too Soon",
+        "problem_copy": "<p>Many golfers try to fix weak shots by swinging harder. The issue is often timing: the wrists and club release early, speed leaks out, and impact arrives after the power has already been spent.</p>",
+        "problem_callout": "The hard part is that early release can feel powerful. Without feedback, a golfer may keep rehearsing the same timing problem.",
+        "problem_cards_kicker": "The pattern",
+        "problem_cards_heading": "Three Signs The Release Is Happening Too Early",
+        "test_kicker": "The 3-second check",
+        "test_heading": "Listen For The Click",
+        "test_copy": "<p>The trainer gives each practice swing a simple signal. If the click fires early in the downswing, the release is early. The goal is to move that click closer to impact with smoother timing.</p>",
+        "early_click_label": "Click near the top",
+        "later_click_label": "Click closer to impact",
+        "test_caption": "If the sound happens near the top, that is your cue to slow down and train the release later.",
+        "meaning_kicker": "What the sound means",
+        "meaning_heading": "The Click Turns A Vague Swing Feel Into Clear Feedback",
+        "meaning_copy": "<p>The product is not trying to overwhelm golfers with data. It gives one clear piece of feedback so each rep has a purpose.</p>",
+        "comparison_kicker": "Why this is easier",
+        "comparison_heading": "Stop Guessing. Start Hearing The Timing.",
+        "comparison_copy": "<p>Most golfers try to add effort. The click test gives you a cleaner goal: hear the release, adjust the timing, and repeat the feel.</p>",
+        "comparison_left_heading": "Common approach",
+        "comparison_right_heading": "Click-test approach",
+        "fit_kicker": "Who it helps",
+        "fit_heading": "Use It When You Want Simple Feedback Before You Hit Balls",
+        "bridge_kicker": "The next step",
+        "bridge_heading": "The Pro Swing Click Trainer Was Built For This Exact Feedback Loop",
+        "bridge_copy": "<p>If the early release pattern sounds familiar, the Pro Swing Click Trainer gives you the feedback cue to practice it on purpose.</p>",
+        "bridge_card_heading": "What you will see next",
+        "faq_kicker": "Before you click through",
+        "faq_heading": "Questions About The Click Test",
+        "show_sticky_cta": true,
+        "sticky_heading": "Ready to see the trainer?",
+        "sticky_copy": "See the trainer, offer details, and checkout options.",
+        "sticky_cta_text": "Continue",
+        "background_color": "#f8faf6",
+        "panel_color": "#ffffff",
+        "text_color": "#11231f",
+        "muted_text_color": "#5d655f",
+        "accent_color": "#135c42",
+        "button_color": "#0f4936",
+        "amber_color": "#b8842d",
+        "rust_color": "#9a4a2f",
+        "blue_color": "#25455a"
+      },
+      "blocks": {
+        "hero_bullet_1": {
+          "type": "hero_bullet",
+          "settings": {
+            "text": "Understand the release timing problem before you shop"
+          }
+        },
+        "hero_bullet_2": {
+          "type": "hero_bullet",
+          "settings": {
+            "text": "See why an early click means speed is leaking too soon"
+          }
+        },
+        "hero_bullet_3": {
+          "type": "hero_bullet",
+          "settings": {
+            "text": "See the trainer once the release problem makes sense"
+          }
+        },
+        "problem_card_1": {
+          "type": "problem_card",
+          "settings": {
+            "kicker": "Power",
+            "heading": "The swing feels fast",
+            "copy": "Early release can feel like effort, which makes it hard to identify without feedback."
+          }
+        },
+        "problem_card_2": {
+          "type": "problem_card",
+          "settings": {
+            "kicker": "Impact",
+            "heading": "Speed arrives too soon",
+            "copy": "If the release happens near the top, less useful speed is left when the club reaches impact."
+          }
+        },
+        "problem_card_3": {
+          "type": "problem_card",
+          "settings": {
+            "kicker": "Practice",
+            "heading": "Reps become guesswork",
+            "copy": "Without a clear signal, each practice swing can reinforce the same timing pattern."
+          }
+        },
+        "diagnosis_1": {
+          "type": "diagnosis_step",
+          "settings": {
+            "heading": "Grip the trainer like a club",
+            "copy": "Use a safe practice space and start with short, controlled swings."
+          }
+        },
+        "diagnosis_2": {
+          "type": "diagnosis_step",
+          "settings": {
+            "heading": "Listen for when it clicks",
+            "copy": "A click near the top means the release is happening too early."
+          }
+        },
+        "diagnosis_3": {
+          "type": "diagnosis_step",
+          "settings": {
+            "heading": "Move the click later",
+            "copy": "Use smoother tempo to train the feel of releasing closer to impact."
+          }
+        },
+        "meaning_1": {
+          "type": "meaning_card",
+          "settings": {
+            "label": "Early click",
+            "heading": "You are casting or releasing early",
+            "copy": "The click gives a simple signal that the club is being released before the strongest part of the downswing."
+          }
+        },
+        "meaning_2": {
+          "type": "meaning_card",
+          "settings": {
+            "label": "Later click",
+            "heading": "The timing is moving closer to impact",
+            "copy": "The goal is not to force the swing. It is to connect a smoother motion with a later release signal."
+          }
+        },
+        "comparison_1": {
+          "type": "comparison_row",
+          "settings": {
+            "before": "Try another swing thought and hope it shows up in ball flight.",
+            "after": "Make a practice swing and immediately hear when the release happened."
+          }
+        },
+        "comparison_2": {
+          "type": "comparison_row",
+          "settings": {
+            "before": "Assume weak contact means you need more effort.",
+            "after": "Check whether effort is being spent too early in the downswing."
+          }
+        },
+        "comparison_3": {
+          "type": "comparison_row",
+          "settings": {
+            "before": "Wait until the range to find out if the feel changed.",
+            "after": "Build the feel anywhere with controlled, feedback-based reps."
+          }
+        },
+        "fit_1": {
+          "type": "fit_card",
+          "settings": {
+            "kicker": "Home",
+            "heading": "Short daily reps",
+            "copy": "Use it for quick timing practice when you do not have time for the range."
+          }
+        },
+        "fit_2": {
+          "type": "fit_card",
+          "settings": {
+            "kicker": "Range",
+            "heading": "Warm-up feedback",
+            "copy": "Rehearse release timing before moving into normal clubs and full shots."
+          }
+        },
+        "fit_3": {
+          "type": "fit_card",
+          "settings": {
+            "kicker": "Course",
+            "heading": "Pre-round feel",
+            "copy": "Use controlled swings to remind your body what later release timing should feel like."
+          }
+        },
+        "product_point_1": {
+          "type": "product_point",
+          "settings": {
+            "text": "Demo-first explanation of the click mechanism"
+          }
+        },
+        "product_point_2": {
+          "type": "product_point",
+          "settings": {
+            "text": "Product gallery, specs, offer details, and FAQ"
+          }
+        },
+        "product_point_3": {
+          "type": "product_point",
+          "settings": {
+            "text": "Clear offer details, FAQ, and a secure checkout path"
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What does an early click mean?",
+            "answer": "<p>It usually means the release is happening too soon in the downswing, so useful speed may be spent before impact.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Do I need to hit golf balls to use it?",
+            "answer": "<p>No. The trainer is designed for controlled practice swings, so you can rehearse timing without a ball, net, or app.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I know if the timing is improving?",
+            "answer": "<p>The goal is to move the click later in the motion, closer to impact, while keeping the swing smooth and controlled.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "hero_bullet_1",
+        "hero_bullet_2",
+        "hero_bullet_3",
+        "problem_card_1",
+        "problem_card_2",
+        "problem_card_3",
+        "diagnosis_1",
+        "diagnosis_2",
+        "diagnosis_3",
+        "meaning_1",
+        "meaning_2",
+        "comparison_1",
+        "comparison_2",
+        "comparison_3",
+        "fit_1",
+        "fit_2",
+        "fit_3",
+        "product_point_1",
+        "product_point_2",
+        "product_point_3",
+        "faq_1",
+        "faq_2",
+        "faq_3"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,504 @@
+{%- capture sh_before_after_image_two_css -%}
+  <style>
+    #sh-{{ section.id }}.sh-compar-sec-2 {padding-top: {{section.settings.padding_top}}px; padding-bottom: {{ section.settings.padding_bottom }}px;background: {{section.settings.bg_color}};}
+    #sh-{{ section.id }} .sh-page-width {max-width: {{section.settings.section_max_width}}px;width: 100%;padding: 0 20px;margin: 0 auto;}
+    #sh-{{ section.id }} .sh-compar-sec-2-title {font-size: {{ section.settings.heading_font_size }}px;font-weight: 500;line-height: 1.3;color: {{section.settings.heading_color}};margin:0;}
+    #sh-{{ section.id }} .sh-compar-sec-2-desc{margin: 25px 0 0;} 
+    #sh-{{ section.id }} .sh-compar-sec-2-desc p {font-size: {{ section.settings.content_font_size }}px;line-height: 1.4;color: {{section.settings.content_color}};margin: 0;} 
+    #sh-{{ section.id }} .sh-compar-sec-2-desc ul {padding-left: 20px;margin-top: 15px;display: inline-block;}
+    #sh-{{ section.id }} .sh-compar-sec-2-desc ul li {list-style: square;font-size: {{ section.settings.content_font_size | minus: 1 }}px;line-height: 1.55;color: {{section.settings.content_color}};width: fit-content;} 
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button {margin: 25px 0 0;font-size: 16px;line-height: 1.65;background: {{section.settings.btn_bg_color}};color: {{section.settings.btn_text_color}};padding: 6px 20px;min-width: 140px;display: inline-block;border: 1px solid {{section.settings.btn_border_color}};border-radius: {{section.settings.border_radius}}px;text-align: center;cursor: pointer;max-width: fit-content;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button:hover {background: {{section.settings.btn_hover_bg_color}};color: {{section.settings.btn_hover_text_color}};border: 1px solid {{section.settings.btn_hover_border_color}};box-shadow: 0 0 5px 0px {{section.settings.outline_btn_shadow_color}};}
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button.sh-button-outline {color: {{section.settings.outline_btn_text_color}};border-color: {{section.settings.outline_btn_text_color}};background: transparent;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button svg {width: 20px;height: 20px;fill:{{section.settings.btn_text_color}};display: inline-block;vertical-align: text-bottom;margin-left: 5px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button.sh-button-outline svg {fill:{{section.settings.outline_btn_text_color}};}
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button:hover svg {fill: {{section.settings.btn_hover_text_color}};}
+    #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button svg path{fill: inherit;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container {flex: 0 0 50%;position: relative;overflow: hidden;border-radius: {{ section.settings.media_radius }}px;aspect-ratio: 1 / 1;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-compar-sec-2-small {aspect-ratio: 16 / 12;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-compar-sec-2-medium {aspect-ratio: 16 / 14;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-compar-sec-2-large {aspect-ratio: 16 / 16;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-wrap img {background: #fff;width: 100%;height: 100%;object-fit: cover;object-position: center;}
+    #sh-{{ section.id }} .sh-compar-sec-2-wrapper {display: flex;flex-wrap: wrap;align-items: center;gap: 20px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content {flex: 0 0 calc(50% - 20px);padding: 0 20px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-wrapper.sh-compar-sec-2-media-right{flex-direction: row-reverse;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content.sh-compar-sec-2-content-middle{align-self: center;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content.sh-compar-sec-2-content-top{align-self: flex-start;}
+    #sh-{{ section.id }} .sh-compar-sec-2-content.sh-compar-sec-2-content-bottom{align-self: flex-end;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-wrap.sh-before{clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-wrap{width: 100%;height: 100%;position: absolute;}
+    #sh-{{ section.id }} .sh-compar-sec-2-slide:focus {outline: unset !important;outline-offset: unset !important;}
+    #sh-{{ section.id }} .sh-compar-sec-2-line {position: absolute;left: 50%;transform: translateX(-50%);width: 2px;height: 100%;background-color: {{section.settings.sep_bg_color }};top: 0;z-index: 1;}
+    /* Starting point */
+    #sh-{{ section.id }} .sh-compar-sec-2-img-wrap .sh-before {clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);}
+    #sh-{{ section.id }} .sh-compar-sec-2-slide[type=range] {position: relative;-webkit-appearance: none;width: calc(100% + 40px);height: 100%;margin:0;margin-left: -20px;background-color: transparent;outline: none;max-width: unset;border: unset;padding:0;z-index: 2;}
+    /* WebKit/Blink */
+    #sh-{{ section.id }} .sh-compar-sec-2-slide[type=range]::-webkit-slider-thumb{-webkit-appearance: none;appearance: none;height: 40px;width: 40px;border-radius: 50%;box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.1);background-color: #fff;background-size: cover;cursor: ew-resize;background-image: url('data:image/svg+xml, <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="25" fill="{{ section.settings.sep_bg_color | replace: '#', '%23' }}"></circle><path d="M20.5 32L14 25.5L20.5 19" stroke="{{ section.settings.sep_arrow_color | replace: '#', '%23' }}" stroke-width="1.5"></path><path d="M30.5 32L37 25.5L30.5 19" stroke="{{ section.settings.sep_arrow_color | replace: '#', '%23' }}" stroke-width="1.5"></path></svg>');}
+    /* Firefox */
+    #sh-{{ section.id }} .sh-compar-sec-2-slide[type=range]::-moz-range-thumb{-webkit-appearance: none;appearance: none;height: 40px;width: 40px;border-radius: 50%;box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.1);background-color: #fff;background-size: cover;cursor: ew-resize;background-image: url('data:image/svg+xml, <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="25" fill="{{ section.settings.sep_bg_color | replace: '#', '%23' }}"></circle><path d="M20.5 32L14 25.5L20.5 19" stroke="{{ section.settings.sep_arrow_color | replace: '#', '%23' }}" stroke-width="1.5"></path><path d="M30.5 32L37 25.5L30.5 19" stroke="{{ section.settings.sep_arrow_color | replace: '#', '%23' }}" stroke-width="1.5"></path></svg>');}
+    /* IE */
+    #sh-{{ section.id }} .sh-compar-sec-2-slide[type=range]::-ms-thumb {-webkit-appearance: none;appearance: none;height: 40px;width: 40px;border-radius: 50%;box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.1);background-color: #fff;background-size: cover;cursor: ew-resize;background-image: url('data:image/svg+xml, <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="25" fill="{{ section.settings.sep_bg_color | replace: '#', '%23' }}"></circle><path d="M20.5 32L14 25.5L20.5 19" stroke="{{ section.settings.sep_arrow_color | replace: '#', '%23' }}" stroke-width="1.5"></path><path d="M30.5 32L37 25.5L30.5 19" stroke="{{ section.settings.sep_arrow_color | replace: '#', '%23' }}" stroke-width="1.5"></path></svg>');}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container .sh-compar-sec-2-img-wrap:after {position: absolute;color: {{section.settings.ba_button_text_color}};font-size: {{ section.settings.text_font_size }}px;z-index: 0;background-color: {{section.settings.ba_button_bg_color}};max-width: calc(50% - 20px);line-height: 1.2;padding: 5px 15px;border-radius: {{ section.settings.media_radius }}px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container .sh-compar-sec-2-img-wrap.sh-after:after {content: "{{section.settings.after_text}}";}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container .sh-compar-sec-2-img-wrap.sh-before:after {content: "{{section.settings.before_text}}";}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-after-before-txt-top .sh-compar-sec-2-img-wrap.sh-after:after {top: 10px;right: 10px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-after-before-txt-bottom .sh-compar-sec-2-img-wrap.sh-after:after {bottom: 10px;right: 10px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-after-before-txt-middle .sh-compar-sec-2-img-wrap.sh-after:after {right: 10px;top: 50%;transform: translateY(-50%);}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-after-before-txt-top .sh-compar-sec-2-img-wrap.sh-before:after {top: 10px;left: 10px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-after-before-txt-bottom .sh-compar-sec-2-img-wrap.sh-before:after {bottom: 10px;left: 10px;}
+    #sh-{{ section.id }} .sh-compar-sec-2-img-container.sh-after-before-txt-middle .sh-compar-sec-2-img-wrap.sh-before:after {left: 10px;top: 50%;transform: translateY(-50%);}
+    @media only screen and (max-width: 767px){
+      #sh-{{ section.id }} .sh-compar-sec-2-content {flex: auto;padding: 0;}
+      #sh-{{ section.id }} .sh-compar-sec-2-img-container{flex: auto;}
+      #sh-{{ section.id }} .sh-compar-sec-2-title{font-size: 26px;}
+      #sh-{{ section.id }} .sh-compar-sec-2-desc ul {margin-top: 10px;}
+      #sh-{{ section.id }} .sh-compar-sec-2-desc ul li{font-size: 13.5px;}
+      #sh-{{ section.id }} .sh-compar-sec-2-desc{margin:15px 0 0;} 
+      #sh-{{ section.id }} .sh-compar-sec-2-desc p{font-size: 14px;} 
+      #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button{font-size: 15px;margin:15px 0 0;} 
+      #sh-{{ section.id }} .sh-compar-sec-2-content .sh-button svg{width: 16px;height: 16px;}
+      #sh-{{ section.id }} .sh-compar-sec-2-img-container .sh-compar-sec-2-img-wrap:after{font-size: 14px;padding: 2px 10px;}
+      #sh-{{ section.id }}.sh-compar-sec-2 {padding-top: {{section.settings.mob_padding_top}}px; padding-bottom: {{ section.settings.mob_padding_bottom }}px;}
+    }
+  </style>
+{% endcapture %}
+{{ sh_before_after_image_two_css | strip_newlines }}
+
+<div id="sh-{{ section.id }}" class="sh-compar-sec-2">
+  <div class="sh-page-width">
+    <div class="sh-compar-sec-2-wrapper sh-compar-sec-2-media-{{ section.settings.image_position }}">
+      <div class="sh-compar-sec-2-img-container sh-after-before-txt-{{ section.settings.before_after_text_position }} sh-compar-sec-2-{{ section.settings.media_height }}">
+        <div class="sh-compar-sec-2-img-wrap sh-after">
+          {% if section.settings.after_image != blank %}
+            <img src="{{ section.settings.after_image | image_url }}" height="" width="" loading="lazy" alt="{{ section.settings.after_image.alt }}">
+          {% else %}
+            <img src="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg version='1.1' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect x='2' y='2' width='496' height='496' fill='%23747474' stroke='%23747474' stroke-width='4'/%3E%3C/g%3E%3C/svg%3E" width="" height="" loading="lazy" alt="After Image">
+          {% endif %}
+        </div>
+        <div class="sh-compar-sec-2-img-wrap sh-before" id="sh-compare">
+          {% if section.settings.before_image != blank %}
+            <img src="{{ section.settings.before_image | image_url }}" height="" width="" loading="lazy" alt="{{section.settings.before_image.alt }}">
+          {% else %}
+            <img src="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg version='1.1' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect x='2' y='2' width='496' height='496' fill='%23D8D8D8' stroke='%23D8D8D8' stroke-width='4'/%3E%3C/g%3E%3C/svg%3E" width="" height="" loading="lazy" alt="Before Image">
+          {% endif %}
+        </div>
+        <input class="sh-compar-sec-2-slide" type="range" min="0" max="100" value="50" id="sh-slider">
+        <div class="sh-compar-sec-2-line"></div>
+      </div>
+      <div class="sh-compar-sec-2-content sh-title-align-{{ section.settings.text_align }} sh-compar-sec-2-content-{{ section.settings.text_position }}">
+        <div class="sh-compar-sec-2-txt-box">
+          {% if section.settings.title != blank %}<h2 class="sh-compar-sec-2-title">{{ section.settings.title }}</h2>{% endif %}
+          {% if section.settings.content != blank %}<div class="sh-compar-sec-2-desc sh-section-desc">{{ section.settings.content }}</div>{% endif %}
+          {% if section.settings.btn_txt != blank and section.settings.btn_link != blank %}
+            <a href="{{ section.settings.btn_link }}" class="sh-button{% if section.settings.btn_outline %} sh-button-outline{% endif %}">
+              {{- section.settings.btn_txt -}}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if(document.querySelector("#sh-{{ section.id }}")){
+    document.querySelector("#sh-{{ section.id }} .sh-compar-sec-2-slide").addEventListener("input", function(){
+      let slideValue = document.querySelector("#sh-{{ section.id }}").querySelector("#sh-slider").value;
+      document.querySelector("#sh-{{ section.id }}").querySelector("#sh-compare").style.clipPath = "polygon(0 0," + slideValue + "% 0," + slideValue + "% 101%, 0 101%)";
+      let leftValue = document.querySelector("#sh-{{ section.id }}").querySelector(".sh-compar-sec-2-line"); 
+      if (parseInt(slideValue) == 0) {
+        leftValue.style.left = `calc(${slideValue}% - 1px)`; 
+      } else if (parseInt(slideValue) == 100){
+        leftValue.style.left = `calc(${slideValue}% + 1px)`; 
+      } else{
+        leftValue.style.left = `${slideValue}%`;
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "SH: Before/After image 2",
+  "class": "sh-section-hub-main",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default":"After before image heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default":"<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>"
+    },
+    {
+      "type": "text",
+      "id": "btn_txt",
+      "label": "Button label",
+      "default": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button link",
+      "default":"/"
+    },
+    {
+      "type": "checkbox",
+      "id":"btn_outline", 
+      "label": "Use outline button",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "outline_btn_text_color",
+      "label": "Outline color",
+      "default": "#121212"
+    },
+    {
+      "type":"range",
+      "id":"border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 20,
+      "default": 0,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type":"text_alignment",
+      "id":"text_align",
+      "label": "Text alignment",
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text alignment (Vertical)",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "middle"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "select",
+      "id": "media_height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "before_after_text_position",
+      "label": "Before/After text position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "range",
+      "id": "media_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Before"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "before_text",
+      "label": "Text",
+      "default":"Before"
+    },
+    {
+      "type": "header",
+      "content": "After"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "after_text",
+      "label": "Text",
+      "default":"After"
+    },
+    {
+      "type": "header",
+      "content": "Font size"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "content_font_size",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Content",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 5,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Before/After text",
+      "default": 16
+    },
+    {
+      "type":"header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+     "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Content color",
+      "default": "#121212"
+    }, 
+    {
+      "type": "paragraph",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_border_color",
+      "label": "Border color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_bg_color",
+      "label": "Hover background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text_color",
+      "label": "Hover text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_border_color",
+      "label": "Hover border color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "outline_btn_shadow_color",
+      "label": "Shadow color",
+      "default": "#606060" 
+    },
+    {
+      "type": "paragraph",
+      "content": "Before/After text"
+    },
+    {
+      "type": "color",
+      "id": "ba_button_bg_color",
+      "label": "Background color",
+       "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "ba_button_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "paragraph",
+      "content": "Separator"
+    },
+    {
+      "type": "color",
+      "id": "sep_bg_color",
+      "label": "Background color",
+       "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "sep_arrow_color",
+      "label": "Arrow color", 
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mob_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mob_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Section width"
+    },
+    {
+      "type": "text",
+      "id": "section_max_width",
+      "label": "Width",
+      "default": "1140"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SH: Before/After image 2"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
+}
+{% endschema %}

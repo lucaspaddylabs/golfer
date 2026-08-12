@@ -1,0 +1,104 @@
+{% comment %}
+  Header icons: search, account, wishlist, compare, cart
+
+  Accepts:
+  - section: {Object} Section paramatres object
+  - hide_search_opened: {Boolean} default false
+  - disable_phones_block: {String} default empty. Value = disable
+
+  Usage:
+  {%- render "header-user-icons",
+      section:section,
+      hide_search_opened:hide_search_opened
+  -%}
+{% endcomment %}
+
+<div class="header__icons">
+  {%- if disable_phones_block != "disable" -%}
+  {% assign phone = section.blocks | where: "type", "phone" %}
+  {%- for block in phone -%}
+  {%- capture phone_content_button -%}
+  <div class="header-phone-number__desktop" id="header-contacts-heading-{{ block.id }}">
+    {%- if block.settings.phone__0 != blank or block.settings.phone_icon__0 != blank -%}
+      {%- if block.settings.phone_as_link__0 -%}
+      <a href="tel:{{ block.settings.phone | replace:" ", "" }}" class="mt0 h5 clear-underline header-phone-number__icon">{%- render 'icons-list' icon_name: block.settings.phone_icon__0 -%}{{ block.settings.phone__0 }}</a>
+      {%- else -%}
+      <p class="mt0 h5 header-phone-number__icon">{%- render 'icons-list' icon_name: block.settings.phone_icon__0 -%}{{ block.settings.phone__0 }}</p>
+      {%- endif -%}
+    {%- endif -%}
+    {%- if block.settings.text__0 != blank -%}<p class="mt0 body3 phone-slogan">{{ block.settings.text__0 }}</p>{%- endif -%}
+  </div>
+  {%- endcapture -%}
+  {%- capture phone_content -%}{%- render "header-contacts", block:block -%}{%- endcapture -%}
+  {%- if phone_content != blank -%}
+  <div class="header-phone-number__desktop__container enable-scrollbar-js" id="header-contacts-{{ block.id }}">
+    <div class="header-phone-number__desktop__main{% if block.settings.open_on == "click" %} header-phone-number__desktop__on-click{% endif %}">
+      {{ phone_content_button }}
+      {%- render "icon-arrow-down-small" -%}
+    </div>
+    <div class="header-phone-number__desktop_submenu">
+      <div class="header-phone-number__desktop_submenu__container scrollbar-height-js custom__scrollbar">
+        {{ phone_content }}
+      </div>
+    </div>
+  </div>
+  {%- else -%}
+  {{ phone_content_button }}
+  {%- endif -%}
+  {%- endfor -%}
+  {%- endif -%}
+
+  {%- unless section.settings.classic_menu_position contains "bottom-menu-to" -%}
+  {%- unless hide_search_opened -%}
+  {%- render "header-search-opened", show_search:section.settings.show_search, fullwidth: false -%}
+  {%- endunless -%}
+  {%- endunless -%}
+  
+  <div class="header__icons__customer__icons{% if section.settings.icons_text == 'show' %} gap-20{% endif %}">
+    {%- if section.settings.show_search == "closed" -%}
+    {%- unless section.settings.classic_menu_position contains "bottom-menu-to" and section.settings.logo_position == 'logo-to-center' -%}
+    {%- unless hide_search_opened -%}
+    {%- render "header-search-closed", section:section -%}
+    {%- endunless -%}
+    {%- endunless -%}
+    {%- endif -%}
+    {%- if settings.enable_compare -%}
+    <a href="{{ settings.page_compare.url }}" class="header__button move-icon-up global__tooltip--hover">
+      {%- render 'icon-compare' -%}
+      <span class="body2 header__button__bubble__text">{{ 'compare.header.icon_compare' | t }}</span>
+      <compare-bubble class="header__button__bubble">
+        <span class="body3-no-scale header__button__bubble__count"></span>
+      </compare-bubble>
+      {%- if section.settings.icons_text == 'tooltip' -%}
+      <global-tooltip class="global__tooltip global__tooltip__static">
+        <div class="global__tooltip__content">{{ 'compare.header.icon_compare' | t }}</div>
+      </global-tooltip>
+      {%- endif -%}
+    </a>
+    {%- endif -%}
+    {%- if settings.enable_wishlist -%}
+    <a href="{{ settings.page_wishlist.url }}" class="header__button move-icon-up global__tooltip--hover">
+      {%- render 'icon-wishlist', icon_type:"normal" -%}
+      <span class="body2 header__button__bubble__text">{{ 'wishlist.header.icon_wishlist' | t }}</span>
+      <wishlist-bubble class="header__button__bubble">
+        <span class="body3-no-scale header__button__bubble__count"></span>
+      </wishlist-bubble>
+      {%- if section.settings.icons_text == 'tooltip' -%}
+      <global-tooltip class="global__tooltip global__tooltip__static">
+        <div class="global__tooltip__content">{{ 'wishlist.header.icon_wishlist' | t }}</div>
+      </global-tooltip>
+      {%- endif -%}
+    </a>
+    {%- endif -%}
+    {%- if settings.cart_type != "catalog_mode" -%}
+    <a href="{{ routes.cart_url }}" class="header__button move-icon-up global__tooltip--hover" id="cart-icon-bubble">
+      {%- render 'cart-icon-bubble' -%}
+      {%- if section.settings.icons_text == 'tooltip' -%}
+      <global-tooltip class="global__tooltip global__tooltip__static">
+        <div class="global__tooltip__content">{{ 'sections.header.icon_cart' | t }}</div>
+      </global-tooltip>
+      {%- endif -%}
+    </a>
+    {%- endif -%}
+  </div>
+</div>

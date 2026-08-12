@@ -1,0 +1,364 @@
+{% comment %}
+  Gradient Marquee Announcement Bar - MEDIUM Tier
+  Scrolling marquee with animated gradient background and glow effects
+{% endcomment %}
+
+<style>
+  .gradient-marquee-bar {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .gradient-marquee-bar.is-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* Animated gradient backgrounds */
+  .gradient-marquee-bar.gradient-sunset {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  .gradient-marquee-bar.gradient-ocean {
+    background: linear-gradient(-45deg, #0093E9, #80D0C7, #667eea, #764ba2);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  .gradient-marquee-bar.gradient-purple {
+    background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  .gradient-marquee-bar.gradient-fire {
+    background: linear-gradient(-45deg, #f12711, #f5af19, #ee7752, #e73c7e);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  .gradient-marquee-bar.gradient-forest {
+    background: linear-gradient(-45deg, #134e5e, #71b280, #11998e, #38ef7d);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  .gradient-marquee-bar.gradient-midnight {
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0f0c29);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  .gradient-marquee-bar.gradient-custom {
+    background: linear-gradient(-45deg, var(--gradient-1), var(--gradient-2), var(--gradient-3), var(--gradient-1));
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .gradient-marquee-inner {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    position: relative;
+  }
+
+  .gradient-marquee-track {
+    display: flex;
+    animation: marquee-scroll var(--marquee-speed, 25s) linear infinite;
+    white-space: nowrap;
+  }
+
+  .gradient-marquee-bar:hover .gradient-marquee-track {
+    animation-play-state: paused;
+  }
+
+  .gradient-marquee-bar.direction-right .gradient-marquee-track {
+    animation-direction: reverse;
+  }
+
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .gradient-marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    padding: 0 40px;
+  }
+
+  .gradient-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .gradient-marquee-item:hover {
+    transform: scale(1.02);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+
+  .gradient-marquee-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .gradient-marquee-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .gradient-marquee-icon--image {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: transparent;
+    backdrop-filter: none;
+    overflow: hidden;
+  }
+
+  .gradient-marquee-icon--image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gradient-marquee-separator {
+    opacity: 0.5;
+    font-size: 1.5em;
+  }
+
+  /* Glow effect on text */
+  .gradient-marquee-bar.show-glow .gradient-marquee-item {
+    animation: text-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes text-glow {
+    0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+    50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4); }
+  }
+
+  /* Close button */
+  .gradient-marquee-close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .gradient-marquee-close:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .gradient-marquee-close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .gradient-marquee-bar.is-hidden {
+    display: none;
+  }
+
+  /* Shimmer overlay effect */
+  .gradient-marquee-bar.show-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    animation: shimmer-effect 4s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @keyframes shimmer-effect {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  @media (max-width: 768px) {
+    .gradient-marquee-content {
+      gap: 50px;
+      padding: 0 25px;
+    }
+
+    .gradient-marquee-item {
+      font-size: 0.875rem;
+    }
+
+    .gradient-marquee-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .gradient-marquee-icon svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+</style>
+
+{%- if section.blocks.size > 0 -%}
+<div
+  class="gradient-marquee-bar gradient-{{ section.settings.gradient_style }} {% if section.settings.is_sticky %}is-sticky{% endif %} {% if section.settings.show_glow %}show-glow{% endif %} {% if section.settings.show_shimmer %}show-shimmer{% endif %} direction-{{ section.settings.direction }}"
+  id="gradient-marquee-{{ section.id }}"
+  style="
+    color: {{ section.settings.text_color }};
+    --gradient-1: {{ section.settings.gradient_color_1 }};
+    --gradient-2: {{ section.settings.gradient_color_2 }};
+    --gradient-3: {{ section.settings.gradient_color_3 }};
+    --marquee-speed: {{ section.settings.speed }}s;
+    font-size: {{ section.settings.font_size }}px;
+    {% if section.settings.padding_y > 0 %}padding-top: {{ section.settings.padding_y }}px; padding-bottom: {{ section.settings.padding_y }}px;{% endif %}
+  "
+>
+  <div class="gradient-marquee-inner">
+    <div class="gradient-marquee-track">
+      {%- for i in (1..2) -%}
+        <div class="gradient-marquee-content">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.text != blank -%}
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" class="gradient-marquee-item" {{ block.shopify_attributes }}>
+              {%- else -%}
+                <span class="gradient-marquee-item" {{ block.shopify_attributes }}>
+              {%- endif -%}
+                {%- if block.settings.show_icon and block.settings.custom_image != blank -%}
+                  <span class="gradient-marquee-icon gradient-marquee-icon--image">
+                    {{ block.settings.custom_image | image_url: width: 60 | image_tag: loading: 'lazy' }}
+                  </span>
+                {%- elsif block.settings.show_icon -%}
+                  <span class="gradient-marquee-icon">
+                    {%- case block.settings.icon -%}
+                      {%- when 'star' -%}
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      {%- when 'truck' -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                      {%- when 'fire' -%}
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 23c-3.866 0-7-3.134-7-7 0-2.5 1.5-4.5 3-6.5l3-4.5 3 4.5c1.5 2 3 4 3 6.5 0 3.866-3.134 7-7 7zm0-11.5c-1 1.5-2 3-2 4.5 0 1.1.9 2 2 2s2-.9 2-2c0-1.5-1-3-2-4.5z"/></svg>
+                      {%- when 'zap' -%}
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                      {%- when 'percent' -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+                      {%- when 'gift' -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                      {%- when 'sparkle' -%}
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14 8L20 10L14 12L12 18L10 12L4 10L10 8L12 2Z"/></svg>
+                    {%- endcase -%}
+                  </span>
+                {%- endif -%}
+                {{ block.settings.text }}
+              {%- if block.settings.link != blank -%}
+                </a>
+              {%- else -%}
+                </span>
+              {%- endif -%}
+              {%- unless forloop.last -%}
+                <span class="gradient-marquee-separator">{{ section.settings.separator }}</span>
+              {%- endunless -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_close -%}
+    <button class="gradient-marquee-close" aria-label="Close announcement" onclick="document.getElementById('gradient-marquee-{{ section.id }}').classList.add('is-hidden')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  {%- endif -%}
+</div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Gradient Marquee Bar",
+  "tag": "section",
+  "class": "gradient-marquee-section",
+  "settings": [
+    { "type": "header", "content": "Gradient Style" },
+    { "type": "select", "id": "gradient_style", "label": "Gradient Preset", "options": [{ "value": "sunset", "label": "Sunset" }, { "value": "ocean", "label": "Ocean" }, { "value": "purple", "label": "Purple Dream" }, { "value": "fire", "label": "Fire" }, { "value": "forest", "label": "Forest" }, { "value": "midnight", "label": "Midnight" }, { "value": "custom", "label": "Custom Colors" }], "default": "sunset" },
+    { "type": "color", "id": "gradient_color_1", "label": "Custom Color 1", "default": "#667eea", "info": "Only used with Custom gradient" },
+    { "type": "color", "id": "gradient_color_2", "label": "Custom Color 2", "default": "#764ba2" },
+    { "type": "color", "id": "gradient_color_3", "label": "Custom Color 3", "default": "#f093fb" },
+    { "type": "header", "content": "Marquee Settings" },
+    { "type": "range", "id": "speed", "label": "Scroll Speed (seconds)", "min": 10, "max": 60, "step": 5, "default": 25, "info": "Lower = faster" },
+    { "type": "select", "id": "direction", "label": "Scroll Direction", "options": [{ "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }], "default": "left" },
+    { "type": "text", "id": "separator", "label": "Separator", "default": "•" },
+    { "type": "header", "content": "Effects" },
+    { "type": "checkbox", "id": "show_glow", "label": "Text Glow Effect", "default": true },
+    { "type": "checkbox", "id": "show_shimmer", "label": "Shimmer Overlay", "default": true },
+    { "type": "header", "content": "Display Options" },
+    { "type": "checkbox", "id": "is_sticky", "label": "Sticky to Top", "default": false },
+    { "type": "checkbox", "id": "show_close", "label": "Show Close Button", "default": true },
+    { "type": "header", "content": "Typography" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "range", "id": "font_size", "label": "Font Size (px)", "min": 13, "max": 20, "step": 1, "default": 15 },
+    { "type": "range", "id": "padding_y", "label": "Vertical Padding (px)", "min": 10, "max": 28, "step": 2, "default": 14 }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Special offer message" },
+        { "type": "url", "id": "link", "label": "Link (optional)" },
+        { "type": "checkbox", "id": "show_icon", "label": "Show Icon", "default": true },
+        { "type": "select", "id": "icon", "label": "Icon", "options": [{ "value": "star", "label": "Star" }, { "value": "truck", "label": "Truck" }, { "value": "fire", "label": "Fire" }, { "value": "zap", "label": "Lightning" }, { "value": "percent", "label": "Percent" }, { "value": "gift", "label": "Gift" }, { "value": "sparkle", "label": "Sparkle" }], "default": "fire" },
+        { "type": "image_picker", "id": "custom_image", "label": "Custom photo icon", "info": "Overrides the preset icon above with a small photo instead" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gradient Marquee Bar",
+      "category": "Announcement",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Flash Sale — Up to 50% Off Everything!", "icon": "fire" } },
+        { "type": "message", "settings": { "text": "Limited Time: Free Gift with Purchase", "icon": "gift" } },
+        { "type": "message", "settings": { "text": "VIP Members Get Early Access", "icon": "sparkle" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

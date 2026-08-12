@@ -1,0 +1,28 @@
+{%- comment -%}
+  Code to display article content
+
+  Accepts:
+  - section: {Object} Section paramatres object
+  - custom_class: {String}
+
+  Usage:
+  {%- render "section-heading" section:section -%}
+{%- endcomment -%}
+{%- capture content -%}
+{%- if section.settings.main_subheading != blank -%}<h5 class="mt0 subheading">{{ section.settings.main_subheading }}</h5>{%- endif -%}
+{%- if section.settings.main_heading != blank -%}<h2 class="mt0 section-heading-text">{{ section.settings.main_heading }}</h2>{%- endif -%}
+{%- if section.settings.main_desc != blank -%}<p class="mt0 body2 section-heading-desc-text">{{ section.settings.main_desc }}</p>{%- endif -%}
+{%- endcapture -%}
+{%- if content != blank -%}
+{%- if section.settings.width == "page-fullwidth" -%}
+<div class="page-wide section-heading-container">
+  <div class="page-grid-1 {{ section.settings.heading_aligment }} {{ custom_class }}">
+    {{ content }}
+  </div>
+</div>
+{%- else -%}
+<div class="page-grid-1 section-heading-container {{ section.settings.heading_aligment }} {{ custom_class }}">
+  {{ content }}
+</div>
+{%- endif -%}
+{%- endif -%}

@@ -1,0 +1,131 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "order": [
+    "heading",
+    "description",
+    "product-grid"
+  ],
+  "sections": {
+    "description": {
+      "settings": {
+        "background": "hide",
+        "background_spacing": "small",
+        "background_width": "fullwidth",
+        "box_opacity": 100,
+        "color_background": "rgba(0,0,0,0)",
+        "color_background_box": "rgba(0,0,0,0)",
+        "color_base": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "description_width": 60,
+        "description_width_mobile": 100,
+        "desktop_image_height": 600,
+        "gradient": "",
+        "image_overlay_color": "rgba(0,0,0,0)",
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "image_overlay_opacity": 0,
+        "image_overlay_opacity_mobile": 0,
+        "image_size": "auto",
+        "image_size_mobile": "auto",
+        "imagealign": "center",
+        "imagesize": "cover",
+        "lines_width": "fullwidth",
+        "mobile_image_height": 600,
+        "remove_bottom_spacing": false,
+        "show_lines": false,
+        "show_text_background": false,
+        "text_align": "text-center",
+        "top_spacing": "small",
+        "width": "page-width"
+      },
+      "type": "main-collection-description"
+    },
+    "heading": {
+      "settings": {
+        "background": "hide",
+        "background_spacing": "small",
+        "background_width": "fullwidth",
+        "box_opacity": 70,
+        "color_background": "rgba(0,0,0,0)",
+        "color_background_box": "rgba(0,0,0,0)",
+        "color_base": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "description_width": 100,
+        "description_width_mobile": 100,
+        "desktop_image_height": 490,
+        "gradient": "",
+        "image_overlay_color": "rgba(0,0,0,0)",
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "image_overlay_opacity": 50,
+        "image_overlay_opacity_mobile": 0,
+        "image_size": "fixed",
+        "image_size_mobile": "fixed",
+        "imagealign": "top",
+        "imagesize": "cover",
+        "lines_width": "fullwidth",
+        "mobile_image_height": 100,
+        "remove_bottom_spacing": false,
+        "show_lines": false,
+        "show_text_background": false,
+        "show_text_description": false,
+        "text_align": "text-center",
+        "top_spacing": "normal",
+        "width": "page-width"
+      },
+      "type": "main-collection-banner"
+    },
+    "product-grid": {
+      "settings": {
+        "button_type_product": "hide",
+        "button_type_product_mobile": true,
+        "customize": true,
+        "enable_dynamic_grid": true,
+        "enable_filtering": "enable",
+        "enable_infinite_scroll": "autoscroll",
+        "enable_products_count": true,
+        "enable_products_count_main": true,
+        "enable_rating_product_card": false,
+        "enable_sorting": true,
+        "enable_sticky_filter_button": true,
+        "filters_padding": 40,
+        "grid": "page-grid-4",
+        "grid_tablet": "page-grid-st-3",
+        "hover_underline": true,
+        "image_action": "normal",
+        "image_hover": "image-hover-none",
+        "image_ratio": "auto",
+        "mobile_grid": "page-grid-sp-2",
+        "pagination_aligment": "text-center",
+        "products_per_page": 8,
+        "show_badge_feature": true,
+        "show_badge_on_sale": true,
+        "show_badge_sold_out": true,
+        "show_compare": true,
+        "show_compare_mobile": false,
+        "show_countdown": true,
+        "show_description": false,
+        "show_price": true,
+        "show_quantity": false,
+        "show_quick_view": true,
+        "show_quick_view_mobile": false,
+        "show_type": true,
+        "show_vendor": false,
+        "show_wishlist": true,
+        "show_wishlist_mobile": true,
+        "showbuttonnomore": true,
+        "text_align": "text-left",
+        "top_spacing": "normal",
+        "truncate_product_name": false,
+        "width": "default"
+      },
+      "type": "main-collection-product-grid"
+    }
+  }
+}

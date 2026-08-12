@@ -1,0 +1,517 @@
+{
+  "sections": {
+    "main": {
+      "type": "gn-pro-swing-click-landing",
+      "settings": {
+        "eyebrow_text": "The audible swing trainer for release timing",
+        "show_star_visual": false,
+        "hero_heading": "Hear Exactly When You Release The Club",
+        "hero_subheading": "<p>Make a few controlled practice swings and listen for the click. If it fires too early, you are releasing from the top. Move it closer to impact to train cleaner timing without a ball, net, or app.</p>",
+        "hero_signal_label_1": "Early click",
+        "hero_signal_text_1": "Your release is happening too soon.",
+        "hero_signal_label_2": "Later click",
+        "hero_signal_text_2": "You are learning to deliver speed closer to impact.",
+        "low_stock_text": "Low stock - selling fast",
+        "sale_badge_text": "Sale",
+        "show_dynamic_checkout": true,
+        "show_sticky_atc": true,
+        "quantity_label": "Qty",
+        "add_to_cart_text": "Add to Cart",
+        "choose_options_text": "Choose Options",
+        "sold_out_text": "Sold Out",
+        "demo_video_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103526_4958b661-be22-4647-a105-ce87b583461a.mp4",
+        "demo_image_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3BydfPxURg4NXKLW5lP0eo8CV0M/hf_20260522_103732_3549ac1e-635d-473a-806e-67f1618d03ef.png",
+        "demo_placeholder_heading": "Add your 3-second click demo here",
+        "demo_placeholder_copy": "Use a short clip or GIF-style creative that shows early click versus click closer to impact.",
+        "demo_heading": "Understand Your Release Timing In One Swing",
+        "demo_copy": "<p>Each rep gives you a clear sound cue. If the click fires early, slow the transition and rehearse until the sound moves closer to impact.</p>",
+        "problem_heading": "The Real Reason Your Swing Feels Powerful But The Ball Does Not Fly",
+        "problem_copy": "<p>Many golfers spend their speed too early by releasing from the top. By impact, speed has already leaked away, leaving weak strikes, inconsistent contact, and another range session spent guessing.</p>",
+        "problem_cta_text": "Train Better Timing",
+        "mechanism_heading": "The Click Tells You What Your Swing Cannot",
+        "mechanism_copy": "<p>An early click tells you the club is releasing too soon. A click closer to impact helps you connect the feel of better lag and release timing without an app, a net, or complicated swing thoughts.</p>",
+        "how_to_heading": "How To Use The Pro Swing Click Trainer",
+        "how_to_copy": "<p>Use short, focused reps to train the timing you want before you take the feel back to your normal club.</p>",
+        "how_to_note": "<p>Start slow. The point is timing, not swinging harder.</p>",
+        "proof_heading": "Built Around A Simple Feedback Loop",
+        "proof_copy": "<p>The value is the feedback loop: swing, hear the release, adjust, repeat. It gives every practice swing a clear job.</p>",
+        "offer_heading": "Everything You Need For Quick Timing Reps",
+        "offer_copy": "<p>A compact audible-feedback trainer you can use for short timing reps at home, at the range, or before a round.</p>",
+        "comparison_heading": "From Swinging Harder To Releasing Smarter",
+        "comparison_copy": "<p>Train the timing of your release so your effort is not spent before the club reaches the ball.</p>",
+        "before_heading": "Before",
+        "after_heading": "After",
+        "show_testimonials": false,
+        "testimonials_heading": "Golfer Feedback",
+        "testimonials_copy": "<p>Use this section only after replacing placeholder cards with real customer testimonials.</p>",
+        "guarantee_heading": "Try It For 30 Days",
+        "guarantee_copy": "<p>Use it at home, at the range, or before a round. If it is not right for you, return it within 30 days in line with our returns policy.</p>",
+        "guarantee_cta_text": "Get Yours Today",
+        "final_cta_heading": "Start Training Better Release Timing Today",
+        "final_cta_copy": "A few minutes of focused feedback beats another range session guessing what went wrong.",
+        "final_cta_button_text": "Get Yours Today",
+        "faq_heading": "Questions Before You Train",
+        "background_color": "#fbfcf8",
+        "panel_color": "#ffffff",
+        "text_color": "#10251f",
+        "muted_text_color": "#52605a",
+        "accent_color": "#146043",
+        "button_color": "#0f4936",
+        "gold_color": "#c4a15b"
+      },
+      "blocks": {
+        "hero_benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "placement": "hero",
+            "text": "Understand your release timing in seconds"
+          }
+        },
+        "hero_benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "placement": "hero",
+            "text": "Helps reduce early release and casting"
+          }
+        },
+        "hero_benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "placement": "hero",
+            "text": "Builds smoother tempo without complicated swing thoughts"
+          }
+        },
+        "hero_benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "placement": "hero",
+            "text": "Practice anywhere - no ball, net, or app required"
+          }
+        },
+        "hero_benefit_5": {
+          "type": "benefit",
+          "settings": {
+            "placement": "hero",
+            "text": "Compact enough for your golf bag"
+          }
+        },
+        "trust_1": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "Secure checkout"
+          }
+        },
+        "trust_2": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "30-day returns"
+          }
+        },
+        "trust_3": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "Tracked shipping"
+          }
+        },
+        "demo_1": {
+          "type": "demo_step",
+          "settings": {
+            "kicker": "0-1 sec",
+            "heading": "Show the swing starting",
+            "copy": "Start with a controlled practice swing and focus on where the sound happens."
+          }
+        },
+        "demo_2": {
+          "type": "demo_step",
+          "settings": {
+            "kicker": "1-2 sec",
+            "heading": "Show the early click",
+            "copy": "Use a visual/audio cue to show that an early click means the release happened too soon."
+          }
+        },
+        "demo_3": {
+          "type": "demo_step",
+          "settings": {
+            "kicker": "2-3 sec",
+            "heading": "Show the better click",
+            "copy": "Contrast it with the click happening closer to impact so the mechanism lands instantly."
+          }
+        },
+        "strip_1": {
+          "type": "benefit",
+          "settings": {
+            "placement": "strip",
+            "text": "Effortless power"
+          }
+        },
+        "strip_2": {
+          "type": "benefit",
+          "settings": {
+            "placement": "strip",
+            "text": "Instant feedback"
+          }
+        },
+        "strip_3": {
+          "type": "benefit",
+          "settings": {
+            "placement": "strip",
+            "text": "Better tempo"
+          }
+        },
+        "strip_4": {
+          "type": "benefit",
+          "settings": {
+            "placement": "strip",
+            "text": "Practice anywhere"
+          }
+        },
+        "strip_5": {
+          "type": "benefit",
+          "settings": {
+            "placement": "strip",
+            "text": "Warms up your swing"
+          }
+        },
+        "problem_card_1": {
+          "type": "stat_card",
+          "settings": {
+            "kicker": "Release",
+            "heading": "Speed leaks early",
+            "copy": "A powerful-feeling downswing can still lose speed before the club reaches impact."
+          }
+        },
+        "problem_card_2": {
+          "type": "stat_card",
+          "settings": {
+            "kicker": "Contact",
+            "heading": "Timing gets unclear",
+            "copy": "Without feedback, it is hard to know whether the release is improving or just feeling different."
+          }
+        },
+        "problem_card_3": {
+          "type": "stat_card",
+          "settings": {
+            "kicker": "Practice",
+            "heading": "Guessing slows progress",
+            "copy": "Simple feedback helps each rep have a clear purpose instead of adding more swing thoughts."
+          }
+        },
+        "mechanism_1": {
+          "type": "mechanism_card",
+          "settings": {
+            "kicker": "Too soon",
+            "heading": "Early Release",
+            "copy": "An early click tells you the release is happening too soon in the swing."
+          }
+        },
+        "mechanism_2": {
+          "type": "mechanism_card",
+          "settings": {
+            "kicker": "Better timing",
+            "heading": "Delayed Release",
+            "copy": "Move the click closer to impact to build the feel of delivering speed later."
+          }
+        },
+        "mechanism_3": {
+          "type": "mechanism_card",
+          "settings": {
+            "kicker": "Clear feedback",
+            "heading": "Impact Feedback",
+            "copy": "Hear the difference, adjust the motion, and repeat without an app or ball flight."
+          }
+        },
+        "step_1": {
+          "type": "how_to_step",
+          "settings": {
+            "heading": "Grip it like your normal club",
+            "copy": "Set up in a comfortable practice area with room to make controlled swings."
+          }
+        },
+        "step_2": {
+          "type": "how_to_step",
+          "settings": {
+            "heading": "Start with slow half swings",
+            "copy": "Keep the motion smooth so you can focus on the timing of the release."
+          }
+        },
+        "step_3": {
+          "type": "how_to_step",
+          "settings": {
+            "heading": "Listen for the click",
+            "copy": "Use the sound as feedback for when the release is happening."
+          }
+        },
+        "step_4": {
+          "type": "how_to_step",
+          "settings": {
+            "heading": "Adjust until the click moves closer to impact",
+            "copy": "Work gradually and avoid trying to force speed into the drill."
+          }
+        },
+        "step_5": {
+          "type": "how_to_step",
+          "settings": {
+            "heading": "Take the feel to your normal club",
+            "copy": "Use a few focused reps before range sessions or rounds."
+          }
+        },
+        "proof_1": {
+          "type": "proof_card",
+          "settings": {
+            "kicker": "Timing",
+            "heading": "Designed to improve release timing",
+            "copy": "Built around audible feedback so golfers can understand when the release is happening."
+          }
+        },
+        "proof_2": {
+          "type": "proof_card",
+          "settings": {
+            "kicker": "Routine",
+            "heading": "Built for short daily practice",
+            "copy": "Use focused reps at home, at the range, or before a round."
+          }
+        },
+        "proof_3": {
+          "type": "proof_card",
+          "settings": {
+            "kicker": "Portable",
+            "heading": "Made for home, range, or pre-round warm-up",
+            "copy": "Compact enough to keep nearby when you want a quick timing reset."
+          }
+        },
+        "offer_1": {
+          "type": "offer_item",
+          "settings": {
+            "kicker": "Included",
+            "heading": "Pro Swing Click Trainer",
+            "copy": "One compact audible-feedback trainer for controlled timing reps."
+          }
+        },
+        "offer_2": {
+          "type": "offer_item",
+          "settings": {
+            "kicker": "Size",
+            "heading": "Bag-friendly design",
+            "copy": "Collapses to about 15.3 inches and extends to about 26.5 inches based on current product details."
+          }
+        },
+        "offer_3": {
+          "type": "offer_item",
+          "settings": {
+            "kicker": "Build",
+            "heading": "Practice-ready materials",
+            "copy": "Stainless steel shaft, reinforced resin head, and non-slip rubber grip based on current product details."
+          }
+        },
+        "offer_4": {
+          "type": "offer_item",
+          "settings": {
+            "kicker": "Use",
+            "heading": "No ball, net, or app",
+            "copy": "Use it for quick warm-ups, home practice, range sessions, or pre-round timing checks."
+          }
+        },
+        "before_1": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "before",
+            "text": "Rushing from the top"
+          }
+        },
+        "before_2": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "before",
+            "text": "Early click"
+          }
+        },
+        "before_3": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "before",
+            "text": "Speed spent before impact"
+          }
+        },
+        "before_4": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "before",
+            "text": "Weak contact"
+          }
+        },
+        "after_1": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "after",
+            "text": "Smoother transition"
+          }
+        },
+        "after_2": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "after",
+            "text": "Click closer to impact"
+          }
+        },
+        "after_3": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "after",
+            "text": "Speed delivered later"
+          }
+        },
+        "after_4": {
+          "type": "comparison_item",
+          "settings": {
+            "column": "after",
+            "text": "More confident strike"
+          }
+        },
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "heading": "Placeholder quote",
+            "quote": "Replace this placeholder with a real customer quote before publishing.",
+            "name": "Customer name",
+            "meta": ""
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "heading": "Placeholder quote",
+            "quote": "Replace this placeholder with a real customer quote before publishing.",
+            "name": "Customer name",
+            "meta": ""
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "heading": "Placeholder quote",
+            "quote": "Replace this placeholder with a real customer quote before publishing.",
+            "name": "Customer name",
+            "meta": ""
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What does the Pro Swing Click Trainer do?",
+            "answer": "<p>It gives audible feedback during practice swings so you can better understand when your release is happening.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the click feedback work?",
+            "answer": "<p>The click gives you a clear sound cue during the motion. If it happens too early, slow down and adjust until the click moves closer to impact.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Do I need to hit golf balls?",
+            "answer": "<p>No. You can use it for controlled practice swings without a ball, net, or app.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use it indoors?",
+            "answer": "<p>Yes, if you have enough clear space to swing safely. Start with slow half swings.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "How long should I practice with it?",
+            "answer": "<p>Short, focused sessions are best. A few minutes of slow reps can be enough to work on timing.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "Is it suitable for beginners?",
+            "answer": "<p>Yes. Beginners can use the click as a simple feedback cue, while experienced golfers can use it to refine release timing.</p>"
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "Will it fit in my golf bag?",
+            "answer": "<p>It is designed to be compact enough to carry for home practice, range work, or warm-ups.</p>"
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the return policy?",
+            "answer": "<p>Returns are handled in line with the store's current returns policy. Review the policy before checkout for the latest details.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "hero_benefit_1",
+        "hero_benefit_2",
+        "hero_benefit_3",
+        "hero_benefit_4",
+        "hero_benefit_5",
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "demo_1",
+        "demo_2",
+        "demo_3",
+        "strip_1",
+        "strip_2",
+        "strip_3",
+        "strip_4",
+        "strip_5",
+        "problem_card_1",
+        "problem_card_2",
+        "problem_card_3",
+        "mechanism_1",
+        "mechanism_2",
+        "mechanism_3",
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5",
+        "proof_1",
+        "proof_2",
+        "proof_3",
+        "offer_1",
+        "offer_2",
+        "offer_3",
+        "offer_4",
+        "before_1",
+        "before_2",
+        "before_3",
+        "before_4",
+        "after_1",
+        "after_2",
+        "after_3",
+        "after_4",
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

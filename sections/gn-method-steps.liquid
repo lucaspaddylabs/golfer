@@ -1,0 +1,231 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-method-steps {
+    --gn-method-header-height: 60px;
+    --gn-method-image-height: {{ section.settings.image_height | default: 170 }}px;
+    background: {{ section.settings.background_color | default: '#e8e9e6' }};
+    padding: {{ section.settings.padding_top | default: 70 }}px 32px {{ section.settings.padding_bottom | default: 70 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__heading {
+    margin: 0 auto {{ section.settings.heading_spacing | default: 56 }}px;
+    max-width: 780px;
+    text-align: center;
+    font-size: 2.6rem;
+    line-height: 1.25;
+    color: {{ section.settings.heading_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__heading em {
+    font-style: italic;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__grid {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__col {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__number {
+    margin: 0 0 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__label {
+    margin: 0;
+    height: calc(var(--gn-method-header-height) - 22px);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: {{ section.settings.label_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--gn-method-image-height);
+    margin: 0 0 20px;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__name {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: {{ section.settings.label_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__name a {
+    color: inherit;
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__desc {
+    margin: 0 auto;
+    max-width: 190px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: {{ section.settings.text_color | default: '#464646' }};
+    opacity: 0.8;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__divider {
+    position: relative;
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: {{ section.settings.divider_gap | default: 56 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__divider-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: {{ section.settings.divider_color | default: '#d2d3cc' }};
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__divider-arrow {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--gn-method-header-height) + (var(--gn-method-image-height) / 2));
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: {{ section.settings.background_color | default: '#e8e9e6' }};
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-method-steps__divider-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-method-steps__heading {
+      font-size: 1.9rem;
+    }
+    #shopify-section-{{ section.id }} .gn-method-steps__grid {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    #shopify-section-{{ section.id }} .gn-method-steps__divider {
+      width: auto;
+      height: 48px;
+      align-self: auto;
+    }
+    #shopify-section-{{ section.id }} .gn-method-steps__divider-line {
+      left: 0;
+      right: 0;
+      top: 50%;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+      transform: translateY(-50%);
+    }
+    #shopify-section-{{ section.id }} .gn-method-steps__divider-arrow {
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+  }
+</style>
+
+<div class="gn-method-steps">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="gn-method-steps__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="gn-method-steps__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'step' -%}
+        {%- unless forloop.first -%}
+        <div class="gn-method-steps__divider">
+          <span class="gn-method-steps__divider-line"></span>
+          <span class="gn-method-steps__divider-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+        {%- endunless -%}
+        <div class="gn-method-steps__col" {{ block.shopify_attributes }}>
+          {%- if block.settings.number != blank -%}
+            <p class="gn-method-steps__number">{{ block.settings.number }}</p>
+          {%- endif -%}
+          {%- if block.settings.label != blank -%}
+            <p class="gn-method-steps__label">{{ block.settings.label }}</p>
+          {%- endif -%}
+          <div class="gn-method-steps__image">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.product_name != blank -%}
+            <p class="gn-method-steps__name">
+              {%- if block.settings.product_link != blank -%}
+                <a href="{{ block.settings.product_link }}">{{ block.settings.product_name }}</a>
+              {%- else -%}
+                {{ block.settings.product_name }}
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <p class="gn-method-steps__desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product method steps",
+  "tag": "section",
+  "settings": [
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>One method. <em>Four</em> feedback loops.</p>" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#e8e9e6" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#464646" },
+    { "type": "color", "id": "label_color", "label": "Step label / product name color", "default": "#464646" },
+    { "type": "color", "id": "text_color", "label": "Description text color", "default": "#464646" },
+    { "type": "color", "id": "accent_color", "label": "Accent color (step number, arrows)", "default": "#ec7901" },
+    { "type": "color", "id": "divider_color", "label": "Divider line color", "default": "#d2d3cc" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "image_height", "min": 100, "max": 300, "step": 10, "unit": "px", "label": "Image height", "default": 170 },
+    { "type": "range", "id": "divider_gap", "min": 24, "max": 100, "step": 4, "unit": "px", "label": "Space between columns", "default": 56 },
+    { "type": "range", "id": "heading_spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Space below heading", "default": 56 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 70 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 70 }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Step number", "default": "01" },
+        { "type": "text", "id": "label", "label": "Step label", "default": "CONNECT" },
+        { "type": "image_picker", "id": "image", "label": "Product image" },
+        { "type": "text", "id": "product_name", "label": "Product name", "default": "LINK ONE" },
+        { "type": "url", "id": "product_link", "label": "Product link" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Build connection and awareness." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product method steps",
+      "blocks": [
+        { "type": "step", "settings": { "number": "01", "label": "CONNECT", "product_name": "LINK ONE", "description": "Build connection and awareness." } },
+        { "type": "step", "settings": { "number": "02", "label": "SEQUENCE", "product_name": "ARC ONE", "description": "Groove the sequence. Hear the release." } },
+        { "type": "step", "settings": { "number": "03", "label": "STRIKE", "product_name": "TRACE ONE", "description": "Find center. Control low point." } },
+        { "type": "step", "settings": { "number": "04", "label": "ROLL", "product_name": "LINE ONE", "description": "Start it on line. Build better rolls." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

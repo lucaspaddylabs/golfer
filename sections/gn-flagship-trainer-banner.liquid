@@ -1,0 +1,366 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-flagship-banner {
+    position: relative;
+    overflow: hidden;
+    background-color: {{ section.settings.background_color | default: '#1d3d2a' }};
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    min-height: {{ section.settings.min_height | default: 520 }}px;
+    display: flex;
+    align-items: center;
+    padding: {{ section.settings.padding_top | default: 70 }}px 32px {{ section.settings.padding_bottom | default: 70 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__bg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | default: 0 | divided_by: 100.0 }});
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(300px, 440px) 1fr;
+    gap: 56px;
+    align-items: center;
+    height: 100%;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__heading {
+    margin: 0 0 18px;
+    font-size: 4rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__subheading {
+    margin: 0 0 20px;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    font-weight: 600;
+    max-width: 340px;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__rule {
+    width: 44px;
+    height: 3px;
+    border-radius: 2px;
+    margin: 0 0 28px;
+    background: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__features {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0 0 32px;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__feature-icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    opacity: 0.85;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__feature-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__feature-title {
+    margin: 0 0 3px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__feature-desc {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    opacity: 0.75;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    border-radius: 6px;
+    background: {{ section.settings.accent_color | default: '#ec7901' }};
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__cta:hover {
+    opacity: 0.88;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__cta svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    text-decoration: underline;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__secondary-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    flex: 0 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__secondary-icon svg {
+    width: 9px;
+    height: 9px;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__media {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__media img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  {%- if section.settings.enable_pulse -%}
+  @keyframes gn-flagship-pulse-{{ section.id }} {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.045);
+    }
+  }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__media.has-pulse img {
+    animation: gn-flagship-pulse-{{ section.id }} {{ section.settings.pulse_speed | default: 2.5 }}s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .gn-flagship-banner__media.has-pulse img {
+      animation: none;
+    }
+  }
+  {%- endif -%}
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-flagship-banner {
+      min-height: auto;
+    }
+    #shopify-section-{{ section.id }} .gn-flagship-banner__inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      height: auto;
+    }
+    #shopify-section-{{ section.id }} .gn-flagship-banner__content {
+      height: auto;
+    }
+    #shopify-section-{{ section.id }} .gn-flagship-banner__media {
+      height: 320px;
+    }
+    #shopify-section-{{ section.id }} .gn-flagship-banner__heading {
+      font-size: 2.75rem;
+    }
+    #shopify-section-{{ section.id }} .gn-flagship-banner__subheading {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<div class="gn-flagship-banner">
+  {%- if section.settings.background_image != blank -%}
+  <div class="gn-flagship-banner__bg">
+    {{ section.settings.background_image | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '100vw' }}
+  </div>
+  <div class="gn-flagship-banner__bg-overlay"></div>
+  {%- endif -%}
+  <div class="gn-flagship-banner__inner">
+    <div class="gn-flagship-banner__content">
+      {%- if section.settings.eyebrow_text != blank -%}
+        <p class="gn-flagship-banner__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="gn-flagship-banner__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="gn-flagship-banner__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      <div class="gn-flagship-banner__rule"></div>
+
+      {%- if section.blocks.size > 0 -%}
+      <div class="gn-flagship-banner__features">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'feature' -%}
+          <div class="gn-flagship-banner__feature" {{ block.shopify_attributes }}>
+            <span class="gn-flagship-banner__feature-icon">
+              {%- case block.settings.icon -%}
+                {%- when 'sound' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>
+                {%- when 'chart' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V10"/><path d="M10 20V4"/><path d="M17 20v-7"/></svg>
+                {%- when 'check' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-5"/></svg>
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5c0 5-3.5 8-8 9.5-4.5-1.5-8-4.5-8-9.5v-5L12 3Z"/></svg>
+                {%- when 'clock' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              {%- endcase -%}
+            </span>
+            <span>
+              {%- if block.settings.title != blank -%}
+                <p class="gn-flagship-banner__feature-title">{{ block.settings.title }}</p>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="gn-flagship-banner__feature-desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </span>
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      <div class="gn-flagship-banner__actions">
+        {%- if section.settings.button_text != blank -%}
+          <a href="{{ section.settings.button_link | default: '#' }}" class="gn-flagship-banner__cta">
+            {{ section.settings.button_text }}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.secondary_text != blank -%}
+          <a href="{{ section.settings.secondary_link | default: '#' }}" class="gn-flagship-banner__secondary">
+            <span class="gn-flagship-banner__secondary-icon">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 4.44 15 10 5 15.56V4.44Z"/></svg>
+            </span>
+            {{ section.settings.secondary_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.image != blank -%}
+    <div class="gn-flagship-banner__media{% if section.settings.enable_pulse %} has-pulse{% endif %}">
+      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 900px, 100vw' }}
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Flagship trainer banner",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "Our flagship trainer" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "ARC ONE" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Hear the moment sequence becomes release." },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "checkbox", "id": "enable_pulse", "label": "Pulse animation on image", "default": true },
+    { "type": "range", "id": "pulse_speed", "min": 1, "max": 6, "step": 0.5, "unit": "s", "label": "Pulse speed", "default": 2.5 },
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Background image darkness", "default": 0 },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_text", "label": "Button label", "default": "Shop ARC ONE" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Secondary link" },
+    { "type": "text", "id": "secondary_text", "label": "Link label", "default": "Learn how it works" },
+    { "type": "url", "id": "secondary_link", "label": "Link URL" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#1d3d2a" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#ec7901" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "min_height", "min": 320, "max": 800, "step": 10, "unit": "px", "label": "Minimum height (desktop)", "default": 520 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 70 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 70 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "sound", "label": "Sound" },
+            { "value": "chart", "label": "Chart" },
+            { "value": "check", "label": "Checkmark" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "clock", "label": "Clock" }
+          ],
+          "default": "check"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Feature title" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Feature description." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flagship trainer banner",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "sound", "title": "Audible feedback", "description": "The click confirms correct sequence." } },
+        { "type": "feature", "settings": { "icon": "chart", "title": "Immediate data", "description": "Feel it right away. Adjust faster." } },
+        { "type": "feature", "settings": { "icon": "check", "title": "Built for repetition", "description": "Durable, balanced and tour tough." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

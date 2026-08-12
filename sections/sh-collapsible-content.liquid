@@ -1,0 +1,336 @@
+{%- capture sh_collapsible_content_css -%}
+  <style>
+    #sh-{{ section.id }}.sh-collapsible-content-section { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;background: {{ section.settings.bg_color }}; }
+    #sh-{{ section.id }} .sh-page-width {max-width: {{section.settings.section_max_width}}px;width: 100%;padding: 0 20px;margin: 0 auto;background: {{ section.settings.bg_color }};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-heading { font-size: {{ section.settings.title_size }}px;font-weight: 500;margin: 0 0 20px;color: {{section.settings.title_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-title {margin-bottom: 30px;}
+    #sh-{{ section.id }} .sh-collapsible-content-section-desc p{margin:0;font-size: {{ section.settings.content_size }}px;line-height: 1.4;color: {{section.settings.content_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap .sh-collapsible-content-section-rows {border-bottom: 1px solid {{section.settings.border_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button {font-family: inherit;position: relative;display: block;text-align: left;width: 100%;padding: 1em 0;font-size: {{ section.settings.row_question_size }}px;font-weight: 400;border: none;background: none;outline: none;cursor: pointer;letter-spacing: inherit;}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button .sh-collapsible-content-section-que {padding: 0 3em 0 0;display: block;line-height: 1.4;color: {{section.settings.question_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button .sh-collapsible-content-icon {display: inline-block;position: absolute;top: 18px;right: 0;width: 22px;height: 22px;border: 1px solid;border-radius: 22px;color: {{section.settings.question_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button .sh-collapsible-content-icon::before {display: block;position: absolute;content: '';top: 9px;left: 5px;width: 10px;height: 2px;background: currentColor;color: {{section.settings.question_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button .sh-collapsible-content-icon::after {display: block;position: absolute;content: '';top: 5px;left: 9px;width: 2px;height: 10px;background: currentColor;color: {{section.settings.question_color}};}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button[aria-expanded='true'] .sh-collapsible-content-icon::after {width: 0;}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap button[aria-expanded='true'] + .sh-collapsible-content-section-ans {opacity: 1;max-height: 100%;transition: all 200ms linear;will-change: opacity, max-height;}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap .sh-collapsible-content-section-ans {opacity: 0;max-height: 0;overflow: hidden;transition: opacity 200ms linear, max-height 200ms linear;will-change: opacity, max-height;}
+    #sh-{{ section.id }} .sh-collapsible-content-section-wrap .sh-collapsible-content-section-ans p {font-size: {{ section.settings.row_answer_size }}px;line-height: 1.4;margin: 10px 0 25px;color: {{section.settings.answer_color}}}
+    
+    @media only screen and (max-width: 767px){
+      #sh-{{ section.id }} .sh-collapsible-content-section-wrap .sh-collapsible-content-section-ans p {margin: 0 0 15px;font-size:14px; }
+      #sh-{{ section.id }}.sh-collapsible-content-section {padding: {{ section.settings.mob_padding_top }}px 0 {{ section.settings.mob_padding_bottom }}px;}
+      #sh-{{ section.id }} .sh-collapsible-content-section-heading{font-size: 26px; margin: 0 0 10px;}
+      #sh-{{ section.id }} .sh-collapsible-content-section-desc p{font-size: 14px;} 
+      #sh-{{ section.id }} .sh-collapsible-content-section-wrap button{font-size: 16px;}     
+      #sh-{{ section.id }} .sh-collapsible-content-title {margin-bottom: 20px;} 
+    }
+  </style>
+{%- endcapture -%}
+{{- sh_collapsible_content_css | strip_newlines -}}
+ 
+{% if section.blocks.size > 0 %}
+  <div id="sh-{{ section.id }}" class="sh-collapsible-content-section">
+    <div class="sh-page-width">  
+      {% if section.settings.title != blank or section.settings.content != blank %}
+        <div class="sh-collapsible-content-title sh-title-align-{{ section.settings.content_align }}">
+          {% if section.settings.title != blank %}
+            <h2 class="sh-collapsible-content-section-heading">{{ section.settings.title }}</h2>
+          {% endif %}
+          {% if section.settings.content != blank %}
+            <div class="sh-collapsible-content-section-desc sh-section-desc">{{ section.settings.content }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="sh-collapsible-content-section-wrap">
+        {% assign sh_index = 0 %}
+        {% for block in section.blocks %}
+          {% if block.settings.title != blank and block.settings.ans != blank %}
+            <div class="sh-collapsible-content-section-rows">
+              <button id="sh-collapsible-content-button-1" {% if sh_index == 0 and section.settings.open_first_collapsible_row %}aria-expanded="true" {% else %}aria-expanded="false"{% endif %}>
+                <span class="sh-collapsible-content-section-que">{{ block.settings.title }}</span>
+                <span class="sh-collapsible-content-icon" aria-hidden="true"></span>
+              </button>
+              <div class="sh-collapsible-content-section-ans">
+                {{ block.settings.ans }}
+              </div>
+            </div>
+            {% assign sh_index = sh_index | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if(document.querySelector("#sh-{{ section.id }}")){
+      let faqItems = document.querySelector("#sh-{{ section.id }}").querySelectorAll('.sh-collapsible-content-section-wrap button');
+      faqItems.forEach((faqItem) => faqItem.addEventListener('click', toggleFaqsAccordion));
+
+      function toggleFaqsAccordion() {
+        let faqItemsNew = document.querySelector("#sh-{{ section.id }}").querySelectorAll('.sh-collapsible-content-section-wrap button');
+        const faqItemToggle = this.getAttribute('aria-expanded');
+        for (i = 0; i < faqItemsNew.length; i++) {
+          faqItemsNew[i].setAttribute('aria-expanded', 'false');
+        }
+        if (faqItemToggle == 'false') {
+          this.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+  </script>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "SH: Collapsible content",
+    "tag":"section",
+    "class": "sh-section-hub-main",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default":"Frequently questions asked"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Content",
+        "default": "<p>Have questions about our products, or services? Find answers to the most common inquiries here.</p>"
+      },
+      {
+        "type":"text_alignment",
+        "id":"content_align",
+        "label": "Text alignment",
+        "default": "center"
+      },
+      {
+        "type": "checkbox",
+        "id": "open_first_collapsible_row",
+        "default": true,
+        "label": "Open first collapsible row"
+      },
+      {
+        "type": "header",
+        "content": "Font size"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Heading",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "content_size",
+        "min": 5,
+        "max": 30,
+        "step": 1, 
+        "unit": "px",
+        "label": "Content",
+        "default": 16
+      },
+      {
+        "type": "paragraph",
+        "content": "Collapsible rows"
+      },
+      {
+        "type": "range",
+        "id": "row_question_size",
+        "min": 5,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Heading",
+        "default": 18 
+      },
+      {
+        "type": "range",
+        "id": "row_answer_size",
+        "min": 5,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Content",
+        "default": 15
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "Heading color",
+        "default": "#121212"
+      },
+      {
+        "type": "color",
+        "id": "content_color",
+        "label": "Content color",
+        "default": "#121212"
+      },
+      {
+        "type": "paragraph",
+        "content": "Collapsible rows"
+      },
+      {
+        "type": "color",
+        "id": "question_color",
+        "label": "Heading color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "answer_color",
+        "label": "Content color",
+        "default": "#121212"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "label": "Border color",
+        "default": "#d9d9d9"
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "paragraph",
+        "content": "Desktop"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 40
+      },
+      {
+        "type": "paragraph",
+        "content": "Mobile"
+      },
+      {
+        "type": "range",
+        "id": "mob_padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "mob_padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "Section width"
+      },
+      {
+        "type": "text",
+        "id": "section_max_width",
+        "label": "Width (in px)",
+        "default": "1140"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collapsible_row",
+        "name": "Collapsible row",
+        "limit": 25,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "What is your return policy?"
+          },
+          {
+            "type": "richtext",
+            "id": "ans",
+            "label": "Content",
+            "default": "<p>We offer a hassle-free return policy. If you're not satisfied with your purchase, you can return it within 30 days for a full refund or exchange. Please refer to our Returns & Exchanges page for detailed instructions.</p>"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name": "SH: Collapsible content",
+        "blocks": [
+          {
+            "type": "collapsible_row",
+            "settings": {
+              "title": "What is your return policy?",
+              "ans": "<p>We offer a hassle-free return policy. If you’re not satisfied with your purchase, you can return it within 30 days for a full refund or exchange. Please refer to our Returns & Exchanges page for detailed instructions.</p>"
+            }
+          },
+          {
+            "type": "collapsible_row",
+            "settings": {
+              "title": "How do I track my order?",
+              "ans": "<p>Tracking your order is easy! Once your order is shipped, we’ll send you a confirmation email with a tracking number. You can use this number to track your order’s status on our Order Tracking page.</p>"
+            }
+          },
+          {
+            "type": "collapsible_row",
+            "settings": {
+              "title": "What payment methods do you accept?",
+              "ans": "<p>We accept major credit cards (Visa, MasterCard, American Express) and PayPal for secure and convenient payments.</p>"
+            }
+          },
+          {
+            "type": "collapsible_row",
+            "settings": {
+              "title": "Do you offer international shipping?",
+              "ans": "<p>Yes, we offer international shipping to most countries. Shipping fees and delivery times may vary based on your location. Please refer to our Shipping Information page for more details.</p>"
+            }
+          },
+          {
+            "type": "collapsible_row",
+            "settings": {
+              "title": "How can I contact your customer support?",
+              "ans": "<p>You can reach our friendly customer support team through our Contact Us page, where you’ll find a contact form and our email address. We’re here to assist you with any questions or concerns you may have.</p>"
+            }
+          }
+        ]
+      }
+    ],
+    "disabled_on": {
+      "groups": ["footer","header"]
+    }
+  }
+{% endschema %}
