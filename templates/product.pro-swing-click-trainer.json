@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -42,8 +51,10 @@
         "choose_options_text": "Choose options",
         "sold_out_text": "Sold out",
         "sale_badge_text": "Sale",
-        "show_dynamic_checkout": true,
+        "show_dynamic_checkout": false,
         "show_sticky_atc": true,
+        "product_image_override": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
+        "product_image_alt": "",
         "enable_pulse": false,
         "pulse_speed": 2.5,
         "overlay_opacity": 55,
@@ -241,6 +252,7 @@
         "heading": "ARC ONE covers sequence.",
         "copy": "Our practice setup has four tools. ARC ONE is the one that trains release timing with a click. The others handle connection, strike, and putting roll.",
         "link_text": "See the other tools",
+        "link_url": "",
         "background_color": "#f2eee3",
         "rail_background": "#faf8f2",
         "heading_color": "#182b20",

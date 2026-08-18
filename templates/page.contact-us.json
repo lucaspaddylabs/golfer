@@ -1,17 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "gn-contact-hero",
-      "settings": {
-        "eyebrow_text": "Get in touch",
-        "heading": "We're here to help.",
-        "description": "Questions about an order, a product, or your practice routine? Send us a message and we'll get back to you within one business day.",
-        "background_color": "#1d3d2a",
-        "text_color": "#ffffff",
-        "accent_color": "#ec7901",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
+      "settings": {}
     },
     "main": {
       "type": "main-page",
@@ -65,7 +65,11 @@
           }
         }
       },
-      "block_order": ["info_email", "info_phone", "info_hours"],
+      "block_order": [
+        "info_email",
+        "info_phone",
+        "info_hours"
+      ],
       "settings": {
         "info_heading": "Contact information",
         "info_description": "Prefer to reach us directly? Use any of the details below.",
@@ -80,5 +84,9 @@
       }
     }
   },
-  "order": ["hero", "main", "form"]
+  "order": [
+    "hero",
+    "main",
+    "form"
+  ]
 }
