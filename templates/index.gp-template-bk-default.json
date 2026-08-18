@@ -156,7 +156,7 @@
             "roundness_button": 20,
             "heading_size_px": 124,
             "heading_size_px_tablet": 40,
-            "heading_size_px_mobile": 30,
+            "heading_size_px_mobile": 45,
             "hover_underline": false,
             "heading_uppercase_bold": true,
             "foreground_image": "shopify://shop_images/Firefly_remove_the_white_lines_around_the_person_645613.png",
@@ -317,7 +317,7 @@
         "show_lines": false,
         "lines_width": "fullwidth",
         "background": "color",
-        "color_background": "#1D3D2A",
+        "color_background": "#1d3d2a",
         "gradient": "",
         "image_overlay_opacity": 0,
         "image_overlay_color": "rgba(0,0,0,0)",
@@ -1164,7 +1164,7 @@
           "type": "banner",
           "settings": {
             "content_type": "image",
-            "image": "shopify://shop_images/luis-villasmil-xjipz8a_S3U-unsplash.jpg",
+            "image": "shopify://shop_images/pexels-mikhail-nilov-9207648.jpg",
             "image_ratio_mobile": "default",
             "image_overlay_opacity": 70,
             "image_overlay_fill": false,
@@ -1218,7 +1218,7 @@
           "type": "banner",
           "settings": {
             "content_type": "image",
-            "image": "shopify://shop_images/chris-arjoon-pE73Ke2JoQc-unsplash.jpg",
+            "image": "shopify://shop_images/pexels-mickhaupt-5644639.jpg",
             "image_ratio_mobile": "default",
             "image_overlay_opacity": 0,
             "image_overlay_fill": false,
@@ -1272,7 +1272,7 @@
           "type": "banner",
           "settings": {
             "content_type": "image",
-            "image": "shopify://shop_images/pexels-kampus-6542389.jpg",
+            "image": "shopify://shop_images/pexels-kampus-6542389_09438e01-464f-4288-94cf-e03c03ec0cc2.jpg",
             "image_ratio_mobile": "default",
             "image_overlay_opacity": 0,
             "image_overlay_fill": false,
@@ -1326,7 +1326,7 @@
           "type": "banner",
           "settings": {
             "content_type": "image",
-            "image": "shopify://shop_images/pexels-jopwell-1325683.jpg",
+            "image": "shopify://shop_images/pexels-alexandr-meadow-1505505-29716185.jpg",
             "image_ratio_mobile": "default",
             "image_overlay_opacity": 30,
             "image_overlay_fill": false,
