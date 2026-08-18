@@ -78,12 +78,16 @@ class CartDrawer extends HTMLElement {
   }
 
   renderContents(parsedState) {
-    this.querySelector('.drawer__inner').classList.contains('is-empty') &&
-      this.querySelector('.drawer__inner').classList.remove('is-empty');
+    this.classList.remove('is-empty');
+    this.querySelector('.drawer__inner')?.classList.remove('is-empty');
+    this.querySelector('cart-drawer-items')?.classList.remove('is-empty');
     this.productId = parsedState.id;
     this.getSectionsToRender().forEach((section) => {
+      const sectionHtml = parsedState.sections?.[section.id];
+      if (!sectionHtml) return;
       const sectionElement = section.selector ? document.querySelector(section.selector) : document.getElementById(section.id);
-      if(sectionElement) sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
+      const sectionContent = this.getSectionInnerHTML(sectionHtml, section.selector);
+      if (sectionElement && sectionContent) sectionElement.innerHTML = sectionContent;
       if(section.id == 'cart-free-delivery' && document.querySelector('#product-page-free-delivery')){
         document.querySelector('#product-page-free-delivery').innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
       }
@@ -101,7 +105,9 @@ class CartDrawer extends HTMLElement {
   }
 
   getSectionInnerHTML(html, selector = '.shopify-section') {
-    return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
+    if (!html) return '';
+    const section = new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
+    return section ? section.innerHTML : '';
   }
 
   getSectionsToRender() {
