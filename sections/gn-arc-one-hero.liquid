@@ -5,6 +5,8 @@
   if current_variant.compare_at_price > current_variant.price
     assign show_sale_badge = true
   endif
+  assign hero_product_image = section.settings.product_image_override
+  assign hero_image_alt = section.settings.product_image_alt | default: product.title
 %}
 
 <style>
@@ -636,7 +638,11 @@
         {%- endif -%}
         <div class="gn-arc-hero__media-wrap">
           <div class="gn-arc-hero__stage{% if section.settings.enable_pulse %} has-pulse{% endif %}">
-            {% if product.media.size > 0 %}
+            {% if hero_product_image != blank %}
+              <div class="gn-arc-hero__panel is-active">
+                {{ hero_product_image | image_url: width: 1400 | image_tag: alt: hero_image_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+              </div>
+            {% elsif product.media.size > 0 %}
               {% for media in product.media %}
                 <div
                   class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}"
@@ -671,7 +677,7 @@
             {% endif %}
           </div>
 
-          {% if product.media.size > 1 %}
+          {% if hero_product_image == blank and product.media.size > 1 %}
             <div class="gn-arc-hero__thumbs" aria-label="Choose product media">
               {% for media in product.media %}
                 {% liquid
@@ -955,7 +961,9 @@
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true },
     { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky mobile add to cart", "default": true },
     { "type": "header", "content": "Images" },
-    { "type": "image_picker", "id": "fallback_image", "label": "Fallback product image" },
+    { "type": "image_picker", "id": "product_image_override", "label": "Product image override", "info": "Optional. Replaces the product gallery on the stage — use a transparent PNG to show the course background through the product." },
+    { "type": "text", "id": "product_image_alt", "label": "Override image alt text", "info": "Optional. Defaults to the product title." },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback product image", "info": "Used only when the product has no images and no override is set." },
     { "type": "image_picker", "id": "stage_image", "label": "Stage background image" },
     { "type": "checkbox", "id": "enable_pulse", "label": "Pulse animation on product image", "default": true },
     { "type": "range", "id": "pulse_speed", "min": 1, "max": 6, "step": 0.5, "unit": "s", "label": "Pulse speed", "default": 2.5 },
