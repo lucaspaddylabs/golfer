@@ -346,8 +346,9 @@
     "enable_compare": false,
     "page_compare": "compare",
     "favicon": "shopify://shop_images/golverfavi_152ecfbc-b21c-4e00-b2c9-f59068d497f2.png",
+    "enable_rating": true,
     "show_number_rating": true,
-    "enable_breadcrumb": true,
+    "enable_breadcrumb": false,
     "background_width_breadcrumb": "fullwidth",
     "breadcrumbs_background": "rgba(0,0,0,0)",
     "button_background": "gradient",
@@ -423,8 +424,7 @@
         "disabled": false,
         "settings": {}
       }
-    },
-    "enable_rating": true
+    }
   },
   "platform_customizations": {
     "custom_css": [
