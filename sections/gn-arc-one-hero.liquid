@@ -1,0 +1,998 @@
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'gn-arc-form-' | append: section.id
+  assign show_sale_badge = false
+  if current_variant.compare_at_price > current_variant.price
+    assign show_sale_badge = true
+  endif
+%}
+
+<style>
+  #shopify-section-{{ section.id }} .gn-arc-hero {
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.ink_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-areas: "stage buy";
+    gap: 0;
+    min-height: {{ section.settings.min_height }}px;
+    align-items: stretch;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__buy-col {
+    grid-area: buy;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 0 48px 48px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__eyebrow {
+    margin: 0 0 18px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__heading {
+    margin: 0 0 14px;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(3.2rem, 7vw, 5rem);
+    line-height: 0.95;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__tagline {
+    margin: 0 0 28px;
+    max-width: 28ch;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    font-weight: 500;
+    color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__lede {
+    margin: 0 0 32px;
+    max-width: 38ch;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px 14px;
+    margin-bottom: 22px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__price {
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__compare {
+    color: {{ section.settings.muted_color }};
+    text-decoration: line-through;
+    font-size: 1rem;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__sale {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.background_color }};
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__fieldset {
+    padding: 0;
+    margin: 0 0 14px;
+    border: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__fieldset legend,
+  #shopify-section-{{ section.id }} .gn-arc-hero__qty-label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__option {
+    position: relative;
+    display: inline-flex;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__option input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__option span {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid {{ section.settings.divider_color }};
+    border-radius: 4px;
+    background: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__option input:checked + span {
+    border-color: {{ section.settings.accent_color }};
+    box-shadow: inset 0 0 0 1px {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__form-row {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 10px;
+    align-items: end;
+    max-width: 420px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__qty input {
+    width: 100%;
+    min-height: 54px;
+    border: 1px solid {{ section.settings.divider_color }};
+    border-radius: 4px;
+    padding: 0 10px;
+    text-align: center;
+    font-weight: 800;
+    background: #fff;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__cta {
+    min-height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    border: 0;
+    border-radius: 4px;
+    padding: 14px 22px;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.background_color }};
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__cta:hover { opacity: 0.9; }
+  #shopify-section-{{ section.id }} .gn-arc-hero__cta:disabled,
+  #shopify-section-{{ section.id }} .gn-arc-hero__cta[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__cta svg {
+    width: 16px;
+    height: 16px;
+  }
+  #shopify-section-{{ section.id }} .shopify-payment-button {
+    margin-top: 10px;
+    max-width: 420px;
+  }
+  #shopify-section-{{ section.id }} .shopify-payment-button__button {
+    min-height: 48px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .product-form__error-message-wrapper {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    background: #fff4f4;
+    color: #8a2626;
+    font-size: 0.88rem;
+  }
+  #shopify-section-{{ section.id }} .product-form__error-message-wrapper[hidden] { display: none; }
+  #shopify-section-{{ section.id }} .loading-overlay__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(245, 241, 232, 0.35);
+    border-top-color: {{ section.settings.background_color }};
+    border-radius: 50%;
+    animation: gn-arc-spin-{{ section.id }} 700ms linear infinite;
+  }
+  #shopify-section-{{ section.id }} .loading-overlay__spinner.hidden { display: none; }
+  @keyframes gn-arc-spin-{{ section.id }} {
+    to { transform: rotate(360deg); }
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin-top: 18px;
+    max-width: 420px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__trust-item {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
+    grid-area: stage;
+    position: relative;
+    background-color: {{ section.settings.stage_color }};
+    {%- unless section.settings.stage_image != blank -%}
+    background-image:
+      linear-gradient(rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }})),
+      url({{ 'stage-golfer.jpg' | asset_url }});
+    background-position: 72% center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    {%- endunless -%}
+    color: {{ section.settings.stage_text_color }};
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 36px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-label {
+    margin: 0 0 24px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: {{ section.settings.stage_accent }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__media-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage {
+    position: relative;
+    width: 100%;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__panel.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage img,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage video,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage iframe,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage model-viewer {
+    display: block;
+    max-width: 100%;
+    max-height: 460px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  {%- if section.settings.enable_pulse -%}
+  @keyframes gn-arc-pulse-{{ section.id }} {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage.has-pulse .gn-arc-hero__panel.is-active img {
+    animation: gn-arc-pulse-{{ section.id }} {{ section.settings.pulse_speed }}s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage.has-pulse .gn-arc-hero__panel.is-active img {
+      animation: none;
+    }
+  }
+  {%- endif -%}
+  #shopify-section-{{ section.id }} .gn-arc-hero__thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__thumb {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(245, 243, 236, 0.28);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__thumb[aria-current="true"] {
+    border-color: {{ section.settings.stage_accent }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__signals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245, 243, 236, 0.18);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__signal-label {
+    margin: 0 0 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.stage_accent }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__signal-text {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    opacity: 0.82;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__sticky { display: none; }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-arc-hero__inner {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "stage"
+        "buy";
+      padding: 0;
+      min-height: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__buy-col {
+      padding: 36px 20px 40px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
+      min-height: 0;
+      padding: 32px 20px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__form-row {
+      max-width: none;
+    }
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-bottom: {% if section.settings.show_sticky_atc %}78px{% else %}0{% endif %};
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero {
+      padding: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
+      padding: 14px 16px 6px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-label,
+    #shopify-section-{{ section.id }} .gn-arc-hero__signals,
+    #shopify-section-{{ section.id }} .gn-arc-hero__thumbs {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage {
+      min-height: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage img,
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage video,
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage iframe,
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage model-viewer {
+      max-height: min(34vh, 260px);
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage.has-pulse .gn-arc-hero__panel.is-active img {
+      animation: none;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__buy-col {
+      padding: 12px 16px 18px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__eyebrow {
+      margin-bottom: 6px;
+      font-size: 0.7rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__heading {
+      margin-bottom: 6px;
+      font-size: clamp(2rem, 9vw, 2.6rem);
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__tagline {
+      margin-bottom: 10px;
+      max-width: none;
+      font-size: 0.95rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__lede {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
+      margin-bottom: 10px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__price {
+      font-size: 1.45rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__form-row {
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 8px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__qty input,
+    #shopify-section-{{ section.id }} .gn-arc-hero__cta {
+      min-height: 48px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__trust {
+      margin-top: 10px;
+      gap: 4px 12px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__trust-item {
+      font-size: 0.7rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__signals {
+      grid-template-columns: 1fr;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: {{ section.settings.background_color }};
+      border-top: 1px solid {{ section.settings.divider_color }};
+      transform: translateY(110%);
+      transition: transform 180ms ease;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sticky.is-visible {
+      transform: translateY(0);
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sticky-title {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: {{ section.settings.ink_color }};
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sticky-price {
+      color: {{ section.settings.muted_color }};
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sticky .gn-arc-hero__cta {
+      width: auto;
+      min-width: 148px;
+      min-height: 46px;
+      font-size: 0.8rem;
+    }
+  }
+</style>
+
+<section
+  class="gn-arc-hero"
+  id="gn-arc-hero-{{ section.id }}"
+  data-gn-arc-hero
+  data-section-id="{{ section.id }}"
+  data-money-format="{{ shop.money_format | escape }}"
+  data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+>
+  <div class="gn-arc-hero__inner">
+    <div class="gn-arc-hero__buy-col">
+      {%- if section.settings.eyebrow_text != blank -%}
+        <p class="gn-arc-hero__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {%- endif -%}
+      <h1 class="gn-arc-hero__heading">{{ section.settings.heading | default: product.title }}</h1>
+      {%- if section.settings.tagline != blank -%}
+        <p class="gn-arc-hero__tagline">{{ section.settings.tagline }}</p>
+      {%- endif -%}
+      {%- if section.settings.lede != blank -%}
+        <p class="gn-arc-hero__lede">{{ section.settings.lede }}</p>
+      {%- endif -%}
+
+      <div id="ProductForm-{{ section.id }}" data-gn-form-wrap>
+        <div class="gn-arc-hero__price-row">
+          <span class="gn-arc-hero__price" data-gn-price>{{ current_variant.price | money }}</span>
+          <span class="gn-arc-hero__compare" data-gn-compare{% unless show_sale_badge %} hidden{% endunless %}>
+            {{ current_variant.compare_at_price | money }}
+          </span>
+          <span class="gn-arc-hero__sale" data-gn-sale-badge{% unless show_sale_badge %} hidden{% endunless %}>
+            {{ section.settings.sale_badge_text }}
+          </span>
+        </div>
+
+        <product-form class="product-form" data-hide-errors="false">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
+
+          {% form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" data-gn-variant-input>
+
+            {% unless product.has_only_default_variant %}
+              <div data-gn-options>
+                {% for option in product.options_with_values %}
+                  <fieldset class="gn-arc-hero__fieldset">
+                    <legend>{{ option.name }}</legend>
+                    <div class="gn-arc-hero__options">
+                      {% for value in option.values %}
+                        <label class="gn-arc-hero__option">
+                          <input
+                            type="radio"
+                            name="gn-option-{{ section.id }}-{{ option.position }}"
+                            value="{{ value | escape }}"
+                            data-gn-option-input
+                            data-option-position="{{ option.position }}"
+                            {% if option.selected_value == value %}checked{% endif %}
+                          >
+                          <span>{{ value }}</span>
+                        </label>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                {% endfor %}
+              </div>
+            {% endunless %}
+
+            <div class="gn-arc-hero__form-row">
+              <div class="gn-arc-hero__qty">
+                <label class="gn-arc-hero__qty-label" for="Quantity-{{ section.id }}">{{ section.settings.quantity_label }}</label>
+                <input id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1" inputmode="numeric">
+              </div>
+              <button
+                class="gn-arc-hero__cta"
+                type="submit"
+                name="add"
+                data-gn-submit
+                {% unless current_variant.available %}disabled aria-disabled="true"{% endunless %}
+              >
+                <span data-gn-submit-label>
+                  {% if current_variant.available %}
+                    {{ section.settings.add_to_cart_text }}
+                  {% else %}
+                    {{ section.settings.sold_out_text }}
+                  {% endif %}
+                </span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                <span class="loading-overlay__spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+
+            {% if section.settings.show_dynamic_checkout %}
+              <div data-gn-payment-button{% unless current_variant.available %} hidden{% endunless %}>
+                {{ form | payment_button }}
+              </div>
+            {% endif %}
+          {% endform %}
+        </product-form>
+
+        {%- assign trust_items = section.blocks | where: 'type', 'trust' -%}
+        {%- if trust_items.size > 0 -%}
+          <div class="gn-arc-hero__trust">
+            {%- for block in trust_items -%}
+              <span class="gn-arc-hero__trust-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="gn-arc-hero__stage-col">
+      {%- if section.settings.stage_image != blank -%}
+        <div class="gn-arc-hero__stage-bg">
+          {{ section.settings.stage_image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 900px) 50vw, 100vw' }}
+        </div>
+        <div class="gn-arc-hero__stage-overlay"></div>
+      {%- endif -%}
+      <div class="gn-arc-hero__stage-content">
+        {%- if section.settings.stage_label != blank -%}
+          <p class="gn-arc-hero__stage-label">{{ section.settings.stage_label }}</p>
+        {%- endif -%}
+        <div class="gn-arc-hero__media-wrap">
+          <div class="gn-arc-hero__stage{% if section.settings.enable_pulse %} has-pulse{% endif %}">
+            {% if product.media.size > 0 %}
+              {% for media in product.media %}
+                <div
+                  class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}"
+                  data-gn-media-panel
+                  data-media-id="{{ media.id }}"
+                >
+                  {% liquid
+                    assign media_alt = media.alt | default: product.title
+                  %}
+                  {% case media.media_type %}
+                    {% when 'image' %}
+                      {% if forloop.first %}
+                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+                      {% else %}
+                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'lazy', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+                      {% endif %}
+                    {% when 'video' %}
+                      {{ media | video_tag: controls: true, image_size: '1200x' }}
+                    {% when 'external_video' %}
+                      {{ media | external_video_tag }}
+                    {% when 'model' %}
+                      {{ media | model_viewer_tag: image_size: '1200x' }}
+                    {% else %}
+                      {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'lazy' }}
+                  {% endcase %}
+                </div>
+              {% endfor %}
+            {% elsif product.featured_image %}
+              {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, loading: 'eager' }}
+            {% elsif section.settings.fallback_image != blank %}
+              {{ section.settings.fallback_image | image_url: width: 1400 | image_tag: alt: section.settings.heading, loading: 'eager' }}
+            {% endif %}
+          </div>
+
+          {% if product.media.size > 1 %}
+            <div class="gn-arc-hero__thumbs" aria-label="Choose product media">
+              {% for media in product.media %}
+                {% liquid
+                  assign thumb_alt = media.alt | default: product.title
+                %}
+                <button
+                  class="gn-arc-hero__thumb"
+                  type="button"
+                  data-gn-thumbnail
+                  data-media-id="{{ media.id }}"
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-label="Show media {{ forloop.index }}"
+                >
+                  {{ media.preview_image | image_url: width: 160 | image_tag: alt: thumb_alt, loading: 'lazy' }}
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        {%- if section.settings.signal_label_1 != blank or section.settings.signal_label_2 != blank -%}
+          <div class="gn-arc-hero__signals">
+            <div>
+              <p class="gn-arc-hero__signal-label">{{ section.settings.signal_label_1 }}</p>
+              <p class="gn-arc-hero__signal-text">{{ section.settings.signal_text_1 }}</p>
+            </div>
+            <div>
+              <p class="gn-arc-hero__signal-label">{{ section.settings.signal_label_2 }}</p>
+              <p class="gn-arc-hero__signal-text">{{ section.settings.signal_text_2 }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_sticky_atc %}
+    <div class="gn-arc-hero__sticky" data-gn-sticky-atc>
+      <div>
+        <p class="gn-arc-hero__sticky-title">{{ section.settings.heading | default: product.title }}</p>
+        <span class="gn-arc-hero__sticky-price" data-gn-sticky-price>{{ current_variant.price | money }}</span>
+      </div>
+      <button class="gn-arc-hero__cta" type="button" data-gn-sticky-button data-gn-add-to-cart>
+        {% if product.has_only_default_variant %}
+          {% if current_variant.available %}{{ section.settings.add_to_cart_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
+        {% else %}
+          {{ section.settings.choose_options_text }}
+        {% endif %}
+      </button>
+    </div>
+  {% endif %}
+
+  <script type="application/json" data-gn-variants>
+    {{ product.variants | json }}
+  </script>
+</section>
+
+<script>
+  (() => {
+    const section = document.getElementById('gn-arc-hero-{{ section.id }}');
+    if (!section || section.dataset.gnReady === 'true') return;
+    section.dataset.gnReady = 'true';
+
+    if (!customElements.get('product-form')) {
+      customElements.define('product-form', class ProductForm extends HTMLElement {
+        constructor() {
+          super();
+          this.form = this.querySelector('form');
+          this.submitButton = this.querySelector('[type="submit"]');
+          this.spinner = this.querySelector('.loading-overlay__spinner');
+          this.errorWrapper = this.querySelector('.product-form__error-message-wrapper');
+          this.errorMessage = this.querySelector('.product-form__error-message');
+          if (this.form) this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
+        }
+
+        getCart() {
+          return document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+        }
+
+        onSubmitHandler(event) {
+          event.preventDefault();
+          if (!this.form || this.submitButton?.getAttribute('aria-disabled') === 'true') return;
+          this.handleErrorMessage();
+          this.submitButton?.setAttribute('aria-disabled', 'true');
+          this.spinner?.classList.remove('hidden');
+          const cart = this.getCart();
+          const formData = new FormData(this.form);
+          if (cart && typeof cart.getSectionsToRender === 'function') {
+            formData.append('sections', cart.getSectionsToRender().map((item) => item.id));
+            formData.append('sections_url', window.location.pathname);
+            if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
+          }
+          const config = typeof fetchConfig === 'function'
+            ? fetchConfig('javascript')
+            : { method: 'POST', headers: { Accept: 'application/javascript' } };
+          config.method = 'POST';
+          config.headers = config.headers || {};
+          config.headers['X-Requested-With'] = 'XMLHttpRequest';
+          delete config.headers['Content-Type'];
+          config.body = formData;
+          fetch(window.routes?.cart_add_url || '/cart/add.js', config)
+            .then((response) => response.json())
+            .then((response) => {
+              if (response.status) {
+                this.handleErrorMessage(response.description || response.message);
+                return;
+              }
+              if (cart && typeof cart.renderContents === 'function') {
+                cart.renderContents(response);
+              } else if (cart && typeof cart.open === 'function') {
+                cart.open();
+              } else {
+                window.location = window.routes?.cart_url || '/cart';
+              }
+            })
+            .catch(() => {
+              this.handleErrorMessage({{ 'There was an error adding this item to your cart. Please try again.' | json }});
+            })
+            .finally(() => {
+              this.spinner?.classList.add('hidden');
+              if (this.submitButton && !this.submitButton.disabled) this.submitButton.removeAttribute('aria-disabled');
+            });
+        }
+
+        handleErrorMessage(errorMessage = false) {
+          if (!this.errorWrapper || !this.errorMessage) return;
+          this.errorWrapper.toggleAttribute('hidden', !errorMessage);
+          if (errorMessage) this.errorMessage.textContent = errorMessage;
+        }
+      });
+    }
+
+    const variants = JSON.parse(section.querySelector('[data-gn-variants]').textContent);
+    const form = section.querySelector('#{{ product_form_id }}');
+    const variantInput = section.querySelector('[data-gn-variant-input]');
+    const optionInputs = [...section.querySelectorAll('[data-gn-option-input]')];
+    const submitButton = section.querySelector('[data-gn-submit]');
+    const submitLabel = section.querySelector('[data-gn-submit-label]');
+    const priceNode = section.querySelector('[data-gn-price]');
+    const stickyPrice = section.querySelector('[data-gn-sticky-price]');
+    const compareNode = section.querySelector('[data-gn-compare]');
+    const saleBadge = section.querySelector('[data-gn-sale-badge]');
+    const paymentButton = section.querySelector('[data-gn-payment-button]');
+    const sticky = section.querySelector('[data-gn-sticky-atc]');
+    const stickyButton = section.querySelector('[data-gn-sticky-button]');
+    const moneyFormat = section.dataset.moneyFormat || '';
+    const currency = section.dataset.currency || 'USD';
+    const labels = {
+      add: {{ section.settings.add_to_cart_text | json }},
+      sold: {{ section.settings.sold_out_text | json }},
+      choose: {{ section.settings.choose_options_text | json }}
+    };
+    const hasOnlyDefaultVariant = {{ product.has_only_default_variant | json }};
+
+    const formatMoney = (cents) => {
+      if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+        return window.Shopify.formatMoney(cents, moneyFormat);
+      }
+      try {
+        return new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100);
+      } catch (error) {
+        return `$${(cents / 100).toFixed(2)}`;
+      }
+    };
+
+    const findVariant = () => {
+      if (!optionInputs.length) return variants.find((variant) => variant.id === Number(variantInput?.value)) || variants[0];
+      const selected = [];
+      optionInputs.forEach((input) => {
+        if (input.checked) selected[Number(input.dataset.optionPosition) - 1] = input.value;
+      });
+      return variants.find((variant) => variant.options.every((option, index) => option === selected[index]));
+    };
+
+    const showMedia = (mediaId) => {
+      if (!mediaId) return;
+      const target = section.querySelector(`[data-gn-media-panel][data-media-id="${mediaId}"]`);
+      if (!target) return;
+      section.querySelectorAll('[data-gn-media-panel]').forEach((panel) => {
+        panel.classList.toggle('is-active', panel === target);
+      });
+      section.querySelectorAll('[data-gn-thumbnail]').forEach((thumb) => {
+        thumb.setAttribute('aria-current', String(thumb.dataset.mediaId === String(mediaId)));
+      });
+    };
+
+    const updateVariant = () => {
+      const variant = findVariant();
+      if (!variant) return;
+      if (variantInput) variantInput.value = variant.id;
+      if (priceNode) priceNode.textContent = formatMoney(variant.price);
+      if (stickyPrice) stickyPrice.textContent = formatMoney(variant.price);
+      const hasCompare = variant.compare_at_price && variant.compare_at_price > variant.price;
+      if (compareNode) {
+        compareNode.hidden = !hasCompare;
+        compareNode.textContent = hasCompare ? formatMoney(variant.compare_at_price) : '';
+      }
+      if (saleBadge) saleBadge.hidden = !hasCompare;
+      if (submitButton) {
+        submitButton.disabled = !variant.available;
+        submitButton.setAttribute('aria-disabled', String(!variant.available));
+      }
+      if (submitLabel) submitLabel.textContent = variant.available ? labels.add : labels.sold;
+      if (paymentButton) paymentButton.hidden = !variant.available;
+      if (stickyButton) {
+        stickyButton.disabled = !variant.available && hasOnlyDefaultVariant;
+        if (hasOnlyDefaultVariant) stickyButton.textContent = variant.available ? labels.add : labels.sold;
+      }
+      if (variant.featured_media && variant.featured_media.id) showMedia(variant.featured_media.id);
+    };
+
+    section.querySelectorAll('[data-gn-thumbnail]').forEach((button) => {
+      button.addEventListener('click', () => showMedia(button.dataset.mediaId));
+    });
+    optionInputs.forEach((input) => input.addEventListener('change', updateVariant));
+
+    const scrollToForm = () => {
+      const formWrap = section.querySelector('[data-gn-form-wrap]');
+      if (formWrap) formWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    const submitProductForm = () => {
+      if (!form) return;
+      if (typeof form.requestSubmit === 'function') form.requestSubmit();
+      else form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    };
+
+    const addToCartOrChooseOptions = () => {
+      if (!hasOnlyDefaultVariant) {
+        scrollToForm();
+        return;
+      }
+      submitProductForm();
+    };
+
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-gn-add-to-cart]');
+      if (!button) return;
+      event.preventDefault();
+      addToCartOrChooseOptions();
+    });
+
+    if (sticky) {
+      const formWrap = section.querySelector('[data-gn-form-wrap]');
+      const observeTarget = formWrap || section;
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(([entry]) => {
+          sticky.classList.toggle('is-visible', !entry.isIntersecting);
+        }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+        observer.observe(observeTarget);
+      }
+    }
+
+    updateVariant();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "ARC ONE product hero",
+  "tag": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "Sequence trainer" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "ARC ONE" },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Hear the moment your release arrives." },
+    { "type": "textarea", "id": "lede", "label": "Supporting copy", "default": "A compact audible trainer for short, focused reps. No ball. No net. No app. Just a click that tells you whether sequence is early or on time." },
+    { "type": "header", "content": "Stage signals" },
+    { "type": "text", "id": "stage_label", "label": "Stage label", "default": "The sound of sequence" },
+    { "type": "text", "id": "signal_label_1", "label": "Signal 1 label", "default": "Early click" },
+    { "type": "text", "id": "signal_text_1", "label": "Signal 1 text", "default": "Release from the top. Speed spent early." },
+    { "type": "text", "id": "signal_label_2", "label": "Signal 2 label", "default": "Later click" },
+    { "type": "text", "id": "signal_text_2", "label": "Signal 2 text", "default": "Speed held longer. Delivered closer to impact." },
+    { "type": "header", "content": "Product form" },
+    { "type": "text", "id": "quantity_label", "label": "Quantity label", "default": "Qty" },
+    { "type": "text", "id": "add_to_cart_text", "label": "Add to cart text", "default": "Add to bag" },
+    { "type": "text", "id": "choose_options_text", "label": "Sticky button for variants", "default": "Choose options" },
+    { "type": "text", "id": "sold_out_text", "label": "Sold out text", "default": "Sold out" },
+    { "type": "text", "id": "sale_badge_text", "label": "Sale badge", "default": "Sale" },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true },
+    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky mobile add to cart", "default": true },
+    { "type": "header", "content": "Images" },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback product image" },
+    { "type": "image_picker", "id": "stage_image", "label": "Stage background image" },
+    { "type": "checkbox", "id": "enable_pulse", "label": "Pulse animation on product image", "default": true },
+    { "type": "range", "id": "pulse_speed", "min": 1, "max": 6, "step": 0.5, "unit": "s", "label": "Pulse speed", "default": 2.5 },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 95, "step": 5, "unit": "%", "label": "Stage background darkness", "default": 55 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Page / buy column", "default": "#f5f1e8" },
+    { "type": "color", "id": "ink_color", "label": "Ink", "default": "#182b20" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#4a4a44" },
+    { "type": "color", "id": "accent_color", "label": "Accent / buttons", "default": "#1d3d2a" },
+    { "type": "color", "id": "divider_color", "label": "Borders", "default": "#d8d3c4" },
+    { "type": "color", "id": "stage_color", "label": "Stage background", "default": "#1d3d2a" },
+    { "type": "color", "id": "stage_text_color", "label": "Stage text", "default": "#f5f3ec" },
+    { "type": "color", "id": "stage_accent", "label": "Stage accent", "default": "#4d846e" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "min_height", "min": 480, "max": 860, "step": 10, "unit": "px", "label": "Minimum height", "default": 640 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Top padding", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Bottom padding", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust line",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "30-day returns" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC ONE product hero",
+      "blocks": [
+        { "type": "trust", "settings": { "text": "Secure checkout" } },
+        { "type": "trust", "settings": { "text": "30-day returns" } },
+        { "type": "trust", "settings": { "text": "Tracked shipping" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

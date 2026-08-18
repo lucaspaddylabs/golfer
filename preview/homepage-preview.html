@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golfer Now — Homepage preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1d3d2a;
+      --sage: #4d846e;
+      --cream: #f5f1e8;
+      --cream-2: #f2eee3;
+      --cream-3: #f1eee4;
+      --story: #f7f5ef;
+      --ink: #182b20;
+      --muted: #4a4a44;
+      --muted-2: #767671;
+      --divider: #d8d3c4;
+      --light: #f5f3ec;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink); background: #fff; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    .banner {
+      position: sticky; top: 0; z-index: 100;
+      padding: 10px 16px; background: #111; color: #fff;
+      font-size: 0.82rem; text-align: center;
+    }
+    .banner strong { color: #9fd4b8; }
+    .banner a { color: #9fd4b8; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      padding: 60px 32px;
+      overflow: hidden;
+      color: var(--green);
+      background: #e8ebe4;
+    }
+    .hero__bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, rgba(245,241,232,0.92) 0%, rgba(245,241,232,0.55) 42%, rgba(245,241,232,0.1) 70%),
+        url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1800&q=70') center/cover;
+    }
+    .hero__inner {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 1280px; margin: 0 auto;
+    }
+    .hero__heading {
+      margin: 0 0 18px;
+      max-width: 12ch;
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      line-height: 0.95;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+    .hero__desc {
+      margin: 0 0 28px;
+      max-width: 36ch;
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 500;
+    }
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 26px;
+      border-radius: 6px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    /* Method */
+    .method {
+      background: var(--cream);
+      padding: 70px 32px;
+    }
+    .method__heading {
+      margin: 0 auto 56px;
+      max-width: 780px;
+      text-align: center;
+      font-size: 2.6rem;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+    .method__heading em { font-style: italic; font-weight: 700; }
+    .method__grid {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .method__col { flex: 1; min-width: 0; text-align: center; }
+    .method__num {
+      margin: 0 0 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .method__label {
+      margin: 0 0 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .method__img {
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 20px;
+    }
+    .method__img img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+    .method__name {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .method__desc {
+      margin: 0 auto;
+      max-width: 190px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+    .method__divider {
+      position: relative;
+      flex: 0 0 56px;
+      align-self: stretch;
+    }
+    .method__divider::before {
+      content: "";
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 1px;
+      background: var(--divider);
+      transform: translateX(-50%);
+    }
+    .method__divider::after {
+      content: "→";
+      position: absolute;
+      left: 50%; top: 42%;
+      transform: translate(-50%, -50%);
+      width: 26px;
+      background: var(--cream);
+      color: var(--green);
+      text-align: center;
+    }
+
+    /* Flagship */
+    .flagship {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      padding: 60px 100px;
+      color: var(--light);
+      overflow: hidden;
+      background: var(--green);
+    }
+    .flagship__bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+        url('https://images.unsplash.com/photo-1587174486073-ae5e5cffbf8f?auto=format&fit=crop&w=1800&q=70') center/cover;
+    }
+    .flagship__inner {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 1280px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(300px, 440px) 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .flagship__eyebrow {
+      margin: 0 0 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+    .flagship__heading {
+      margin: 0 0 18px;
+      font-size: 4rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .flagship__sub {
+      margin: 0 0 20px;
+      max-width: 340px;
+      font-size: 1.15rem;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+    .flagship__rule {
+      width: 44px; height: 3px;
+      margin: 0 0 28px;
+      background: var(--sage);
+      border-radius: 2px;
+    }
+    .flagship__features {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 0 0 32px;
+    }
+    .flagship__feature { display: flex; gap: 14px; align-items: flex-start; }
+    .flagship__feature-title {
+      margin: 0 0 3px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .flagship__feature-desc {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.35;
+      opacity: 0.75;
+    }
+    .flagship__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 26px;
+      border-radius: 6px;
+      background: var(--sage);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .flagship__media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .flagship__media img {
+      max-height: 420px;
+      width: auto;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.045); }
+    }
+
+    /* Practice system */
+    .practice {
+      background: var(--cream-2);
+      padding: 60px 32px 70px;
+    }
+    .practice__inner { max-width: 1100px; margin: 0 auto; }
+    .practice__eyebrow {
+      margin: 0 0 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+    .practice__heading {
+      margin: 0;
+      font-size: 3.2rem;
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .practice__grid {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 28px;
+      background: #fff;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+    }
+    .practice__item { text-align: center; }
+    .practice__item img {
+      height: 120px;
+      width: auto;
+      margin: 0 auto 12px;
+      object-fit: contain;
+    }
+    .practice__item-name {
+      margin: 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .practice__cta {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .practice__button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 30px;
+      border-radius: 6px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* Bundles */
+    .bundles {
+      background: var(--cream-3);
+      padding: 60px 32px 70px;
+    }
+    .bundles__heading {
+      margin: 0 auto 48px;
+      text-align: center;
+      font-size: 2.4rem;
+      font-weight: 700;
+    }
+    .bundles__grid {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .bundle {
+      flex: 1;
+      padding: 0 28px;
+      text-align: center;
+      border-left: 1px solid var(--divider);
+    }
+    .bundle:first-child { border-left: 0; }
+    .bundle.is-hot {
+      position: relative;
+      margin: -20px 6px 0;
+      padding: 34px 22px 20px;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+    }
+    .bundle__badge {
+      position: absolute;
+      top: -13px; left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 14px;
+      border-radius: 3px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .bundle__title {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .bundle__sub {
+      margin: 0 0 22px;
+      font-size: 0.85rem;
+      color: var(--muted-2);
+    }
+    .bundle__img {
+      height: 150px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin: 0 0 22px;
+      gap: 6px;
+    }
+    .bundle__img img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+    .bundle__link {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    /* Story banner */
+    .story {
+      background: var(--story);
+      padding: 65px 0;
+    }
+    .story__box {
+      display: grid;
+      grid-template-columns: minmax(300px, 460px) 1fr;
+      align-items: center;
+      gap: 40px;
+      min-height: 420px;
+    }
+    .story__content {
+      padding: 40px 8px 40px max(40px, calc((100vw - 1320px) / 2 + 40px));
+    }
+    .story__eyebrow {
+      margin: 0 0 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+    .story__heading {
+      margin: 0 0 20px;
+      font-size: 2.4rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .story__rule {
+      width: 44px; height: 3px;
+      margin: 0 0 20px;
+      background: var(--green);
+      border-radius: 2px;
+    }
+    .story__desc {
+      margin: 0 0 28px;
+      max-width: 420px;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: var(--muted-2);
+      white-space: pre-line;
+    }
+    .story__button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 26px;
+      border-radius: 6px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .story__media {
+      position: relative;
+      min-height: 420px;
+      background:
+        linear-gradient(to right, rgba(247,245,239,1) 0%, rgba(247,245,239,0) 22%),
+        url('https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?auto=format&fit=crop&w=1200&q=70') center/cover;
+    }
+
+    /* Parallax strip */
+    .parallax {
+      position: relative;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 80px 32px;
+      overflow: hidden;
+    }
+    .parallax__bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(rgba(29,61,42,0.7), rgba(29,61,42,0.7)),
+        url('https://images.unsplash.com/photo-1587174486073-ae5e5cffbf8f?auto=format&fit=crop&w=1800&q=70') center/cover;
+    }
+    .parallax__inner { position: relative; z-index: 1; max-width: 640px; }
+    .parallax__heading {
+      margin: 0 0 12px;
+      font-size: 2.4rem;
+      font-weight: 800;
+    }
+    .parallax__desc { margin: 0; font-size: 1.05rem; opacity: 0.9; }
+
+    /* Content feed */
+    .feed {
+      background: #fff;
+      padding: 50px 32px 60px;
+    }
+    .feed__heading {
+      margin: 0 auto 36px;
+      max-width: 720px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .feed__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feed__card {
+      position: relative;
+      min-height: 420px;
+      border-radius: 8px;
+      overflow: hidden;
+      color: #fff;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+      background: #222;
+    }
+    .feed__card::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(transparent 30%, rgba(0,0,0,0.75));
+    }
+    .feed__card > * { position: relative; z-index: 1; }
+    .feed__card h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      line-height: 1.25;
+    }
+    .feed__card p {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.4;
+      opacity: 0.85;
+    }
+    .feed__card:nth-child(1) { background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=700&q=70') center/cover; }
+    .feed__card:nth-child(2) { background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?auto=format&fit=crop&w=700&q=70') center/cover; }
+    .feed__card:nth-child(3) { background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1587174486073-ae5e5cffbf8f?auto=format&fit=crop&w=700&q=70') center/cover; }
+    .feed__card:nth-child(4) { background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1622163642990-4b0b4e0b0b0b?auto=format&fit=crop&w=700&q=70') center/cover; background-color: #1d3d2a; }
+
+    @media (max-width: 900px) {
+      .hero { min-height: 560px; padding: 40px 20px; }
+      .flagship { padding: 48px 20px; }
+      .flagship__inner { grid-template-columns: 1fr; gap: 28px; }
+      .flagship__heading { font-size: 2.75rem; }
+      .method__grid, .bundles__grid { flex-direction: column; gap: 28px; }
+      .method__divider { display: none; }
+      .practice__grid, .feed__grid { grid-template-columns: 1fr 1fr; }
+      .story__box { grid-template-columns: 1fr; }
+      .story__content { padding: 32px 24px 0; }
+      .story__media { min-height: 280px; }
+      .bundle { border-left: 0; border-top: 1px solid var(--divider); padding-top: 28px; }
+      .bundle:first-child { border-top: 0; padding-top: 0; }
+      .bundle.is-hot { margin: 12px 0 0; }
+    }
+    @media (max-width: 600px) {
+      .practice__grid, .feed__grid { grid-template-columns: 1fr; }
+      .practice__heading { font-size: 2rem; }
+      .method__heading, .bundles__heading, .story__heading { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <strong>Homepage preview</strong> — mirrors the current <code>templates/index.json</code> order.
+    Product page preview still at <a href="/arc-one-product-preview.html">/arc-one-product-preview.html</a>
+  </div>
+
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__inner">
+      <h1 class="hero__heading">Play better, faster</h1>
+      <p class="hero__desc">Four feedback tools designed to build connection, sequence, strike and roll.</p>
+      <a class="hero__cta" href="#">Shop Now →</a>
+    </div>
+  </section>
+
+  <section class="method">
+    <h2 class="method__heading">One method. <em>Four</em> feedback loops.</h2>
+    <div class="method__grid">
+      <div class="method__col">
+        <p class="method__num">01</p>
+        <p class="method__label">CONNECT</p>
+        <div class="method__img"><img src="images/link-one.png" alt="LINK ONE"></div>
+        <p class="method__name">LINK ONE</p>
+        <p class="method__desc">Build connection and awareness.</p>
+      </div>
+      <div class="method__divider"></div>
+      <div class="method__col">
+        <p class="method__num">02</p>
+        <p class="method__label">SEQUENCE</p>
+        <div class="method__img"><img src="images/arc-one.png" alt="ARC ONE"></div>
+        <p class="method__name">ARC ONE</p>
+        <p class="method__desc">Groove the sequence. Hear the release.</p>
+      </div>
+      <div class="method__divider"></div>
+      <div class="method__col">
+        <p class="method__num">03</p>
+        <p class="method__label">STRIKE</p>
+        <div class="method__img"><img src="images/trace-one.png" alt="TRACE ONE"></div>
+        <p class="method__name">TRACE ONE</p>
+        <p class="method__desc">Find center. Control low point.</p>
+      </div>
+      <div class="method__divider"></div>
+      <div class="method__col">
+        <p class="method__num">04</p>
+        <p class="method__label">ROLL</p>
+        <div class="method__img"><img src="images/line-one.png" alt="LINE ONE"></div>
+        <p class="method__name">LINE ONE</p>
+        <p class="method__desc">Start it on line. Build better rolls.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="flagship">
+    <div class="flagship__bg"></div>
+    <div class="flagship__inner">
+      <div>
+        <p class="flagship__eyebrow">Our flagship trainer</p>
+        <h2 class="flagship__heading">ARC ONE</h2>
+        <p class="flagship__sub">Hear the moment sequence becomes release.</p>
+        <div class="flagship__rule"></div>
+        <div class="flagship__features">
+          <div class="flagship__feature">
+            <div>
+              <p class="flagship__feature-title">Audible feedback</p>
+              <p class="flagship__feature-desc">The click confirms correct sequence.</p>
+            </div>
+          </div>
+          <div class="flagship__feature">
+            <div>
+              <p class="flagship__feature-title">Immediate data</p>
+              <p class="flagship__feature-desc">Feel it right away. Adjust faster.</p>
+            </div>
+          </div>
+          <div class="flagship__feature">
+            <div>
+              <p class="flagship__feature-title">Built for repetition</p>
+              <p class="flagship__feature-desc">Durable, balanced and tour tough.</p>
+            </div>
+          </div>
+        </div>
+        <a class="flagship__cta" href="/arc-one-product-preview.html">Shop ARC ONE →</a>
+      </div>
+      <div class="flagship__media">
+        <img src="images/arc-one.png" alt="ARC ONE">
+      </div>
+    </div>
+  </section>
+
+  <section class="practice">
+    <div class="practice__inner">
+      <p class="practice__eyebrow">The practice system</p>
+      <h2 class="practice__heading">Four tools.<br>One better practice.</h2>
+      <div class="practice__grid">
+        <div class="practice__item">
+          <img src="images/link-one.png" alt="LINK ONE">
+          <p class="practice__item-name">Link One</p>
+        </div>
+        <div class="practice__item">
+          <img src="images/arc-one.png" alt="ARC ONE">
+          <p class="practice__item-name">Arc One</p>
+        </div>
+        <div class="practice__item">
+          <img src="images/trace-one.png" alt="TRACE ONE">
+          <p class="practice__item-name">Trace One</p>
+        </div>
+        <div class="practice__item">
+          <img src="images/line-one.png" alt="LINE ONE">
+          <p class="practice__item-name">Line One</p>
+        </div>
+      </div>
+      <div class="practice__cta">
+        <a class="practice__button" href="#">Explore the system →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bundles">
+    <h2 class="bundles__heading">Choose your system.</h2>
+    <div class="bundles__grid">
+      <div class="bundle">
+        <p class="bundle__title">ARC ONE</p>
+        <p class="bundle__sub">Flagship trainer only.</p>
+        <div class="bundle__img"><img src="images/arc-one.png" alt=""></div>
+        <a class="bundle__link" href="/arc-one-product-preview.html">Explore ARC ONE →</a>
+      </div>
+      <div class="bundle is-hot">
+        <span class="bundle__badge">Recommended</span>
+        <p class="bundle__title">The Swing System</p>
+        <p class="bundle__sub">LINK ONE + ARC ONE + TRACE ONE</p>
+        <div class="bundle__img">
+          <img src="images/link-one.png" alt="">
+          <img src="images/arc-one.png" alt="">
+          <img src="images/trace-one.png" alt="">
+        </div>
+        <a class="bundle__link" href="#">Explore the Swing System →</a>
+      </div>
+      <div class="bundle">
+        <p class="bundle__title">The Complete System</p>
+        <p class="bundle__sub">All four tools.</p>
+        <div class="bundle__img">
+          <img src="images/link-one.png" alt="">
+          <img src="images/arc-one.png" alt="">
+          <img src="images/trace-one.png" alt="">
+          <img src="images/line-one.png" alt="">
+        </div>
+        <a class="bundle__link" href="#">Explore the Complete System →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="story__box">
+      <div class="story__content">
+        <p class="story__eyebrow">Our story</p>
+        <h2 class="story__heading">We built Golfer Now because practice should teach you something.</h2>
+        <div class="story__rule"></div>
+        <p class="story__desc">Golf is hard enough. Practice shouldn't be guesswork. We design tools that give you clear feedback so every rep has a purpose, and every session moves you forward.
+
+Golfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service.</p>
+        <a class="story__button" href="#">Our method →</a>
+      </div>
+      <div class="story__media" aria-label="Story media"></div>
+    </div>
+  </section>
+
+  <section class="parallax">
+    <div class="parallax__bg"></div>
+    <div class="parallax__inner">
+      <h2 class="parallax__heading">Golfer Now Collections</h2>
+      <p class="parallax__desc">Discover the gear golfers trust, season after season.</p>
+    </div>
+  </section>
+
+  <section class="feed">
+    <h2 class="feed__heading">Stay up-to-date with everything about golf and better practice.</h2>
+    <div class="feed__grid">
+      <article class="feed__card">
+        <div>
+          <h3>The Best Part of Golf Isn't the Score</h3>
+          <p>Why the moments between shots often matter more than the number on the card.</p>
+        </div>
+      </article>
+      <article class="feed__card">
+        <div>
+          <h3>Building a Pre-Round Routine That Actually Works</h3>
+          <p>Five minutes at the mat can change your entire round.</p>
+        </div>
+      </article>
+      <article class="feed__card">
+        <div>
+          <h3>Why Clean Clubs Change Your Contact</h3>
+          <p>A dirty face costs you more spin and distance than you think.</p>
+        </div>
+      </article>
+      <article class="feed__card">
+        <div>
+          <h3>Practice Reps vs. Real Rounds: What Actually Transfers</h3>
+          <p>The drills that translate to the course, and the ones that don't.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</body>
+</html>

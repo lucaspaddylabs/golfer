@@ -1,0 +1,189 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-arc-system {
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_top }}px 32px {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 48px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__eyebrow {
+    margin: 0 0 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__heading {
+    margin: 0 0 16px;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__heading em { font-style: italic; font-weight: 700; }
+  #shopify-section-{{ section.id }} .gn-arc-system__copy {
+    margin: 0 0 24px;
+    max-width: 42ch;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: {{ section.settings.accent_color }};
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__link:hover { text-decoration: underline; }
+  #shopify-section-{{ section.id }} .gn-arc-system__link svg {
+    width: 16px;
+    height: 16px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border: 1px solid {{ section.settings.divider_color }};
+    border-radius: 6px;
+    overflow: hidden;
+    background: {{ section.settings.rail_background }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__step {
+    padding: 22px 14px;
+    text-align: center;
+    border-left: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__step:first-child { border-left: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-system__step.is-current {
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.current_text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__step-num {
+    margin: 0 0 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__step.is-current .gn-arc-system__step-num {
+    color: {{ section.settings.current_accent }};
+    opacity: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-system__step-name {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-arc-system { padding-left: 20px; padding-right: 20px; }
+    #shopify-section-{{ section.id }} .gn-arc-system__inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+  @media (max-width: 600px) {
+    #shopify-section-{{ section.id }} .gn-arc-system__rail {
+      grid-template-columns: 1fr 1fr;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-system__step:nth-child(3),
+    #shopify-section-{{ section.id }} .gn-arc-system__step:nth-child(4) {
+      border-top: 1px solid {{ section.settings.divider_color }};
+    }
+    #shopify-section-{{ section.id }} .gn-arc-system__step:nth-child(odd) { border-left: 0; }
+  }
+</style>
+
+<div class="gn-arc-system">
+  <div class="gn-arc-system__inner">
+    <div>
+      {%- if section.settings.eyebrow_text != blank -%}
+        <p class="gn-arc-system__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="gn-arc-system__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.copy != blank -%}
+        <p class="gn-arc-system__copy">{{ section.settings.copy }}</p>
+      {%- endif -%}
+      {%- if section.settings.link_text != blank -%}
+        <a class="gn-arc-system__link" href="{{ section.settings.link_url | default: '/' }}">
+          {{ section.settings.link_text }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- assign steps = section.blocks | where: 'type', 'step' -%}
+    {%- if steps.size > 0 -%}
+      <div class="gn-arc-system__rail" aria-label="Practice system steps">
+        {%- for block in steps -%}
+          <div class="gn-arc-system__step{% if block.settings.current %} is-current{% endif %}" {{ block.shopify_attributes }}>
+            <p class="gn-arc-system__step-num">{{ block.settings.number }}</p>
+            <p class="gn-arc-system__step-name">{{ block.settings.name }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "ARC ONE system strip",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "In the practice system" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "ARC ONE is step two: sequence." },
+    { "type": "textarea", "id": "copy", "label": "Copy", "default": "Connect, sequence, strike, roll. This page is for the audible trainer in the middle of that method — not the whole catalog." },
+    { "type": "text", "id": "link_text", "label": "Link text", "default": "See the full method" },
+    { "type": "url", "id": "link_url", "label": "Link URL" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#f2eee3" },
+    { "type": "color", "id": "rail_background", "label": "Rail background", "default": "#faf8f2" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#182b20" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#4a4a44" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1d3d2a" },
+    { "type": "color", "id": "divider_color", "label": "Dividers", "default": "#d8d3c4" },
+    { "type": "color", "id": "current_text_color", "label": "Current step text", "default": "#f5f3ec" },
+    { "type": "color", "id": "current_accent", "label": "Current step number", "default": "#9fc3b0" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 5, "unit": "px", "label": "Bottom padding", "default": 60 }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Link" },
+        { "type": "checkbox", "id": "current", "label": "This is ARC ONE", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC ONE system strip",
+      "blocks": [
+        { "type": "step", "settings": { "number": "01", "name": "Link", "current": false } },
+        { "type": "step", "settings": { "number": "02", "name": "Arc", "current": true } },
+        { "type": "step", "settings": { "number": "03", "name": "Trace", "current": false } },
+        { "type": "step", "settings": { "number": "04", "name": "Line", "current": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

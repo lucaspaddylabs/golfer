@@ -1,11 +1,24 @@
 {
   "sections": {
+    "hero": {
+      "type": "gn-contact-hero",
+      "settings": {
+        "eyebrow_text": "Get in touch",
+        "heading": "We're here to help.",
+        "description": "Questions about an order, a product, or your practice routine? Send us a message and we'll get back to you within one business day.",
+        "background_color": "#1d3d2a",
+        "text_color": "#ffffff",
+        "accent_color": "#ec7901",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "main": {
       "type": "main-page",
       "settings": {
-        "show_heading": true,
+        "show_heading": false,
         "heading_aligment": "text-center",
-        "top_spacing": "normal",
+        "top_spacing": "none",
         "width": "default",
         "background": "hide",
         "color_background": "rgba(0,0,0,0)",
@@ -19,164 +32,53 @@
         "imagesize": "cover",
         "background_width": "fullwidth",
         "background_spacing": "normal",
-        "remove_bottom_spacing": false
+        "remove_bottom_spacing": true
       }
     },
-    "text_columns_with_icons_type_1_iQX39N": {
-      "type": "text-columns-with-icons-type-1",
+    "form": {
+      "type": "gn-contact-form",
       "blocks": {
-        "item_bwgFx4": {
-          "type": "item",
+        "info_email": {
+          "type": "info",
           "settings": {
-            "show_icon": "svg",
-            "icon_name": "Marker",
-            "block_heading": "",
-            "block_text": "<h5>Pickup Location</h5><p>You can pick up your orders from our pickup point at: </p><p>123 Madison Avenue, Suite 456, New York, NY 10010, USA</p>",
-            "button_name": "",
-            "url": ""
+            "icon": "mail",
+            "label": "Email",
+            "value": "support@golfernow.com",
+            "link": "mailto:support@golfernow.com"
           }
         },
-        "item_wPP87U": {
-          "type": "item",
+        "info_phone": {
+          "type": "info",
           "settings": {
-            "show_icon": "svg",
-            "icon_name": "Clock",
-            "block_heading": "",
-            "block_text": "<h5>Pickup Hours: </h5><p>Open daily from 9:00 AM – 7:00 PM</p><p>Please bring your order confirmation email and ID for pickup.</p><p>For more information, contact: <a href=\"/pages/contacts-us\" title=\"Contacts Us\">support@yourstore.com</a></p>",
-            "button_name": "",
-            "url": ""
+            "icon": "phone",
+            "label": "Phone",
+            "value": "(555) 555-1002",
+            "link": "tel:5555551002"
           }
         },
-        "item_npJajD": {
-          "type": "item",
+        "info_hours": {
+          "type": "info",
           "settings": {
-            "show_icon": "svg",
-            "icon_name": "Phone",
-            "block_heading": "",
-            "block_text": "<h5>Pickup Phone: </h5><h4>(555) 555-1002</h4><p>9:00 AM – 7:00 PM</p>",
-            "button_name": "",
-            "url": ""
+            "icon": "clock",
+            "label": "Hours",
+            "value": "Mon–Fri, 9:00 AM – 5:00 PM"
           }
         }
       },
-      "block_order": [
-        "item_bwgFx4",
-        "item_wPP87U",
-        "item_npJajD"
-      ],
-      "name": "t:names.text_with_icons_type_1",
+      "block_order": ["info_email", "info_phone", "info_hours"],
       "settings": {
-        "main_subheading": "",
-        "main_heading": "",
-        "main_desc": "",
-        "heading_aligment": "text-left",
-        "top_spacing": "normal",
-        "width": "default",
-        "grid": "page-grid-3",
-        "grid_tablet": "page-grid-st-3",
-        "text_align": "text-left",
-        "heading_size": "h5",
-        "icon_width": 30,
-        "show_icon_box": true,
-        "icon_box_roundness": 10,
-        "hover_underline": true,
-        "swipe": false,
-        "desktop_navigation": "dots_arrows",
-        "mobile_navigation": "dots",
-        "autoplay_enabled": false,
-        "autoplay_time": 5,
-        "show_lines": false,
-        "lines_width": "fullwidth",
-        "background": "hide",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "background_spacing": "normal",
-        "remove_bottom_spacing": false,
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_text_link": "rgba(0,0,0,0)",
-        "color_text_link_hover": "rgba(0,0,0,0)",
-        "color_desc": "rgba(0,0,0,0)",
-        "color_text_icons": "rgba(0,0,0,0)",
-        "color_text_icons_bg": "rgba(0,0,0,0)",
-        "color_link": "rgba(0,0,0,0)",
-        "color_link_icon": "rgba(0,0,0,0)",
-        "color_link_hover": "rgba(0,0,0,0)",
-        "color_link_icon_hover": "rgba(0,0,0,0)",
-        "color_background_box": "rgba(0,0,0,0)",
-        "color_media_arrows": "rgba(0,0,0,0)",
-        "color_media_dots": "rgba(0,0,0,0)"
-      }
-    },
-    "contact_form_4WTWg3": {
-      "type": "contact-form",
-      "name": "t:names.contact_form",
-      "settings": {
-        "main_subheading": "",
-        "main_heading": "Contact Form",
-        "main_desc": "Got a question or just want to chat?",
-        "heading_aligment": "text-center",
-        "top_spacing": "normal",
-        "width": "default",
-        "show_image": "hide",
-        "image_hover": "default",
-        "image_ratio": "auto",
-        "align_content": "center",
-        "row_reverse": false,
-        "text_content_width": 50,
-        "show_lines": false,
-        "lines_width": "fullwidth",
-        "background": "hide",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "background_spacing": "normal",
-        "remove_bottom_spacing": false,
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_input_background": "rgba(0,0,0,0)",
-        "color_input_border": "rgba(0,0,0,0)",
-        "color_input_text": "rgba(0,0,0,0)",
-        "color_input_background_hover": "rgba(0,0,0,0)",
-        "color_input_border_hover": "rgba(0,0,0,0)",
-        "color_input_outline_hover": "rgba(0,0,0,0)",
-        "color_input_text_hover": "rgba(0,0,0,0)",
-        "show_button_bg": true,
-        "color_button": "rgba(0,0,0,0)",
-        "color_button_gradient": "",
-        "color_button_border": "rgba(0,0,0,0)",
-        "color_button_text": "rgba(0,0,0,0)",
-        "show_button_bg_hover": true,
-        "color_button_hover": "rgba(0,0,0,0)",
-        "color_button_gradient_hover": "",
-        "color_button_border_hover": "rgba(0,0,0,0)",
-        "color_button_text_hover": "rgba(0,0,0,0)",
-        "show_shadow_button": true,
-        "color_shadow_button": "rgba(0,0,0,0)",
-        "color_shadow_hover_button": "rgba(0,0,0,0)"
+        "info_heading": "Contact information",
+        "info_description": "Prefer to reach us directly? Use any of the details below.",
+        "submit_label": "Send message",
+        "background_color": "#f7f5ef",
+        "heading_color": "#464646",
+        "text_color": "#767671",
+        "accent_color": "#ec7901",
+        "border_color": "#d2d3cc",
+        "padding_top": 70,
+        "padding_bottom": 80
       }
     }
   },
-  "order": [
-    "main",
-    "text_columns_with_icons_type_1_iQX39N",
-    "contact_form_4WTWg3"
-  ]
+  "order": ["hero", "main", "form"]
 }

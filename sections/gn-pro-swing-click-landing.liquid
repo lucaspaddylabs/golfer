@@ -1495,7 +1495,7 @@
         <div>
           <h2>{{ section.settings.problem_heading }}</h2>
           <div class="gn-section__copy">{{ section.settings.problem_copy }}</div>
-          <button class="gn-button gn-button--secondary" type="button" data-gn-scroll-to-form>
+          <button class="gn-button gn-button--secondary" type="button" data-gn-add-to-cart>
             {{ section.settings.problem_cta_text }}
           </button>
         </div>
@@ -1676,7 +1676,7 @@
           <h2>{{ section.settings.guarantee_heading }}</h2>
           <div class="gn-section__copy">{{ section.settings.guarantee_copy }}</div>
         </div>
-        <button class="gn-button gn-button--secondary" type="button" data-gn-scroll-to-form>
+        <button class="gn-button gn-button--secondary" type="button" data-gn-add-to-cart>
           {{ section.settings.guarantee_cta_text }}
         </button>
       </div>
@@ -1687,7 +1687,7 @@
     <div class="gn-page">
       <h2>{{ section.settings.final_cta_heading }}</h2>
       <p>{{ section.settings.final_cta_copy }}</p>
-      <button class="gn-button" type="button" data-gn-scroll-to-form>
+      <button class="gn-button" type="button" data-gn-add-to-cart>
         {{ section.settings.final_cta_button_text }}
       </button>
     </div>
@@ -1730,7 +1730,7 @@
           <p class="gn-sticky-atc__title">{{ product.title }}</p>
           <span class="gn-sticky-atc__price" data-gn-sticky-price>{{ current_variant.price | money }}</span>
         </div>
-        <button class="gn-button" type="button" data-gn-sticky-button>
+        <button class="gn-button" type="button" data-gn-sticky-button data-gn-add-to-cart>
           {% if product.has_only_default_variant %}
             {% if current_variant.available %}{{ section.settings.add_to_cart_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
           {% else %}
@@ -1756,13 +1756,16 @@
           constructor() {
             super();
             this.form = this.querySelector('form');
-            this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
             this.submitButton = this.querySelector('[type="submit"]');
             this.spinner = this.querySelector('.loading-overlay__spinner');
             this.errorWrapper = this.querySelector('.product-form__error-message-wrapper');
             this.errorMessage = this.querySelector('.product-form__error-message');
 
             if (this.form) this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
+          }
+
+          getCart() {
+            return document.querySelector('cart-drawer') || document.querySelector('cart-notification');
           }
 
           onSubmitHandler(event) {
@@ -1774,21 +1777,24 @@
             this.submitButton?.classList.add('loading');
             this.spinner?.classList.remove('hidden');
 
+            const cart = this.getCart();
             const formData = new FormData(this.form);
-            if (this.cart && typeof this.cart.getSectionsToRender === 'function') {
-              formData.append('sections', this.cart.getSectionsToRender().map((sectionToRender) => sectionToRender.id));
+            if (cart && typeof cart.getSectionsToRender === 'function') {
+              formData.append('sections', cart.getSectionsToRender().map((sectionToRender) => sectionToRender.id));
               formData.append('sections_url', window.location.pathname);
-              if (typeof this.cart.setActiveElement === 'function') this.cart.setActiveElement(document.activeElement);
+              if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
             }
 
-            fetch(window.routes?.cart_add_url || '/cart/add.js', {
-              method: 'POST',
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                Accept: 'application/json'
-              },
-              body: formData
-            })
+            const config = typeof fetchConfig === 'function'
+              ? fetchConfig('javascript')
+              : { method: 'POST', headers: { Accept: 'application/javascript' } };
+            config.method = 'POST';
+            config.headers = config.headers || {};
+            config.headers['X-Requested-With'] = 'XMLHttpRequest';
+            delete config.headers['Content-Type'];
+            config.body = formData;
+
+            fetch(window.routes?.cart_add_url || '/cart/add.js', config)
               .then((response) => response.json())
               .then((response) => {
                 if (response.status) {
@@ -1796,8 +1802,10 @@
                   return;
                 }
 
-                if (this.cart && typeof this.cart.renderContents === 'function') {
-                  this.cart.renderContents(response);
+                if (cart && typeof cart.renderContents === 'function') {
+                  cart.renderContents(response);
+                } else if (cart && typeof cart.open === 'function') {
+                  cart.open();
                 } else {
                   window.location = window.routes?.cart_url || '/cart';
                 }
@@ -1941,21 +1949,22 @@
         formWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
 
-      section.querySelectorAll('[data-gn-scroll-to-form]').forEach((button) => {
-        button.addEventListener('click', scrollToForm);
+      const submitProductForm = () => {
+        if (!form) return;
+        if (typeof form.requestSubmit === 'function') form.requestSubmit();
+        else form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      };
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-gn-add-to-cart]');
+        if (!button || !section.contains(button)) return;
+        event.preventDefault();
+        if (!hasOnlyDefaultVariant) {
+          scrollToForm();
+          return;
+        }
+        submitProductForm();
       });
-
-      if (stickyButton) {
-        stickyButton.addEventListener('click', () => {
-          if (!hasOnlyDefaultVariant) {
-            scrollToForm();
-            return;
-          }
-
-          if (form && typeof form.requestSubmit === 'function') form.requestSubmit();
-          else if (form) form.submit();
-        });
-      }
 
       if (sticky) {
         const hero = section.querySelector('[data-gn-hero]');

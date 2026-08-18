@@ -1,0 +1,193 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-story {
+    background: {{ section.settings.box_color | default: '#f7f5ef' }};
+    padding: {{ section.settings.padding_top | default: 60 }}px 0 {{ section.settings.padding_bottom | default: 60 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-story__box {
+    display: grid;
+    grid-template-columns: minmax(300px, 460px) 1fr;
+    align-items: center;
+    gap: 40px;
+    min-height: {{ section.settings.min_height | default: 420 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-story__box--reversed {
+    grid-template-columns: 1fr minmax(300px, 460px);
+  }
+  #shopify-section-{{ section.id }} .gn-story__box--reversed .gn-story__content {
+    order: 2;
+    padding: 40px max(40px, calc((100vw - 1320px) / 2 + 40px)) 40px 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-story__box--reversed .gn-story__media {
+    order: 1;
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) {{ section.settings.fade_amount | default: 22 }}%);
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) {{ section.settings.fade_amount | default: 22 }}%);
+  }
+  #shopify-section-{{ section.id }} .gn-story__content {
+    padding: 40px 8px 40px max(40px, calc((100vw - 1320px) / 2 + 40px));
+  }
+  #shopify-section-{{ section.id }} .gn-story__eyebrow {
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-story__heading {
+    margin: 0 0 20px;
+    font-size: 2.4rem;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: {{ section.settings.heading_color | default: '#464646' }};
+  }
+  #shopify-section-{{ section.id }} .gn-story__rule {
+    width: 44px;
+    height: 3px;
+    border-radius: 2px;
+    margin: 0 0 20px;
+    background: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-story__description {
+    margin: 0 0 28px;
+    max-width: 420px;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: {{ section.settings.text_color | default: '#767671' }};
+  }
+  #shopify-section-{{ section.id }} .gn-story__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    border-radius: 6px;
+    background: {{ section.settings.accent_color | default: '#ec7901' }};
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-story__button:hover {
+    opacity: 0.88;
+  }
+  #shopify-section-{{ section.id }} .gn-story__button svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-story__media {
+    position: relative;
+    height: 100%;
+    min-height: {{ section.settings.min_height | default: 420 }}px;
+    -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) {{ section.settings.fade_amount | default: 22 }}%);
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) {{ section.settings.fade_amount | default: 22 }}%);
+  }
+  #shopify-section-{{ section.id }} .gn-story__media img,
+  #shopify-section-{{ section.id }} .gn-story__media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-story__box,
+    #shopify-section-{{ section.id }} .gn-story__box--reversed {
+      grid-template-columns: 1fr;
+    }
+    #shopify-section-{{ section.id }} .gn-story__box--reversed .gn-story__content {
+      order: 0;
+      padding: 32px 24px 0;
+    }
+    #shopify-section-{{ section.id }} .gn-story__box--reversed .gn-story__media {
+      order: 0;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%);
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%);
+    }
+    #shopify-section-{{ section.id }} .gn-story__content {
+      padding: 32px 24px 0;
+    }
+    #shopify-section-{{ section.id }} .gn-story__heading {
+      font-size: 1.9rem;
+    }
+    #shopify-section-{{ section.id }} .gn-story__description {
+      max-width: 100%;
+    }
+    #shopify-section-{{ section.id }} .gn-story__media {
+      min-height: 280px;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%);
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%);
+    }
+  }
+</style>
+
+<div class="gn-story">
+  <div class="gn-story__box{% if section.settings.reverse_layout %} gn-story__box--reversed{% endif %}">
+    <div class="gn-story__content">
+      {%- if section.settings.eyebrow_text != blank -%}
+        <p class="gn-story__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="gn-story__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      <div class="gn-story__rule"></div>
+      {%- if section.settings.description != blank -%}
+        <p class="gn-story__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_text != blank -%}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="gn-story__button">
+          {{ section.settings.button_text }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="gn-story__media">
+      {%- if section.settings.video != blank -%}
+        <video autoplay muted loop playsinline
+          {%- if section.settings.video.preview_image != blank %} poster="{{ section.settings.video.preview_image | image_url: width: 1200 }}"{% endif %}>
+          {%- assign source = section.settings.video.sources | last -%}
+          <source src="{{ source.url }}">
+        </video>
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 800px, 100vw' }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Story banner",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "Our story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We built Golfer Now because practice should teach you something." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Golf is hard enough. Practice shouldn't be guesswork. We design tools that give you clear feedback so every rep has a purpose—and every session moves you forward." },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_text", "label": "Button label", "default": "Our method" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Media" },
+    { "type": "checkbox", "id": "reverse_layout", "label": "Show image on the left", "default": false },
+    { "type": "paragraph", "content": "Add a video for a looping clip, or an image if you don't have one. Video takes priority when both are set." },
+    { "type": "video", "id": "video", "label": "Video" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "range", "id": "fade_amount", "min": 0, "max": 60, "step": 2, "unit": "%", "label": "Fade-in amount (left edge)", "default": 22 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "box_color", "label": "Background color", "default": "#f7f5ef" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#464646" },
+    { "type": "color", "id": "text_color", "label": "Description text color", "default": "#767671" },
+    { "type": "color", "id": "accent_color", "label": "Accent color (eyebrow, rule, button)", "default": "#ec7901" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "min_height", "min": 280, "max": 640, "step": 10, "unit": "px", "label": "Minimum height (desktop)", "default": 420 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 60 }
+  ],
+  "presets": [
+    { "name": "Story banner" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,593 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-arc-story {
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_top }}px 32px {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 56px;
+    align-items: start;
+    margin-bottom: 72px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__eyebrow {
+    margin: 0 0 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__heading {
+    margin: 0 0 18px;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(2rem, 4vw, 2.7rem);
+    line-height: 1.15;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__heading p { margin: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__heading em { font-style: italic; font-weight: 700; }
+  #shopify-section-{{ section.id }} .gn-arc-story__copy {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__copy p { margin: 0 0 1em; }
+  #shopify-section-{{ section.id }} .gn-arc-story__copy p:last-child { margin-bottom: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__contrast {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row-label {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    padding-top: 4px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row-title {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row-copy {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ritual {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+    gap: 56px;
+    align-items: start;
+    padding-top: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ritual-heading {
+    margin: 0 0 36px;
+    max-width: 18ch;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__timeline {
+    display: grid;
+    gap: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 24px;
+    position: relative;
+    padding-bottom: 36px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat:last-child { padding-bottom: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 35px;
+    top: 28px;
+    bottom: 0;
+    width: 1px;
+    background: {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat-time {
+    width: 72px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid {{ section.settings.accent_color }};
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    background: {{ section.settings.background_color }};
+    position: relative;
+    z-index: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat-title {
+    margin: 2px 0 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat-copy {
+    margin: 0;
+    max-width: 42ch;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__note {
+    margin: 28px 0 0;
+    max-width: 42ch;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+    padding-left: 14px;
+    border-left: 3px solid {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel {
+    position: sticky;
+    top: 24px;
+    padding: 28px 28px 32px;
+    background: {{ section.settings.panel_background }};
+    color: {{ section.settings.panel_text }};
+    border-radius: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-eyebrow {
+    margin: 0 0 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.panel_accent }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-title {
+    margin: 0 0 8px;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: 1.35rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: {{ section.settings.panel_heading }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-copy {
+    margin: 0 0 24px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    opacity: 0.85;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-media {
+    margin: 0 0 24px;
+    overflow: hidden;
+    border-radius: 6px;
+    aspect-ratio: 4 / 3;
+    background: rgba(0, 0, 0, 0.06);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__diagram {
+    margin: 0 0 22px;
+    padding: 18px 16px 16px;
+    border: 1px solid {{ section.settings.panel_divider }};
+    border-radius: 6px;
+    background: {{ section.settings.panel_diagram_bg }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__diagram-heading {
+    margin: 0 0 16px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.panel_muted }};
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-col {
+    padding: 14px 12px 16px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-col.is-early {
+    background: rgba(138, 133, 120, 0.12);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-col.is-later {
+    background: rgba(29, 61, 42, 0.1);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-badge {
+    display: inline-flex;
+    margin: 0 0 12px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-col.is-early .gn-arc-story__compare-badge {
+    background: {{ section.settings.panel_muted }};
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-col.is-later .gn-arc-story__compare-badge {
+    background: {{ section.settings.panel_accent }};
+    color: {{ section.settings.panel_diagram_bg }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-title {
+    margin: 0 0 6px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: {{ section.settings.panel_heading }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__compare-copy {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: {{ section.settings.panel_text }};
+    opacity: 0.85;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid {{ section.settings.panel_divider }};
+    padding-top: 18px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-meta-item {
+    padding: 0 10px;
+    text-align: center;
+    border-left: 1px solid {{ section.settings.panel_divider }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-meta-item:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-meta-item:last-child {
+    padding-right: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-meta-value {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: {{ section.settings.panel_heading }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-meta-label {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__specs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 64px;
+    border-top: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec {
+    padding: 28px 18px 0;
+    border-left: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec:first-child { border-left: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec-label {
+    margin: 0 0 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec-value {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: {{ section.settings.heading_color }};
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-arc-story { padding-left: 20px; padding-right: 20px; }
+    #shopify-section-{{ section.id }} .gn-arc-story__split {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      margin-bottom: 56px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__ritual {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__panel {
+      position: static;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__specs { grid-template-columns: 1fr 1fr; }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec:nth-child(odd) { border-left: 0; }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec:nth-child(n+3) {
+      border-top: 1px solid {{ section.settings.divider_color }};
+      padding-top: 20px;
+    }
+  }
+  @media (max-width: 549px) {
+    #shopify-section-{{ section.id }} .gn-arc-story__specs { grid-template-columns: 1fr; }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec {
+      border-left: 0;
+      border-top: 1px solid {{ section.settings.divider_color }};
+      padding: 20px 0 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec:first-child { border-top: 0; padding-top: 28px; }
+  }
+</style>
+
+<div class="gn-arc-story">
+  <div class="gn-arc-story__inner">
+    <div class="gn-arc-story__split">
+      <div>
+        {%- if section.settings.eyebrow_text != blank -%}
+          <p class="gn-arc-story__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <div class="gn-arc-story__heading">{{ section.settings.heading }}</div>
+        {%- endif -%}
+        {%- if section.settings.copy != blank -%}
+          <div class="gn-arc-story__copy">{{ section.settings.copy }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- assign contrasts = section.blocks | where: 'type', 'contrast' -%}
+      {%- if contrasts.size > 0 -%}
+        <div class="gn-arc-story__contrast">
+          {%- for block in contrasts -%}
+            <div class="gn-arc-story__row" {{ block.shopify_attributes }}>
+              <p class="gn-arc-story__row-label">{{ block.settings.label }}</p>
+              <div>
+                <p class="gn-arc-story__row-title">{{ block.settings.title }}</p>
+                <p class="gn-arc-story__row-copy">{{ block.settings.copy }}</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="gn-arc-story__ritual">
+      <div class="gn-arc-story__ritual-copy">
+        {%- if section.settings.ritual_heading != blank -%}
+          <h3 class="gn-arc-story__ritual-heading">{{ section.settings.ritual_heading }}</h3>
+        {%- endif -%}
+
+        {%- assign beats = section.blocks | where: 'type', 'beat' -%}
+        {%- if beats.size > 0 -%}
+          <div class="gn-arc-story__timeline">
+            {%- for block in beats -%}
+              <div class="gn-arc-story__beat" {{ block.shopify_attributes }}>
+                <span class="gn-arc-story__beat-time">{{ block.settings.time }}</span>
+                <div>
+                  <p class="gn-arc-story__beat-title">{{ block.settings.title }}</p>
+                  <p class="gn-arc-story__beat-copy">{{ block.settings.copy }}</p>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.note != blank -%}
+          <p class="gn-arc-story__note">{{ section.settings.note }}</p>
+        {%- endif -%}
+      </div>
+
+      <aside class="gn-arc-story__panel">
+        {%- if section.settings.panel_eyebrow != blank -%}
+          <p class="gn-arc-story__panel-eyebrow">{{ section.settings.panel_eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.panel_title != blank -%}
+          <p class="gn-arc-story__panel-title">{{ section.settings.panel_title }}</p>
+        {%- endif -%}
+        {%- if section.settings.panel_copy != blank -%}
+          <p class="gn-arc-story__panel-copy">{{ section.settings.panel_copy }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.panel_image != blank -%}
+          <div class="gn-arc-story__panel-media">
+            {{ section.settings.panel_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 420px, 100vw' }}
+          </div>
+        {%- else -%}
+          <div class="gn-arc-story__diagram">
+            <p class="gn-arc-story__diagram-heading">{{ section.settings.diagram_heading | default: 'Where the click fires' }}</p>
+            <div class="gn-arc-story__compare">
+              <div class="gn-arc-story__compare-col is-early">
+                <span class="gn-arc-story__compare-badge">{{ section.settings.arc_label_early | default: 'Too soon' }}</span>
+                <svg viewBox="0 0 140 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <text x="70" y="18" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">TOP</text>
+                  <path d="M70 24 V 128" stroke="{{ section.settings.panel_divider }}" stroke-width="2" stroke-dasharray="4 4"/>
+                  <circle cx="70" cy="24" r="5" fill="{{ section.settings.panel_divider }}"/>
+                  <circle cx="70" cy="58" r="9" fill="{{ section.settings.panel_muted }}"/>
+                  <path d="M82 50 C 96 42, 108 38, 118 36" stroke="{{ section.settings.panel_muted }}" stroke-width="2" stroke-linecap="round"/>
+                  <text x="70" y="82" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="11" font-family="system-ui,sans-serif" font-weight="800">CLICK</text>
+                  <circle cx="70" cy="128" r="5" fill="{{ section.settings.panel_divider }}"/>
+                  <text x="70" y="146" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">IMPACT</text>
+                </svg>
+                <p class="gn-arc-story__compare-title">{{ section.settings.early_title | default: 'Early click' }}</p>
+                <p class="gn-arc-story__compare-copy">{{ section.settings.early_copy | default: 'Sound fires near the top. Speed is already gone.' }}</p>
+              </div>
+              <div class="gn-arc-story__compare-col is-later">
+                <span class="gn-arc-story__compare-badge">{{ section.settings.arc_label_later | default: 'Better' }}</span>
+                <svg viewBox="0 0 140 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <text x="70" y="18" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">TOP</text>
+                  <path d="M70 24 V 128" stroke="{{ section.settings.panel_accent }}" stroke-width="2.5"/>
+                  <circle cx="70" cy="24" r="5" fill="{{ section.settings.panel_accent }}"/>
+                  <circle cx="70" cy="112" r="9" fill="{{ section.settings.panel_accent }}"/>
+                  <path d="M82 104 C 96 96, 108 92, 118 90" stroke="{{ section.settings.panel_accent }}" stroke-width="2" stroke-linecap="round"/>
+                  <text x="70" y="98" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="11" font-family="system-ui,sans-serif" font-weight="800">CLICK</text>
+                  <circle cx="70" cy="128" r="5" fill="{{ section.settings.panel_accent }}"/>
+                  <text x="70" y="146" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">IMPACT</text>
+                </svg>
+                <p class="gn-arc-story__compare-title">{{ section.settings.later_title | default: 'Later click' }}</p>
+                <p class="gn-arc-story__compare-copy">{{ section.settings.later_copy | default: 'Sound fires near impact. That is the timing to keep.' }}</p>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="gn-arc-story__panel-meta">
+          <div class="gn-arc-story__panel-meta-item">
+            <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_1 | default: '5 min' }}</p>
+            <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_1 | default: 'Session' }}</p>
+          </div>
+          <div class="gn-arc-story__panel-meta-item">
+            <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_2 | default: '1 job' }}</p>
+            <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_2 | default: 'Focus' }}</p>
+          </div>
+          <div class="gn-arc-story__panel-meta-item">
+            <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_3 | default: 'Click' }}</p>
+            <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_3 | default: 'Feedback' }}</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {%- assign specs = section.blocks | where: 'type', 'spec' -%}
+    {%- if specs.size > 0 -%}
+      <div class="gn-arc-story__specs">
+        {%- for block in specs -%}
+          <div class="gn-arc-story__spec" {{ block.shopify_attributes }}>
+            <p class="gn-arc-story__spec-label">{{ block.settings.label }}</p>
+            <p class="gn-arc-story__spec-value">{{ block.settings.value }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "ARC ONE story",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "Why the click matters" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Most range sessions guess. ARC ONE <em>answers</em>.</p>" },
+    { "type": "richtext", "id": "copy", "label": "Copy", "default": "<p>If your swing feels powerful but the ball does not, the release is often early. ARC ONE turns that invisible moment into a sound you can train against in a few minutes a day.</p>" },
+    { "type": "text", "id": "ritual_heading", "label": "Ritual heading", "default": "A five-minute timing reset." },
+    { "type": "textarea", "id": "note", "label": "Note", "default": "Start slow. The point is timing, not swinging harder." },
+    { "type": "header", "content": "Ritual panel (right side)" },
+    { "type": "text", "id": "panel_eyebrow", "label": "Panel eyebrow", "default": "What you are training" },
+    { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Move the click toward impact." },
+    { "type": "textarea", "id": "panel_copy", "label": "Panel copy", "default": "The downswing is a short window. Early click means release already happened. Later click means you held it longer." },
+    { "type": "image_picker", "id": "panel_image", "label": "Panel image (optional — replaces diagram)" },
+    { "type": "text", "id": "diagram_heading", "label": "Diagram heading", "default": "Where the click fires" },
+    { "type": "text", "id": "arc_label_early", "label": "Early badge", "default": "Too soon" },
+    { "type": "text", "id": "early_title", "label": "Early title", "default": "Early click" },
+    { "type": "textarea", "id": "early_copy", "label": "Early copy", "default": "Sound fires near the top. Speed is already gone." },
+    { "type": "text", "id": "arc_label_later", "label": "Later badge", "default": "Better" },
+    { "type": "text", "id": "later_title", "label": "Later title", "default": "Later click" },
+    { "type": "textarea", "id": "later_copy", "label": "Later copy", "default": "Sound fires near impact. That is the timing to keep." },
+    { "type": "text", "id": "meta_value_1", "label": "Meta value 1", "default": "5 min" },
+    { "type": "text", "id": "meta_label_1", "label": "Meta label 1", "default": "Session" },
+    { "type": "text", "id": "meta_value_2", "label": "Meta value 2", "default": "1 job" },
+    { "type": "text", "id": "meta_label_2", "label": "Meta label 2", "default": "Focus" },
+    { "type": "text", "id": "meta_value_3", "label": "Meta value 3", "default": "Click" },
+    { "type": "text", "id": "meta_label_3", "label": "Meta label 3", "default": "Feedback" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#182b20" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#4a4a44" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1d3d2a" },
+    { "type": "color", "id": "divider_color", "label": "Dividers", "default": "#d8d3c4" },
+    { "type": "color", "id": "panel_background", "label": "Panel background", "default": "#f2eee3" },
+    { "type": "color", "id": "panel_diagram_bg", "label": "Diagram background", "default": "#faf8f2" },
+    { "type": "color", "id": "panel_heading", "label": "Panel heading", "default": "#182b20" },
+    { "type": "color", "id": "panel_text", "label": "Panel text", "default": "#4a4a44" },
+    { "type": "color", "id": "panel_accent", "label": "Panel accent", "default": "#1d3d2a" },
+    { "type": "color", "id": "panel_muted", "label": "Panel muted", "default": "#8a8578" },
+    { "type": "color", "id": "panel_divider", "label": "Panel dividers", "default": "#d8d3c4" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "contrast",
+      "name": "Contrast row",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Without" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Guessing at release" },
+        { "type": "textarea", "id": "copy", "label": "Copy", "default": "You feel a good swing. You do not know when speed left the club." }
+      ]
+    },
+    {
+      "type": "beat",
+      "name": "Ritual beat",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "time", "label": "Time", "default": "1 min" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Find your current click" },
+        { "type": "textarea", "id": "copy", "label": "Copy", "default": "Make slow swings and notice where the sound happens." }
+      ]
+    },
+    {
+      "type": "spec",
+      "name": "Spec",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Use" },
+        { "type": "text", "id": "value", "label": "Value", "default": "No ball, net, or app" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC ONE story",
+      "blocks": [
+        { "type": "contrast", "settings": { "label": "Without", "title": "Guessing at release", "copy": "You feel a good swing. You do not know when speed left the club." } },
+        { "type": "contrast", "settings": { "label": "With ARC", "title": "A sound you can train", "copy": "Early click or later click. Every rep has a clear job." } },
+        { "type": "beat", "settings": { "time": "1 min", "title": "Find your current click", "copy": "Make slow swings and notice where the sound happens." } },
+        { "type": "beat", "settings": { "time": "3 min", "title": "Move the sound later", "copy": "Smooth the transition until the click drifts closer to impact." } },
+        { "type": "beat", "settings": { "time": "1 min", "title": "Transfer the feel", "copy": "Switch to a normal club and rehearse the same release timing." } },
+        { "type": "spec", "settings": { "label": "Use", "value": "No ball, net, or app" } },
+        { "type": "spec", "settings": { "label": "Size", "value": "15.3 in collapsed, 26.5 in extended" } },
+        { "type": "spec", "settings": { "label": "Build", "value": "Stainless shaft, resin head, rubber grip" } },
+        { "type": "spec", "settings": { "label": "Where", "value": "Home, range, or pre-round" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -7,7 +7,7 @@ if (!customElements.get('product-form')) {
 
         this.form = this.querySelector('form');
         this.form && this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
-        this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+        this.cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
         this.submitButton = this.querySelector('[type="submit"]');
         this.hideErrors = this.dataset.hideErrors === 'true';
       }
@@ -27,6 +27,7 @@ if (!customElements.get('product-form')) {
         delete config.headers['Content-Type'];
 
         const formData = new FormData(this.form);
+        this.cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
         if (this.cart) {
           formData.append(
             'sections',
