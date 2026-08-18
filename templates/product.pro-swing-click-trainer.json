@@ -198,34 +198,34 @@
       "type": "gn-arc-one-system",
       "blocks": {
         "step_1": {
-          "type": "step",
+          "type": "system_step",
           "settings": {
             "number": "01",
-            "name": "Link",
+            "step_name": "Link",
             "current": false
           }
         },
         "step_2": {
-          "type": "step",
+          "type": "system_step",
           "settings": {
             "number": "02",
-            "name": "Arc",
+            "step_name": "Arc",
             "current": true
           }
         },
         "step_3": {
-          "type": "step",
+          "type": "system_step",
           "settings": {
             "number": "03",
-            "name": "Trace",
+            "step_name": "Trace",
             "current": false
           }
         },
         "step_4": {
-          "type": "step",
+          "type": "system_step",
           "settings": {
             "number": "04",
-            "name": "Line",
+            "step_name": "Line",
             "current": false
           }
         }
@@ -257,28 +257,28 @@
       "type": "gn-arc-one-faq",
       "blocks": {
         "faq_1": {
-          "type": "faq",
+          "type": "faq_item",
           "settings": {
             "question": "What does ARC ONE actually do?",
             "answer": "<p>It clicks during a practice swing so you can hear when you’re releasing the club.</p>"
           }
         },
         "faq_2": {
-          "type": "faq",
+          "type": "faq_item",
           "settings": {
             "question": "Do I need to hit balls with it?",
             "answer": "<p>No. It’s meant for dry swings — at home, in the garage, or as a warm-up.</p>"
           }
         },
         "faq_3": {
-          "type": "faq",
+          "type": "faq_item",
           "settings": {
             "question": "Can I use it indoors?",
             "answer": "<p>Yes, as long as you’ve got room to swing safely. Half swings are fine to start.</p>"
           }
         },
         "faq_4": {
-          "type": "faq",
+          "type": "faq_item",
           "settings": {
             "question": "Will it fit in a golf bag?",
             "answer": "<p>It collapses to about 15.3 inches, so most people just toss it in with the rest of their gear.</p>"
@@ -304,7 +304,7 @@
         "cta_background": "#1d3d2a",
         "cta_text_color": "#f5f3ec",
         "cta_button_background": "#f5f1e8",
-        "cta_button_text": "#1d3d2a",
+        "cta_button_text_color": "#1d3d2a",
         "padding_top": 70,
         "padding_bottom": 80
       }
