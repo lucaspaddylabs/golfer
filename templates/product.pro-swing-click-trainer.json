@@ -34,7 +34,7 @@
           "type": "bundle",
           "settings": {
             "quantity": 1,
-            "save_amount": 12,
+            "save_amount": 0,
             "popular": false
           }
         },

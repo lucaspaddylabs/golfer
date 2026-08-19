@@ -408,7 +408,7 @@
   }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} {
-      padding-bottom: {% if section.settings.show_sticky_atc %}78px{% else %}0{% endif %};
+      padding-bottom: {% if section.settings.show_sticky_atc %}96px{% else %}0{% endif %};
     }
     #shopify-section-{{ section.id }} .gn-arc-hero {
       padding: 0;
@@ -486,7 +486,7 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 12px;
       align-items: center;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
       background: {{ section.settings.background_color }};
       border-top: 1px solid {{ section.settings.divider_color }};
       transform: translateY(110%);
@@ -1011,6 +1011,17 @@
           sticky.classList.toggle('is-visible', !entry.isIntersecting);
         }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
         observer.observe(observeTarget);
+      }
+
+      if (window.visualViewport) {
+        const repositionSticky = () => {
+          const vv = window.visualViewport;
+          const offset = window.innerHeight - (vv.offsetTop + vv.height);
+          sticky.style.bottom = offset > 0 ? offset + 'px' : '0px';
+        };
+        window.visualViewport.addEventListener('resize', repositionSticky);
+        window.visualViewport.addEventListener('scroll', repositionSticky);
+        repositionSticky();
       }
     }
 
