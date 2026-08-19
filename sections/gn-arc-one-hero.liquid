@@ -305,12 +305,44 @@
     align-items: center;
     justify-content: center;
     opacity: 0;
+    transition: opacity 220ms ease;
     pointer-events: none;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__panel.is-active {
     opacity: 1;
     pointer-events: auto;
     position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(245, 243, 236, 0.4);
+    background: rgba(245, 241, 232, 0.72);
+    color: {{ section.settings.ink_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.95;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow:hover { opacity: 1; }
+  #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow:active { transform: translateY(-50%) scale(0.98); }
+  #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow--prev { left: 14px; }
+  #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow--next { right: 14px; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow {
+      width: 38px;
+      height: 38px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow--prev { left: 10px; }
+    #shopify-section-{{ section.id }} .gn-arc-hero__gallery-arrow--next { right: 10px; }
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__stage img,
   #shopify-section-{{ section.id }} .gn-arc-hero__stage video,
@@ -417,9 +449,23 @@
       padding: 14px 16px 6px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage-label,
-    #shopify-section-{{ section.id }} .gn-arc-hero__signals,
-    #shopify-section-{{ section.id }} .gn-arc-hero__thumbs {
+    #shopify-section-{{ section.id }} .gn-arc-hero__signals {
       display: none;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__thumbs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 6px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__thumbs::-webkit-scrollbar { display: none; }
+    #shopify-section-{{ section.id }} .gn-arc-hero__thumb {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage {
       min-height: 0;
@@ -766,6 +812,18 @@
         {%- endif -%}
         <div class="gn-arc-hero__media-wrap">
           <div class="gn-arc-hero__stage{% if section.settings.enable_pulse %} has-pulse{% endif %}">
+            {% if product.media.size > 1 %}
+              <button class="gn-arc-hero__gallery-arrow gn-arc-hero__gallery-arrow--prev" type="button" data-gn-gallery-prev aria-label="Previous image">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 18l-6-6 6-6"/>
+                </svg>
+              </button>
+              <button class="gn-arc-hero__gallery-arrow gn-arc-hero__gallery-arrow--next" type="button" data-gn-gallery-next aria-label="Next image">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </button>
+            {% endif %}
             {% if product.media.size > 0 %}
               {% for media in product.media %}
                 <div
@@ -935,9 +993,46 @@
         panel.classList.toggle('is-active', panel === target);
       });
       section.querySelectorAll('[data-gn-thumbnail]').forEach((thumb) => {
-        thumb.setAttribute('aria-current', String(thumb.dataset.mediaId === String(mediaId)));
+        const isActive = thumb.dataset.mediaId === String(mediaId);
+        thumb.setAttribute('aria-current', String(isActive));
+        if (isActive) thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       });
     };
+
+    const thumbnailButtons = [...section.querySelectorAll('[data-gn-thumbnail]')];
+    const galleryPrev = section.querySelector('[data-gn-gallery-prev]');
+    const galleryNext = section.querySelector('[data-gn-gallery-next]');
+    const getActiveIndex = () => thumbnailButtons.findIndex((b) => b.getAttribute('aria-current') === 'true');
+    const showByOffset = (delta) => {
+      if (!thumbnailButtons.length) return;
+      const activeIndex = getActiveIndex();
+      const currentIndex = activeIndex >= 0 ? activeIndex : 0;
+      const nextIndex = (currentIndex + delta + thumbnailButtons.length) % thumbnailButtons.length;
+      const nextThumb = thumbnailButtons[nextIndex];
+      if (!nextThumb) return;
+      showMedia(nextThumb.dataset.mediaId);
+    };
+    if (galleryPrev && galleryNext && thumbnailButtons.length > 1) {
+      galleryPrev.addEventListener('click', () => showByOffset(-1));
+      galleryNext.addEventListener('click', () => showByOffset(1));
+    }
+
+    const stageEl = section.querySelector('[data-gn-arc-hero] .gn-arc-hero__stage') ||
+                    section.querySelector('.gn-arc-hero__stage');
+    if (stageEl && thumbnailButtons.length > 1) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      stageEl.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      stageEl.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) < 30 || Math.abs(dx) < Math.abs(dy)) return;
+        showByOffset(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    }
 
     const updateVariant = () => {
       const variant = findVariant();
