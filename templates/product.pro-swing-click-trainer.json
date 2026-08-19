@@ -64,8 +64,8 @@
         "bundle_3"
       ],
       "settings": {
-        "eyebrow_text": "ARC ONE",
-        "heading": "SWING TRAINER",
+        "eyebrow_text": "SWING TRAINER",
+        "heading": "ARC ONE",
         "tagline": "Know when you’re releasing — by sound.",
         "lede": "Make a few slow practice swings and listen for the click. Early means you’re casting. Closer to impact means the timing is better. No balls, no net, no app.",
         "stage_label": "What the click means",
@@ -85,7 +85,7 @@
         "enable_pulse": false,
         "pulse_speed": 2.5,
         "overlay_opacity": 65,
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "ink_color": "#182b20",
         "muted_color": "#4a4a44",
         "accent_color": "#1d3d2a",
