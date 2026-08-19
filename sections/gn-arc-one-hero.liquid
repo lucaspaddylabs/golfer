@@ -302,14 +302,11 @@
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     opacity: 0;
     transition: opacity 220ms ease;
     pointer-events: none;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-hero__panel--override {
-    align-items: center;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__panel.is-active {
     opacity: 1;
@@ -353,9 +350,9 @@
   #shopify-section-{{ section.id }} .gn-arc-hero__stage model-viewer {
     display: block;
     max-width: 100%;
-    width: 100%;
-    max-height: 100%;
-    height: 100%;
+    max-height: 460px;
+    width: auto;
+    height: auto;
     object-fit: contain;
   }
   {%- if section.settings.enable_pulse -%}
@@ -475,8 +472,6 @@
     #shopify-section-{{ section.id }} .gn-arc-hero__stage iframe,
     #shopify-section-{{ section.id }} .gn-arc-hero__stage model-viewer {
       max-height: min(34vh, 260px);
-      width: auto;
-      height: auto;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage.has-pulse .gn-arc-hero__panel.is-active img {
       animation: none;
@@ -829,7 +824,7 @@
             {% if product.media.size > 0 %}
               {% for media in product.media %}
                 <div
-                  class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}{% if hero_product_image != blank and forloop.first %} gn-arc-hero__panel--override{% endif %}"
+                  class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}"
                   data-gn-media-panel
                   data-media-id="{{ media.id }}"
                 >
