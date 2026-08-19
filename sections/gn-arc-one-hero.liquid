@@ -453,19 +453,27 @@
       display: none;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__thumbs {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      gap: 6px;
-      margin-top: 10px;
-      justify-content: center;
+      display: none;
     }
-    #shopify-section-{{ section.id }} .gn-arc-hero__thumbs::-webkit-scrollbar { display: none; }
-    #shopify-section-{{ section.id }} .gn-arc-hero__thumb {
-      flex-shrink: 0;
-      width: 46px;
-      height: 46px;
+    #shopify-section-{{ section.id }} .gn-arc-hero__dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 12px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(245, 243, 236, 0.35);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 200ms ease, transform 200ms ease;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__dot.is-active {
+      background: {{ section.settings.stage_accent }};
+      transform: scale(1.35);
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage {
       min-height: 0;
@@ -886,6 +894,16 @@
                 </button>
               {% endfor %}
             </div>
+            <div class="gn-arc-hero__dots" aria-hidden="true" data-gn-dots>
+              {% for media in product.media %}
+                <button
+                  class="gn-arc-hero__dot{% if forloop.first %} is-active{% endif %}"
+                  type="button"
+                  data-gn-dot
+                  data-media-id="{{ media.id }}"
+                ></button>
+              {% endfor %}
+            </div>
           {% endif %}
         </div>
 
@@ -997,7 +1015,14 @@
         thumb.setAttribute('aria-current', String(isActive));
         if (isActive) thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       });
+      section.querySelectorAll('[data-gn-dot]').forEach((dot) => {
+        dot.classList.toggle('is-active', dot.dataset.mediaId === String(mediaId));
+      });
     };
+
+    section.querySelectorAll('[data-gn-dot]').forEach((dot) => {
+      dot.addEventListener('click', () => showMedia(dot.dataset.mediaId));
+    });
 
     const thumbnailButtons = [...section.querySelectorAll('[data-gn-thumbnail]')];
     const galleryPrev = section.querySelector('[data-gn-gallery-prev]');
