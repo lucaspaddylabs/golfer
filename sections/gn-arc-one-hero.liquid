@@ -482,10 +482,8 @@
       right: 0;
       bottom: 0;
       z-index: 40;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: center;
+      display: flex;
+      justify-content: center;
       padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
       background: {{ section.settings.background_color }};
       border-top: 1px solid {{ section.settings.divider_color }};
@@ -510,10 +508,10 @@
       font-weight: 700;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__sticky .gn-arc-hero__cta {
-      width: auto;
-      min-width: 148px;
+      width: 100%;
+      max-width: 420px;
       min-height: 46px;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       gap: 4px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__sticky .gn-arc-hero__cta s {
@@ -846,10 +844,6 @@
 
   {% if section.settings.show_sticky_atc %}
     <div class="gn-arc-hero__sticky" data-gn-sticky-atc>
-      <div>
-        <p class="gn-arc-hero__sticky-title">{{ section.settings.heading | default: product.title }}</p>
-        <span class="gn-arc-hero__sticky-price" data-gn-sticky-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-      </div>
       <button class="gn-arc-hero__cta" type="button" data-gn-sticky-button data-gn-add-to-cart>
         {% if product.has_only_default_variant %}
           {% if current_variant.available %}
@@ -975,7 +969,41 @@
     section.querySelectorAll('[data-gn-thumbnail]').forEach((button) => {
       button.addEventListener('click', () => showMedia(button.dataset.mediaId));
     });
-    optionInputs.forEach((input) => input.addEventListener('change', updateVariant));
+    const bundleCards = [...section.querySelectorAll('[data-gn-bundle]')];
+    const qtyInput = section.querySelector('#Quantity-{{ section.id }}');
+
+    const applyBundlePricing = (qty, saveAmountCents) => {
+      const variant = findVariant();
+      if (!variant) return;
+      const total = variant.price * qty - saveAmountCents;
+      const was = variant.price * qty;
+      const hasDiscount = saveAmountCents > 0;
+      if (priceNode) priceNode.textContent = formatMoney(total);
+      if (compareNode) {
+        compareNode.hidden = !hasDiscount;
+        compareNode.textContent = hasDiscount ? formatMoney(was) : '';
+      }
+      if (saleBadge) {
+        saleBadge.hidden = !hasDiscount;
+        if (hasDiscount) saleBadge.textContent = 'Save ' + formatMoney(saveAmountCents);
+      }
+      if (stickyPrice) stickyPrice.textContent = formatMoney(total);
+      if (stickySalePrice) stickySalePrice.textContent = formatMoney(total);
+      if (stickyCompare) {
+        stickyCompare.hidden = !hasDiscount;
+        if (hasDiscount) stickyCompare.textContent = formatMoney(was);
+      }
+    };
+
+    optionInputs.forEach((input) => input.addEventListener('change', () => {
+      updateVariant();
+      const selected = section.querySelector('[data-gn-bundle].is-selected');
+      if (selected) {
+        const qty = Number(selected.dataset.bundleQty) || 1;
+        const saveAmountCents = Number(selected.dataset.bundleSave) || 0;
+        applyBundlePricing(qty, saveAmountCents);
+      }
+    }));
 
     const scrollToForm = () => {
       const formWrap = section.querySelector('[data-gn-form-wrap]');
@@ -1025,19 +1053,38 @@
       }
     }
 
-    const bundleCards = [...section.querySelectorAll('[data-gn-bundle]')];
-    const qtyInput = section.querySelector('#Quantity-{{ section.id }}');
     bundleCards.forEach((card) => {
       card.addEventListener('click', () => {
         const qty = Number(card.dataset.bundleQty) || 1;
-        if (qtyInput) {
-          qtyInput.value = qty;
-          qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
-        }
+        const saveAmountCents = Number(card.dataset.bundleSave) || 0;
+        if (qtyInput) qtyInput.value = qty;
         bundleCards.forEach((c) => c.classList.remove('is-selected'));
         card.classList.add('is-selected');
+        applyBundlePricing(qty, saveAmountCents);
       });
     });
+
+    if (qtyInput) {
+      qtyInput.addEventListener('input', () => {
+        const qty = Math.max(1, Number(qtyInput.value) || 1);
+        const matchingCard = bundleCards.find((c) => Number(c.dataset.bundleQty) === qty);
+        bundleCards.forEach((c) => c.classList.remove('is-selected'));
+        if (matchingCard) {
+          matchingCard.classList.add('is-selected');
+          applyBundlePricing(qty, Number(matchingCard.dataset.bundleSave) || 0);
+        } else {
+          const eligibleCards = bundleCards.filter((c) => Number(c.dataset.bundleQty) <= qty);
+          if (eligibleCards.length) {
+            const bestCard = eligibleCards.reduce((best, c) =>
+              Number(c.dataset.bundleSave) >= Number(best.dataset.bundleSave) ? c : best
+            );
+            applyBundlePricing(qty, Number(bestCard.dataset.bundleSave) || 0);
+          } else {
+            applyBundlePricing(qty, 0);
+          }
+        }
+      });
+    }
 
     updateVariant();
   })();
