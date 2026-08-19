@@ -766,11 +766,7 @@
         {%- endif -%}
         <div class="gn-arc-hero__media-wrap">
           <div class="gn-arc-hero__stage{% if section.settings.enable_pulse %} has-pulse{% endif %}">
-            {% if hero_product_image != blank %}
-              <div class="gn-arc-hero__panel is-active">
-                {{ hero_product_image | image_url: width: 1400 | image_tag: alt: hero_image_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
-              </div>
-            {% elsif product.media.size > 0 %}
+            {% if product.media.size > 0 %}
               {% for media in product.media %}
                 <div
                   class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}"
@@ -780,24 +776,33 @@
                   {% liquid
                     assign media_alt = media.alt | default: product.title
                   %}
-                  {% case media.media_type %}
-                    {% when 'image' %}
-                      {% if forloop.first %}
-                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+
+                  {%- if hero_product_image != blank and forloop.first -%}
+                    {{ hero_product_image | image_url: width: 1400 | image_tag: alt: hero_image_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+                  {%- else -%}
+                    {% case media.media_type %}
+                      {% when 'image' %}
+                        {% if forloop.first %}
+                          {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+                        {% else %}
+                          {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'lazy', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+                        {% endif %}
+                      {% when 'video' %}
+                        {{ media | video_tag: controls: true, image_size: '1200x' }}
+                      {% when 'external_video' %}
+                        {{ media | external_video_tag }}
+                      {% when 'model' %}
+                        {{ media | model_viewer_tag: image_size: '1200x' }}
                       {% else %}
-                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'lazy', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
-                      {% endif %}
-                    {% when 'video' %}
-                      {{ media | video_tag: controls: true, image_size: '1200x' }}
-                    {% when 'external_video' %}
-                      {{ media | external_video_tag }}
-                    {% when 'model' %}
-                      {{ media | model_viewer_tag: image_size: '1200x' }}
-                    {% else %}
-                      {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'lazy' }}
-                  {% endcase %}
+                        {{ media.preview_image | image_url: width: 1400 | image_tag: alt: media_alt, loading: 'lazy' }}
+                    {% endcase %}
+                  {%- endif -%}
                 </div>
               {% endfor %}
+            {% elsif hero_product_image != blank %}
+              <div class="gn-arc-hero__panel is-active">
+                {{ hero_product_image | image_url: width: 1400 | image_tag: alt: hero_image_alt, loading: 'eager', fetchpriority: 'high', widths: '360, 540, 720, 900, 1200, 1400', sizes: '(min-width: 990px) 48vw, 100vw' }}
+              </div>
             {% elsif product.featured_image %}
               {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, loading: 'eager' }}
             {% elsif section.settings.fallback_image != blank %}
@@ -805,7 +810,7 @@
             {% endif %}
           </div>
 
-          {% if hero_product_image == blank and product.media.size > 1 %}
+          {% if product.media.size > 1 %}
             <div class="gn-arc-hero__thumbs" aria-label="Choose product media">
               {% for media in product.media %}
                 {% liquid
