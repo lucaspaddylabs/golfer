@@ -84,7 +84,7 @@
         "product_image_alt": "",
         "enable_pulse": false,
         "pulse_speed": 2.5,
-        "overlay_opacity": 55,
+        "overlay_opacity": 65,
         "background_color": "#f5f1e8",
         "ink_color": "#182b20",
         "muted_color": "#4a4a44",
@@ -228,7 +228,7 @@
         "panel_accent": "#1d3d2a",
         "panel_muted": "#8a8578",
         "panel_divider": "#d8d3c4",
-        "padding_top": 80,
+        "padding_top": 20,
         "padding_bottom": 80
       }
     },
