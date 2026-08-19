@@ -376,7 +376,9 @@
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-top: 16px;
+    margin-top: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__dot {
     width: 28px;
@@ -452,6 +454,7 @@
     #shopify-section-{{ section.id }} .gn-arc-hero__dots {
       gap: 5px;
       margin-top: 10px;
+      padding-bottom: 10px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__dot {
       width: 7px;
@@ -880,18 +883,21 @@
                 </button>
               {% endfor %}
             </div>
-            <div class="gn-arc-hero__dots" aria-hidden="true" data-gn-dots>
-              {% for media in product.media %}
-                <button
-                  class="gn-arc-hero__dot{% if forloop.first %} is-active{% endif %}"
-                  type="button"
-                  data-gn-dot
-                  data-media-id="{{ media.id }}"
-                ></button>
-              {% endfor %}
-            </div>
           {% endif %}
         </div>
+
+        {% if product.media.size > 1 %}
+          <div class="gn-arc-hero__dots" aria-hidden="true" data-gn-dots>
+            {% for media in product.media %}
+              <button
+                class="gn-arc-hero__dot{% if forloop.first %} is-active{% endif %}"
+                type="button"
+                data-gn-dot
+                data-media-id="{{ media.id }}"
+              ></button>
+            {% endfor %}
+          </div>
+        {% endif %}
 
         {%- if section.settings.signal_label_1 != blank or section.settings.signal_label_2 != blank -%}
           <div class="gn-arc-hero__signals">
