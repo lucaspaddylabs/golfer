@@ -81,7 +81,8 @@
   #shopify-section-{{ section.id }} .gn-arc-hero__compare {
     color: {{ section.settings.muted_color }};
     text-decoration: line-through;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__sale {
     display: inline-flex;
@@ -168,8 +169,8 @@
     border: 0;
     border-radius: 4px;
     padding: 14px 22px;
-    background: {{ section.settings.accent_color }};
-    color: {{ section.settings.background_color }};
+    background: #2ab0ea;
+    color: #fff;
     font-weight: 700;
     font-size: 0.92rem;
     letter-spacing: 0.04em;
@@ -513,6 +514,99 @@
       min-width: 148px;
       min-height: 46px;
       font-size: 0.8rem;
+      gap: 4px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sticky .gn-arc-hero__cta s {
+      opacity: 0.65;
+      font-weight: 400;
+    }
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
+    max-width: 420px;
+    margin-top: 24px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
+    margin: 0 0 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card {
+    position: relative;
+    border: 1px solid {{ section.settings.divider_color }};
+    border-radius: 6px;
+    padding: 16px 10px 14px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card:hover {
+    border-color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-popular {
+    border-color: {{ section.settings.accent_color }};
+    box-shadow: inset 0 0 0 1px {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected {
+    border-color: #2ab0ea;
+    box-shadow: inset 0 0 0 1px #2ab0ea;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-popular {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 2px 10px;
+    border-radius: 3px;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.background_color }};
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-label {
+    margin: 0 0 2px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-desc {
+    margin: 0 0 8px;
+    font-size: 0.7rem;
+    color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-price {
+    margin: 0 0 2px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-was {
+    color: {{ section.settings.muted_color }};
+    text-decoration: line-through;
+    font-size: 0.78rem;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-save {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #b8232a;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
+      max-width: none;
     }
   }
 </style>
@@ -540,12 +634,14 @@
 
       <div id="ProductForm-{{ section.id }}" data-gn-form-wrap>
         <div class="gn-arc-hero__price-row">
-          <span class="gn-arc-hero__price" data-gn-price>{{ current_variant.price | money }}</span>
+          <span class="gn-arc-hero__price" data-gn-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
           <span class="gn-arc-hero__compare" data-gn-compare{% unless show_sale_badge %} hidden{% endunless %}>
-            {{ current_variant.compare_at_price | money }}
+            {{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
           </span>
           <span class="gn-arc-hero__sale" data-gn-sale-badge{% unless show_sale_badge %} hidden{% endunless %}>
-            {{ section.settings.sale_badge_text }}
+            {% if show_sale_badge %}
+              Save {{ current_variant.compare_at_price | minus: current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+            {% endif %}
           </span>
         </div>
 
@@ -620,6 +716,40 @@
             {%- for block in trust_items -%}
               <span class="gn-arc-hero__trust-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
             {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign bundle_blocks = section.blocks | where: 'type', 'bundle' -%}
+        {%- if bundle_blocks.size > 0 -%}
+          <div class="gn-arc-hero__bundles" data-gn-bundles>
+            <p class="gn-arc-hero__bundles-heading">Buy more, save more</p>
+            <div class="gn-arc-hero__bundle-grid">
+              {%- for block in bundle_blocks -%}
+                {%- assign bundle_qty = block.settings.quantity -%}
+                {%- assign bundle_unit_price = current_variant.price -%}
+                {%- assign bundle_save_cents = block.settings.save_amount | times: 100 -%}
+                {%- assign bundle_total = bundle_unit_price | times: bundle_qty | minus: bundle_save_cents -%}
+                {%- assign bundle_was = bundle_unit_price | times: bundle_qty -%}
+                <div
+                  class="gn-arc-hero__bundle-card{% if block.settings.popular %} is-popular{% endif %}{% if bundle_qty == 1 %} is-selected{% endif %}"
+                  data-gn-bundle
+                  data-bundle-qty="{{ bundle_qty }}"
+                  data-bundle-save="{{ bundle_save_cents }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if block.settings.popular -%}
+                    <span class="gn-arc-hero__bundle-popular">Most popular</span>
+                  {%- endif -%}
+                  <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
+                  <p class="gn-arc-hero__bundle-desc">{{ bundle_qty }} x {{ product.title }}</p>
+                  <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                  {%- if bundle_save_cents > 0 -%}
+                    <span class="gn-arc-hero__bundle-was" data-gn-bundle-was>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                    <span class="gn-arc-hero__bundle-save">Save {{ bundle_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
           </div>
         {%- endif -%}
       </div>
@@ -718,11 +848,19 @@
     <div class="gn-arc-hero__sticky" data-gn-sticky-atc>
       <div>
         <p class="gn-arc-hero__sticky-title">{{ section.settings.heading | default: product.title }}</p>
-        <span class="gn-arc-hero__sticky-price" data-gn-sticky-price>{{ current_variant.price | money }}</span>
+        <span class="gn-arc-hero__sticky-price" data-gn-sticky-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
       </div>
       <button class="gn-arc-hero__cta" type="button" data-gn-sticky-button data-gn-add-to-cart>
         {% if product.has_only_default_variant %}
-          {% if current_variant.available %}{{ section.settings.add_to_cart_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
+          {% if current_variant.available %}
+            ADD TO CART –
+            {% if show_sale_badge %}
+              <s data-gn-sticky-compare>{{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+            {% endif %}
+            <span data-gn-sticky-sale-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+          {% else %}
+            {{ section.settings.sold_out_text }}
+          {% endif %}
         {% else %}
           {{ section.settings.choose_options_text }}
         {% endif %}
@@ -754,6 +892,8 @@
     const paymentButton = section.querySelector('[data-gn-payment-button]');
     const sticky = section.querySelector('[data-gn-sticky-atc]');
     const stickyButton = section.querySelector('[data-gn-sticky-button]');
+    const stickyCompare = section.querySelector('[data-gn-sticky-compare]');
+    const stickySalePrice = section.querySelector('[data-gn-sticky-sale-price]');
     const moneyFormat = section.dataset.moneyFormat || '';
     const currency = section.dataset.currency || 'USD';
     const labels = {
@@ -763,15 +903,20 @@
     };
     const hasOnlyDefaultVariant = {{ product.has_only_default_variant | json }};
 
+    const stripCurrencyPrefix = (str) => str.replace(/US\s?\$/, '$');
+
     const formatMoney = (cents) => {
+      let result;
       if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
-        return window.Shopify.formatMoney(cents, moneyFormat);
+        result = window.Shopify.formatMoney(cents, moneyFormat);
+      } else {
+        try {
+          result = new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(cents / 100);
+        } catch (error) {
+          result = `$${(cents / 100).toFixed(2)}`;
+        }
       }
-      try {
-        return new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100);
-      } catch (error) {
-        return `$${(cents / 100).toFixed(2)}`;
-      }
+      return stripCurrencyPrefix(result);
     };
 
     const findVariant = () => {
@@ -806,16 +951,23 @@
         compareNode.hidden = !hasCompare;
         compareNode.textContent = hasCompare ? formatMoney(variant.compare_at_price) : '';
       }
-      if (saleBadge) saleBadge.hidden = !hasCompare;
+      if (saleBadge) {
+        saleBadge.hidden = !hasCompare;
+        if (hasCompare) saleBadge.textContent = 'Save ' + formatMoney(variant.compare_at_price - variant.price);
+      }
       if (submitButton) {
         submitButton.disabled = !variant.available;
         submitButton.setAttribute('aria-disabled', String(!variant.available));
       }
       if (submitLabel) submitLabel.textContent = variant.available ? labels.add : labels.sold;
       if (paymentButton) paymentButton.hidden = !variant.available;
-      if (stickyButton) {
-        stickyButton.disabled = !variant.available && hasOnlyDefaultVariant;
-        if (hasOnlyDefaultVariant) stickyButton.textContent = variant.available ? labels.add : labels.sold;
+      if (stickyButton && hasOnlyDefaultVariant) {
+        stickyButton.disabled = !variant.available;
+        if (stickySalePrice) stickySalePrice.textContent = variant.available ? formatMoney(variant.price) : '';
+        if (stickyCompare) {
+          stickyCompare.hidden = !hasCompare || !variant.available;
+          if (hasCompare) stickyCompare.textContent = formatMoney(variant.compare_at_price);
+        }
       }
       if (variant.featured_media && variant.featured_media.id) showMedia(variant.featured_media.id);
     };
@@ -861,6 +1013,20 @@
         observer.observe(observeTarget);
       }
     }
+
+    const bundleCards = [...section.querySelectorAll('[data-gn-bundle]')];
+    const qtyInput = section.querySelector('#Quantity-{{ section.id }}');
+    bundleCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const qty = Number(card.dataset.bundleQty) || 1;
+        if (qtyInput) {
+          qtyInput.value = qty;
+          qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        bundleCards.forEach((c) => c.classList.remove('is-selected'));
+        card.classList.add('is-selected');
+      });
+    });
 
     updateVariant();
   })();
@@ -920,6 +1086,16 @@
       "limit": 4,
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "30-day returns" }
+      ]
+    },
+    {
+      "type": "bundle",
+      "name": "Bundle tier",
+      "limit": 4,
+      "settings": [
+        { "type": "number", "id": "quantity", "label": "Quantity", "default": 1 },
+        { "type": "number", "id": "save_amount", "label": "Save amount ($)", "default": 0, "info": "Discount in dollars off the total for this tier." },
+        { "type": "checkbox", "id": "popular", "label": "Show 'Most Popular' badge", "default": false }
       ]
     }
   ],

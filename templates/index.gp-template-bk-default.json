@@ -261,7 +261,7 @@
             "url": ""
           }
         },
-        "item_fishing": {
+        "item_training": {
           "type": "item",
           "settings": {
             "card_image": "shopify://shop_images/kawe-rodrigues-54bJ9bQyzuQ-unsplash.jpg",
@@ -269,7 +269,7 @@
             "show_icon": "svg",
             "icon_name": "eco-friendly",
             "block_heading": "Training & Tech",
-            "block_text": "<p>Dependable gear for every catch.</p>",
+            "block_text": "<p>Tools and tech to sharpen your game.</p>",
             "button_name": "",
             "url": ""
           }
@@ -290,7 +290,7 @@
       },
       "block_order": [
         "item_golf",
-        "item_fishing",
+        "item_training",
         "item_outdoor"
       ],
       "settings": {
@@ -534,7 +534,7 @@
           "settings": {
             "show_icon": "none",
             "icon_name": "check",
-            "block_text": "<p>Golfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service while continually expanding our selection of golf, fishing, and outdoor gear to help you enjoy every adventure.</p>"
+            "block_text": "<p>Golfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service while continually expanding our selection of golf and outdoor gear to help you enjoy every adventure.</p>"
           }
         },
         "button_about": {

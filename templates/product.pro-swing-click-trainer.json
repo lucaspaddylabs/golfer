@@ -29,12 +29,39 @@
           "settings": {
             "text": "Tracked shipping"
           }
+        },
+        "bundle_1": {
+          "type": "bundle",
+          "settings": {
+            "quantity": 1,
+            "save_amount": 12,
+            "popular": false
+          }
+        },
+        "bundle_2": {
+          "type": "bundle",
+          "settings": {
+            "quantity": 2,
+            "save_amount": 15,
+            "popular": true
+          }
+        },
+        "bundle_3": {
+          "type": "bundle",
+          "settings": {
+            "quantity": 3,
+            "save_amount": 20,
+            "popular": false
+          }
         }
       },
       "block_order": [
         "trust_1",
         "trust_2",
-        "trust_3"
+        "trust_3",
+        "bundle_1",
+        "bundle_2",
+        "bundle_3"
       ],
       "settings": {
         "eyebrow_text": "Swing trainer",
