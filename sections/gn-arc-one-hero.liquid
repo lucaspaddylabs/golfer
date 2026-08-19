@@ -975,23 +975,32 @@
     const applyBundlePricing = (qty, saveAmountCents) => {
       const variant = findVariant();
       if (!variant) return;
-      const total = variant.price * qty - saveAmountCents;
-      const was = variant.price * qty;
-      const hasDiscount = saveAmountCents > 0;
-      if (priceNode) priceNode.textContent = formatMoney(total);
-      if (compareNode) {
-        compareNode.hidden = !hasDiscount;
-        compareNode.textContent = hasDiscount ? formatMoney(was) : '';
+      const bundleTotal = variant.price * qty - saveAmountCents;
+      const bundleWas = variant.price * qty;
+      const hasBundleDiscount = saveAmountCents > 0;
+      const hasVariantSale = variant.compare_at_price && variant.compare_at_price > variant.price;
+
+      if (priceNode) priceNode.textContent = formatMoney(bundleTotal);
+
+      if (hasBundleDiscount) {
+        if (compareNode) { compareNode.hidden = false; compareNode.textContent = formatMoney(bundleWas); }
+        if (saleBadge) { saleBadge.hidden = false; saleBadge.textContent = 'Save ' + formatMoney(saveAmountCents); }
+      } else {
+        if (compareNode) {
+          compareNode.hidden = !hasVariantSale;
+          compareNode.textContent = hasVariantSale ? formatMoney(variant.compare_at_price) : '';
+        }
+        if (saleBadge) {
+          saleBadge.hidden = !hasVariantSale;
+          if (hasVariantSale) saleBadge.textContent = 'Save ' + formatMoney(variant.compare_at_price - variant.price);
+        }
       }
-      if (saleBadge) {
-        saleBadge.hidden = !hasDiscount;
-        if (hasDiscount) saleBadge.textContent = 'Save ' + formatMoney(saveAmountCents);
-      }
-      if (stickyPrice) stickyPrice.textContent = formatMoney(total);
-      if (stickySalePrice) stickySalePrice.textContent = formatMoney(total);
+
+      if (stickyPrice) stickyPrice.textContent = formatMoney(bundleTotal);
+      if (stickySalePrice) stickySalePrice.textContent = formatMoney(bundleTotal);
       if (stickyCompare) {
-        stickyCompare.hidden = !hasDiscount;
-        if (hasDiscount) stickyCompare.textContent = formatMoney(was);
+        stickyCompare.hidden = !hasBundleDiscount;
+        if (hasBundleDiscount) stickyCompare.textContent = formatMoney(bundleWas);
       }
     };
 
