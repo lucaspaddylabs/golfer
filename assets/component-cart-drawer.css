@@ -267,10 +267,11 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 
 /* Quantity — compact bordered control */
 #CartDrawer .cart-item__quantity {
-  gap: 12px;
+  gap: 8px;
+  margin-top: 14px;
 }
 #CartDrawer .cart-item__quantity .quantity {
-  width: 108px;
+  width: 104px;
   min-height: 40px;
   border: 1px solid var(--gn-divider);
   border-radius: 4px;
@@ -286,6 +287,18 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   font-weight: 700;
   font-size: 0.9rem;
   min-height: 40px;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent;
+  outline: 0;
+}
+#CartDrawer .cart-item__quantity .quantity__input:focus,
+#CartDrawer .cart-item__quantity .quantity__input:focus-visible,
+#CartDrawer .cart-item__quantity .field__input:focus,
+#CartDrawer .cart-item__quantity .field__input:focus-visible {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0;
 }
 #CartDrawer .cart-item__quantity .quantity__button {
   width: 34px;
@@ -304,11 +317,14 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   height: 12px;
 }
 #CartDrawer .cart-item__remove-button {
-  padding: 8px;
+  padding: 6px;
   color: var(--gn-muted);
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 #CartDrawer .cart-item__remove-button:hover {
   color: var(--gn-ink);
+  border-color: var(--gn-divider);
 }
 
 /* Totals */
