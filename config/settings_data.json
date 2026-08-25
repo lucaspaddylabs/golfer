@@ -318,7 +318,7 @@
     "cart_drawer_collection": "",
     "cart_drawer_image_ratio": "auto",
     "continue_shopping_link": "shopify://collections/all",
-    "show_free_delivery": false,
+    "show_free_delivery": true,
     "free_delivery_price": "50",
     "color_free_delivery_bar": "#1d3d2a",
     "color_free_delivery_bar_full": "#1d3d2a",

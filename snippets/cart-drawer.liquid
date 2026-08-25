@@ -10,6 +10,7 @@ component-cart-drawer.css,
 component-price.css,
 component-toggle.css,
 component-cart-items.css,
+component-free-delivery-bar.css,
 swiper-bundle.min.css,
 component-swiper-slider.css
 ' -%}
@@ -164,7 +165,7 @@ component-swiper-slider.css
         
                           <a href="{{ item.url }}" class="mt10 h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
-                          <div class="mt10">{{ item.original_price | money }}</div>
+                          <div class="mt10">{{ item.original_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
                           {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
                           <dl class="mt3">
                             {%- if item.product.has_only_default_variant == false -%}
@@ -200,13 +201,14 @@ component-swiper-slider.css
 
                           {%- capture _content -%}
                           {%- for discount in item.discounts -%}
-                          <li class="discounts__discount cart-item-message__content">
-                            {%- render 'icon-discount' -%}
-                            <span class="cart-item-message__content__text">{{ discount.title }}</span>
+                          <li class="cart-item__discount-badge">
+                            {{ discount.title }}
                           </li>
                           {%- endfor -%}
                           {%- endcapture -%}
-                          <ul class="mt10 discounts cart-item-message unstyle-ul" role="list" aria-label="{{ 'customer.order.discount' | t }}">{{ _content }}</ul>
+                          {%- if _content != blank -%}
+                          <ul class="mt8 cart-item__discount-badges unstyle-ul" role="list" aria-label="{{ 'customer.order.discount' | t }}">{{ _content }}</ul>
+                          {%- endif -%}
 
                           <div class="cart-item__error cart-item-message__content" id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}" role="alert">
                             <span class="cart-item__error-text cart-item-message__content__text"></span>
@@ -251,7 +253,7 @@ component-swiper-slider.css
                             </a>
                           </cart-remove-button>
                         </div>
-                        <div class="cart-item__totals mt20">
+                        <div class="cart-item__totals mt16">
                           <div class="loading-overlay hidden">
                             <div class="loading-overlay__spinner">
                               <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
@@ -260,26 +262,19 @@ component-swiper-slider.css
                             </div>
                           </div>
                           {%- if item.original_line_price != item.final_line_price -%}
-                          <div class="cart-item__discounted-prices">
-                            <div class="visually-hidden">
-                              {{ 'products.product.price.regular_price' | t }}
+                            {%- assign save_cents = item.original_line_price | minus: item.final_line_price -%}
+                            {%- assign save_percent = save_cents | times: 100.0 | divided_by: item.original_line_price | round -%}
+                            <div class="cart-item__discounted-prices">
+                              <span class="price__sale">{{ item.final_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                              <s class="price__regular">{{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                             </div>
-                            <div>                     
-                              <div class="price price__regular body3">
-                                {{ item.original_line_price | money }}
-                              </div>
-                            </div>
-                            <div class="visually-hidden">
-                              {{ 'products.product.price.sale_price' | t }}
-                            </div>
-                            <div class="h5 price__sale mt3">
-                              {{ item.final_line_price | money }}
-                            </div>
-                          </div>
+                            {%- if save_percent > 0 -%}
+                              <span class="cart-item__save-badge">{{ save_percent }}% OFF</span>
+                            {%- endif -%}
                           {%- else -%}
-                          <span class="h5 price__main">
-                            {{ item.original_line_price | money }}
-                          </span>
+                            <span class="price__main">
+                              {{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                            </span>
                           {%- endif -%}
         
                           {%- if item.variant.available and item.unit_price_measurement -%}
