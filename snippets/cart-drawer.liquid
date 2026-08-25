@@ -199,15 +199,11 @@ component-swiper-slider.css
                           <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                           {%- endif -%}
 
-                          {%- capture _content -%}
-                          {%- for discount in item.discounts -%}
-                          <li class="cart-item__discount-badge">
-                            {{ discount.title }}
-                          </li>
-                          {%- endfor -%}
-                          {%- endcapture -%}
-                          {%- if _content != blank -%}
-                          <ul class="mt8 cart-item__discount-badges unstyle-ul" role="list" aria-label="{{ 'customer.order.discount' | t }}">{{ _content }}</ul>
+                          {%- if item.original_line_price > item.final_line_price -%}
+                            {%- assign save_cents = item.original_line_price | minus: item.final_line_price -%}
+                            <span class="cart-item__discount-badge mt8">
+                              Save {{ save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                            </span>
                           {%- endif -%}
 
                           <div class="cart-item__error cart-item-message__content" id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}" role="alert">
@@ -262,15 +258,10 @@ component-swiper-slider.css
                             </div>
                           </div>
                           {%- if item.original_line_price != item.final_line_price -%}
-                            {%- assign save_cents = item.original_line_price | minus: item.final_line_price -%}
-                            {%- assign save_percent = save_cents | times: 100.0 | divided_by: item.original_line_price | round -%}
                             <div class="cart-item__discounted-prices">
                               <span class="price__sale">{{ item.final_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                               <s class="price__regular">{{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                             </div>
-                            {%- if save_percent > 0 -%}
-                              <span class="cart-item__save-badge">{{ save_percent }}% OFF</span>
-                            {%- endif -%}
                           {%- else -%}
                             <span class="price__main">
                               {{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}

@@ -144,16 +144,8 @@ cart-drawer.is-empty .drawer__footer {
   line-height: 1.2;
 }
 
-#CartDrawer .cart-item__discount-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 8px 0 0;
-  padding: 0;
-}
-
-#CartDrawer .cart-item__discount-badges .cart-item__discount-badge {
-  margin-top: 0;
+#CartDrawer .cart-item__discount-badge.mt8 {
+  display: inline-flex;
 }
 
 .cart-drawer__collection-products{
@@ -361,14 +353,29 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   height: 12px;
 }
 #CartDrawer .cart-item__remove-button {
-  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   color: var(--gn-muted);
-  border: 1px solid transparent;
+  border: 0;
   border-radius: 4px;
+  background: transparent;
+  line-height: 0;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+#CartDrawer .cart-item__remove-button svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  overflow: visible;
 }
 #CartDrawer .cart-item__remove-button:hover {
   color: var(--gn-ink);
-  border-color: var(--gn-divider);
+  background: var(--gn-cream);
+  border-color: transparent;
 }
 
 /* Totals */
