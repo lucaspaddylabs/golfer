@@ -38,7 +38,7 @@ component-swiper-slider.css
                     onclick="this.closest('cart-drawer').close()"
                     aria-label="{{ 'accessibility.close' | t }}"
                     >
-              {%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}
+              <span>{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
             </button>
 
             {%- if shop.customer_accounts_enabled and customer == nil -%}
@@ -107,7 +107,7 @@ component-swiper-slider.css
       {%- endif -%}
       <div class="drawer__footer">
         <div class="drawer__footer-content">
-          <h4 class="drawer__heading mt0 mb0">Your bag</h4>
+          <h4 class="drawer__heading mt0 mb0">Your bag ({{ cart.item_count }})</h4>
           {%- if settings.show_free_delivery -%}
           <div id="cart-page-free-delivery" class="free-delivery-bar">
             {%- render "free-delivery-bar" -%}
@@ -416,10 +416,12 @@ component-swiper-slider.css
                       name="checkout"
                       form="CartDrawer-Form"{% if cart == empty %} disabled{% endif %}
                       >
-                {{ 'sections.cart.checkout' | t }}
-                {%- if cart.total_price > 0 -%}
-                  &nbsp;– {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
-                {%- endif -%}
+                <span>
+                  Checkout
+                  {%- if cart.total_price > 0 -%}
+                    &nbsp;– {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                  {%- endif -%}
+                </span>
               </button>
             </div>
             {%- endif -%}
