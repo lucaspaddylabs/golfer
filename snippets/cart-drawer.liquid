@@ -33,15 +33,12 @@ component-swiper-slider.css
             </div>
             <h4 class="mb0">{{ 'sections.cart.empty' | t }}</h4>
 
-            <button class="mt40 btn btn__transition-text w-full"
+            <button class="mt40 btn w-full"
                     type="button"
                     onclick="this.closest('cart-drawer').close()"
                     aria-label="{{ 'accessibility.close' | t }}"
                     >
-              <div class="btn__texts">
-                <span class="btn__top-text is-visible">{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
-                <span class="btn__bottom-text is-hidden">{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
-              </div>
+              {%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}
             </button>
 
             {%- if shop.customer_accounts_enabled and customer == nil -%}
@@ -110,7 +107,7 @@ component-swiper-slider.css
       {%- endif -%}
       <div class="drawer__footer">
         <div class="drawer__footer-content">
-          <h4 class="drawer__heading mt0 mb0">{{ 'sections.cart.title' | t }}</h4>
+          <h4 class="drawer__heading mt0 mb0">Your bag</h4>
           {%- if settings.show_free_delivery -%}
           <div id="cart-page-free-delivery" class="free-delivery-bar">
             {%- render "free-delivery-bar" -%}
@@ -359,7 +356,7 @@ component-swiper-slider.css
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
               <div class="totals">
                 <h4 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h4>&nbsp;
-                <p class="mt0 h4 totals__subtotal-value">{{ cart.total_price | money_with_currency }}</p>
+                <p class="mt0 h4 totals__subtotal-value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
               </div>
   
               {% if settings.show_installments %}
@@ -415,14 +412,14 @@ component-swiper-slider.css
             <div class="mt20">
               <button type="submit"
                       id="CartDrawer-Checkout"
-                      class="btn btn--checkout btn__transition-text w-full"
+                      class="btn btn--checkout w-full"
                       name="checkout"
                       form="CartDrawer-Form"{% if cart == empty %} disabled{% endif %}
                       >
-                <div class="btn__texts">
-                  <span class="btn__top-text is-visible">{%- render "icon-check" -%}{{ 'sections.cart.checkout' | t }}</span>
-                  <span class="btn__bottom-text is-hidden">{%- render "icon-check" -%}{{ 'sections.cart.checkout' | t }}</span>
-                </div>
+                {{ 'sections.cart.checkout' | t }}
+                {%- if cart.total_price > 0 -%}
+                  &nbsp;– {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                {%- endif -%}
               </button>
             </div>
             {%- endif -%}

@@ -1,3 +1,14 @@
+/* Cart drawer — Golfer Now / ARC ONE aligned */
+cart-drawer {
+  --gn-ink: #182b20;
+  --gn-muted: #4a4a44;
+  --gn-accent: #1d3d2a;
+  --gn-cream: #f5f1e8;
+  --gn-divider: #d8d3c4;
+  --gn-cta: #2ab0ea;
+  --gn-cta-hover: #1f9bd4;
+}
+
 cart-drawer.is-empty .drawer__footer {
   display: none;
 }
@@ -6,33 +17,126 @@ cart-drawer.is-empty .drawer__footer {
   flex-direction: column;
   height: 100%;
 }
+
+#CartDrawer.cart-drawer {
+  background: #fff;
+  color: var(--gn-ink);
+}
+
+#CartDrawer .popup-modal__toggle {
+  color: var(--gn-ink);
+}
+
+/* Headings */
+#CartDrawer .drawer__heading,
+#CartDrawer .cart-drawer__empty-content h4,
+#CartDrawer .totals__subtotal,
+#CartDrawer .totals__subtotal-value {
+  font-family: var(--font-body-family), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--gn-ink);
+}
+
+#CartDrawer .drawer__heading {
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding-bottom: 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--gn-divider);
+}
+
+#CartDrawer .cart-drawer__empty-content h4 {
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#CartDrawer .cart-drawer__empty-content .h5 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gn-accent);
+}
+
+#CartDrawer .cart-drawer__collection-products h6,
+#CartDrawer .cart-drawer__toggle h6 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gn-ink);
+}
+
+#CartDrawer .cart-item__heading {
+  font-family: var(--font-body-family), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--gn-ink);
+  text-decoration: none;
+}
+
+#CartDrawer .cart-item__heading:hover {
+  color: var(--gn-accent);
+}
+
+#CartDrawer .drawer__cart-item__details__items {
+  color: var(--gn-muted);
+}
+
+#CartDrawer .product-option {
+  color: var(--gn-muted);
+  font-size: 0.82rem;
+}
+
+#CartDrawer .price__main,
+#CartDrawer .price__sale {
+  font-weight: 800;
+  color: var(--gn-ink);
+}
+
 .cart-drawer__collection-products{
-  border-top:1px solid var(--color-lines);
-  padding-top:40px;
-  padding-bottom:20px;
+  border-top: 1px solid var(--gn-divider);
+  padding-top: 32px;
+  padding-bottom: 20px;
 }
 .cart-drawer__collection-products .swiper{
   padding: 0;
   margin: 0;
 }
 .drawer__footer-footer .cart__footer__information{
-  margin-top:40px;
-  padding-top:40px;
-  padding-bottom:20px;
-  border-top:1px solid var(--color-lines);
+  margin-top: 28px;
+  padding-top: 24px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--gn-divider);
 }
 .cart-drawer__toggle+.cart__footer__information{
-  margin-top:0;
+  margin-top: 0;
 }
 .drawer__footer-content{
   flex: 1;
 }
 .cart-drawer__warnings:only-child{
-  padding-bottom:20px;
+  padding-bottom: 20px;
 }
 .cart-drawer toggle-component+toggle-component{
-  margin-top:0;
+  margin-top: 0;
 }
+
+#CartDrawer .cart__warnings__icon {
+  color: var(--gn-accent);
+  opacity: 0.55;
+  margin-bottom: 12px;
+}
+
+#CartDrawer .cart__warnings__icon svg {
+  width: 48px;
+  height: 48px;
+}
+
 @media (min-width:1025px){
   .cart-drawer__warnings{
     margin-left:40px;
@@ -88,30 +192,124 @@ cart-drawer.is-empty .drawer__footer {
   border-bottom: unset;
 }
 .cart-drawer__toggle{
-  border-top: 1px solid var(--color-lines);
+  border-top: 1px solid var(--gn-divider);
 }
 .drawer__footer-footer .plusminus:after,
 .drawer__footer-footer .plusminus:before{
-  background-color: var(--color-heading-main) !important;
+  background-color: var(--gn-ink) !important;
 }
 
 cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   padding-top:0;
 }
+
 .drawer__cart-item{
-  margin-top:40px;
+  margin-top: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--gn-divider);
+}
+.drawer__cart-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 .drawer__cart-item__content{
   display:flex;
   flex-direction:row;
-  gap:15px;
+  gap:16px;
 }
 .drawer__cart-item__media{
-  flex: 0 0 33.33333%;
+  flex: 0 0 28%;
+  max-width: 110px;
 }
+#CartDrawer .drawer__cart-item__media .image-hover-box {
+  background: var(--gn-cream);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
 .drawer__inner__links{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
+}
+
+#CartDrawer .drawer__inner__links .link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gn-muted);
+}
+
+#CartDrawer .drawer__inner__links .link:hover {
+  color: var(--gn-accent);
+}
+
+/* Quantity */
+#CartDrawer .cart-item__quantity .quantity {
+  border: 1px solid var(--gn-divider);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#CartDrawer .cart-item__quantity .quantity__button,
+#CartDrawer .cart-item__quantity .quantity__input {
+  color: var(--gn-ink);
+}
+
+/* Totals */
+#CartDrawer .totals {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#CartDrawer .totals__subtotal {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+#CartDrawer .totals__subtotal-value {
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+#CartDrawer .tax-note {
+  color: var(--gn-muted);
+  font-size: 0.82rem;
+}
+
+/* Primary CTAs — match product page ATC */
+#CartDrawer .btn--checkout,
+#CartDrawer .cart-drawer__empty-content .btn {
+  --background: var(--gn-cta);
+  --color: #fff;
+  --border: var(--gn-cta);
+  --background-hover: var(--gn-cta-hover);
+  --color-hover: #fff;
+  --border-hover: var(--gn-cta-hover);
+  --icon: #fff;
+  --icon-hover: #fff;
+  min-height: 54px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+#CartDrawer .btn--checkout:hover,
+#CartDrawer .cart-drawer__empty-content .btn:hover {
+  opacity: 0.95;
+}
+
+#CartDrawer .free-delivery-bar {
+  margin-top: 12px;
+  margin-bottom: 8px;
 }
