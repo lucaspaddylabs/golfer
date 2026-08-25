@@ -3295,11 +3295,12 @@ class freeDeliveryBar extends HTMLElement {
   connectedCallback() {
     this.threshold = this.getAttribute("data-price-max");
     this.threshold = Math.round(this.threshold * (Shopify.currency.rate || 1));
-    this.style.setProperty('--max-length', this.threshold);
+    this.style.setProperty('--max-length', this.threshold > 0 ? this.threshold : 1);
     var _threshold = Number(getComputedStyle(this).getPropertyValue('--length'));
 
-    if(_threshold > this.threshold){
+    if(this.threshold <= 0 || _threshold >= this.threshold){
       this.querySelector('.free-delivery-bar__toolbar__full').classList.remove('hide')
+      this.style.setProperty('--length', this.threshold > 0 ? this.threshold : 1);
     }
     else{
       var pr1 = this.getAttribute("data-price-current").replace(',', '.');
