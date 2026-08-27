@@ -1,0 +1,352 @@
+{
+  "sections": {
+    "hero": {
+      "type": "gn-arc-one-hero",
+      "blocks": {
+        "trust_1": {
+          "type": "trust",
+          "settings": {
+            "text": "Secure checkout"
+          }
+        },
+        "trust_2": {
+          "type": "trust",
+          "settings": {
+            "text": "30-day returns"
+          }
+        },
+        "trust_3": {
+          "type": "trust",
+          "settings": {
+            "text": "Tracked shipping"
+          }
+        },
+        "bundle_1": {
+          "type": "bundle",
+          "settings": {
+            "quantity": 1,
+            "save_amount": 0,
+            "popular": false
+          }
+        },
+        "bundle_2": {
+          "type": "bundle",
+          "settings": {
+            "quantity": 2,
+            "save_amount": 15,
+            "popular": true
+          }
+        },
+        "bundle_3": {
+          "type": "bundle",
+          "settings": {
+            "quantity": 3,
+            "save_amount": 20,
+            "popular": false
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "bundle_1",
+        "bundle_2",
+        "bundle_3"
+      ],
+      "settings": {
+        "eyebrow_text": "TRACE ONE",
+        "heading": "TRAINING MAT",
+        "tagline": "See where you strike — and how low you bottom out.",
+        "lede": "Swing into the mat and read the mark. Thin, fat, heel, toe — it shows up. A few focused reps tell you more than another bucket of balls with no feedback.",
+        "stage_label": "What the mat shows",
+        "signal_label_1": "Off-center strike",
+        "signal_text_1": "The mark sits heel, toe, thin, or fat.",
+        "signal_label_2": "Centered strike",
+        "signal_text_2": "The mark sits in the middle with a clean low point.",
+        "quantity_label": "Qty",
+        "add_to_cart_text": "Add to cart",
+        "choose_options_text": "Choose options",
+        "sold_out_text": "Sold out",
+        "sale_badge_text": "Sale",
+        "show_dynamic_checkout": false,
+        "show_sticky_atc": true,
+        "product_image_alt": "",
+        "enable_pulse": false,
+        "pulse_speed": 2.5,
+        "overlay_opacity": 65,
+        "background_color": "#ffffff",
+        "ink_color": "#182b20",
+        "muted_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "stage_color": "#1d3d2a",
+        "stage_text_color": "#f5f3ec",
+        "stage_accent": "#4d846e",
+        "min_height": 480,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "band": {
+      "type": "gn-arc-one-band",
+      "settings": {
+        "eyebrow": "",
+        "text": "If the mark is off-center, your low point is lying to you.",
+        "align": "center",
+        "background_color": "#1d3d2a",
+        "text_color": "#f5f3ec",
+        "accent_color": "#9fc3b0",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "story": {
+      "type": "gn-arc-one-story",
+      "blocks": {
+        "contrast_1": {
+          "type": "contrast",
+          "settings": {
+            "label": "Usual problem",
+            "title": "It felt flush — the ball didn’t",
+            "copy": "A lot of golfers leave the range sure they struck it well. Without a mark, thin and fat feel almost the same."
+          }
+        },
+        "contrast_2": {
+          "type": "contrast",
+          "settings": {
+            "label": "With TRACE ONE",
+            "title": "You get a mark you can train against",
+            "copy": "The mat shows where you struck and how the low point behaved, so the next swing isn’t a guess."
+          }
+        },
+        "beat_1": {
+          "type": "beat",
+          "settings": {
+            "time": "1 min",
+            "title": "See where you are now",
+            "copy": "Take a few easy swings and just read the marks. Don’t try to fix anything yet."
+          }
+        },
+        "beat_2": {
+          "type": "beat",
+          "settings": {
+            "time": "3 min",
+            "title": "Move the mark to center",
+            "copy": "Make small changes. Keep going until the mark sits in the middle with a cleaner low point."
+          }
+        },
+        "beat_3": {
+          "type": "beat",
+          "settings": {
+            "time": "1 min",
+            "title": "Take it to a ball",
+            "copy": "Hit a few real shots with that same centered feel."
+          }
+        },
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "label": "Use",
+            "value": "Dry swings or range sessions"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "label": "Focus",
+            "value": "Strike location and low point"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "label": "Feedback",
+            "value": "Visible mark after every swing"
+          }
+        },
+        "spec_4": {
+          "type": "spec",
+          "settings": {
+            "label": "Where",
+            "value": "Garage, patio, range, or warm-up"
+          }
+        }
+      },
+      "block_order": [
+        "contrast_1",
+        "contrast_2",
+        "beat_1",
+        "beat_2",
+        "beat_3",
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4"
+      ],
+      "settings": {
+        "eyebrow_text": "The problem it solves",
+        "heading": "<p>Strike is hard to feel. TRACE ONE makes it visible.</p>",
+        "copy": "<p>If you’ve ever thought you flushed it and still hit it thin or fat, this is usually why. TRACE ONE leaves a mark so you can see contact and low point — then adjust on the next swing.</p>",
+        "ritual_heading": "A simple 5-minute drill",
+        "note": "Go slow. You’re training strike, not speed.",
+        "panel_eyebrow": "Quick read",
+        "panel_title": "Push the mark to center.",
+        "panel_copy": "Think of the mat as a snapshot of impact. Heel, toe, thin, or fat all show up. You want the mark centered with a clean bottom.",
+        "diagram_heading": "What you’re training",
+        "diagram_top_label": "START",
+        "diagram_marker": "MARK",
+        "diagram_bottom_label": "FINISH",
+        "arc_label_early": "Off-center",
+        "early_title": "Scattered mark",
+        "early_copy": "Contact sits heel, toe, thin, or fat. Low point is inconsistent.",
+        "arc_label_later": "Centered",
+        "later_title": "Clean mark",
+        "later_copy": "Contact sits in the middle. That is the strike to keep.",
+        "meta_value_1": "5 min",
+        "meta_label_1": "Session",
+        "meta_value_2": "1 job",
+        "meta_label_2": "Focus",
+        "meta_value_3": "Mark",
+        "meta_label_3": "Feedback",
+        "background_color": "#ffffff",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "panel_background": "#f2eee3",
+        "panel_diagram_bg": "#faf8f2",
+        "panel_heading": "#182b20",
+        "panel_text": "#4a4a44",
+        "panel_accent": "#1d3d2a",
+        "panel_muted": "#8a8578",
+        "panel_divider": "#d8d3c4",
+        "padding_top": 20,
+        "padding_bottom": 80
+      }
+    },
+    "system": {
+      "type": "gn-arc-one-system",
+      "blocks": {
+        "step_1": {
+          "type": "system_step",
+          "settings": {
+            "number": "01",
+            "step_name": "Link",
+            "current": false
+          }
+        },
+        "step_2": {
+          "type": "system_step",
+          "settings": {
+            "number": "02",
+            "step_name": "Arc",
+            "current": false
+          }
+        },
+        "step_3": {
+          "type": "system_step",
+          "settings": {
+            "number": "03",
+            "step_name": "Trace",
+            "current": true
+          }
+        },
+        "step_4": {
+          "type": "system_step",
+          "settings": {
+            "number": "04",
+            "step_name": "Line",
+            "current": false
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Part of the Golfer Now system",
+        "heading": "TRACE ONE covers strike.",
+        "copy": "Our practice setup has four tools. TRACE ONE is the one that trains center contact and low point. The others handle connection, sequence, and putting roll.",
+        "link_text": "See the other tools",
+        "link_url": "",
+        "background_color": "#f2eee3",
+        "rail_background": "#faf8f2",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "current_text_color": "#f5f3ec",
+        "current_accent": "#9fc3b0",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "faq": {
+      "type": "gn-arc-one-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What does TRACE ONE actually do?",
+            "answer": "<p>It’s a training mat that shows where you struck and how your low point behaved after each swing.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to hit balls with it?",
+            "answer": "<p>You can use it for dry swings or with balls at the range. The mark is the feedback either way.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I use it indoors?",
+            "answer": "<p>Yes — garage, patio, or any space where you can swing safely into the mat.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will it roll up for travel?",
+            "answer": "<p>Most people keep it rolled or flat near their practice spot. It’s made for repeated home and range use.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "heading": "Common questions",
+        "cta_heading": "Want to try it?",
+        "cta_copy": "If strike has been hard to feel, a mark on the mat makes it a lot more obvious.",
+        "cta_button_text": "Add TRACE ONE",
+        "background_color": "#f2eee3",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "cta_background": "#1d3d2a",
+        "cta_text_color": "#f5f3ec",
+        "cta_button_background": "#f5f1e8",
+        "cta_button_text_color": "#1d3d2a",
+        "padding_top": 70,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "band",
+    "story",
+    "system",
+    "faq"
+  ]
+}

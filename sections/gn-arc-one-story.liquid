@@ -435,14 +435,14 @@
               <div class="gn-arc-story__compare-col is-early">
                 <span class="gn-arc-story__compare-badge">{{ section.settings.arc_label_early | default: 'Too soon' }}</span>
                 <svg viewBox="0 0 140 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <text x="70" y="18" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">TOP</text>
+                  <text x="70" y="18" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">{{ section.settings.diagram_top_label | default: 'TOP' | escape }}</text>
                   <path d="M70 24 V 128" stroke="{{ section.settings.panel_divider }}" stroke-width="2" stroke-dasharray="4 4"/>
                   <circle cx="70" cy="24" r="5" fill="{{ section.settings.panel_divider }}"/>
                   <circle cx="70" cy="58" r="9" fill="{{ section.settings.panel_muted }}"/>
                   <path d="M82 50 C 96 42, 108 38, 118 36" stroke="{{ section.settings.panel_muted }}" stroke-width="2" stroke-linecap="round"/>
-                  <text x="70" y="82" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="11" font-family="system-ui,sans-serif" font-weight="800">CLICK</text>
+                  <text x="70" y="82" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="11" font-family="system-ui,sans-serif" font-weight="800">{{ section.settings.diagram_marker | default: 'CLICK' | escape }}</text>
                   <circle cx="70" cy="128" r="5" fill="{{ section.settings.panel_divider }}"/>
-                  <text x="70" y="146" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">IMPACT</text>
+                  <text x="70" y="146" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">{{ section.settings.diagram_bottom_label | default: 'IMPACT' | escape }}</text>
                 </svg>
                 <p class="gn-arc-story__compare-title">{{ section.settings.early_title | default: 'Early click' }}</p>
                 <p class="gn-arc-story__compare-copy">{{ section.settings.early_copy | default: 'Sound fires near the top. Speed is already gone.' }}</p>
@@ -450,14 +450,14 @@
               <div class="gn-arc-story__compare-col is-later">
                 <span class="gn-arc-story__compare-badge">{{ section.settings.arc_label_later | default: 'Better' }}</span>
                 <svg viewBox="0 0 140 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <text x="70" y="18" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">TOP</text>
+                  <text x="70" y="18" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">{{ section.settings.diagram_top_label | default: 'TOP' | escape }}</text>
                   <path d="M70 24 V 128" stroke="{{ section.settings.panel_accent }}" stroke-width="2.5"/>
                   <circle cx="70" cy="24" r="5" fill="{{ section.settings.panel_accent }}"/>
                   <circle cx="70" cy="112" r="9" fill="{{ section.settings.panel_accent }}"/>
                   <path d="M82 104 C 96 96, 108 92, 118 90" stroke="{{ section.settings.panel_accent }}" stroke-width="2" stroke-linecap="round"/>
-                  <text x="70" y="98" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="11" font-family="system-ui,sans-serif" font-weight="800">CLICK</text>
+                  <text x="70" y="98" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="11" font-family="system-ui,sans-serif" font-weight="800">{{ section.settings.diagram_marker | default: 'CLICK' | escape }}</text>
                   <circle cx="70" cy="128" r="5" fill="{{ section.settings.panel_accent }}"/>
-                  <text x="70" y="146" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">IMPACT</text>
+                  <text x="70" y="146" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">{{ section.settings.diagram_bottom_label | default: 'IMPACT' | escape }}</text>
                 </svg>
                 <p class="gn-arc-story__compare-title">{{ section.settings.later_title | default: 'Later click' }}</p>
                 <p class="gn-arc-story__compare-copy">{{ section.settings.later_copy | default: 'Sound fires near impact. That is the timing to keep.' }}</p>
@@ -499,7 +499,7 @@
 
 {% schema %}
 {
-  "name": "ARC ONE story",
+  "name": "ONE series story",
   "tag": "section",
   "enabled_on": {
     "templates": ["product"]
@@ -516,6 +516,9 @@
     { "type": "textarea", "id": "panel_copy", "label": "Panel copy", "default": "The downswing is a short window. Early click means release already happened. Later click means you held it longer." },
     { "type": "image_picker", "id": "panel_image", "label": "Panel image (optional — replaces diagram)" },
     { "type": "text", "id": "diagram_heading", "label": "Diagram heading", "default": "Where the click fires" },
+    { "type": "text", "id": "diagram_top_label", "label": "Diagram top label", "default": "TOP" },
+    { "type": "text", "id": "diagram_marker", "label": "Diagram marker", "default": "CLICK" },
+    { "type": "text", "id": "diagram_bottom_label", "label": "Diagram bottom label", "default": "IMPACT" },
     { "type": "text", "id": "arc_label_early", "label": "Early badge", "default": "Too soon" },
     { "type": "text", "id": "early_title", "label": "Early title", "default": "Early click" },
     { "type": "textarea", "id": "early_copy", "label": "Early copy", "default": "Sound fires near the top. Speed is already gone." },
@@ -578,7 +581,7 @@
   ],
   "presets": [
     {
-      "name": "ARC ONE story",
+      "name": "ONE series story",
       "blocks": [
         { "type": "contrast", "settings": { "label": "Without", "title": "Guessing at release", "copy": "You feel a good swing. You do not know when speed left the club." } },
         { "type": "contrast", "settings": { "label": "With ARC", "title": "A sound you can train", "copy": "Early click or later click. Every rep has a clear job." } },

@@ -141,7 +141,7 @@
 
 {% schema %}
 {
-  "name": "ARC ONE system strip",
+  "name": "ONE series system strip",
   "tag": "section",
   "enabled_on": {
     "templates": ["product"]
@@ -173,13 +173,13 @@
       "settings": [
         { "type": "text", "id": "number", "label": "Number", "default": "01" },
         { "type": "text", "id": "step_name", "label": "Name", "default": "Link" },
-        { "type": "checkbox", "id": "current", "label": "This is ARC ONE", "default": false }
+        { "type": "checkbox", "id": "current", "label": "This is the current product", "default": false }
       ]
     }
   ],
   "presets": [
     {
-      "name": "ARC ONE system strip",
+      "name": "ONE series system strip",
       "blocks": [
         { "type": "system_step", "settings": { "number": "01", "step_name": "Link", "current": false } },
         { "type": "system_step", "settings": { "number": "02", "step_name": "Arc", "current": true } },
