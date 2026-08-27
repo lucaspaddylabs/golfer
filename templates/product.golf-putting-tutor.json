@@ -56,14 +56,14 @@
       ],
       "settings": {
         "eyebrow_text": "LINE ONE",
-        "heading": "PUTTING TUTOR",
-        "tagline": "Start it on line — and feel a better roll.",
-        "lede": "Set up a few short putts and watch the start. Offline means the face or path drifted. On line with a quieter stroke means you’re building rolls that hold. No green required to get useful reps in.",
+        "heading": "PUTTING GATE",
+        "tagline": "Start every putt through the center — or you’ll know.",
+        "lede": "Set the wooden tutor on a flat surface, aim through the center channel, and roll. If the ball clips a rail, the start was offline. Side marks keep backswing and follow-through even so the stroke stays quiet.",
         "stage_label": "What the tutor trains",
-        "signal_label_1": "Starts offline",
-        "signal_text_1": "The ball leaves left or right of your aim.",
-        "signal_label_2": "Starts on line",
-        "signal_text_2": "The ball leaves square and rolls out clean.",
+        "signal_label_1": "Hits a rail",
+        "signal_text_1": "Face or path drifted. Start line was offline.",
+        "signal_label_2": "Through the gate",
+        "signal_text_2": "Ball leaves square. Stroke length matched the marks.",
         "quantity_label": "Qty",
         "add_to_cart_text": "Add to cart",
         "choose_options_text": "Choose options",
@@ -92,7 +92,7 @@
       "type": "gn-arc-one-band",
       "settings": {
         "eyebrow": "",
-        "text": "If it starts offline, the roll never had a chance.",
+        "text": "If it clips the rail, the putt never had a chance.",
         "align": "center",
         "background_color": "#1d3d2a",
         "text_color": "#f5f3ec",
@@ -108,68 +108,68 @@
           "type": "contrast",
           "settings": {
             "label": "Usual problem",
-            "title": "You blame the green",
-            "copy": "A lot of missed putts get blamed on pace or break. Often the ball never started on the line you picked."
+            "title": "You blame green or pace",
+            "copy": "Most missed putts get a story about break. Often the ball never started on the line you picked."
           }
         },
         "contrast_2": {
           "type": "contrast",
           "settings": {
             "label": "With LINE ONE",
-            "title": "You see the start immediately",
-            "copy": "The tutor makes start line and stroke quietness obvious, so the next putt isn’t a guess."
+            "title": "The gate tells you instantly",
+            "copy": "Through the center channel means the start was true. A clipped rail means face or path drifted — fix that before you worry about pace."
           }
         },
         "beat_1": {
           "type": "beat",
           "settings": {
             "time": "1 min",
-            "title": "See where you are now",
-            "copy": "Roll a few short putts and just watch the start. Don’t try to fix anything yet."
+            "title": "Baseline short putts",
+            "copy": "Roll a few from the bottom of the board. Just watch whether the ball clears the gate clean."
           }
         },
         "beat_2": {
           "type": "beat",
           "settings": {
             "time": "3 min",
-            "title": "Square the start",
-            "copy": "Slow the stroke. Keep going until the ball leaves on your aim line more often than not."
+            "title": "Square the face, quiet the stroke",
+            "copy": "Use the side length marks. Match backswing and follow-through until most putts pass cleanly."
           }
         },
         "beat_3": {
           "type": "beat",
           "settings": {
             "time": "1 min",
-            "title": "Add a little pace",
-            "copy": "Keep the same start feel and roll them a touch farther."
+            "title": "Take the start to the green",
+            "copy": "Remove the tutor and roll a few on carpet or a practice green with the same start feel."
           }
         },
         "spec_1": {
           "type": "spec",
           "settings": {
-            "label": "Use",
-            "value": "Indoor or outdoor putting practice"
+            "label": "Build",
+            "value": "Solid wood putting board"
           }
         },
         "spec_2": {
           "type": "spec",
           "settings": {
-            "label": "Focus",
-            "value": "Start line and roll quality"
+            "label": "Gate",
+            "value": "Center channel for start line"
           }
         },
         "spec_3": {
           "type": "spec",
           "settings": {
-            "label": "Feedback",
-            "value": "Immediate visual on every putt"
+            "label": "Marks",
+            "value": "Side rails with stroke-length cues"
           }
         },
         "spec_4": {
           "type": "spec",
           "settings": {
             "label": "Where",
-            "value": "Living room, office, patio, or practice green"
+            "value": "Floor, office, or practice green"
           }
         }
       },
@@ -186,28 +186,24 @@
       ],
       "settings": {
         "eyebrow_text": "The problem it solves",
-        "heading": "<p>Start line is hard to trust. LINE ONE makes it clear.</p>",
-        "copy": "<p>If you’ve ever thought you read it right and still missed left or right, this is often why. LINE ONE helps you see whether the ball started on your aim — then build a quieter stroke that holds the line.</p>",
-        "ritual_heading": "A simple 5-minute drill",
-        "note": "Go slow. You’re training start line, not pace contests.",
-        "panel_eyebrow": "Quick read",
-        "panel_title": "Own the first foot of the putt.",
-        "panel_copy": "Think of every putt as a start, then a roll. If the start is offline, the rest never mattered. Get the first foot right, then add distance.",
-        "diagram_heading": "What you’re training",
-        "diagram_top_label": "AIM",
-        "diagram_marker": "START",
-        "diagram_bottom_label": "HOLE",
-        "arc_label_early": "Offline",
-        "early_title": "Starts left or right",
-        "early_copy": "Face or path drifts. The ball never had a chance.",
-        "arc_label_later": "On line",
-        "later_title": "Starts square",
-        "later_copy": "Ball leaves on aim. That is the start to keep.",
+        "heading": "<p>Start line first. Pace second. LINE ONE enforces that order.</p>",
+        "copy": "<p>The wooden tutor is a physical gate: center channel for the ball, side grooves for a quiet stroke, length marks so backswing and follow-through stay even. If the ball hits wood, you don’t need a coach to tell you the start was offline.</p>",
+        "ritual_heading": "A simple 5-minute start-line drill",
+        "note": "Short putts only at first. Own the first foot before you chase distance.",
+        "panel_style": "start_line",
+        "panel_eyebrow": "How the gate works",
+        "panel_title": "Clear the channel. Match the marks.",
+        "panel_copy": "The center slit is your start-line judge. The side marks keep stroke length honest so the putter doesn’t get long and wild.",
+        "diagram_heading": "Inside the tutor",
+        "early_title": "Aim through the center channel",
+        "early_copy": "If the ball clips a rail, face or path drifted at impact.",
+        "later_title": "Use the length marks",
+        "later_copy": "Match backswing and follow-through to the same side mark for a quieter stroke.",
         "meta_value_1": "5 min",
         "meta_label_1": "Session",
-        "meta_value_2": "1 job",
+        "meta_value_2": "Start",
         "meta_label_2": "Focus",
-        "meta_value_3": "Line",
+        "meta_value_3": "Gate",
         "meta_label_3": "Feedback",
         "background_color": "#ffffff",
         "heading_color": "#182b20",
@@ -270,7 +266,7 @@
       "settings": {
         "eyebrow_text": "Part of the Golfer Now system",
         "heading": "LINE ONE covers roll.",
-        "copy": "Our practice setup has four tools. LINE ONE is the one that trains start line and putting roll. The others handle connection, sequence, and strike.",
+        "copy": "Four tools, four jobs. LINE ONE trains putting start line. LINK covers arm connection, ARC covers release timing, TRACE covers strike path.",
         "link_text": "See the other tools",
         "link_url": "",
         "background_color": "#f2eee3",
@@ -291,29 +287,29 @@
         "faq_1": {
           "type": "faq_item",
           "settings": {
-            "question": "What does LINE ONE actually do?",
-            "answer": "<p>It’s a putting tutor that helps you see whether the ball starts on your aim line and builds a quieter stroke for better rolls.</p>"
+            "question": "How does the putting tutor work?",
+            "answer": "<p>It’s a wooden board with a center channel and side rails. Roll putts through the channel — if the ball hits a rail, your start line was offline. Side marks help keep stroke length even.</p>"
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
             "question": "Do I need a real green?",
-            "answer": "<p>No. Short indoor or patio putts are enough to train start line. Take the same feel to the practice green later.</p>"
+            "answer": "<p>No. A flat floor or short indoor putts are enough to train start line. Take the same feel to a practice green later.</p>"
           }
         },
         "faq_3": {
           "type": "faq_item",
           "settings": {
-            "question": "Can I use it indoors?",
-            "answer": "<p>Yes — living room, office, or any flat space where you can roll a few putts safely.</p>"
+            "question": "Is it only for short putts?",
+            "answer": "<p>Short putts are best for learning. Once you’re clearing the gate consistently, add a little distance.</p>"
           }
         },
         "faq_4": {
           "type": "faq_item",
           "settings": {
-            "question": "Is it only for short putts?",
-            "answer": "<p>Short putts are the best place to start. Once the start is solid, add a little distance.</p>"
+            "question": "Will it scratch floors?",
+            "answer": "<p>Use it on carpet, a putting mat, or any surface you’re comfortable with. It’s solid wood, so avoid delicate floors if you’re worried about marks.</p>"
           }
         }
       },
@@ -325,8 +321,8 @@
       ],
       "settings": {
         "heading": "Common questions",
-        "cta_heading": "Want to try it?",
-        "cta_copy": "If start line has been hard to trust, a few focused putts make it a lot more obvious.",
+        "cta_heading": "Ready to own the start line?",
+        "cta_copy": "A few gated putts make offline starts obvious — before you blame the green again.",
         "cta_button_text": "Add LINE ONE",
         "background_color": "#f2eee3",
         "heading_color": "#182b20",

@@ -247,6 +247,63 @@
     display: block;
     margin: 0 auto 12px;
   }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide {
+    margin: 0 0 22px;
+    padding: 18px 16px 16px;
+    border: 1px solid {{ section.settings.panel_divider }};
+    border-radius: 6px;
+    background: {{ section.settings.panel_diagram_bg }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-heading {
+    margin: 0 0 16px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.panel_muted }};
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-visual {
+    margin: 0 0 14px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-visual svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-points {
+    display: grid;
+    gap: 10px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-point {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-num {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 800;
+    background: {{ section.settings.panel_accent }};
+    color: {{ section.settings.panel_diagram_bg }};
+    margin-top: 1px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-point p {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: {{ section.settings.panel_text }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__guide-point strong {
+    color: {{ section.settings.panel_heading }};
+    font-weight: 700;
+  }
   #shopify-section-{{ section.id }} .gn-arc-story__compare-title {
     margin: 0 0 6px;
     font-size: 0.92rem;
@@ -428,7 +485,101 @@
           <div class="gn-arc-story__panel-media">
             {{ section.settings.panel_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 420px, 100vw' }}
           </div>
-        {%- else -%}
+        {%- elsif section.settings.panel_style == 'connection' -%}
+          <div class="gn-arc-story__guide">
+            <p class="gn-arc-story__guide-heading">{{ section.settings.diagram_heading | default: 'How the belt works' }}</p>
+            <div class="gn-arc-story__guide-visual">
+              <svg viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="12" y="18" width="118" height="114" rx="8" fill="rgba(138,133,120,0.12)"/>
+                <text x="71" y="38" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">EARLY</text>
+                <ellipse cx="71" cy="72" rx="28" ry="14" stroke="{{ section.settings.panel_muted }}" stroke-width="3" fill="none"/>
+                <path d="M55 88 L 48 112" stroke="{{ section.settings.panel_muted }}" stroke-width="3" stroke-linecap="round"/>
+                <path d="M87 88 L 98 108" stroke="{{ section.settings.panel_muted }}" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 3"/>
+                <text x="71" y="128" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="9" font-family="system-ui,sans-serif" font-weight="600">Arms outrun the turn</text>
+
+                <rect x="150" y="18" width="118" height="114" rx="8" fill="rgba(29,61,42,0.1)"/>
+                <text x="209" y="38" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="10" font-family="system-ui,sans-serif" font-weight="700">LINKED</text>
+                <ellipse cx="209" cy="72" rx="28" ry="14" stroke="{{ section.settings.panel_accent }}" stroke-width="3" fill="none"/>
+                <path d="M193 88 L 190 112" stroke="{{ section.settings.panel_accent }}" stroke-width="3" stroke-linecap="round"/>
+                <path d="M225 88 L 228 112" stroke="{{ section.settings.panel_accent }}" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="209" cy="72" r="5" fill="{{ section.settings.panel_accent }}"/>
+                <text x="209" y="128" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="9" font-family="system-ui,sans-serif" font-weight="700">Body and arms turn together</text>
+              </svg>
+            </div>
+            <div class="gn-arc-story__guide-points">
+              <div class="gn-arc-story__guide-point">
+                <span class="gn-arc-story__guide-num">1</span>
+                <p><strong>{{ section.settings.early_title | default: 'Buckle the belt on' }}</strong> — {{ section.settings.early_copy | default: 'Wear it snug around the waist so you can feel when the arms race ahead of the turn.' }}</p>
+              </div>
+              <div class="gn-arc-story__guide-point">
+                <span class="gn-arc-story__guide-num">2</span>
+                <p><strong>{{ section.settings.later_title | default: 'Make slow swings' }}</strong> — {{ section.settings.later_copy | default: 'If the arms cast early, you’ll feel the disconnect. Keep arms and body moving as one.' }}</p>
+              </div>
+            </div>
+          </div>
+        {%- elsif section.settings.panel_style == 'strike' -%}
+          <div class="gn-arc-story__guide">
+            <p class="gn-arc-story__guide-heading">{{ section.settings.diagram_heading | default: 'How to read the mat' }}</p>
+            <div class="gn-arc-story__guide-visual">
+              <svg viewBox="0 0 280 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="70" y="10" width="140" height="140" rx="10" fill="#1a1a1a"/>
+                <line x1="140" y1="22" x2="140" y2="52" stroke="#f5f3ec" stroke-width="2"/>
+                <circle cx="140" cy="58" r="5" fill="#f5f3ec"/>
+                <line x1="118" y1="58" x2="128" y2="58" stroke="#f5f3ec" stroke-width="2"/>
+                <line x1="152" y1="58" x2="162" y2="58" stroke="#f5f3ec" stroke-width="2"/>
+                <path d="M128 72 Q 140 90 152 118" stroke="#9fc3b0" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+                <path d="M100 70 L 118 58" stroke="#8a8578" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <path d="M180 70 L 162 58" stroke="#8a8578" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <path d="M110 90 L 124 72" stroke="#8a8578" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <path d="M170 90 L 156 72" stroke="#8a8578" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <text x="140" y="138" text-anchor="middle" fill="#9fc3b0" font-size="9" font-family="system-ui,sans-serif" font-weight="700">PATH MARK</text>
+              </svg>
+            </div>
+            <div class="gn-arc-story__guide-points">
+              <div class="gn-arc-story__guide-point">
+                <span class="gn-arc-story__guide-num">1</span>
+                <p><strong>{{ section.settings.early_title | default: 'Place the ball on the marker' }}</strong> — {{ section.settings.early_copy | default: 'Use the center circle and target line to set up square.' }}</p>
+              </div>
+              <div class="gn-arc-story__guide-point">
+                <span class="gn-arc-story__guide-num">2</span>
+                <p><strong>{{ section.settings.later_title | default: 'Read the scuff after each swing' }}</strong> — {{ section.settings.later_copy | default: 'In-to-out, out-to-in, thin, or fat all leave a different mark. Center and straight is the goal.' }}</p>
+              </div>
+            </div>
+          </div>
+        {%- elsif section.settings.panel_style == 'start_line' -%}
+          <div class="gn-arc-story__guide">
+            <p class="gn-arc-story__guide-heading">{{ section.settings.diagram_heading | default: 'How the tutor gates your stroke' }}</p>
+            <div class="gn-arc-story__guide-visual">
+              <svg viewBox="0 0 280 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="95" y="8" width="90" height="144" rx="8" fill="#e8dcc8" stroke="{{ section.settings.panel_divider }}" stroke-width="1"/>
+                <rect x="136" y="16" width="8" height="96" rx="2" fill="{{ section.settings.panel_accent }}"/>
+                <line x1="112" y1="28" x2="112" y2="108" stroke="{{ section.settings.panel_muted }}" stroke-width="2"/>
+                <line x1="168" y1="28" x2="168" y2="108" stroke="{{ section.settings.panel_muted }}" stroke-width="2"/>
+                <line x1="108" y1="36" x2="116" y2="36" stroke="#c44" stroke-width="2"/>
+                <line x1="164" y1="36" x2="172" y2="36" stroke="#c44" stroke-width="2"/>
+                <line x1="108" y1="56" x2="116" y2="56" stroke="{{ section.settings.panel_muted }}" stroke-width="1.5"/>
+                <line x1="164" y1="56" x2="172" y2="56" stroke="{{ section.settings.panel_muted }}" stroke-width="1.5"/>
+                <line x1="108" y1="76" x2="116" y2="76" stroke="{{ section.settings.panel_muted }}" stroke-width="1.5"/>
+                <line x1="164" y1="76" x2="172" y2="76" stroke="{{ section.settings.panel_muted }}" stroke-width="1.5"/>
+                <circle cx="140" cy="128" r="7" fill="#f5f3ec" stroke="{{ section.settings.panel_accent }}" stroke-width="2"/>
+                <path d="M140 120 V 20" stroke="{{ section.settings.panel_accent }}" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5"/>
+                <text x="48" y="42" text-anchor="middle" fill="#c44" font-size="9" font-family="system-ui,sans-serif" font-weight="700">LENGTH</text>
+                <text x="232" y="70" text-anchor="middle" fill="{{ section.settings.panel_accent }}" font-size="9" font-family="system-ui,sans-serif" font-weight="700">GATE</text>
+                <text x="140" y="152" text-anchor="middle" fill="{{ section.settings.panel_muted }}" font-size="9" font-family="system-ui,sans-serif" font-weight="600">Ball starts through the center</text>
+              </svg>
+            </div>
+            <div class="gn-arc-story__guide-points">
+              <div class="gn-arc-story__guide-point">
+                <span class="gn-arc-story__guide-num">1</span>
+                <p><strong>{{ section.settings.early_title | default: 'Aim through the center channel' }}</strong> — {{ section.settings.early_copy | default: 'If the ball hits a rail, the start was offline.' }}</p>
+              </div>
+              <div class="gn-arc-story__guide-point">
+                <span class="gn-arc-story__guide-num">2</span>
+                <p><strong>{{ section.settings.later_title | default: 'Match stroke length to the marks' }}</strong> — {{ section.settings.later_copy | default: 'Use the side markers to keep backswing and follow-through even.' }}</p>
+              </div>
+            </div>
+          </div>
+        {%- elsif section.settings.panel_style != 'none' -%}
           <div class="gn-arc-story__diagram">
             <p class="gn-arc-story__diagram-heading">{{ section.settings.diagram_heading | default: 'Where the click fires' }}</p>
             <div class="gn-arc-story__compare">
@@ -511,20 +662,27 @@
     { "type": "text", "id": "ritual_heading", "label": "Ritual heading", "default": "A five-minute timing reset." },
     { "type": "textarea", "id": "note", "label": "Note", "default": "Start slow. The point is timing, not swinging harder." },
     { "type": "header", "content": "Ritual panel (right side)" },
+    { "type": "select", "id": "panel_style", "label": "Panel diagram style", "options": [
+      { "value": "click", "label": "Click timing (ARC ONE)" },
+      { "value": "connection", "label": "Training belt connection (LINK ONE)" },
+      { "value": "strike", "label": "Strike path mat (TRACE ONE)" },
+      { "value": "start_line", "label": "Putting start line (LINE ONE)" },
+      { "value": "none", "label": "Text only (no diagram)" }
+    ], "default": "click" },
     { "type": "text", "id": "panel_eyebrow", "label": "Panel eyebrow", "default": "What you are training" },
     { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Move the click toward impact." },
     { "type": "textarea", "id": "panel_copy", "label": "Panel copy", "default": "The downswing is a short window. Early click means release already happened. Later click means you held it longer." },
     { "type": "image_picker", "id": "panel_image", "label": "Panel image (optional — replaces diagram)" },
     { "type": "text", "id": "diagram_heading", "label": "Diagram heading", "default": "Where the click fires" },
-    { "type": "text", "id": "diagram_top_label", "label": "Diagram top label", "default": "TOP" },
-    { "type": "text", "id": "diagram_marker", "label": "Diagram marker", "default": "CLICK" },
-    { "type": "text", "id": "diagram_bottom_label", "label": "Diagram bottom label", "default": "IMPACT" },
-    { "type": "text", "id": "arc_label_early", "label": "Early badge", "default": "Too soon" },
-    { "type": "text", "id": "early_title", "label": "Early title", "default": "Early click" },
-    { "type": "textarea", "id": "early_copy", "label": "Early copy", "default": "Sound fires near the top. Speed is already gone." },
-    { "type": "text", "id": "arc_label_later", "label": "Later badge", "default": "Better" },
-    { "type": "text", "id": "later_title", "label": "Later title", "default": "Later click" },
-    { "type": "textarea", "id": "later_copy", "label": "Later copy", "default": "Sound fires near impact. That is the timing to keep." },
+    { "type": "text", "id": "diagram_top_label", "label": "Click diagram: top label", "default": "TOP" },
+    { "type": "text", "id": "diagram_marker", "label": "Click diagram: marker", "default": "CLICK" },
+    { "type": "text", "id": "diagram_bottom_label", "label": "Click diagram: bottom label", "default": "IMPACT" },
+    { "type": "text", "id": "arc_label_early", "label": "Click diagram: early badge", "default": "Too soon" },
+    { "type": "text", "id": "early_title", "label": "Guide step 1 title / early title", "default": "Early click" },
+    { "type": "textarea", "id": "early_copy", "label": "Guide step 1 copy / early copy", "default": "Sound fires near the top. Speed is already gone." },
+    { "type": "text", "id": "arc_label_later", "label": "Click diagram: later badge", "default": "Better" },
+    { "type": "text", "id": "later_title", "label": "Guide step 2 title / later title", "default": "Later click" },
+    { "type": "textarea", "id": "later_copy", "label": "Guide step 2 copy / later copy", "default": "Sound fires near impact. That is the timing to keep." },
     { "type": "text", "id": "meta_value_1", "label": "Meta value 1", "default": "5 min" },
     { "type": "text", "id": "meta_label_1", "label": "Meta label 1", "default": "Session" },
     { "type": "text", "id": "meta_value_2", "label": "Meta value 2", "default": "1 job" },

@@ -56,14 +56,14 @@
       ],
       "settings": {
         "eyebrow_text": "TRACE ONE",
-        "heading": "TRAINING MAT",
-        "tagline": "See where you strike — and how low you bottom out.",
-        "lede": "Swing into the mat and read the mark. Thin, fat, heel, toe — it shows up. A few focused reps tell you more than another bucket of balls with no feedback.",
+        "heading": "PATH MAT",
+        "tagline": "See your swing path and low point after every strike.",
+        "lede": "Set the ball on the marker, swing through the mat, and read the scuff. In-to-out, out-to-in, thin, or fat — the mark shows what your feel missed. A few focused reps beat another bucket with no feedback.",
         "stage_label": "What the mat shows",
-        "signal_label_1": "Off-center strike",
-        "signal_text_1": "The mark sits heel, toe, thin, or fat.",
-        "signal_label_2": "Centered strike",
-        "signal_text_2": "The mark sits in the middle with a clean low point.",
+        "signal_label_1": "Path is off",
+        "signal_text_1": "The scuff angles across the target line.",
+        "signal_label_2": "Path is true",
+        "signal_text_2": "The mark runs center and down the line.",
         "quantity_label": "Qty",
         "add_to_cart_text": "Add to cart",
         "choose_options_text": "Choose options",
@@ -92,7 +92,7 @@
       "type": "gn-arc-one-band",
       "settings": {
         "eyebrow": "",
-        "text": "If the mark is off-center, your low point is lying to you.",
+        "text": "If the scuff cuts across the line, your path lied to your feel.",
         "align": "center",
         "background_color": "#1d3d2a",
         "text_color": "#f5f3ec",
@@ -108,68 +108,68 @@
           "type": "contrast",
           "settings": {
             "label": "Usual problem",
-            "title": "It felt flush — the ball didn’t",
-            "copy": "A lot of golfers leave the range sure they struck it well. Without a mark, thin and fat feel almost the same."
+            "title": "Feel and flight don’t match",
+            "copy": "You thought it was square. The ball curved anyway. Without a mark, thin, fat, and path mistakes all feel similar."
           }
         },
         "contrast_2": {
           "type": "contrast",
           "settings": {
             "label": "With TRACE ONE",
-            "title": "You get a mark you can train against",
-            "copy": "The mat shows where you struck and how the low point behaved, so the next swing isn’t a guess."
+            "title": "Every swing leaves evidence",
+            "copy": "The mat prints your path and low point. Adjust, swing again, and watch the mark move toward center."
           }
         },
         "beat_1": {
           "type": "beat",
           "settings": {
             "time": "1 min",
-            "title": "See where you are now",
-            "copy": "Take a few easy swings and just read the marks. Don’t try to fix anything yet."
+            "title": "Baseline a few swings",
+            "copy": "Place the ball on the center marker. Make easy swings and just read the scuffs. No fixing yet."
           }
         },
         "beat_2": {
           "type": "beat",
           "settings": {
             "time": "3 min",
-            "title": "Move the mark to center",
-            "copy": "Make small changes. Keep going until the mark sits in the middle with a cleaner low point."
+            "title": "Correct toward the target line",
+            "copy": "Use the path dashes as a reference. Keep adjusting until the mark sits more centered and straighter."
           }
         },
         "beat_3": {
           "type": "beat",
           "settings": {
             "time": "1 min",
-            "title": "Take it to a ball",
-            "copy": "Hit a few real shots with that same centered feel."
+            "title": "Confirm with a real ball flight",
+            "copy": "Hit a few shots off the mat or take the same feel to the range and check the flight."
           }
         },
         "spec_1": {
           "type": "spec",
           "settings": {
-            "label": "Use",
-            "value": "Dry swings or range sessions"
+            "label": "Surface",
+            "value": "Durable strike mat with path guides"
           }
         },
         "spec_2": {
           "type": "spec",
           "settings": {
-            "label": "Focus",
-            "value": "Strike location and low point"
+            "label": "Markers",
+            "value": "Ball spot, target line, path dashes"
           }
         },
         "spec_3": {
           "type": "spec",
           "settings": {
             "label": "Feedback",
-            "value": "Visible mark after every swing"
+            "value": "Visible scuff after every swing"
           }
         },
         "spec_4": {
           "type": "spec",
           "settings": {
             "label": "Where",
-            "value": "Garage, patio, range, or warm-up"
+            "value": "Garage, patio, or range mat"
           }
         }
       },
@@ -186,26 +186,22 @@
       ],
       "settings": {
         "eyebrow_text": "The problem it solves",
-        "heading": "<p>Strike is hard to feel. TRACE ONE makes it visible.</p>",
-        "copy": "<p>If you’ve ever thought you flushed it and still hit it thin or fat, this is usually why. TRACE ONE leaves a mark so you can see contact and low point — then adjust on the next swing.</p>",
-        "ritual_heading": "A simple 5-minute drill",
-        "note": "Go slow. You’re training strike, not speed.",
-        "panel_eyebrow": "Quick read",
-        "panel_title": "Push the mark to center.",
-        "panel_copy": "Think of the mat as a snapshot of impact. Heel, toe, thin, or fat all show up. You want the mark centered with a clean bottom.",
-        "diagram_heading": "What you’re training",
-        "diagram_top_label": "START",
-        "diagram_marker": "MARK",
-        "diagram_bottom_label": "FINISH",
-        "arc_label_early": "Off-center",
-        "early_title": "Scattered mark",
-        "early_copy": "Contact sits heel, toe, thin, or fat. Low point is inconsistent.",
-        "arc_label_later": "Centered",
-        "later_title": "Clean mark",
-        "later_copy": "Contact sits in the middle. That is the strike to keep.",
+        "heading": "<p>Strike and path are hard to feel. TRACE ONE prints them.</p>",
+        "copy": "<p>This isn’t a generic turf mat. The center marker, target line, and path dashes give you a frame — and the scuff after impact tells you whether the club came in-to-out, out-to-in, or through the middle.</p>",
+        "ritual_heading": "A simple 5-minute path drill",
+        "note": "One job per session: move the mark closer to center.",
+        "panel_style": "strike",
+        "panel_eyebrow": "How to read it",
+        "panel_title": "Setup square. Then trust the scuff.",
+        "panel_copy": "The guides help you aim. The mark after the swing is the truth — path angle and low point in one glance.",
+        "diagram_heading": "Reading the mat",
+        "early_title": "Ball on the center spot",
+        "early_copy": "Align to the target line. Use the side dashes as path references.",
+        "later_title": "Swing and read the scuff",
+        "later_copy": "Angled mark = path problem. Short/high mark = low-point problem. Center and straight = keep it.",
         "meta_value_1": "5 min",
         "meta_label_1": "Session",
-        "meta_value_2": "1 job",
+        "meta_value_2": "Path",
         "meta_label_2": "Focus",
         "meta_value_3": "Mark",
         "meta_label_3": "Feedback",
@@ -270,7 +266,7 @@
       "settings": {
         "eyebrow_text": "Part of the Golfer Now system",
         "heading": "TRACE ONE covers strike.",
-        "copy": "Our practice setup has four tools. TRACE ONE is the one that trains center contact and low point. The others handle connection, sequence, and putting roll.",
+        "copy": "Four tools, four jobs. TRACE ONE trains path and low point. LINK covers arm connection, ARC covers release timing, LINE covers putting start.",
         "link_text": "See the other tools",
         "link_url": "",
         "background_color": "#f2eee3",
@@ -291,29 +287,29 @@
         "faq_1": {
           "type": "faq_item",
           "settings": {
-            "question": "What does TRACE ONE actually do?",
-            "answer": "<p>It’s a training mat that shows where you struck and how your low point behaved after each swing.</p>"
+            "question": "What does TRACE ONE show that a normal mat doesn’t?",
+            "answer": "<p>Printed path guides plus a surface that holds a readable scuff — so you can see swing direction and low point, not just that you hit turf.</p>"
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
-            "question": "Do I need to hit balls with it?",
-            "answer": "<p>You can use it for dry swings or with balls at the range. The mark is the feedback either way.</p>"
+            "question": "Do I need to hit real balls?",
+            "answer": "<p>You can take dry swings into the mat or hit balls off it. The mark is useful either way; ball flight is a bonus confirmation.</p>"
           }
         },
         "faq_3": {
           "type": "faq_item",
           "settings": {
-            "question": "Can I use it indoors?",
-            "answer": "<p>Yes — garage, patio, or any space where you can swing safely into the mat.</p>"
+            "question": "Will it work indoors?",
+            "answer": "<p>Yes — garage or patio with room to swing. Use a net if you’re hitting balls.</p>"
           }
         },
         "faq_4": {
           "type": "faq_item",
           "settings": {
-            "question": "Will it roll up for travel?",
-            "answer": "<p>Most people keep it rolled or flat near their practice spot. It’s made for repeated home and range use.</p>"
+            "question": "How do I clear old marks?",
+            "answer": "<p>Most scuffs fade with use or wipe off. You’re looking for the latest mark relative to the center line, not a permanent print.</p>"
           }
         }
       },
@@ -325,8 +321,8 @@
       ],
       "settings": {
         "heading": "Common questions",
-        "cta_heading": "Want to try it?",
-        "cta_copy": "If strike has been hard to feel, a mark on the mat makes it a lot more obvious.",
+        "cta_heading": "Ready to see your path?",
+        "cta_copy": "A readable mark after every swing beats another bucket where feel and flight never agree.",
         "cta_button_text": "Add TRACE ONE",
         "background_color": "#f2eee3",
         "heading_color": "#182b20",

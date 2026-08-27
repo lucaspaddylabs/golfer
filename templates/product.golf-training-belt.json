@@ -58,10 +58,10 @@
         "eyebrow_text": "LINK ONE",
         "heading": "TRAINING BELT",
         "tagline": "Feel when your arms disconnect from your body.",
-        "lede": "Wear it for a few slow swings and notice the pull. When the arms race ahead of the turn, you feel it. When they stay connected, the swing stays quieter. No balls, no app — just feedback you can react to.",
+        "lede": "Buckle it on and make a few slow swings. When the arms race ahead of the turn, you’ll feel it. When arms and body stay linked, the swing stays quieter. No balls, no app — just feedback you can react to.",
         "stage_label": "What the belt trains",
         "signal_label_1": "Arms race ahead",
-        "signal_text_1": "You feel the belt pull as the arms cast early.",
+        "signal_text_1": "You feel the disconnect as the arms cast early.",
         "signal_label_2": "Arms stay linked",
         "signal_text_2": "The turn and arms move together through the swing.",
         "quantity_label": "Qty",
@@ -109,7 +109,7 @@
           "settings": {
             "label": "Usual problem",
             "title": "It feels connected — until it isn’t",
-            "copy": "A lot of golfers think their arms and body move together. On video, the arms are already gone."
+            "copy": "A lot of golfers think their arms and body move together. On video, the arms are already gone while the turn is still catching up."
           }
         },
         "contrast_2": {
@@ -117,7 +117,7 @@
           "settings": {
             "label": "With LINK ONE",
             "title": "You feel the disconnect in real time",
-            "copy": "The belt gives a clear cue when the arms race ahead, so the next swing isn’t a guess."
+            "copy": "The belt gives a clear cue when the arms race ahead of the body, so the next swing isn’t a guess."
           }
         },
         "beat_1": {
@@ -125,7 +125,7 @@
           "settings": {
             "time": "1 min",
             "title": "Feel where you are now",
-            "copy": "Take a few easy swings and notice when the belt pulls. Don’t try to fix anything yet."
+            "copy": "Buckle the belt on and take a few easy swings. Notice when the disconnect shows up. Don’t try to fix anything yet."
           }
         },
         "beat_2": {
@@ -133,22 +133,22 @@
           "settings": {
             "time": "3 min",
             "title": "Keep arms and turn together",
-            "copy": "Slow the takeaway and transition. Keep going until the pull softens and the move feels quieter."
+            "copy": "Slow the takeaway and transition. Keep going until the cue softens and the move feels quieter."
           }
         },
         "beat_3": {
           "type": "beat",
           "settings": {
             "time": "1 min",
-            "title": "Take it to a full swing",
-            "copy": "Build a little speed while holding that same connected feel."
+            "title": "Add a little speed",
+            "copy": "Build tempo while holding that same linked feel — then take a few swings without overthinking it."
           }
         },
         "spec_1": {
           "type": "spec",
           "settings": {
-            "label": "Use",
-            "value": "Dry swings or light range work"
+            "label": "Wear",
+            "value": "Around the waist, snug fit"
           }
         },
         "spec_2": {
@@ -169,7 +169,7 @@
           "type": "spec",
           "settings": {
             "label": "Where",
-            "value": "Home, garage, range, or warm-up"
+            "value": "Home, garage, range warm-up"
           }
         }
       },
@@ -187,25 +187,21 @@
       "settings": {
         "eyebrow_text": "The problem it solves",
         "heading": "<p>Connection is hard to feel. LINK ONE makes it obvious.</p>",
-        "copy": "<p>If your arms cast early and the body never catches up, the swing looks athletic and still hits soft. LINK ONE gives you a physical cue when that disconnect starts — so you can rebuild the link on the next swing.</p>",
-        "ritual_heading": "A simple 5-minute drill",
-        "note": "Go slow. You’re training connection, not speed.",
-        "panel_eyebrow": "Quick read",
-        "panel_title": "Keep the arms linked to the turn.",
-        "panel_copy": "Think of the swing as arms and body moving as one piece. When they separate, you’ll feel it. When they stay together, the belt stays quiet.",
-        "diagram_heading": "What you’re training",
-        "diagram_top_label": "START",
-        "diagram_marker": "PULL",
-        "diagram_bottom_label": "IMPACT",
-        "arc_label_early": "Disconnected",
-        "early_title": "Arms race ahead",
-        "early_copy": "Arms cast early. The turn never catches up.",
-        "arc_label_later": "Connected",
-        "later_title": "Arms stay linked",
-        "later_copy": "Arms and body move together. That is the feel to keep.",
+        "copy": "<p>LINK ONE is a training belt for arm–body connection. It doesn’t beep or light up — it gives you a physical cue when the arms cast early and leave the turn behind. A few slow reps rebuild the link that most range sessions never address.</p>",
+        "ritual_heading": "A simple 5-minute connection drill",
+        "note": "Go slow. You’re training sync, not power.",
+        "panel_style": "connection",
+        "panel_eyebrow": "How to use it",
+        "panel_title": "Arms and body. One piece.",
+        "panel_copy": "Wear the belt snug around the waist. When the arms race ahead of the turn, you’ll feel the disconnect — then rebuild the link on the next swing.",
+        "diagram_heading": "Early vs linked",
+        "early_title": "Buckle the belt on",
+        "early_copy": "Snug around the waist so the cue is clear, not painful.",
+        "later_title": "Swing until the cue softens",
+        "later_copy": "If the arms cast early, you’ll feel it. Keep arms and body moving together.",
         "meta_value_1": "5 min",
         "meta_label_1": "Session",
-        "meta_value_2": "1 job",
+        "meta_value_2": "Link",
         "meta_label_2": "Focus",
         "meta_value_3": "Feel",
         "meta_label_3": "Feedback",
@@ -270,7 +266,7 @@
       "settings": {
         "eyebrow_text": "Part of the Golfer Now system",
         "heading": "LINK ONE covers connection.",
-        "copy": "Our practice setup has four tools. LINK ONE is the one that trains arm–body connection. The others handle sequence, strike, and putting roll.",
+        "copy": "Four tools, four jobs. LINK ONE trains arm–body connection with the belt. ARC covers release timing, TRACE covers strike path, LINE covers putting start.",
         "link_text": "See the other tools",
         "link_url": "",
         "background_color": "#f2eee3",
@@ -291,29 +287,29 @@
         "faq_1": {
           "type": "faq_item",
           "settings": {
-            "question": "What does LINK ONE actually do?",
-            "answer": "<p>It’s a training belt that gives you a physical cue when your arms disconnect from your body during the swing.</p>"
+            "question": "What is LINK ONE, exactly?",
+            "answer": "<p>A training belt you wear around the waist. It gives a physical cue when your arms disconnect from your body during the swing.</p>"
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
-            "question": "Do I need to hit balls with it?",
-            "answer": "<p>No. Dry swings at home work great. Light range work is fine once the feel is there.</p>"
+            "question": "Do I hit balls with it on?",
+            "answer": "<p>Start with dry swings. Once the linked feel is there, you can use it for light range work.</p>"
           }
         },
         "faq_3": {
           "type": "faq_item",
           "settings": {
-            "question": "Can I use it indoors?",
-            "answer": "<p>Yes, as long as you’ve got room to swing safely. Half swings are a good place to start.</p>"
+            "question": "Will it fit most adults?",
+            "answer": "<p>It’s adjustable. Dial it in snug enough to give feedback without being uncomfortable.</p>"
           }
         },
         "faq_4": {
           "type": "faq_item",
           "settings": {
-            "question": "Will it fit most golfers?",
-            "answer": "<p>It’s adjustable, so most people can dial in a comfortable fit for practice.</p>"
+            "question": "Can I use it indoors?",
+            "answer": "<p>Yes. Half swings in a living room or garage are ideal for learning the connected feel.</p>"
           }
         }
       },
@@ -325,8 +321,8 @@
       ],
       "settings": {
         "heading": "Common questions",
-        "cta_heading": "Want to try it?",
-        "cta_copy": "If connection has been hard to feel, the belt makes the disconnect a lot more obvious.",
+        "cta_heading": "Ready to train connection?",
+        "cta_copy": "A few minutes with the belt beats another range session guessing whether arms and body stayed together.",
         "cta_button_text": "Add LINK ONE",
         "background_color": "#f2eee3",
         "heading_color": "#182b20",

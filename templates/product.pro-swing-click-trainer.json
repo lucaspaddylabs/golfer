@@ -200,6 +200,7 @@
         "copy": "<p>If you’ve ever left the range thinking you swung hard and still hit it soft, this is usually why. ARC ONE clicks when you release so you can tell if it happened early or late — then adjust on the next swing.</p>",
         "ritual_heading": "A simple 5-minute drill",
         "note": "Go slow. You’re training timing, not speed.",
+        "panel_style": "click",
         "panel_eyebrow": "Quick read",
         "panel_title": "Push the click down the swing.",
         "panel_copy": "Think of the downswing as a short line from the top to the ball. You want the sound near the bottom of that line, not the top.",
