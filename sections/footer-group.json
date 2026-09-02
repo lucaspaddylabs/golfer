@@ -37,24 +37,7 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": "",
-            "fallback_links": "All Products | /collections/all\nARC ONE | /products/arc-one\nConnection Trainer | /products/connection-trainer\nStrike Trainer | /products/strike-trainer\nRoll Trainer | /products/roll-trainer\nThe Complete System | /products/complete-system"
-          }
-        },
-        "menu_company": {
-          "type": "menu",
-          "settings": {
-            "heading": "Company",
-            "menu": "",
-            "fallback_links": "The System | /\nHow It Works | /\nOur Story | /pages/about-us\nReviews | /\nHelp | /pages/contact-us"
-          }
-        },
-        "menu_support": {
-          "type": "menu",
-          "settings": {
-            "heading": "Support",
-            "menu": "",
-            "fallback_links": "Contact Us | /pages/contact-us\nShipping & Delivery | /policies/shipping-policy\nReturns & Refunds | /policies/refund-policy\nFAQ | /pages/contact-us\nTrack Your Order | /pages/contact-us"
+            "menu": "main-menu"
           }
         },
         "newsletter": {
@@ -68,23 +51,18 @@
       },
       "block_order": [
         "menu_shop",
-        "menu_company",
-        "menu_support",
         "newsletter"
       ],
       "settings": {
         "logo": "shopify://shop_images/golfer_now_new_logo_720513ab-b4bb-4d37-9016-d32af186f4aa.png",
         "logo_width": 140,
         "tagline": "Four instant-feedback tools designed to help you practise with purpose and play better, faster.",
-        "show_social": true,
-        "instagram_url": "https://instagram.com/",
-        "youtube_url": "https://www.youtube.com/@diegolopez-shopify",
-        "facebook_url": "",
         "copyright_text": "",
         "show_policy": true,
         "background_color": "#1d3d2a",
         "text_color": "#ffffff",
         "input_background": "#f7f5ef",
+        "margin_top": 56,
         "padding_top": 64,
         "padding_bottom": 32
       }

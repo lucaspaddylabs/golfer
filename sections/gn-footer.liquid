@@ -1,4 +1,7 @@
 <style>
+  #shopify-section-{{ section.id }} {
+    margin-top: {{ section.settings.margin_top | default: 56 }}px;
+  }
   #shopify-section-{{ section.id }} .gn-footer {
     background: {{ section.settings.background_color | default: '#1d3d2a' }};
     color: {{ section.settings.text_color | default: '#ffffff' }};
@@ -10,7 +13,7 @@
   }
   #shopify-section-{{ section.id }} .gn-footer__grid {
     display: grid;
-    grid-template-columns: 1.35fr repeat(4, 1fr);
+    grid-template-columns: 1.35fr repeat(auto-fit, minmax(160px, 1fr));
     gap: 40px 32px;
     align-items: start;
   }
@@ -25,40 +28,11 @@
     height: auto;
   }
   #shopify-section-{{ section.id }} .gn-footer__tagline {
-    margin: 0 0 28px;
+    margin: 0;
     max-width: 280px;
     font-size: 0.92rem;
     line-height: 1.55;
     color: rgba(255, 255, 255, 0.82);
-  }
-  #shopify-section-{{ section.id }} .gn-footer__social {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  #shopify-section-{{ section.id }} .gn-footer__social a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    border-radius: 50%;
-    color: #ffffff;
-    text-decoration: none;
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-  #shopify-section-{{ section.id }} .gn-footer__social a:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #ffffff;
-  }
-  #shopify-section-{{ section.id }} .gn-footer__social svg {
-    width: 16px;
-    height: 16px;
-    fill: currentColor;
   }
   #shopify-section-{{ section.id }} .gn-footer__heading {
     margin: 0 0 18px;
@@ -166,7 +140,7 @@
   }
   @media (max-width: 1100px) {
     #shopify-section-{{ section.id }} .gn-footer__grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
     #shopify-section-{{ section.id }} .gn-footer__brand {
       grid-column: 1 / -1;
@@ -202,54 +176,23 @@
         {%- if section.settings.tagline != blank -%}
           <p class="gn-footer__tagline">{{ section.settings.tagline }}</p>
         {%- endif -%}
-        {%- if section.settings.show_social -%}
-          <ul class="gn-footer__social">
-            {%- assign social_links = 'instagram,youtube,facebook' | split: ',' -%}
-            {%- for network in social_links -%}
-              {%- assign url_key = network | append: '_url' -%}
-              {%- assign url = section.settings[url_key] -%}
-              {%- if url != blank -%}
-                <li>
-                  <a href="{{ url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ network | capitalize }}">
-                    {%- case network -%}
-                      {%- when 'instagram' -%}
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5zM18 6.8a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2z"/></svg>
-                      {%- when 'youtube' -%}
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.4 31.4 0 0 0 2 12a31.4 31.4 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 22 12a31.4 31.4 0 0 0-.4-4.8zM10 15.5v-7l6 3.5z"/></svg>
-                      {%- when 'facebook' -%}
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 8.5V6.8c0-.7.1-1 .9-1h1.8V3h-2.4c-2.9 0-4.3 1.4-4.3 4v1.5H7v2.8h2.5V21h3.9v-9.7h2.6l.3-2.8h-2.9z"/></svg>
-                    {%- endcase -%}
-                  </a>
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
       </div>
 
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'menu' -%}
-            <div {{ block.shopify_attributes }}>
-              {%- if block.settings.heading != blank -%}
-                <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
-              {%- endif -%}
-              <ul class="gn-footer__links">
-                {%- if block.settings.menu != blank -%}
+            {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
+              <div {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}
+                  <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
+                {%- endif -%}
+                <ul class="gn-footer__links">
                   {%- for link in block.settings.menu.links -%}
                     <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                   {%- endfor -%}
-                {%- else -%}
-                  {%- assign fallback_links = block.settings.fallback_links | newline_to_br | split: '<br />' -%}
-                  {%- for line in fallback_links -%}
-                    {%- assign parts = line | split: '|' -%}
-                    {%- if parts.size >= 2 -%}
-                      <li><a href="{{ parts[1] | strip }}">{{ parts[0] | strip }}</a></li>
-                    {%- endif -%}
-                  {%- endfor -%}
-                {%- endif -%}
-              </ul>
-            </div>
+                </ul>
+              </div>
+            {%- endif -%}
           {%- when 'newsletter' -%}
             <div {{ block.shopify_attributes }}>
               {%- if block.settings.heading != blank -%}
@@ -335,38 +278,12 @@
     },
     {
       "type": "header",
-      "content": "Social links"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_social",
-      "label": "Show social icons",
-      "default": true
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "youtube_url",
-      "label": "YouTube URL"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "header",
       "content": "Bottom bar"
     },
     {
       "type": "text",
       "id": "copyright_text",
-      "label": "Copyright text",
-      "default": "© 2024 GolferNow. All rights reserved."
+      "label": "Copyright text"
     },
     {
       "type": "checkbox",
@@ -399,6 +316,16 @@
     {
       "type": "header",
       "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Space above footer",
+      "default": 56
     },
     {
       "type": "range",
@@ -436,13 +363,6 @@
           "type": "link_list",
           "id": "menu",
           "label": "Menu"
-        },
-        {
-          "type": "textarea",
-          "id": "fallback_links",
-          "label": "Fallback links",
-          "info": "Used when no menu is selected. One link per line: Label | /url",
-          "default": "All Products | /collections/all\nARC ONE | /products/arc-one\nConnection Trainer | /products/connection-trainer\nStrike Trainer | /products/strike-trainer\nRoll Trainer | /products/roll-trainer\nThe Complete System | /products/complete-system"
         }
       ]
     },
@@ -480,21 +400,7 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "fallback_links": "All Products | /collections/all\nARC ONE | /products/arc-one\nConnection Trainer | /products/connection-trainer\nStrike Trainer | /products/strike-trainer\nRoll Trainer | /products/roll-trainer\nThe Complete System | /products/complete-system"
-          }
-        },
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "Company",
-            "fallback_links": "The System | /\nHow It Works | /\nOur Story | /pages/about-us\nReviews | /\nHelp | /pages/contact-us"
-          }
-        },
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "Support",
-            "fallback_links": "Contact Us | /pages/contact-us\nShipping & Delivery | /policies/shipping-policy\nReturns & Refunds | /policies/refund-policy\nFAQ | /pages/contact-us\nTrack Your Order | /pages/contact-us"
+            "menu": "main-menu"
           }
         },
         {
