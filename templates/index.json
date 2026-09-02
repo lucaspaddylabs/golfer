@@ -566,7 +566,7 @@
         "heading": "We built Golfer Now because practice should teach you something.",
         "description": "Golf is hard enough. Practice shouldn't be guesswork. We design tools that give you clear feedback so every rep has a purpose, and every session moves you forward.\n\nGolfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service.",
         "button_text": "Our method",
-        "button_link": "",
+        "button_link": "shopify://collections/all",
         "reverse_layout": false,
         "video": "shopify://files/videos/videoaboutus.mov",
         "fade_amount": 22,
