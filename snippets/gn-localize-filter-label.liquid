@@ -1,0 +1,13 @@
+{%- comment -%}
+  Maps Shopify filter labels to English when the storefront returns Portuguese defaults.
+{%- endcomment -%}
+{%- assign raw_label = label | default: filter.label -%}
+{%- case raw_label -%}
+  {%- when 'Disponibilidade' -%}Availability
+  {%- when 'Preço' -%}Price
+  {%- when 'Tipo' -%}Type
+  {%- when 'Marca' -%}Brand
+  {%- when 'Cor' -%}Color
+  {%- when 'Tamanho' -%}Size
+  {%- else -%}{{ raw_label | escape }}
+{%- endcase -%}

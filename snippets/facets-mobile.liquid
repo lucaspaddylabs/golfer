@@ -89,7 +89,7 @@
         >
         <summary class="focus-inset">
           <div class="mobile-facets__item h5">
-            <span>{{ filter.label | escape }}</span>
+            <span>{%- render 'gn-localize-filter-label', label: filter.label -%}</span>
             {%- render "icon-arrow-right-small" -%}
           </div>
         </summary>
@@ -101,7 +101,7 @@
           <div class="mobile-facets__display__content">
             <button class="mobile-facets__close-button link focus-inset" aria-expanded="true" type="button">
               {%- render "icon-arrow-left-2" -%}
-              <span class="h5">{{ filter.label | escape }}</span>
+              <span class="h5">{%- render 'gn-localize-filter-label', label: filter.label -%}</span>
             </button>
             {%- if filter.operator == 'AND' -%}
             <div class="facets__header facets__header__filter_and_operator body3">
@@ -179,7 +179,7 @@
                >
         <summary class="focus-inset">
           <div class="mobile-facets__item h5">
-            <span class="h5">{{ filter.label | escape }}</span>
+            <span class="h5">{%- render 'gn-localize-filter-label', label: filter.label -%}</span>
             {%- render "icon-arrow-right-small" -%}
           </div>
         </summary>
@@ -191,7 +191,7 @@
           <div class="mobile-facets__display__content">
             <button class="mobile-facets__close-button link focus-inset" aria-expanded="true" type="button">
               {%- render "icon-arrow-left-2" -%}
-              <span class="h5">{{ filter.label | escape }}</span>
+              <span class="h5">{%- render 'gn-localize-filter-label', label: filter.label -%}</span>
             </button>
             <div class="facets__header mobile-facets__header__price-text">
               {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}

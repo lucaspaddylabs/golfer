@@ -35,7 +35,7 @@
                data-index="{{ forloop.index }}">
         <summary>
           <div class="link facet__heading link__base-to_accent-color">
-            <span>{{ filter.label | escape }}</span>
+            <span>{%- render 'gn-localize-filter-label', label: filter.label -%}</span>
             {% render 'icon-arrow-down-small' %}
           </div>
         </summary>
@@ -108,7 +108,7 @@
                data-index="{{ forloop.index }}">
         <summary>
           <div class="link facet__heading link__base-to_accent-color">
-            <span>{{ filter.label | escape }}</span>
+            <span>{%- render 'gn-localize-filter-label', label: filter.label -%}</span>
             {% render 'icon-arrow-down-small' %}
           </div>
         </summary>
