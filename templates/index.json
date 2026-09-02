@@ -374,7 +374,7 @@
             "label": "STRIKE",
             "image": "shopify://shop_images/trace_mat.png",
             "product_name": "TRACE ONE",
-            "product_link": "shopify://products/golf-putting-tutor",
+            "product_link": "shopify://products/swing-detection-training-mat",
             "description": "Find center. Control low point."
           }
         },
@@ -385,7 +385,7 @@
             "label": "ROLL",
             "image": "shopify://shop_images/putting_tutor.png",
             "product_name": "LINE ONE",
-            "product_link": "shopify://products/swing-detection-training-mat",
+            "product_link": "shopify://products/golf-putting-tutor",
             "description": "Start it on line. Build better rolls."
           }
         }
@@ -423,14 +423,6 @@
             "description": "The click confirms correct sequence."
           }
         },
-        "feature_bg4iKr": {
-          "type": "feature",
-          "settings": {
-            "icon": "check",
-            "title": "Feature title",
-            "description": "Feature description."
-          }
-        },
         "feature_D6Xadk": {
           "type": "feature",
           "settings": {
@@ -450,7 +442,6 @@
       },
       "block_order": [
         "feature_4Pm4pg",
-        "feature_bg4iKr",
         "feature_D6Xadk",
         "feature_CPHFez"
       ],
