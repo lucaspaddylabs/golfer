@@ -65,7 +65,7 @@
       ],
       "settings": {
         "eyebrow_text": "TRACE ONE",
-        "heading": "PATH MAT",
+        "heading": "TRACE MAT",
         "tagline": "See your swing path and low point after every strike.",
         "lede": "Set the ball on the marker, swing through the mat, and read the scuff. In-to-out, out-to-in, thin, or fat — the mark shows what your feel missed. A few focused reps beat another bucket with no feedback.",
         "stage_label": "What the mat shows",
@@ -80,7 +80,7 @@
         "sale_badge_text": "Sale",
         "show_dynamic_checkout": false,
         "show_sticky_atc": true,
-        "product_image_override": "shopify://shop_images/trace_mat.png",
+        "product_image_override": "shopify://shop_images/4d75e671-e84d-4fac-af14-6597e3a2ffdd.png",
         "product_image_alt": "",
         "enable_pulse": false,
         "pulse_speed": 2.5,
