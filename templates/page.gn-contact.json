@@ -17,9 +17,9 @@
           "settings": {
             "icon": "mail",
             "label": "Email us",
-            "line1": "hello@golfernow.com",
+            "line1": "support@golfernow.com",
             "line2": "We reply within 24 hours.",
-            "link": "mailto:hello@golfernow.com"
+            "link": "mailto:support@golfernow.com"
           }
         },
         "info_phone": {
@@ -27,9 +27,9 @@
           "settings": {
             "icon": "phone",
             "label": "Call us",
-            "line1": "+1 (310) 555-0198",
-            "line2": "Mon – Fri, 9am – 5pm PST",
-            "link": "tel:13105550198"
+            "line1": "+1 (833) 502-1618",
+            "line2": "Customer support",
+            "link": "tel:18335021618"
           }
         },
         "info_hq": {
@@ -37,8 +37,8 @@
           "settings": {
             "icon": "marker",
             "label": "Our HQ",
-            "line1": "123 Fairway Drive",
-            "line2": "Carlsbad, CA 92008, USA"
+            "line1": "603 Richlands Cliff DR",
+            "line2": "Youngsville, NC 27596, USA"
           }
         }
       },

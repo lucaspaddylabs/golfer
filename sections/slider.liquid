@@ -155,6 +155,23 @@ swiper-bundle.min.css,component-swiper-slider.css
   }
 }
 {%- endfor -%}
+@media (min-width:1025px){
+  #theme-section-{{ section.id }} .section-slider{
+    max-height: calc(100vh - 100px);
+    {%- if section.settings.image_size != 'auto' -%}
+    height: min(calc(100vw / {{ section.settings.image_size }}), calc(100vh - 100px));
+    aspect-ratio: unset;
+    {%- endif -%}
+  }
+}
+{%- endif -%}
+{%- if section.settings.image_size == 'fixed' -%}
+@media (min-width:1025px){
+  #theme-section-{{ section.id }} .section-slider{
+    max-height: calc(100vh - 100px);
+    height: min({{ section.settings.desktop_image_height }}px, calc(100vh - 100px));
+  }
+}
 {%- endif -%}
 {%- if section.settings.image_size_mobile != 'fixed' and section.settings.image_size_mobile != 'fullscreen' -%}
 {%- for block in section.blocks limit:1 -%}
