@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -56,7 +65,7 @@
       ],
       "settings": {
         "eyebrow_text": "LINE ONE",
-        "heading": "PUTTING GATE",
+        "heading": "PUTTING TUTOR",
         "tagline": "Start every putt through the center — or you’ll know.",
         "lede": "Set the wooden tutor on a flat surface, aim through the center channel, and roll. If the ball clips a rail, the start was offline. Side marks keep backswing and follow-through even so the stroke stays quiet.",
         "stage_label": "What the tutor trains",
@@ -71,6 +80,7 @@
         "sale_badge_text": "Sale",
         "show_dynamic_checkout": false,
         "show_sticky_atc": true,
+        "product_image_override": "shopify://shop_images/putting_tutor.png",
         "product_image_alt": "",
         "enable_pulse": false,
         "pulse_speed": 2.5,
@@ -195,8 +205,13 @@
         "panel_title": "Clear the channel. Match the marks.",
         "panel_copy": "The center slit is your start-line judge. The side marks keep stroke length honest so the putter doesn’t get long and wild.",
         "diagram_heading": "Inside the tutor",
+        "diagram_top_label": "TOP",
+        "diagram_marker": "CLICK",
+        "diagram_bottom_label": "IMPACT",
+        "arc_label_early": "Too soon",
         "early_title": "Aim through the center channel",
         "early_copy": "If the ball clips a rail, face or path drifted at impact.",
+        "arc_label_later": "Better",
         "later_title": "Use the length marks",
         "later_copy": "Match backswing and follow-through to the same side mark for a quieter stroke.",
         "meta_value_1": "5 min",
