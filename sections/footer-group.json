@@ -40,6 +40,20 @@
             "menu": "main-menu"
           }
         },
+        "menu_company": {
+          "type": "menu",
+          "settings": {
+            "heading": "Company",
+            "menu": ""
+          }
+        },
+        "menu_support": {
+          "type": "menu",
+          "settings": {
+            "heading": "Support",
+            "menu": ""
+          }
+        },
         "newsletter": {
           "type": "newsletter",
           "settings": {
@@ -51,6 +65,8 @@
       },
       "block_order": [
         "menu_shop",
+        "menu_company",
+        "menu_support",
         "newsletter"
       ],
       "settings": {

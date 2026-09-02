@@ -12,10 +12,12 @@
     margin: 0 auto;
   }
   #shopify-section-{{ section.id }} .gn-footer__grid {
-    display: grid;
-    grid-template-columns: 1.35fr repeat(auto-fit, minmax(160px, 1fr));
-    gap: 40px 32px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  #shopify-section-{{ section.id }} .gn-footer__column {
+    min-width: 0;
   }
   #shopify-section-{{ section.id }} .gn-footer__logo {
     display: inline-block;
@@ -138,22 +140,30 @@
   #shopify-section-{{ section.id }} .gn-footer__legal a:hover {
     color: #ffffff;
   }
-  @media (max-width: 1100px) {
+  @media (min-width: 990px) {
     #shopify-section-{{ section.id }} .gn-footer__grid {
-      grid-template-columns: repeat(2, 1fr);
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 32px;
     }
-    #shopify-section-{{ section.id }} .gn-footer__brand {
-      grid-column: 1 / -1;
+    #shopify-section-{{ section.id }} .gn-footer__column--brand {
+      flex: 1.35 1 0;
+      max-width: 300px;
+    }
+    #shopify-section-{{ section.id }} .gn-footer__column--menu {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-footer__column--newsletter {
+      flex: 1.1 1 0;
+      min-width: 0;
+      max-width: 260px;
     }
   }
-  @media (max-width: 700px) {
+  @media (max-width: 989px) {
     #shopify-section-{{ section.id }} .gn-footer {
       padding-left: 20px;
       padding-right: 20px;
-    }
-    #shopify-section-{{ section.id }} .gn-footer__grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
     }
     #shopify-section-{{ section.id }} .gn-footer__bottom {
       flex-direction: column;
@@ -165,7 +175,7 @@
 <footer class="gn-footer">
   <div class="gn-footer__inner">
     <div class="gn-footer__grid">
-      <div class="gn-footer__brand">
+      <div class="gn-footer__column gn-footer__column--brand">
         <a href="{{ routes.root_url }}" class="gn-footer__logo">
           {%- if section.settings.logo != blank -%}
             {{ section.settings.logo | image_url: width: 280 | image_tag: alt: shop.name, loading: 'lazy' }}
@@ -181,20 +191,20 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'menu' -%}
-            {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
-              <div {{ block.shopify_attributes }}>
-                {%- if block.settings.heading != blank -%}
-                  <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
-                {%- endif -%}
+            <div class="gn-footer__column gn-footer__column--menu" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
                 <ul class="gn-footer__links">
                   {%- for link in block.settings.menu.links -%}
                     <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                   {%- endfor -%}
                 </ul>
-              </div>
-            {%- endif -%}
+              {%- endif -%}
+            </div>
           {%- when 'newsletter' -%}
-            <div {{ block.shopify_attributes }}>
+            <div class="gn-footer__column gn-footer__column--newsletter" {{ block.shopify_attributes }}>
               {%- if block.settings.heading != blank -%}
                 <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
               {%- endif -%}
@@ -401,6 +411,18 @@
           "settings": {
             "heading": "Shop",
             "menu": "main-menu"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Company"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Support"
           }
         },
         {
