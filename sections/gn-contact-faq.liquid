@@ -15,6 +15,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0 24px;
+    align-items: start;
   }
   #shopify-section-{{ section.id }} .gn-faq__item {
     border: 1px solid {{ section.settings.border_color | default: '#e2ddcf' }};
@@ -22,6 +23,7 @@
     margin-bottom: 16px;
     background: {{ section.settings.item_background | default: '#ffffff' }};
     overflow: hidden;
+    align-self: start;
   }
   #shopify-section-{{ section.id }} .gn-faq__question {
     display: flex;
