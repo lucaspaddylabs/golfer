@@ -469,7 +469,7 @@
         "background_image": "shopify://shop_images/pexels-anntarazevich-6370119.jpg",
         "overlay_opacity": 85,
         "button_text": "Shop ARC ONE",
-        "button_link": "",
+        "button_link": "shopify://products/pro-swing-click-trainer",
         "secondary_text": "",
         "secondary_link": "",
         "background_color": "#1d3d2a",
@@ -489,7 +489,7 @@
         "image": "shopify://shop_images/labelled_training_set_transparent.png",
         "image_spacing": 40,
         "button_text": "Explore the system",
-        "button_link": "",
+        "button_link": "shopify://collections/all",
         "cta_spacing": 40,
         "background_color": "#f2eee3",
         "heading_color": "#161615",
@@ -510,7 +510,7 @@
             "subtitle": "Flagship trainer only.",
             "image": "shopify://shop_images/swing_trainer_transparent.png",
             "button_text": "Explore ARC ONE",
-            "button_link": ""
+            "button_link": "shopify://products/pro-swing-click-trainer"
           }
         },
         "tier_9BpNGz": {
@@ -522,7 +522,7 @@
             "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
             "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
             "button_text": "Explore the Swing System",
-            "button_link": ""
+            "button_link": "shopify://collections/all"
           }
         },
         "tier_F4BnxD": {
@@ -534,7 +534,7 @@
             "subtitle": "All four tools.",
             "image": "shopify://shop_images/training_set_transparent.png",
             "button_text": "Explore the Complete System",
-            "button_link": ""
+            "button_link": "shopify://collections/all"
           }
         }
       },
