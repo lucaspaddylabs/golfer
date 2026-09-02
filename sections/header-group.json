@@ -148,7 +148,7 @@
         "logo_position": "logo-to-left",
         "classic_menu_position": "top-menu-to-left",
         "break_main_menu_count": 3,
-        "show_search": "closed",
+        "show_search": "hide",
         "icons_text": "hide",
         "show_top_line": false,
         "show_bottom_line": false,

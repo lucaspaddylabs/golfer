@@ -36,7 +36,7 @@
             "roundness_button": 20,
             "heading_size_px": 124,
             "heading_size_px_tablet": 40,
-            "heading_size_px_mobile": 45,
+            "heading_size_px_mobile": 32,
             "hover_underline": false,
             "heading_uppercase_bold": true,
             "foreground_image_x": 75,
@@ -46,11 +46,11 @@
             "tablet_x": 8,
             "tablet_y": 22,
             "mobile_x": 8,
-            "mobile_y": 15,
+            "mobile_y": 28,
             "text_align": "text-left",
             "description_width": 87,
             "description_width_tablet": 65,
-            "description_width_mobile": 85,
+            "description_width_mobile": 92,
             "show_background": false,
             "box_opacity": 90,
             "show_countdown": false,
@@ -92,8 +92,8 @@
         "width": "page-fullwidth",
         "image_size": "1.77777",
         "desktop_image_height": 700,
-        "image_size_mobile": "fullscreen",
-        "mobile_image_height": 600,
+        "image_size_mobile": "fixed",
+        "mobile_image_height": 480,
         "show_logo": true,
         "logo_svg": "",
         "logo_max_width": 50,
@@ -444,9 +444,6 @@
         "feature_4Pm4pg",
         "feature_D6Xadk",
         "feature_CPHFez"
-      ],
-      "custom_css": [
-        ".gn-flagship-banner {padding-left: 100px; padding-right: 100px;}"
       ],
       "name": "Flagship trainer banner",
       "settings": {

@@ -184,12 +184,15 @@
         top:var(--logo_desktop_y, 50%);
     }
 }
-@media(max-width:576px){
+@media (max-width:576px){
     .section-slider__fullscreen[data-mobile]{
         height:calc(100vh - 50px);
     }
     .section-slider{
         height: var(--mobile-height, unset);
+    }
+    .section-slider .banner__block-item__content{
+        --position: 20px;
     }
     .section-slider .banner__block-item__content .banner__block-item__content__items{
         position: absolute;
