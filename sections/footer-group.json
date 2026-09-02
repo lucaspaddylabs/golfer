@@ -37,21 +37,16 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": "main-menu"
-          }
-        },
-        "menu_company": {
-          "type": "menu",
-          "settings": {
-            "heading": "Company",
-            "menu": ""
+            "menu": "",
+            "manual_links": "Putting Tutor | /products/golf-putting-tutor\nTraining Belt | /products/golf-training-belt\nSwing Trainer | /products/pro-swing-click-trainer\nDetection Mat | /products/swing-detection-training-mat"
           }
         },
         "menu_support": {
           "type": "menu",
           "settings": {
             "heading": "Support",
-            "menu": ""
+            "menu": "",
+            "manual_links": "Contact | /pages/contact-us\nPrivacy Policy | /policies/privacy-policy\nTerms of Service | /policies/terms-of-service\nRefund Policy | /policies/refund-policy\nShipping Policy | /policies/shipping-policy"
           }
         },
         "newsletter": {
@@ -65,7 +60,6 @@
       },
       "block_order": [
         "menu_shop",
-        "menu_company",
         "menu_support",
         "newsletter"
       ],
@@ -74,7 +68,7 @@
         "logo_width": 140,
         "tagline": "Four instant-feedback tools designed to help you practise with purpose and play better, faster.",
         "copyright_text": "",
-        "show_policy": true,
+        "show_policy": false,
         "background_color": "#1d3d2a",
         "text_color": "#ffffff",
         "input_background": "#f7f5ef",

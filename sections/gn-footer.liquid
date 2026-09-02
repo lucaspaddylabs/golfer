@@ -195,7 +195,17 @@
               {%- if block.settings.heading != blank -%}
                 <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
               {%- endif -%}
-              {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
+              {%- if block.settings.manual_links != blank -%}
+                <ul class="gn-footer__links">
+                  {%- assign manual_lines = block.settings.manual_links | newline_to_br | split: '<br />' -%}
+                  {%- for line in manual_lines -%}
+                    {%- assign parts = line | split: '|' -%}
+                    {%- if parts.size >= 2 -%}
+                      <li><a href="{{ parts[1] | strip }}">{{ parts[0] | strip }}</a></li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- elsif block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
                 <ul class="gn-footer__links">
                   {%- for link in block.settings.menu.links -%}
                     <li><a href="{{ link.url }}">{{ link.title }}</a></li>
@@ -373,6 +383,12 @@
           "type": "link_list",
           "id": "menu",
           "label": "Menu"
+        },
+        {
+          "type": "textarea",
+          "id": "manual_links",
+          "label": "Manual links",
+          "info": "One link per line: Label | /url. Overrides menu when filled in."
         }
       ]
     },
@@ -410,19 +426,14 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": "main-menu"
+            "manual_links": "Putting Tutor | /products/golf-putting-tutor\nTraining Belt | /products/golf-training-belt\nSwing Trainer | /products/pro-swing-click-trainer\nDetection Mat | /products/swing-detection-training-mat"
           }
         },
         {
           "type": "menu",
           "settings": {
-            "heading": "Company"
-          }
-        },
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "Support"
+            "heading": "Support",
+            "manual_links": "Contact | /pages/contact-us\nPrivacy Policy | /policies/privacy-policy\nTerms of Service | /policies/terms-of-service\nRefund Policy | /policies/refund-policy\nShipping Policy | /policies/shipping-policy"
           }
         },
         {
