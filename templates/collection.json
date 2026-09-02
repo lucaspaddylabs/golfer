@@ -46,7 +46,7 @@
         "customize": true,
         "text_align": "text-left",
         "hover_underline": false,
-        "show_badge_on_sale": false,
+        "show_badge_on_sale": true,
         "show_badge_sold_out": false,
         "show_badge_feature": false,
         "show_countdown": false,
