@@ -173,6 +173,13 @@ swiper-bundle.min.css,component-swiper-slider.css
   }
 }
 {%- endif -%}
+{%- if section.settings.width == 'page-fullwidth' and section.settings.image_size != 'fullscreen' -%}
+@media (min-width:1025px){
+  #theme-section-{{ section.id }} .section-slider .banner__block-item__content{
+    --position: 48px;
+  }
+}
+{%- endif -%}
 {%- if section.settings.image_size_mobile != 'fixed' and section.settings.image_size_mobile != 'fullscreen' -%}
 {%- for block in section.blocks limit:1 -%}
 @media (max-width:576px){
