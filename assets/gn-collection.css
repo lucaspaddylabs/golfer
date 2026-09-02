@@ -1,0 +1,152 @@
+/* Golfer Now catalogue — PXG-inspired layout */
+#MainContent:has(.gn-catalog-hero) {
+  background: #ffffff;
+}
+
+#MainContent:has(.gn-catalog-hero) [data-section-name="main-collection-product-grid"] {
+  padding-top: 8px;
+}
+
+#MainContent:has(.gn-catalog-hero) .facets-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0 22px;
+  margin-bottom: 28px !important;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+#MainContent:has(.gn-catalog-hero) .facets-toolbar .mobile-facets {
+  order: 1;
+}
+
+#MainContent:has(.gn-catalog-hero) .facets-toolbar .products_count {
+  order: 2;
+  margin-left: auto;
+  text-align: right;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+#MainContent:has(.gn-catalog-hero) .facets-toolbar .grid-selector {
+  order: 3;
+  display: none;
+}
+
+#MainContent:has(.gn-catalog-hero) .facets-toolbar .facet-filters-form__desktop,
+#MainContent:has(.gn-catalog-hero) .facets__horizontal {
+  order: 1;
+}
+
+#MainContent:has(.gn-catalog-hero) .facets-horizontal,
+#MainContent:has(.gn-catalog-hero) .facets__horizontal {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#MainContent:has(.gn-catalog-hero) .sorting {
+  max-width: 220px;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-grid {
+  gap: 32px 24px;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card {
+  height: auto;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__image__container {
+  background: #efefef;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__image {
+  aspect-ratio: 1 / 1;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__image img,
+#MainContent:has(.gn-catalog-hero) .product-card__image tag-image {
+  object-fit: contain !important;
+  width: 100%;
+  height: 100%;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card-image--contain .product-card__image img {
+  object-fit: contain !important;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__content {
+  padding-top: 16px;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__heading,
+#MainContent:has(.gn-catalog-hero) .product-card-small__heading {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #1a1a1a;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__heading a,
+#MainContent:has(.gn-catalog-hero) .product-card-small__heading {
+  color: #1a1a1a;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card-small__meta {
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #666666 !important;
+  margin-bottom: 4px;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card .price {
+  font-size: 0.88rem;
+  color: #666666;
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card .price::before {
+  content: "Starting at ";
+}
+
+#MainContent:has(.gn-catalog-hero) .product-card__media-buttons,
+#MainContent:has(.gn-catalog-hero) .product-card__interface {
+  display: none !important;
+}
+
+#MainContent:has(.gn-catalog-hero) .card__badge,
+#MainContent:has(.gn-catalog-hero) .product-card .badge {
+  display: none !important;
+}
+
+#MainContent:has(.gn-catalog-hero) .animation-underline::before,
+#MainContent:has(.gn-catalog-hero) .native-hover::before {
+  display: none;
+}
+
+@media (min-width: 990px) {
+  #MainContent:has(.gn-catalog-hero) .facets-toolbar > div:empty {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  #MainContent:has(.gn-catalog-hero) .facets-toolbar {
+    flex-wrap: wrap;
+  }
+
+  #MainContent:has(.gn-catalog-hero) .facets-toolbar .products_count {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+    order: 0;
+  }
+}

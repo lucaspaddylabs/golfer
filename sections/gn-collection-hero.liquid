@@ -1,0 +1,154 @@
+{{ 'gn-collection.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .gn-catalog-hero {
+    background: {{ section.settings.background_color | default: '#141414' }};
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    padding: {{ section.settings.padding_top | default: 56 }}px 32px {{ section.settings.padding_bottom | default: 56 }}px;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.04) 0, transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0, transparent 40%),
+      repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.015) 0 1px, transparent 1px 48px);
+  }
+  #shopify-section-{{ section.id }} .gn-catalog-hero__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .gn-catalog-hero__title {
+    margin: 0 0 20px;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .gn-catalog-hero__description {
+    margin: 0;
+    max-width: 520px;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  #shopify-section-{{ section.id }} .gn-catalog-hero__description p {
+    margin: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-catalog-hero__media {
+    justify-self: end;
+    width: 100%;
+    max-width: 520px;
+  }
+  #shopify-section-{{ section.id }} .gn-catalog-hero__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    object-fit: cover;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-catalog-hero__inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    #shopify-section-{{ section.id }} .gn-catalog-hero__media {
+      justify-self: start;
+      max-width: 100%;
+    }
+  }
+</style>
+
+<div class="gn-catalog-hero">
+  <div class="gn-catalog-hero__inner">
+    <div class="gn-catalog-hero__content">
+      <h1 class="gn-catalog-hero__title">{{ collection.title | escape }}</h1>
+      {%- if section.settings.show_description and collection.description != blank -%}
+        <div class="gn-catalog-hero__description section__richtext__editor">
+          {{ collection.description }}
+        </div>
+      {%- elsif section.settings.fallback_description != blank -%}
+        <div class="gn-catalog-hero__description">
+          {{ section.settings.fallback_description }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="gn-catalog-hero__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1040 | image_tag: loading: 'lazy', alt: collection.title }}
+      {%- elsif collection.image != blank -%}
+        {{ collection.image | image_url: width: 1040 | image_tag: loading: 'lazy', alt: collection.title }}
+      {%- elsif collection.products.first.featured_image != blank -%}
+        {{ collection.products.first.featured_image | image_url: width: 1040 | image_tag: loading: 'lazy', alt: collection.products.first.title }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GN Catalogue hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image",
+      "info": "Defaults to collection image or first product image."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_description",
+      "label": "Fallback description",
+      "default": "Precision tools for every part of your game. Train with purpose and take your practice from the range straight to the course."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#141414"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "GN Catalogue hero"
+    }
+  ]
+}
+{% endschema %}
