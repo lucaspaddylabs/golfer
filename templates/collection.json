@@ -15,6 +15,8 @@
         "image": "shopify://shop_images/6e57f776-0be0-4510-8ad2-d21c5c373b8e.png",
         "show_description": true,
         "fallback_description": "Precision tools for every part of your game. Train with purpose and take your practice from the range straight to the course.",
+        "background_image": "shopify://shop_images/5c716072-67f5-453d-9701-de284e9bc9e7.png",
+        "background_overlay_opacity": 0,
         "background_color": "#141414",
         "text_color": "#ffffff",
         "padding_top": 56,
