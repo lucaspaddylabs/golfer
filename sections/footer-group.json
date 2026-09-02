@@ -70,7 +70,7 @@
           "settings": {
             "column": "support",
             "label": "Contact",
-            "url": "/pages/contact-us"
+            "url": "/pages/contact"
           }
         },
         "link_privacy": {
