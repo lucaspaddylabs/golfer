@@ -1,7 +1,19 @@
 <style>
-  #shopify-section-{{ section.id }} {
-    margin-top: {{ section.settings.margin_top | default: 56 }}px;
+  :root {
+    --gn-footer-gap: {{ section.settings.margin_top | default: 56 }}px;
   }
+
+  #shopify-section-{{ section.id }} {
+    margin-top: 0;
+  }
+
+  #MainContent > .shopify-section:last-child > div:first-of-type::after,
+  #MainContent > .shopify-section:last-child > section:first-of-type::after {
+    content: "";
+    display: block;
+    height: var(--gn-footer-gap);
+  }
+
   #shopify-section-{{ section.id }} .gn-footer {
     background: {{ section.settings.background_color | default: '#1d3d2a' }};
     color: {{ section.settings.text_color | default: '#ffffff' }};
@@ -352,6 +364,7 @@
       "step": 4,
       "unit": "px",
       "label": "Space above footer",
+      "info": "Adds breathing room that matches the last section's background color.",
       "default": 56
     },
     {

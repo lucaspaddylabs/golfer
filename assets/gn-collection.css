@@ -47,12 +47,33 @@
 }
 
 #MainContent:has(.gn-catalog-hero) .sorting {
-  max-width: 220px;
+  max-width: 280px;
+  min-width: 240px;
+  width: 100%;
 }
 
 #MainContent:has(.gn-catalog-hero) .sorting .field,
 #MainContent:has(.gn-catalog-hero) .sorting .field__input {
   border-radius: 0 !important;
+  height: 56px;
+  min-height: 56px;
+}
+
+#MainContent:has(.gn-catalog-hero) .sorting .field__input {
+  padding-top: 22px;
+  padding-right: 36px;
+  line-height: 1.35;
+}
+
+#MainContent:has(.gn-catalog-hero) .sorting .field__label {
+  top: 10px;
+  transform: none;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+#MainContent:has(.gn-catalog-hero) .sorting .field__icon--select {
+  top: 50%;
 }
 
 #MainContent:has(.gn-catalog-hero) .facets__disclosure__horizontal .facet__heading {
