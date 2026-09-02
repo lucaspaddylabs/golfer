@@ -1,0 +1,5 @@
+{%- liquid
+  assign save_cents = target.compare_at_price | minus: target.price
+  assign save_money = save_cents | money | replace: 'US$', '$' | replace: 'US $', '$'
+  echo save_money
+-%}

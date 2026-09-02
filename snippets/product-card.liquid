@@ -85,13 +85,16 @@
 {%- elsif product_card_product.available and show_badge_on_sale -%}
 {%- assign target = product_card_product.selected_or_first_available_variant -%}
 {%- if target.compare_at_price > target.price -%}
-{%- capture percent -%}{%- render 'badge-sale-percent', target:target -%}{%- endcapture -%}
 {%- if template.name == 'collection' -%}
-<span class="badges-item__medium badges-item__sale badges-item__sale__counter">Save {{ percent }}</span>
-{%- elsif settings.badge_sale_type == "text" -%}
+{%- capture save_amount -%}{%- render 'badge-sale-amount', target: target -%}{%- endcapture -%}
+<span class="badges-item__medium badges-item__sale badges-item__sale__counter">Save {{ save_amount }}</span>
+{%- else -%}
+{%- capture percent -%}{%- render 'badge-sale-percent', target:target -%}{%- endcapture -%}
+{%- if settings.badge_sale_type == "text" -%}
 <span class="badges-item__medium badges-item__sale">{{ 'products.product.on_sale' | t }}</span>
 {%- else -%}
 <span class="badges-item__medium badges-item__sale badges-item__sale__counter">{{ 'products.product.on_sale_html' | t: percent_text: percent }}</span>
+{%- endif -%}
 {%- endif -%}
 {%- endif -%}
 {%- endif -%}
