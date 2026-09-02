@@ -1,0 +1,344 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-contactpage {
+    background: {{ section.settings.background_color | default: '#f7f5ef' }};
+    padding: {{ section.settings.padding_top | default: 70 }}px 32px {{ section.settings.padding_bottom | default: 80 }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__header {
+    max-width: 720px;
+    margin: 0 auto {{ section.settings.header_spacing | default: 56 }}px;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__eyebrow {
+    margin: 0 0 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color | default: '#1a1a1a' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__heading {
+    margin: 0 0 16px;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    color: {{ section.settings.text_color | default: '#1a1a1a' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__description {
+    margin: 0 auto;
+    max-width: 560px;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: {{ section.settings.description_color | default: '#5c5c56' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__body {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(220px, 300px) 1fr;
+    gap: 60px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__items {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: {{ section.settings.icon_color | default: '#1a1a1a' }};
+    color: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item-label {
+    margin: 0 0 4px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color | default: '#1a1a1a' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item-line {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: {{ section.settings.description_color | default: '#5c5c56' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item-line a {
+    color: inherit;
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__item-line a:hover {
+    text-decoration: underline;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 22px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color | default: '#1a1a1a' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__label sup {
+    color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__input,
+  #shopify-section-{{ section.id }} .gn-contactpage__textarea {
+    width: 100%;
+    padding: 10px 2px;
+    border: none;
+    border-bottom: 1.5px solid {{ section.settings.border_color | default: '#c9c6ba' }};
+    background: transparent;
+    color: {{ section.settings.text_color | default: '#1a1a1a' }};
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-size: 0.98rem;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__input::placeholder,
+  #shopify-section-{{ section.id }} .gn-contactpage__textarea::placeholder {
+    color: #a3a099;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__input:focus,
+  #shopify-section-{{ section.id }} .gn-contactpage__textarea:focus {
+    outline: none;
+    border-color: {{ section.settings.accent_color | default: '#ec7901' }};
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__error {
+    margin: 4px 0 0;
+    font-size: 0.8rem;
+    color: #c0392b;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__success {
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: #e9f5ec;
+    color: #1d3d2a;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 10px 14px 26px;
+    border: none;
+    border-radius: 40px;
+    background: {{ section.settings.accent_color | default: '#ec7901' }};
+    color: #ffffff;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__submit:hover {
+    opacity: 0.88;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__submit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.18);
+    flex: 0 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-contactpage__submit-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-contactpage__body {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    #shopify-section-{{ section.id }} .gn-contactpage__row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>
+
+<div class="gn-contactpage">
+  <div class="gn-contactpage__header">
+    {%- if section.settings.eyebrow_text != blank -%}
+      <p class="gn-contactpage__eyebrow">{{ section.settings.eyebrow_text }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="gn-contactpage__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.description != blank -%}
+      <p class="gn-contactpage__description">{{ section.settings.description }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="gn-contactpage__body">
+    <div class="gn-contactpage__items">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'info' -%}
+          <div class="gn-contactpage__item" {{ block.shopify_attributes }}>
+            <span class="gn-contactpage__item-icon">
+              {%- case block.settings.icon -%}
+                {%- when 'mail' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/></svg>
+                {%- when 'phone' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                {%- when 'marker' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                {%- when 'clock' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              {%- endcase -%}
+            </span>
+            <span>
+              {%- if block.settings.label != blank -%}
+                <p class="gn-contactpage__item-label">{{ block.settings.label }}</p>
+              {%- endif -%}
+              {%- if block.settings.line1 != blank -%}
+                <p class="gn-contactpage__item-line">
+                  {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.line1 }}</a>{%- else -%}{{ block.settings.line1 }}{%- endif -%}
+                </p>
+              {%- endif -%}
+              {%- if block.settings.line2 != blank -%}
+                <p class="gn-contactpage__item-line">{{ block.settings.line2 }}</p>
+              {%- endif -%}
+            </span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="gn-contactpage__form">
+      {%- form 'contact', id: 'GnContactPageForm' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="gn-contactpage__success">Thanks — your message has been sent. We'll get back to you soon.</p>
+        {%- endif -%}
+
+        <div class="gn-contactpage__row">
+          <div class="gn-contactpage__field">
+            <label class="gn-contactpage__label" for="GnContactPageForm-name">Name <sup>*</sup></label>
+            <input class="gn-contactpage__input" type="text" id="GnContactPageForm-name" name="contact[name]" placeholder="Your name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" required>
+          </div>
+          <div class="gn-contactpage__field">
+            <label class="gn-contactpage__label" for="GnContactPageForm-email">Email <sup>*</sup></label>
+            <input class="gn-contactpage__input" autocomplete="email" type="email" id="GnContactPageForm-email" name="contact[email]" placeholder="Your email" spellcheck="false" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required{% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="GnContactPageForm-email-error"{% endif %}>
+            {%- if form.errors contains 'email' -%}
+              <p class="gn-contactpage__error" id="GnContactPageForm-email-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="gn-contactpage__field">
+          <label class="gn-contactpage__label" for="GnContactPageForm-subject">Subject <sup>*</sup></label>
+          <input class="gn-contactpage__input" type="text" id="GnContactPageForm-subject" name="contact[subject]" placeholder="How can we help?" required>
+        </div>
+
+        <div class="gn-contactpage__field">
+          <label class="gn-contactpage__label" for="GnContactPageForm-body">Message <sup>*</sup></label>
+          <textarea class="gn-contactpage__textarea" id="GnContactPageForm-body" name="contact[body]" placeholder="Type your message here..." required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+        </div>
+
+        <button type="submit" class="gn-contactpage__submit">
+          {{ section.settings.submit_label | default: 'Send message' }}
+          <span class="gn-contactpage__submit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "Get in touch" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We're here to help." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Have a question about our products, your order, or training in general? We'd love to hear from you." },
+    { "type": "header", "content": "Form" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Send message" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#f7f5ef" },
+    { "type": "color", "id": "text_color", "label": "Heading / label color", "default": "#1a1a1a" },
+    { "type": "color", "id": "description_color", "label": "Description color", "default": "#5c5c56" },
+    { "type": "color", "id": "icon_color", "label": "Icon circle color", "default": "#1a1a1a" },
+    { "type": "color", "id": "accent_color", "label": "Accent color (button)", "default": "#ec7901" },
+    { "type": "color", "id": "border_color", "label": "Input line color", "default": "#c9c6ba" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "header_spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Space below header", "default": 56 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 70 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "info",
+      "name": "Info item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "mail", "label": "Email" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "marker", "label": "Location" },
+            { "value": "clock", "label": "Hours" }
+          ],
+          "default": "mail"
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "Email us" },
+        { "type": "text", "id": "line1", "label": "Line 1", "default": "hello@golfernow.com" },
+        { "type": "text", "id": "line2", "label": "Line 2", "default": "We reply within 24 hours." },
+        { "type": "url", "id": "link", "label": "Link for line 1 (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact page",
+      "blocks": [
+        { "type": "info", "settings": { "icon": "mail", "label": "Email us", "line1": "hello@golfernow.com", "line2": "We reply within 24 hours.", "link": "mailto:hello@golfernow.com" } },
+        { "type": "info", "settings": { "icon": "phone", "label": "Call us", "line1": "+1 (310) 555-0198", "line2": "Mon – Fri, 9am – 5pm PST", "link": "tel:13105550198" } },
+        { "type": "info", "settings": { "icon": "marker", "label": "Our HQ", "line1": "123 Fairway Drive", "line2": "Carlsbad, CA 92008, USA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

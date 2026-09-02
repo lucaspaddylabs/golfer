@@ -1,0 +1,55 @@
+{
+  "sections": {
+    "contact": {
+      "type": "gn-contact-page",
+      "blocks": {
+        "info_email": {
+          "type": "info",
+          "settings": {
+            "icon": "mail",
+            "label": "Email us",
+            "line1": "hello@golfernow.com",
+            "line2": "We reply within 24 hours.",
+            "link": "mailto:hello@golfernow.com"
+          }
+        },
+        "info_phone": {
+          "type": "info",
+          "settings": {
+            "icon": "phone",
+            "label": "Call us",
+            "line1": "+1 (310) 555-0198",
+            "line2": "Mon – Fri, 9am – 5pm PST",
+            "link": "tel:13105550198"
+          }
+        },
+        "info_hq": {
+          "type": "info",
+          "settings": {
+            "icon": "marker",
+            "label": "Our HQ",
+            "line1": "123 Fairway Drive",
+            "line2": "Carlsbad, CA 92008, USA"
+          }
+        }
+      },
+      "block_order": ["info_email", "info_phone", "info_hq"],
+      "settings": {
+        "eyebrow_text": "Get in touch",
+        "heading": "We're here to help.",
+        "description": "Have a question about our products, your order, or training in general? We'd love to hear from you.",
+        "submit_label": "Send message",
+        "background_color": "#f7f5ef",
+        "text_color": "#1a1a1a",
+        "description_color": "#5c5c56",
+        "icon_color": "#1a1a1a",
+        "accent_color": "#ec7901",
+        "border_color": "#c9c6ba",
+        "header_spacing": 56,
+        "padding_top": 70,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": ["contact"]
+}
