@@ -12,6 +12,7 @@
     "gn_catalog_hero": {
       "type": "gn-collection-hero",
       "settings": {
+        "image": "shopify://shop_images/labelled_training_set_transparent.png",
         "show_description": true,
         "fallback_description": "Precision tools for every part of your game. Train with purpose and take your practice from the range straight to the course.",
         "background_color": "#141414",
@@ -25,7 +26,7 @@
       "settings": {
         "top_spacing": "small",
         "width": "page-width",
-        "grid": "page-grid-3",
+        "grid": "page-grid-4",
         "grid_tablet": "page-grid-st-2",
         "mobile_grid": "page-grid-sp-2",
         "products_per_page": 12,
