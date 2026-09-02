@@ -125,21 +125,6 @@
     font-size: 0.82rem;
     color: rgba(255, 255, 255, 0.72);
   }
-  #shopify-section-{{ section.id }} .gn-footer__legal {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  #shopify-section-{{ section.id }} .gn-footer__legal a {
-    color: inherit;
-    text-decoration: none;
-  }
-  #shopify-section-{{ section.id }} .gn-footer__legal a:hover {
-    color: #ffffff;
-  }
   @media (min-width: 990px) {
     #shopify-section-{{ section.id }} .gn-footer__grid {
       flex-direction: row;
@@ -188,62 +173,83 @@
         {%- endif -%}
       </div>
 
+      {%- assign shop_links = section.blocks | where: 'type', 'link' -%}
+      {%- assign has_shop_links = false -%}
+      {%- for block in shop_links -%}
+        {%- if block.settings.column == 'shop' and block.settings.label != blank and block.settings.url != blank -%}
+          {%- assign has_shop_links = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if has_shop_links -%}
+        <div class="gn-footer__column gn-footer__column--menu">
+          <p class="gn-footer__heading">{{ section.settings.shop_heading | default: 'Shop' | escape }}</p>
+          <ul class="gn-footer__links">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'link' and block.settings.column == 'shop' and block.settings.label != blank and block.settings.url != blank -%}
+                <li {{ block.shopify_attributes }}>
+                  <a href="{{ block.settings.url }}">{{ block.settings.label | escape }}</a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- assign has_support_links = false -%}
+      {%- for block in shop_links -%}
+        {%- if block.settings.column == 'support' and block.settings.label != blank and block.settings.url != blank -%}
+          {%- assign has_support_links = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if has_support_links -%}
+        <div class="gn-footer__column gn-footer__column--menu">
+          <p class="gn-footer__heading">{{ section.settings.support_heading | default: 'Support' | escape }}</p>
+          <ul class="gn-footer__links">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'link' and block.settings.column == 'support' and block.settings.label != blank and block.settings.url != blank -%}
+                <li {{ block.shopify_attributes }}>
+                  <a href="{{ block.settings.url }}">{{ block.settings.label | escape }}</a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
       {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'menu' -%}
-            <div class="gn-footer__column gn-footer__column--menu" {{ block.shopify_attributes }}>
-              {%- if block.settings.heading != blank -%}
-                <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
+        {%- if block.type == 'newsletter' -%}
+          <div class="gn-footer__column gn-footer__column--newsletter" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="gn-footer__newsletter-text">{{ block.settings.description }}</p>
+            {%- endif -%}
+            {%- form 'customer', class: 'gn-footer__form' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="gn-footer__field">
+                <input
+                  class="gn-footer__input"
+                  type="email"
+                  name="contact[email]"
+                  value="{{ form.email }}"
+                  placeholder="{{ block.settings.placeholder | default: 'Your email' }}"
+                  aria-required="true"
+                  autocomplete="email"
+                  required
+                >
+                <button type="submit" class="gn-footer__submit" aria-label="Subscribe">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 12h12.2l-4.3-4.3 1.4-1.4 6.7 6.7-6.7 6.7-1.4-1.4 4.3-4.3H5z"/></svg>
+                </button>
+              </div>
+              {%- if form.posted_successfully? -%}
+                <p class="gn-footer__message">{{ 'newsletter.success' | t }}</p>
               {%- endif -%}
-              {%- if block.settings.manual_links != blank -%}
-                <ul class="gn-footer__links">
-                  {%- assign manual_lines = block.settings.manual_links | newline_to_br | split: '<br />' -%}
-                  {%- for line in manual_lines -%}
-                    {%- assign parts = line | split: '|' -%}
-                    {%- if parts.size >= 2 -%}
-                      <li><a href="{{ parts[1] | strip }}">{{ parts[0] | strip }}</a></li>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </ul>
-              {%- elsif block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
-                <ul class="gn-footer__links">
-                  {%- for link in block.settings.menu.links -%}
-                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                  {%- endfor -%}
-                </ul>
-              {%- endif -%}
-            </div>
-          {%- when 'newsletter' -%}
-            <div class="gn-footer__column gn-footer__column--newsletter" {{ block.shopify_attributes }}>
-              {%- if block.settings.heading != blank -%}
-                <p class="gn-footer__heading">{{ block.settings.heading | escape }}</p>
-              {%- endif -%}
-              {%- if block.settings.description != blank -%}
-                <p class="gn-footer__newsletter-text">{{ block.settings.description }}</p>
-              {%- endif -%}
-              {%- form 'customer', class: 'gn-footer__form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="gn-footer__field">
-                  <input
-                    class="gn-footer__input"
-                    type="email"
-                    name="contact[email]"
-                    value="{{ form.email }}"
-                    placeholder="{{ block.settings.placeholder | default: 'Your email' }}"
-                    aria-required="true"
-                    autocomplete="email"
-                    required
-                  >
-                  <button type="submit" class="gn-footer__submit" aria-label="Subscribe">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 12h12.2l-4.3-4.3 1.4-1.4 6.7 6.7-6.7 6.7-1.4-1.4 4.3-4.3H5z"/></svg>
-                  </button>
-                </div>
-                {%- if form.posted_successfully? -%}
-                  <p class="gn-footer__message">{{ 'newsletter.success' | t }}</p>
-                {%- endif -%}
-              {%- endform -%}
-            </div>
-        {%- endcase -%}
+            {%- endform -%}
+          </div>
+        {%- endif -%}
       {%- endfor -%}
     </div>
 
@@ -257,15 +263,6 @@
           &copy; {{ 'now' | date: '%Y' }} GolferNow. All rights reserved.
         {%- endif -%}
       </p>
-      {%- if section.settings.show_policy -%}
-        <ul class="gn-footer__legal">
-          {%- for policy in shop.policies -%}
-            {%- if policy != blank -%}
-              <li><a href="{{ policy.url }}">{{ policy.title }}</a></li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
     </div>
   </div>
 </footer>
@@ -298,18 +295,28 @@
     },
     {
       "type": "header",
+      "content": "Column headings"
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Shop heading",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Support heading",
+      "default": "Support"
+    },
+    {
+      "type": "header",
       "content": "Bottom bar"
     },
     {
       "type": "text",
       "id": "copyright_text",
       "label": "Copyright text"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_policy",
-      "label": "Show policy links",
-      "default": true
     },
     {
       "type": "header",
@@ -370,25 +377,28 @@
   ],
   "blocks": [
     {
-      "type": "menu",
-      "name": "Menu column",
+      "type": "link",
+      "name": "Link",
       "settings": [
         {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            { "value": "shop", "label": "Shop" },
+            { "value": "support", "label": "Support" }
+          ],
+          "default": "shop"
+        },
+        {
           "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Shop"
+          "id": "label",
+          "label": "Label"
         },
         {
-          "type": "link_list",
-          "id": "menu",
-          "label": "Menu"
-        },
-        {
-          "type": "textarea",
-          "id": "manual_links",
-          "label": "Manual links",
-          "info": "One link per line: Label | /url. Overrides menu when filled in."
+          "type": "text",
+          "id": "url",
+          "label": "Link URL"
         }
       ]
     },
@@ -422,23 +432,16 @@
     {
       "name": "GN Footer",
       "blocks": [
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "Shop",
-            "manual_links": "Putting Tutor | /products/golf-putting-tutor\nTraining Belt | /products/golf-training-belt\nSwing Trainer | /products/pro-swing-click-trainer\nDetection Mat | /products/swing-detection-training-mat"
-          }
-        },
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "Support",
-            "manual_links": "Contact | /pages/contact-us\nPrivacy Policy | /policies/privacy-policy\nTerms of Service | /policies/terms-of-service\nRefund Policy | /policies/refund-policy\nShipping Policy | /policies/shipping-policy"
-          }
-        },
-        {
-          "type": "newsletter"
-        }
+        { "type": "link", "settings": { "column": "shop", "label": "Putting Tutor", "url": "/products/golf-putting-tutor" } },
+        { "type": "link", "settings": { "column": "shop", "label": "Training Belt", "url": "/products/golf-training-belt" } },
+        { "type": "link", "settings": { "column": "shop", "label": "Swing Trainer", "url": "/products/pro-swing-click-trainer" } },
+        { "type": "link", "settings": { "column": "shop", "label": "Detection Mat", "url": "/products/swing-detection-training-mat" } },
+        { "type": "link", "settings": { "column": "support", "label": "Contact", "url": "/pages/contact-us" } },
+        { "type": "link", "settings": { "column": "support", "label": "Privacy Policy", "url": "/policies/privacy-policy" } },
+        { "type": "link", "settings": { "column": "support", "label": "Terms of Service", "url": "/policies/terms-of-service" } },
+        { "type": "link", "settings": { "column": "support", "label": "Refund Policy", "url": "/policies/refund-policy" } },
+        { "type": "link", "settings": { "column": "support", "label": "Shipping Policy", "url": "/policies/shipping-policy" } },
+        { "type": "newsletter" }
       ]
     }
   ]

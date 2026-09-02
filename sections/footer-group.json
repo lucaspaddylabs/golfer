@@ -33,20 +33,76 @@
     "gn_footer_main": {
       "type": "gn-footer",
       "blocks": {
-        "menu_shop": {
-          "type": "menu",
+        "link_putting_tutor": {
+          "type": "link",
           "settings": {
-            "heading": "Shop",
-            "menu": "",
-            "manual_links": "Putting Tutor | /products/golf-putting-tutor\nTraining Belt | /products/golf-training-belt\nSwing Trainer | /products/pro-swing-click-trainer\nDetection Mat | /products/swing-detection-training-mat"
+            "column": "shop",
+            "label": "Putting Tutor",
+            "url": "/products/golf-putting-tutor"
           }
         },
-        "menu_support": {
-          "type": "menu",
+        "link_training_belt": {
+          "type": "link",
           "settings": {
-            "heading": "Support",
-            "menu": "",
-            "manual_links": "Contact | /pages/contact-us\nPrivacy Policy | /policies/privacy-policy\nTerms of Service | /policies/terms-of-service\nRefund Policy | /policies/refund-policy\nShipping Policy | /policies/shipping-policy"
+            "column": "shop",
+            "label": "Training Belt",
+            "url": "/products/golf-training-belt"
+          }
+        },
+        "link_swing_trainer": {
+          "type": "link",
+          "settings": {
+            "column": "shop",
+            "label": "Swing Trainer",
+            "url": "/products/pro-swing-click-trainer"
+          }
+        },
+        "link_detection_mat": {
+          "type": "link",
+          "settings": {
+            "column": "shop",
+            "label": "Detection Mat",
+            "url": "/products/swing-detection-training-mat"
+          }
+        },
+        "link_contact": {
+          "type": "link",
+          "settings": {
+            "column": "support",
+            "label": "Contact",
+            "url": "/pages/contact-us"
+          }
+        },
+        "link_privacy": {
+          "type": "link",
+          "settings": {
+            "column": "support",
+            "label": "Privacy Policy",
+            "url": "/policies/privacy-policy"
+          }
+        },
+        "link_terms": {
+          "type": "link",
+          "settings": {
+            "column": "support",
+            "label": "Terms of Service",
+            "url": "/policies/terms-of-service"
+          }
+        },
+        "link_refund": {
+          "type": "link",
+          "settings": {
+            "column": "support",
+            "label": "Refund Policy",
+            "url": "/policies/refund-policy"
+          }
+        },
+        "link_shipping": {
+          "type": "link",
+          "settings": {
+            "column": "support",
+            "label": "Shipping Policy",
+            "url": "/policies/shipping-policy"
           }
         },
         "newsletter": {
@@ -59,16 +115,24 @@
         }
       },
       "block_order": [
-        "menu_shop",
-        "menu_support",
+        "link_putting_tutor",
+        "link_training_belt",
+        "link_swing_trainer",
+        "link_detection_mat",
+        "link_contact",
+        "link_privacy",
+        "link_terms",
+        "link_refund",
+        "link_shipping",
         "newsletter"
       ],
       "settings": {
         "logo": "shopify://shop_images/golfer_now_new_logo_720513ab-b4bb-4d37-9016-d32af186f4aa.png",
         "logo_width": 140,
         "tagline": "Four instant-feedback tools designed to help you practise with purpose and play better, faster.",
+        "shop_heading": "Shop",
+        "support_heading": "Support",
         "copyright_text": "",
-        "show_policy": false,
         "background_color": "#1d3d2a",
         "text_color": "#ffffff",
         "input_background": "#f7f5ef",
