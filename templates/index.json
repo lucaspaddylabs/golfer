@@ -362,7 +362,7 @@
           "settings": {
             "number": "02",
             "label": "SEQUENCE",
-            "image": "shopify://shop_images/Firefly.png",
+            "image": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
             "product_name": "ARC ONE",
             "product_link": "shopify://products/pro-swing-click-trainer",
             "description": "Groove the sequence. Hear the release."
@@ -373,7 +373,7 @@
           "settings": {
             "number": "03",
             "label": "STRIKE",
-            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_66709.png",
+            "image": "shopify://shop_images/trace_mat.png",
             "product_name": "TRACE ONE",
             "product_link": "shopify://products/golf-putting-tutor",
             "description": "Find center. Control low point."
@@ -384,7 +384,7 @@
           "settings": {
             "number": "04",
             "label": "ROLL",
-            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_354254.png",
+            "image": "shopify://shop_images/putting_tutor.png",
             "product_name": "LINE ONE",
             "product_link": "shopify://products/swing-detection-training-mat",
             "description": "Start it on line. Build better rolls."
@@ -486,7 +486,7 @@
       "settings": {
         "eyebrow_text": "The practice system",
         "heading": "<p>Four tools.<br/>One better practice.</p>",
-        "image": "shopify://shop_images/6edaf4ee-94a4-47f8-9dfe-905424755b47.png",
+        "image": "shopify://shop_images/labelled_training_set_transparent.png",
         "image_spacing": 40,
         "button_text": "Explore the system",
         "button_link": "",
@@ -508,7 +508,7 @@
             "badge_text": "Recommended",
             "title": "ARC ONE",
             "subtitle": "Flagship trainer only.",
-            "image": "shopify://shop_images/Firefly_make_the_product_centered_768839.png",
+            "image": "shopify://shop_images/swing_trainer_transparent.png",
             "button_text": "Explore ARC ONE",
             "button_link": ""
           }
@@ -520,7 +520,7 @@
             "badge_text": "Recommended",
             "title": "THE SWING SYSTEM",
             "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
-            "image": "shopify://shop_images/Firefly_1.png",
+            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
             "button_text": "Explore the Swing System",
             "button_link": ""
           }
@@ -532,7 +532,7 @@
             "badge_text": "Recommended",
             "title": "THE COMPLETE SYSTEM",
             "subtitle": "All four tools.",
-            "image": "shopify://shop_images/4prod.png",
+            "image": "shopify://shop_images/training_set_transparent.png",
             "button_text": "Explore the Complete System",
             "button_link": ""
           }
