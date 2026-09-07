@@ -918,18 +918,14 @@
   {% if section.settings.show_sticky_atc %}
     <div class="gn-arc-hero__sticky" data-gn-sticky-atc>
       <button class="gn-arc-hero__cta" type="button" data-gn-sticky-button data-gn-add-to-cart>
-        {% if product.has_only_default_variant %}
-          {% if current_variant.available %}
-            ADD TO CART –
-            {% if show_sale_badge %}
-              <s data-gn-sticky-compare>{{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
-            {% endif %}
-            <span data-gn-sticky-sale-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-          {% else %}
-            {{ section.settings.sold_out_text }}
+        {% if current_variant.available %}
+          ADD TO CART –
+          {% if show_sale_badge %}
+            <s data-gn-sticky-compare>{{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
           {% endif %}
+          <span data-gn-sticky-sale-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
         {% else %}
-          {{ section.settings.choose_options_text }}
+          {{ section.settings.sold_out_text }}
         {% endif %}
       </button>
     </div>
@@ -1072,7 +1068,7 @@
       }
       if (submitLabel) submitLabel.textContent = variant.available ? labels.add : labels.sold;
       if (paymentButton) paymentButton.hidden = !variant.available;
-      if (stickyButton && hasOnlyDefaultVariant) {
+      if (stickyButton) {
         stickyButton.disabled = !variant.available;
         if (stickySalePrice) stickySalePrice.textContent = variant.available ? formatMoney(variant.price) : '';
         if (stickyCompare) {
@@ -1143,10 +1139,6 @@
     };
 
     const addToCartOrChooseOptions = () => {
-      if (!hasOnlyDefaultVariant) {
-        scrollToForm();
-        return;
-      }
       submitProductForm();
     };
 
