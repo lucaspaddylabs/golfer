@@ -321,7 +321,8 @@ component-swiper-slider.css
           </toggle-component>
           {%- endif -%}
 
-          {%- if settings.show_add_discount_code -%}
+          {% comment %} Discount code UI temporarily hidden — reinstate by removing `false and` when codes are ready {% endcomment %}
+          {%- if false and settings.show_add_discount_code -%}
           {%- capture html -%}
           {%- render "cart-discount", section_id:section.id -%}
           {%- endcapture -%}
