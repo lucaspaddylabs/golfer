@@ -1143,9 +1143,27 @@
       }
     }
 
-    @media (max-width: 749px) {
-      .gn-swing-{{ section.id }} {
-        padding-bottom: {% if section.settings.show_sticky_atc %}82px{% else %}0{% endif %};
+      .gn-swing-{{ section.id }} .gn-trust-row {
+        margin-top: 10px;
+        padding: 8px 6px 7px;
+        column-gap: 4px;
+      }
+
+      .gn-swing-{{ section.id }} .gn-trust-item {
+        gap: 3px;
+        font-size: 9px;
+        letter-spacing: 0;
+        line-height: 1.2;
+      }
+
+      .gn-swing-{{ section.id }} .gn-trust-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      .gn-swing-{{ section.id }} .gn-trust-icon svg {
+        width: 16px;
+        height: 16px;
       }
 
       .gn-swing-{{ section.id }} .gn-page,

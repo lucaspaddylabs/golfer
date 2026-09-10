@@ -545,3 +545,25 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   width: 24px;
   height: 24px;
 }
+
+@media (max-width: 749px) {
+  .gn-cart-trust-row {
+    margin-top: 10px;
+    padding: 8px 6px 7px;
+    column-gap: 4px;
+  }
+  .gn-cart-trust-row .gn-trust-item {
+    gap: 3px;
+    font-size: 9px;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+  .gn-cart-trust-row .gn-trust-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .gn-cart-trust-row .gn-trust-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
