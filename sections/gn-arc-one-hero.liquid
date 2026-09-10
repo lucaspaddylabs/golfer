@@ -530,10 +530,6 @@
       padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
       background: {{ section.settings.background_color }};
       border-top: 1px solid {{ section.settings.divider_color }};
-      transform: translateY(110%);
-      transition: transform 180ms ease;
-    }
-    #shopify-section-{{ section.id }} .gn-arc-hero__sticky.is-visible {
       transform: translateY(0);
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__sticky-title {
@@ -1150,15 +1146,6 @@
     });
 
     if (sticky) {
-      const formWrap = section.querySelector('[data-gn-form-wrap]');
-      const observeTarget = formWrap || section;
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(([entry]) => {
-          sticky.classList.toggle('is-visible', !entry.isIntersecting);
-        }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
-        observer.observe(observeTarget);
-      }
-
       if (window.visualViewport) {
         const repositionSticky = () => {
           const vv = window.visualViewport;
