@@ -563,15 +563,15 @@
     margin: 20px 0 16px;
     padding: 22px 16px 16px 18px;
     border-radius: 10px;
-    background: #eef6fb;
-    border: 1px solid #d5eaf5;
+    background: #d7effb;
+    border: 1px solid #b6dff5;
     overflow: visible;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
     margin: 0 0 14px;
-    font-size: 0.78rem;
+    font-size: 0.95rem;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     text-align: center;
     color: {{ section.settings.ink_color }};
@@ -600,8 +600,20 @@
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected {
     border-color: #2ab0ea;
-    background: #f4fbfe;
-    box-shadow: 0 0 0 1px #2ab0ea, 0 6px 16px rgba(42, 176, 234, 0.18);
+    background: #2ab0ea;
+    box-shadow: 0 8px 20px rgba(42, 176, 234, 0.28);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-label,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-price {
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-desc,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-was {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-save {
+    background: #fff;
+    color: #b8232a;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check {
     position: absolute;
@@ -654,12 +666,17 @@
     color: transparent;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check {
-    border-color: #2ab0ea;
-    background: #2ab0ea;
-    color: #fff;
+    border-color: #fff;
+    background: #fff;
+    color: #2ab0ea;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular {
+    border-color: #fff;
+    background: #fff;
+    color: #2ab0ea;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular svg {
-    color: #fff;
+    color: #2ab0ea;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-label {
     margin: 0 0 2px;
@@ -684,11 +701,18 @@
     font-size: 0.78rem;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-save {
-    display: block;
-    margin-top: 6px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #b8232a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #b8232a;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
   }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
@@ -698,7 +722,7 @@
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
       margin-bottom: 12px;
-      font-size: 0.72rem;
+      font-size: 0.88rem;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card {
       padding: 16px 8px 12px;
@@ -797,7 +821,7 @@
                       <span class="gn-arc-hero__bundle-check{% if block.settings.popular %} gn-arc-hero__bundle-check--popular{% endif %}" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
                         {%- if block.settings.popular -%}
-                          <span class="gn-arc-hero__bundle-check-label">Popular</span>
+                          <span class="gn-arc-hero__bundle-check-label">Most popular</span>
                         {%- endif -%}
                       </span>
                       <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
