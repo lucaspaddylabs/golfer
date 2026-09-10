@@ -30,47 +30,70 @@
     grid-area: buy;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 48px 0 48px 48px;
+    justify-content: flex-start;
+    padding: 28px 0 28px 40px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__eyebrow {
-    margin: 0 0 18px;
-    font-size: 0.78rem;
+    margin: 0 0 8px;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: {{ section.settings.accent_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__heading {
-    margin: 0 0 14px;
+    margin: 0 0 10px;
     font-family: var(--font-body-family), sans-serif;
-    font-size: clamp(3.2rem, 7vw, 5rem);
+    font-size: clamp(2rem, 3.4vw, 2.65rem);
     line-height: 0.95;
     font-weight: 800;
     letter-spacing: -0.03em;
     color: {{ section.settings.ink_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__tagline {
-    margin: 0 0 28px;
-    max-width: 28ch;
-    font-size: 1.2rem;
+    margin: 0 0 12px;
+    max-width: 36ch;
+    font-size: 1rem;
     line-height: 1.4;
     font-weight: 500;
     color: {{ section.settings.muted_color }};
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__lede {
-    margin: 0 0 32px;
-    max-width: 38ch;
-    font-size: 0.98rem;
-    line-height: 1.65;
-    color: {{ section.settings.muted_color }};
+  #shopify-section-{{ section.id }} .gn-arc-hero__benefits {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__benefit-icon {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__benefit-icon svg {
+    display: block;
+    width: 16px;
+    height: 16px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 10px 14px;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__price {
     font-size: 1.85rem;
@@ -461,7 +484,7 @@
       min-height: 0;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__buy-col {
-      padding: 24px 16px 28px;
+      padding: 20px 16px 24px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
       min-height: 0;
@@ -548,15 +571,19 @@
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__heading {
       margin-bottom: 6px;
-      font-size: clamp(2rem, 9vw, 2.6rem);
+      font-size: clamp(1.7rem, 8vw, 2.1rem);
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__tagline {
       margin-bottom: 10px;
       max-width: none;
       font-size: 0.95rem;
     }
-    #shopify-section-{{ section.id }} .gn-arc-hero__lede {
-      display: none;
+    #shopify-section-{{ section.id }} .gn-arc-hero__benefits {
+      margin-bottom: 12px;
+      gap: 6px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__benefit {
+      font-size: 0.88rem;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
       margin-bottom: 10px;
@@ -856,8 +883,33 @@
       {%- if section.settings.tagline != blank -%}
         <p class="gn-arc-hero__tagline">{{ section.settings.tagline }}</p>
       {%- endif -%}
-      {%- if section.settings.lede != blank -%}
-        <p class="gn-arc-hero__lede">{{ section.settings.lede }}</p>
+      {%- if section.settings.benefit_1 != blank or section.settings.benefit_2 != blank or section.settings.benefit_3 != blank -%}
+        <ul class="gn-arc-hero__benefits">
+          {%- if section.settings.benefit_1 != blank -%}
+            <li class="gn-arc-hero__benefit">
+              <span class="gn-arc-hero__benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5L20 7"/></svg>
+              </span>
+              <span>{{ section.settings.benefit_1 }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.benefit_2 != blank -%}
+            <li class="gn-arc-hero__benefit">
+              <span class="gn-arc-hero__benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5L20 7"/></svg>
+              </span>
+              <span>{{ section.settings.benefit_2 }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.benefit_3 != blank -%}
+            <li class="gn-arc-hero__benefit">
+              <span class="gn-arc-hero__benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5L20 7"/></svg>
+              </span>
+              <span>{{ section.settings.benefit_3 }}</span>
+            </li>
+          {%- endif -%}
+        </ul>
       {%- endif -%}
 
       <div id="ProductForm-{{ section.id }}" data-gn-form-wrap>
@@ -1406,7 +1458,9 @@
     { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "Sequence trainer" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "ARC ONE" },
     { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Hear the moment your release arrives." },
-    { "type": "textarea", "id": "lede", "label": "Supporting copy", "default": "A compact audible trainer for short, focused reps. No ball. No net. No app. Just a click that tells you whether sequence is early or on time." },
+    { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Perfect your grip" },
+    { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Fix your slices and hooks" },
+    { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Practice anywhere with instant feedback" },
     { "type": "header", "content": "Stage signals" },
     { "type": "text", "id": "stage_label", "label": "Stage label", "default": "The sound of sequence" },
     { "type": "text", "id": "signal_label_1", "label": "Signal 1 label", "default": "Early click" },
