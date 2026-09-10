@@ -690,31 +690,6 @@
           {% form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-gn-variant-input>
 
-            {% unless product.has_only_default_variant %}
-              <div data-gn-options>
-                {% for option in product.options_with_values %}
-                  <fieldset class="gn-arc-hero__fieldset">
-                    <legend>{{ option.name }}</legend>
-                    <div class="gn-arc-hero__options">
-                      {% for value in option.values %}
-                        <label class="gn-arc-hero__option">
-                          <input
-                            type="radio"
-                            name="gn-option-{{ section.id }}-{{ option.position }}"
-                            value="{{ value | escape }}"
-                            data-gn-option-input
-                            data-option-position="{{ option.position }}"
-                            {% if option.selected_value == value %}checked{% endif %}
-                          >
-                          <span>{{ value }}</span>
-                        </label>
-                      {% endfor %}
-                    </div>
-                  </fieldset>
-                {% endfor %}
-              </div>
-            {% endunless %}
-
             {%- assign bundle_blocks = section.blocks | where: 'type', 'bundle' -%}
             {%- if bundle_blocks.size > 0 -%}
               <div class="gn-arc-hero__bundles" data-gn-bundles>
@@ -748,6 +723,31 @@
                 </div>
               </div>
             {%- endif -%}
+
+            {% unless product.has_only_default_variant %}
+              <div data-gn-options>
+                {% for option in product.options_with_values %}
+                  <fieldset class="gn-arc-hero__fieldset">
+                    <legend>{{ option.name }}</legend>
+                    <div class="gn-arc-hero__options">
+                      {% for value in option.values %}
+                        <label class="gn-arc-hero__option">
+                          <input
+                            type="radio"
+                            name="gn-option-{{ section.id }}-{{ option.position }}"
+                            value="{{ value | escape }}"
+                            data-gn-option-input
+                            data-option-position="{{ option.position }}"
+                            {% if option.selected_value == value %}checked{% endif %}
+                          >
+                          <span>{{ value }}</span>
+                        </label>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                {% endfor %}
+              </div>
+            {% endunless %}
 
             <div class="gn-arc-hero__form-row">
               <div class="gn-arc-hero__qty">
