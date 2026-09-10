@@ -632,13 +632,22 @@
     color: transparent;
     z-index: 2;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, padding 0.15s ease;
+    overflow: hidden;
+    transition:
+      background 0.22s ease,
+      border-color 0.22s ease,
+      color 0.22s ease,
+      padding 0.28s ease,
+      gap 0.28s ease,
+      min-width 0.28s ease;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check svg {
     width: 12px;
     height: 12px;
     display: block;
     flex: 0 0 auto;
+    opacity: 1;
+    transition: width 0.28s ease, opacity 0.22s ease, color 0.22s ease;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check-label {
     display: none;
@@ -651,10 +660,11 @@
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular {
     width: auto;
+    min-width: 0;
     height: 26px;
-    padding: 0 8px 0 5px;
+    padding: 0 9px;
     border-radius: 999px;
-    gap: 4px;
+    gap: 0;
     border-color: {{ section.settings.accent_color }};
     background: {{ section.settings.accent_color }};
     color: #fff;
@@ -663,6 +673,8 @@
     display: inline;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular svg {
+    width: 0;
+    opacity: 0;
     color: transparent;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check {
@@ -674,8 +686,12 @@
     border-color: #fff;
     background: #fff;
     color: #2ab0ea;
+    gap: 4px;
+    padding: 0 9px 0 6px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular svg {
+    width: 12px;
+    opacity: 1;
     color: #2ab0ea;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-label {
