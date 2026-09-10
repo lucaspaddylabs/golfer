@@ -560,7 +560,7 @@
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
     max-width: 420px;
-    margin-top: 24px;
+    margin: 20px 0 16px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
     margin: 0 0 10px;
@@ -715,6 +715,40 @@
               </div>
             {% endunless %}
 
+            {%- assign bundle_blocks = section.blocks | where: 'type', 'bundle' -%}
+            {%- if bundle_blocks.size > 0 -%}
+              <div class="gn-arc-hero__bundles" data-gn-bundles>
+                <p class="gn-arc-hero__bundles-heading">Buy more, save more</p>
+                <div class="gn-arc-hero__bundle-grid">
+                  {%- for block in bundle_blocks -%}
+                    {%- assign bundle_qty = block.settings.quantity -%}
+                    {%- assign bundle_unit_price = current_variant.price -%}
+                    {%- assign bundle_save_cents = block.settings.save_amount | times: 100 -%}
+                    {%- assign bundle_total = bundle_unit_price | times: bundle_qty | minus: bundle_save_cents -%}
+                    {%- assign bundle_was = bundle_unit_price | times: bundle_qty -%}
+                    <div
+                      class="gn-arc-hero__bundle-card{% if block.settings.popular %} is-popular{% endif %}{% if bundle_qty == 1 %} is-selected{% endif %}"
+                      data-gn-bundle
+                      data-bundle-qty="{{ bundle_qty }}"
+                      data-bundle-save="{{ bundle_save_cents }}"
+                      {{ block.shopify_attributes }}
+                    >
+                      {%- if block.settings.popular -%}
+                        <span class="gn-arc-hero__bundle-popular">Most popular</span>
+                      {%- endif -%}
+                      <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
+                      <p class="gn-arc-hero__bundle-desc">{{ bundle_qty }} x {{ product.title }}</p>
+                      <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                      {%- if bundle_save_cents > 0 -%}
+                        <span class="gn-arc-hero__bundle-was" data-gn-bundle-was>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                        <span class="gn-arc-hero__bundle-save">Save {{ bundle_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+
             <div class="gn-arc-hero__form-row">
               <div class="gn-arc-hero__qty">
                 <label class="gn-arc-hero__qty-label" for="Quantity-{{ section.id }}">{{ section.settings.quantity_label }}</label>
@@ -753,40 +787,6 @@
             {%- for block in trust_items -%}
               <span class="gn-arc-hero__trust-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
             {%- endfor -%}
-          </div>
-        {%- endif -%}
-
-        {%- assign bundle_blocks = section.blocks | where: 'type', 'bundle' -%}
-        {%- if bundle_blocks.size > 0 -%}
-          <div class="gn-arc-hero__bundles" data-gn-bundles>
-            <p class="gn-arc-hero__bundles-heading">Buy more, save more</p>
-            <div class="gn-arc-hero__bundle-grid">
-              {%- for block in bundle_blocks -%}
-                {%- assign bundle_qty = block.settings.quantity -%}
-                {%- assign bundle_unit_price = current_variant.price -%}
-                {%- assign bundle_save_cents = block.settings.save_amount | times: 100 -%}
-                {%- assign bundle_total = bundle_unit_price | times: bundle_qty | minus: bundle_save_cents -%}
-                {%- assign bundle_was = bundle_unit_price | times: bundle_qty -%}
-                <div
-                  class="gn-arc-hero__bundle-card{% if block.settings.popular %} is-popular{% endif %}{% if bundle_qty == 1 %} is-selected{% endif %}"
-                  data-gn-bundle
-                  data-bundle-qty="{{ bundle_qty }}"
-                  data-bundle-save="{{ bundle_save_cents }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {%- if block.settings.popular -%}
-                    <span class="gn-arc-hero__bundle-popular">Most popular</span>
-                  {%- endif -%}
-                  <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
-                  <p class="gn-arc-hero__bundle-desc">{{ bundle_qty }} x {{ product.title }}</p>
-                  <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
-                  {%- if bundle_save_cents > 0 -%}
-                    <span class="gn-arc-hero__bundle-was" data-gn-bundle-was>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                    <span class="gn-arc-hero__bundle-save">Save {{ bundle_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                  {%- endif -%}
-                </div>
-              {%- endfor -%}
-            </div>
           </div>
         {%- endif -%}
       </div>
