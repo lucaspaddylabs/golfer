@@ -633,8 +633,9 @@
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-popular {
     position: absolute;
     top: -13px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: auto;
+    right: 8px;
+    transform: none;
     white-space: nowrap;
     padding: 5px 12px;
     border-radius: 999px;
@@ -645,6 +646,7 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    z-index: 2;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-label {
     margin: 0 0 2px;
