@@ -560,8 +560,8 @@
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
     max-width: 420px;
-    margin: 20px 0 16px;
-    padding: 22px 16px 16px 18px;
+    margin: 20px 0 20px;
+    padding: 22px 16px 20px 18px;
     border-radius: 10px;
     background: #d7effb;
     border: 1px solid #b6dff5;
@@ -586,11 +586,11 @@
     position: relative;
     border: 2px solid {{ section.settings.divider_color }};
     border-radius: 8px;
-    padding: 20px 10px 14px;
+    padding: 18px 8px 16px;
     text-align: center;
     background: #fff;
     cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card:hover {
     border-color: {{ section.settings.accent_color }};
@@ -685,47 +685,61 @@
     color: {{ section.settings.ink_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-desc {
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     font-size: 0.7rem;
     color: {{ section.settings.muted_color }};
   }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 6px;
+  }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-price {
-    margin: 0 0 2px;
-    font-size: 1.2rem;
+    margin: 0;
+    font-size: 1.15rem;
     font-weight: 800;
     color: {{ section.settings.ink_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-was {
     color: {{ section.settings.muted_color }};
     text-decoration: line-through;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-save {
+    position: absolute;
+    left: 50%;
+    bottom: -11px;
+    transform: translateX(-50%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 8px;
+    margin: 0;
     padding: 4px 8px;
     border-radius: 999px;
     background: #b8232a;
     color: #fff;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.02em;
     line-height: 1.2;
+    white-space: nowrap;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(184, 35, 42, 0.25);
   }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
       max-width: none;
-      margin: 14px 0 12px;
-      padding: 16px 12px 12px;
+      margin: 14px 0 18px;
+      padding: 16px 12px 18px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
       margin-bottom: 12px;
       font-size: 0.88rem;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card {
-      padding: 16px 8px 12px;
+      padding: 14px 6px 14px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__bundle-grid {
       gap: 8px;
@@ -826,9 +840,13 @@
                       </span>
                       <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
                       <p class="gn-arc-hero__bundle-desc">{{ bundle_qty }} x {{ product.title }}</p>
-                      <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                      <div class="gn-arc-hero__bundle-price-row">
+                        <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                        {%- if bundle_save_cents > 0 -%}
+                          <span class="gn-arc-hero__bundle-was" data-gn-bundle-was>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                        {%- endif -%}
+                      </div>
                       {%- if bundle_save_cents > 0 -%}
-                        <span class="gn-arc-hero__bundle-was" data-gn-bundle-was>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                         <span class="gn-arc-hero__bundle-save">Save {{ bundle_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                       {%- endif -%}
                     </div>
