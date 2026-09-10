@@ -445,16 +445,49 @@
       padding: 0;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
-      padding: 14px 16px 6px;
+      padding: 0;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage-label,
     #shopify-section-{{ section.id }} .gn-arc-hero__signals {
       display: none;
     }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-content {
+      display: block;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__media-wrap {
+      width: 100%;
+      flex: none;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage {
+      min-height: 0;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__panel {
+      inset: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__panel.is-active {
+      position: absolute;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage img,
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage video,
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage iframe,
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage model-viewer {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+    }
     #shopify-section-{{ section.id }} .gn-arc-hero__dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      z-index: 5;
       gap: 5px;
-      margin-top: 10px;
-      padding-bottom: 10px;
+      margin: 0;
+      padding: 0;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__dot {
       width: 7px;
@@ -463,15 +496,6 @@
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__dot.is-active {
       transform: scale(1.35);
-    }
-    #shopify-section-{{ section.id }} .gn-arc-hero__stage {
-      min-height: 0;
-    }
-    #shopify-section-{{ section.id }} .gn-arc-hero__stage img,
-    #shopify-section-{{ section.id }} .gn-arc-hero__stage video,
-    #shopify-section-{{ section.id }} .gn-arc-hero__stage iframe,
-    #shopify-section-{{ section.id }} .gn-arc-hero__stage model-viewer {
-      max-height: min(34vh, 260px);
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage.has-pulse .gn-arc-hero__panel.is-active img {
       animation: none;
