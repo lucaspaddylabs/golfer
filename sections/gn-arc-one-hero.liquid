@@ -78,15 +78,20 @@
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__benefit-icon {
     flex: 0 0 auto;
-    width: 16px;
-    height: 16px;
-    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border: 1.5px solid {{ section.settings.accent_color }};
+    border-radius: 50%;
     color: {{ section.settings.accent_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__benefit-icon svg {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 11px;
+    height: 11px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
     display: flex;
@@ -585,6 +590,14 @@
     #shopify-section-{{ section.id }} .gn-arc-hero__benefit {
       font-size: 0.88rem;
     }
+    #shopify-section-{{ section.id }} .gn-arc-hero__benefit-icon {
+      width: 18px;
+      height: 18px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__benefit-icon svg {
+      width: 10px;
+      height: 10px;
+    }
     #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
       margin-bottom: 10px;
     }
@@ -888,7 +901,7 @@
           {%- if section.settings.benefit_1 != blank -%}
             <li class="gn-arc-hero__benefit">
               <span class="gn-arc-hero__benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5L20 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12 4.2 4.2L18 8"/></svg>
               </span>
               <span>{{ section.settings.benefit_1 }}</span>
             </li>
@@ -896,7 +909,7 @@
           {%- if section.settings.benefit_2 != blank -%}
             <li class="gn-arc-hero__benefit">
               <span class="gn-arc-hero__benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5L20 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12 4.2 4.2L18 8"/></svg>
               </span>
               <span>{{ section.settings.benefit_2 }}</span>
             </li>
@@ -904,7 +917,7 @@
           {%- if section.settings.benefit_3 != blank -%}
             <li class="gn-arc-hero__benefit">
               <span class="gn-arc-hero__benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5L20 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12 4.2 4.2L18 8"/></svg>
               </span>
               <span>{{ section.settings.benefit_3 }}</span>
             </li>
