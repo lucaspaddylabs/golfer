@@ -508,11 +508,11 @@
     }
 
     .gn-swing-{{ section.id }} .gn-trust-item {
-      position: relative;
       min-height: 44px;
       display: flex;
       align-items: center;
-      padding: 9px 10px 9px 28px;
+      gap: 8px;
+      padding: 9px 10px;
       border: 1px solid var(--gn-line);
       border-radius: 6px;
       color: var(--gn-muted);
@@ -522,14 +522,18 @@
       background: #ffffff;
     }
 
-    .gn-swing-{{ section.id }} .gn-trust-item::before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gn-green);
+    .gn-swing-{{ section.id }} .gn-trust-icon {
+      flex: 0 0 auto;
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      color: var(--gn-green);
+    }
+
+    .gn-swing-{{ section.id }} .gn-trust-icon svg {
+      width: 18px;
+      height: 18px;
+      display: block;
     }
 
     .gn-swing-{{ section.id }} .gn-marquee {
@@ -1390,7 +1394,10 @@
             <div class="gn-trust-row" aria-label="Checkout assurances">
               {% for block in section.blocks %}
                 {% if block.type == 'trust_badge' %}
-                  <div class="gn-trust-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+                  <div class="gn-trust-item" {{ block.shopify_attributes }}>
+                    {% render 'gn-trust-icons', icon: block.settings.icon, text: block.settings.text %}
+                    <span>{{ block.settings.text }}</span>
+                  </div>
                 {% endif %}
               {% endfor %}
             </div>
@@ -2336,6 +2343,19 @@
       "name": "Trust badge",
       "limit": 3,
       "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "lock", "label": "Secure checkout" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "truck", "label": "Shipping" },
+            { "value": "shield", "label": "Guarantee" },
+            { "value": "chat", "label": "Support" }
+          ],
+          "default": "lock"
+        },
         {
           "type": "text",
           "id": "text",

@@ -226,9 +226,20 @@
     max-width: 420px;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 0.76rem;
     font-weight: 600;
     color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__trust-item .gn-trust-icon,
+  #shopify-section-{{ section.id }} .gn-arc-hero__trust-item .gn-trust-icon svg {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    color: {{ section.settings.accent_color }};
+    display: block;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
     grid-area: stage;
@@ -945,7 +956,10 @@
         {%- if trust_items.size > 0 -%}
           <div class="gn-arc-hero__trust">
             {%- for block in trust_items -%}
-              <span class="gn-arc-hero__trust-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+              <span class="gn-arc-hero__trust-item" {{ block.shopify_attributes }}>
+                {% render 'gn-trust-icons', icon: block.settings.icon, text: block.settings.text %}
+                <span>{{ block.settings.text }}</span>
+              </span>
             {%- endfor -%}
           </div>
         {%- endif -%}
@@ -1408,6 +1422,19 @@
       "name": "Trust line",
       "limit": 4,
       "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "lock", "label": "Secure checkout" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "truck", "label": "Shipping" },
+            { "value": "shield", "label": "Guarantee" },
+            { "value": "chat", "label": "Support" }
+          ],
+          "default": "lock"
+        },
         { "type": "text", "id": "text", "label": "Text", "default": "30-day returns" }
       ]
     },
@@ -1426,9 +1453,9 @@
     {
       "name": "ONE series product hero",
       "blocks": [
-        { "type": "trust", "settings": { "text": "Secure checkout" } },
-        { "type": "trust", "settings": { "text": "30-day returns" } },
-        { "type": "trust", "settings": { "text": "Tracked shipping" } }
+        { "type": "trust", "settings": { "icon": "lock", "text": "Secure checkout" } },
+        { "type": "trust", "settings": { "icon": "returns", "text": "30-day returns" } },
+        { "type": "trust", "settings": { "icon": "truck", "text": "Tracked shipping" } }
       ]
     }
   ]

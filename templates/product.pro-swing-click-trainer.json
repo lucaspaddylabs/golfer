@@ -15,18 +15,21 @@
         "trust_1": {
           "type": "trust",
           "settings": {
+            "icon": "lock",
             "text": "Secure checkout"
           }
         },
         "trust_2": {
           "type": "trust",
           "settings": {
+            "icon": "returns",
             "text": "30-day returns"
           }
         },
         "trust_3": {
           "type": "trust",
           "settings": {
+            "icon": "truck",
             "text": "Tracked shipping"
           }
         },

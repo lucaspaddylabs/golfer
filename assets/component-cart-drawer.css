@@ -507,3 +507,30 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 #CartDrawer .free-delivery-bar__toolbar__full svg path {
   fill: var(--gn-accent);
 }
+
+.gn-cart-trust-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.gn-cart-trust-row .gn-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-lines, rgba(16, 37, 31, 0.13));
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-foreground, #52605a);
+}
+.gn-cart-trust-row .gn-trust-icon,
+.gn-cart-trust-row .gn-trust-icon svg {
+  width: 18px;
+  height: 18px;
+  color: #146043;
+  flex: 0 0 auto;
+}

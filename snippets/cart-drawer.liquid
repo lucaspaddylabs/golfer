@@ -411,6 +411,20 @@ component-swiper-slider.css
                 </span>
               </button>
             </div>
+            <div class="gn-cart-trust-row" aria-label="Checkout assurances">
+              <div class="gn-trust-item">
+                {%- render 'gn-trust-icons', icon: 'lock', text: 'Secure checkout' -%}
+                <span>Secure checkout</span>
+              </div>
+              <div class="gn-trust-item">
+                {%- render 'gn-trust-icons', icon: 'returns', text: '30-day returns' -%}
+                <span>30-day returns</span>
+              </div>
+              <div class="gn-trust-item">
+                {%- render 'gn-trust-icons', icon: 'truck', text: 'Tracked shipping' -%}
+                <span>Tracked shipping</span>
+              </div>
+            </div>
             {%- endif -%}
             {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
             <div class="cart__dynamic-checkout-buttons additional-checkout-buttons additional-checkout-buttons--vertical mt10">{{ content_for_additional_checkout_buttons }}</div>
