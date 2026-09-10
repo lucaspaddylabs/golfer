@@ -427,7 +427,7 @@
       min-height: 0;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__buy-col {
-      padding: 36px 20px 40px;
+      padding: 24px 16px 28px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__stage-col {
       min-height: 0;
@@ -561,10 +561,11 @@
   #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
     max-width: 420px;
     margin: 20px 0 16px;
-    padding: 18px 14px 16px;
+    padding: 20px 16px 16px;
     border-radius: 10px;
     background: #eef6fb;
     border: 1px solid #d5eaf5;
+    overflow: visible;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
     margin: 0 0 14px;
@@ -579,6 +580,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    overflow: visible;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card {
     position: relative;
@@ -603,10 +605,10 @@
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check {
     position: absolute;
-    top: 8px;
-    left: 8px;
-    width: 22px;
-    height: 22px;
+    top: -10px;
+    left: -10px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     border: 2px solid {{ section.settings.divider_color }};
     background: #fff;
@@ -614,6 +616,8 @@
     align-items: center;
     justify-content: center;
     color: transparent;
+    z-index: 2;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check svg {
@@ -674,7 +678,18 @@
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .gn-arc-hero__bundles {
       max-width: none;
-      padding: 16px 12px 14px;
+      margin: 14px 0 12px;
+      padding: 16px 12px 12px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__bundles-heading {
+      margin-bottom: 12px;
+      font-size: 0.72rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card {
+      padding: 16px 8px 12px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__bundle-grid {
+      gap: 8px;
     }
   }
 </style>
@@ -721,6 +736,31 @@
           {% form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-gn-variant-input>
 
+            {% unless product.has_only_default_variant %}
+              <div data-gn-options>
+                {% for option in product.options_with_values %}
+                  <fieldset class="gn-arc-hero__fieldset">
+                    <legend>{{ option.name }}</legend>
+                    <div class="gn-arc-hero__options">
+                      {% for value in option.values %}
+                        <label class="gn-arc-hero__option">
+                          <input
+                            type="radio"
+                            name="gn-option-{{ section.id }}-{{ option.position }}"
+                            value="{{ value | escape }}"
+                            data-gn-option-input
+                            data-option-position="{{ option.position }}"
+                            {% if option.selected_value == value %}checked{% endif %}
+                          >
+                          <span>{{ value }}</span>
+                        </label>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                {% endfor %}
+              </div>
+            {% endunless %}
+
             {%- assign bundle_blocks = section.blocks | where: 'type', 'bundle' -%}
             {%- if bundle_blocks.size > 0 -%}
               <div class="gn-arc-hero__bundles" data-gn-bundles>
@@ -757,31 +797,6 @@
                 </div>
               </div>
             {%- endif -%}
-
-            {% unless product.has_only_default_variant %}
-              <div data-gn-options>
-                {% for option in product.options_with_values %}
-                  <fieldset class="gn-arc-hero__fieldset">
-                    <legend>{{ option.name }}</legend>
-                    <div class="gn-arc-hero__options">
-                      {% for value in option.values %}
-                        <label class="gn-arc-hero__option">
-                          <input
-                            type="radio"
-                            name="gn-option-{{ section.id }}-{{ option.position }}"
-                            value="{{ value | escape }}"
-                            data-gn-option-input
-                            data-option-position="{{ option.position }}"
-                            {% if option.selected_value == value %}checked{% endif %}
-                          >
-                          <span>{{ value }}</span>
-                        </label>
-                      {% endfor %}
-                    </div>
-                  </fieldset>
-                {% endfor %}
-              </div>
-            {% endunless %}
 
             <div class="gn-arc-hero__form-row">
               <div class="gn-arc-hero__qty">
