@@ -108,13 +108,31 @@
       "type": "gn-arc-one-band",
       "settings": {
         "eyebrow": "",
-        "text": "If it clicks near the top, you’re letting go too soon.",
+        "text": "It tells you exactly when your swing goes wrong",
         "align": "center",
         "background_color": "#1d3d2a",
         "text_color": "#f5f3ec",
         "accent_color": "#9fc3b0",
         "padding_top": 10,
         "padding_bottom": 10
+      }
+    },
+    "grip": {
+      "type": "gn-arc-one-grip",
+      "settings": {
+        "eyebrow": "Tour level grip",
+        "heading": "TOUR LEVEL GRIP",
+        "lede": "Moulded grip locks in exact position.",
+        "benefit_1": "No adjusting, no guessing",
+        "benefit_2": "95% of your swing starts with grip",
+        "benefit_3": "Consistency gives immediate results",
+        "image_alt": "Gloved hands holding the ARC ONE grip like a golf club",
+        "background_color": "#ffffff",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "story": {
@@ -124,40 +142,40 @@
           "type": "contrast",
           "settings": {
             "label": "Usual problem",
-            "title": "It feels fast, then it’s gone",
-            "copy": "A lot of golfers unload early and never notice. The swing feels strong; the ball doesn’t."
+            "title": "Amateur golfers don't have enough time, space, or guidance.",
+            "copy": ""
           }
         },
         "contrast_2": {
           "type": "contrast",
           "settings": {
             "label": "With ARC ONE",
-            "title": "You get a cue you can react to",
-            "copy": "The click tells you where the release happened, so the next swing isn’t a guess."
+            "title": "No coach needed, no camera, just instant feedback your body understands in real time.",
+            "copy": ""
           }
         },
         "beat_1": {
           "type": "beat",
           "settings": {
-            "time": "1 min",
-            "title": "See where you are now",
-            "copy": "Take a few easy swings and just listen. Don’t try to fix anything yet."
+            "time": "1",
+            "title": "Practice anywhere",
+            "copy": "No ball required. Just use the grip and take a few easy swings."
           }
         },
         "beat_2": {
           "type": "beat",
           "settings": {
-            "time": "3 min",
-            "title": "Work the click later",
-            "copy": "Slow the transition a bit. Keep going until the click sits closer to the bottom of the swing."
+            "time": "2",
+            "title": "Five swings before you leave",
+            "copy": "Five swings in your living room and your muscle memory knows what a good grip and swing feels like."
           }
         },
         "beat_3": {
           "type": "beat",
           "settings": {
-            "time": "1 min",
-            "title": "Take it to a club",
-            "copy": "Grab a normal club and make a few swings with that same feeling."
+            "time": "3",
+            "title": "Warm up, then play",
+            "copy": "Grab your clubs and start swinging with the exact same feeling."
           }
         },
         "spec_1": {
@@ -202,14 +220,14 @@
       ],
       "settings": {
         "eyebrow_text": "The problem it solves",
-        "heading": "<p>Early release is hard to feel. It’s easy to hear.</p>",
-        "copy": "<p>If you’ve ever left the range thinking you swung hard and still hit it soft, this is usually why. ARC ONE clicks when you release so you can tell if it happened early or late — then adjust on the next swing.</p>",
-        "ritual_heading": "A simple 5-minute drill",
-        "note": "Go slow. You’re training timing, not speed.",
+        "heading": "<p>ARC ONE tells you exactly where your swing is going wrong.</p>",
+        "copy": "<p>Inside the shaft is a precision weighted mechanism that clicks at the moment you release.</p><p>If the click happens before the ball, you're casting and losing yards on every shot. If it happens at impact, your lag and timing are dialed in.</p>",
+        "ritual_heading": "Train anywhere in 5 minutes",
+        "note": "",
         "panel_style": "click",
         "panel_eyebrow": "Quick read",
-        "panel_title": "Push the click down the swing.",
-        "panel_copy": "Think of the downswing as a short line from the top to the ball. You want the sound near the bottom of that line, not the top.",
+        "panel_title": "Over 10,000 golfers stopped guessing",
+        "panel_copy": "They started hearing the difference. Try the ARC ONE risk-free for 30 days. If your consistency doesn't improve, send it back. No questions asked. Get yours while the current sale is still live.",
         "diagram_heading": "Where you want the click",
         "arc_label_early": "Casting",
         "early_title": "Early click",
@@ -283,8 +301,8 @@
       ],
       "settings": {
         "eyebrow_text": "Part of the Golfer Now system",
-        "heading": "ARC ONE covers sequence.",
-        "copy": "Our practice setup has four tools. ARC ONE is the one that trains release timing with a click. The others handle connection, strike, and putting roll.",
+        "heading": "ARC ONE covers grip and swing.",
+        "copy": "Golf Training Essentials. Made for each other.",
         "link_text": "See the other tools",
         "link_url": "",
         "background_color": "#f2eee3",
@@ -340,7 +358,7 @@
       "settings": {
         "heading": "Common questions",
         "cta_heading": "Want to try it?",
-        "cta_copy": "If early release has been hard to feel, a click makes it a lot more obvious.",
+        "cta_copy": "Try ARC ONE risk-free for 30 days. Get yours while the current sale is still live.",
         "cta_button_text": "Add ARC ONE",
         "background_color": "#f2eee3",
         "heading_color": "#182b20",
@@ -359,6 +377,7 @@
   "order": [
     "hero",
     "band",
+    "grip",
     "story",
     "system",
     "faq"

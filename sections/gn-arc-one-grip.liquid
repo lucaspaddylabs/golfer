@@ -1,0 +1,180 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-arc-grip {
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_top }}px 32px {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 48px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #ece8dc;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__media img {
+    width: 100%;
+    height: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__eyebrow {
+    margin: 0 0 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__heading {
+    margin: 0 0 12px;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__lede {
+    margin: 0 0 18px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__benefits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__icon {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border: 1.5px solid {{ section.settings.accent_color }};
+    border-radius: 50%;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-grip__icon svg {
+    display: block;
+    width: 11px;
+    height: 11px;
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-arc-grip {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-grip__inner {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-grip__media img {
+      max-height: 360px;
+    }
+  }
+</style>
+
+<section class="gn-arc-grip">
+  <div class="gn-arc-grip__inner">
+    <figure class="gn-arc-grip__media">
+      {%- if section.settings.image != blank -%}
+        {%- assign grip_alt = section.settings.image_alt | default: section.settings.heading -%}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: grip_alt, sizes: '(min-width: 900px) 50vw, 100vw' }}
+      {%- else -%}
+        <img
+          src="{{ 'arc-one-tour-grip.png' | asset_url }}"
+          alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
+          width="1400"
+          height="1050"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </figure>
+    <div>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="gn-arc-grip__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="gn-arc-grip__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.lede != blank -%}
+        <p class="gn-arc-grip__lede">{{ section.settings.lede }}</p>
+      {%- endif -%}
+      <ul class="gn-arc-grip__benefits">
+        {%- if section.settings.benefit_1 != blank -%}
+          <li class="gn-arc-grip__benefit">
+            <span class="gn-arc-grip__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12 4.2 4.2L18 8"/></svg>
+            </span>
+            <span>{{ section.settings.benefit_1 }}</span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.benefit_2 != blank -%}
+          <li class="gn-arc-grip__benefit">
+            <span class="gn-arc-grip__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12 4.2 4.2L18 8"/></svg>
+            </span>
+            <span>{{ section.settings.benefit_2 }}</span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.benefit_3 != blank -%}
+          <li class="gn-arc-grip__benefit">
+            <span class="gn-arc-grip__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12 4.2 4.2L18 8"/></svg>
+            </span>
+            <span>{{ section.settings.benefit_3 }}</span>
+          </li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ONE series grip feature",
+  "tag": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Tour level grip" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "TOUR LEVEL GRIP" },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Moulded grip locks in exact position." },
+    { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "No adjusting, no guessing" },
+    { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "95% of your swing starts with grip" },
+    { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Consistency gives immediate results" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. Falls back to the bundled tour-grip photo." },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Gloved hands holding the ARC ONE grip like a golf club" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#182b20" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#4a4a44" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1d3d2a" },
+    { "type": "range", "id": "padding_top", "min": 20, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 20, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 48 }
+  ],
+  "presets": [{ "name": "ONE series grip feature" }]
+}
+{% endschema %}

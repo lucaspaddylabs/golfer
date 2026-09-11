@@ -435,8 +435,12 @@
             <div class="gn-arc-story__row" {{ block.shopify_attributes }}>
               <p class="gn-arc-story__row-label">{{ block.settings.label }}</p>
               <div>
+                {%- if block.settings.title != blank -%}
                 <p class="gn-arc-story__row-title">{{ block.settings.title }}</p>
+                {%- endif -%}
+                {%- if block.settings.copy != blank -%}
                 <p class="gn-arc-story__row-copy">{{ block.settings.copy }}</p>
+                {%- endif -%}
               </div>
             </div>
           {%- endfor -%}
