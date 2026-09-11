@@ -116,11 +116,31 @@
   }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .gn-arc-faq {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding: 36px 20px 40px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-faq__heading {
+      margin-bottom: 20px;
+      font-size: clamp(1.6rem, 7vw, 2rem);
+    }
+    #shopify-section-{{ section.id }} .gn-arc-faq__button {
+      min-height: 52px;
+      padding: 14px 0;
+      gap: 12px;
+      font-size: 0.98rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-faq__panel {
+      padding: 0 28px 14px 0;
     }
     #shopify-section-{{ section.id }} .gn-arc-faq__cta {
-      padding: 36px 20px;
+      margin-top: 28px;
+      padding: 28px 18px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-faq__cta-heading {
+      margin-bottom: 8px;
+      font-size: clamp(1.45rem, 6vw, 1.85rem);
+    }
+    #shopify-section-{{ section.id }} .gn-arc-faq__cta-copy {
+      margin-bottom: 18px;
     }
   }
 </style>

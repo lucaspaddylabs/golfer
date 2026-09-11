@@ -340,7 +340,7 @@
         "cta_heading": "Want to try it?",
         "cta_copy": "Try ARC ONE risk-free for 30 days. Get yours while the current sale is still live.",
         "cta_button_text": "Add ARC ONE",
-        "background_color": "#ffffff",
+        "background_color": "#f2eee3",
         "heading_color": "#182b20",
         "text_color": "#4a4a44",
         "accent_color": "#1d3d2a",
@@ -349,8 +349,8 @@
         "cta_text_color": "#f5f3ec",
         "cta_button_background": "#f5f1e8",
         "cta_button_text_color": "#1d3d2a",
-        "padding_top": 70,
-        "padding_bottom": 80
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     }
   },
