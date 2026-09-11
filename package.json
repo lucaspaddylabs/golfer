@@ -1,0 +1,17 @@
+{
+  "name": "golfer",
+  "version": "1.0.0",
+  "description": "Golfer Now Shopify theme",
+  "private": true,
+  "scripts": {
+    "dev": "shopify theme dev",
+    "check": "shopify theme check",
+    "check:fix": "shopify theme check --auto-correct",
+    "pull": "shopify theme pull",
+    "push": "shopify theme push",
+    "preview": "python3 -m http.server 8080 --directory preview"
+  },
+  "devDependencies": {
+    "@shopify/cli": "4.8.0"
+  }
+}
