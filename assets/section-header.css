@@ -565,7 +565,7 @@ header{
 .header__desktop{
   --color-section-background: var(--color-body-background);
 }
-@media(min-width:1025px){
+@media(min-width:901px){
   .header__desktop{
     display:block;
   }
@@ -668,18 +668,17 @@ header{
   }
 }
 
-/* Compact mobile/tablet chrome; leave desktop header proportions alone */
-@media (max-width: 1024px){
+/* Compact mobile chrome (hamburger + horizontal logo ≤900px) */
+@media (max-width: 900px){
   .header__mobile__grid{
     min-height: 44px;
     padding: 6px 0;
   }
 }
-/* Tablet band (mobile header + stacked logo, no sticky ATC): keep stacked mark short */
+/* Mid desktop (901–1024): stacked mark stays side-aligned with text nav */
 @media (min-width: 901px) and (max-width: 1024px){
-  .header__mobile .header__heading-logo--stacked{
-    max-height: 36px;
+  .header__desktop .header__heading-logo{
+    max-height: 40px;
     width: auto;
-    max-width: 72px;
   }
 }

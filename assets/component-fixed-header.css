@@ -20,7 +20,7 @@ body:has(.fixed-header-group){
 .fixed-header-group:not(:has(.sticky-activated)) .header__heading>*:first-child:not(:only-child){
   display: none;
 }
-@media (min-width:1025px){
+@media (min-width:901px){
   .fixed-header-group .header__desktop__shadow,
   .fixed-header-group .header__main{
     transition: background-image var(--duration-medium) var(--animation-bezier),
@@ -57,7 +57,7 @@ body:has(.fixed-header-group){
     --color-text-icons-block: var(--static-header-color)!important;
   }
 }
-@media (max-width:1024px){
+@media (max-width:900px){
   .fixed-header-group .header__mobile{
     transition: background-color var(--duration-medium) var(--animation-bezier);
   }

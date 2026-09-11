@@ -96,7 +96,8 @@
     align-items: center;
     align-content: center;
   }
-  @media (min-width: 1025px){
+  /* Align chrome with stacked-logo / sticky-ATC breakpoint (900px) */
+  @media (min-width: 901px){
     .header__mobile{
       display: none;
     }
@@ -112,7 +113,7 @@
   .header__hide-icon-text .header__button__bubble__text{
     display:none;
   }
-  @media (max-width: 1024px){
+  @media (max-width: 900px){
     .header__hide-icon-text .header__button__bubble__text{
       display:none;
     }
@@ -121,6 +122,16 @@
     }
     .header{
       padding: 13px 0;
+    }
+  }
+  @media (min-width: 901px) and (max-width: 1024px){
+    .header{
+      padding: 8px 0;
+      column-gap: 20px;
+      min-height: 52px;
+    }
+    .list-menu--inline{
+      --column-gap: 12px;
     }
   }
   .header__heading{
