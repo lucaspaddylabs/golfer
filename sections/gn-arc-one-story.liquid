@@ -1,4 +1,385 @@
+{%- liquid
+  assign is_ba = false
+  if section.settings.panel_style == 'before_after'
+    assign is_ba = true
+  endif
+  assign band_ink = section.settings.band_ink | default: '#14281c'
+  assign band_cream = section.settings.band_cream | default: '#f2eee3'
+  assign ba_before_item_1 = section.settings.before_item_1 | default: 'Constant grip adjustments'
+  assign ba_before_item_2 = section.settings.before_item_2 | default: 'Inconsistent contact'
+  assign ba_before_item_3 = section.settings.before_item_3 | default: 'Weak ball striking'
+  assign ba_after_item_1 = section.settings.after_item_1 | default: 'Pro grip locked in'
+  assign ba_after_item_2 = section.settings.after_item_2 | default: 'Consistent ball striking'
+  assign ba_after_item_3 = section.settings.after_item_3 | default: 'Measurable improvements'
+  assign ba_before_alt = section.settings.before_badge | default: 'Before'
+  assign ba_after_alt = section.settings.after_badge | default: 'After'
+  assign contrasts = section.blocks | where: 'type', 'contrast'
+  assign beats = section.blocks | where: 'type', 'beat'
+  assign specs = section.blocks | where: 'type', 'spec'
+-%}
 <style>
+  {%- if is_ba -%}
+  #shopify-section-{{ section.id }} {
+    --gn-band-ink: {{ band_ink }};
+    --gn-band-cream: {{ band_cream }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story--ba {
+    padding: 0;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__band {
+    width: 100%;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__band-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__band--ink {
+    background: var(--gn-band-ink);
+    color: #f3f0e7;
+    padding: 56px 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__band--white {
+    background: #ffffff;
+    color: {{ section.settings.heading_color }};
+    padding: 56px 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__band--cream {
+    background: var(--gn-band-cream);
+    color: {{ section.settings.heading_color }};
+    padding: 56px 0 {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-lead .gn-arc-story__eyebrow {
+    color: #9fc3b0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-lead .gn-arc-story__heading {
+    color: #ffffff;
+    font-size: clamp(1.55rem, 2.3vw, 2.2rem);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-lead .gn-arc-story__copy {
+    color: rgba(243, 240, 231, 0.78);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__eyebrow {
+    margin: 0 0 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__heading {
+    margin: 0 0 14px;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(1.55rem, 2.3vw, 2.2rem);
+    line-height: 1.15;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__heading p { margin: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__heading em { font-style: italic; font-weight: 700; }
+  #shopify-section-{{ section.id }} .gn-arc-story__copy {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__copy p { margin: 0 0 1em; }
+  #shopify-section-{{ section.id }} .gn-arc-story__copy p:last-child { margin-bottom: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    align-items: stretch;
+    margin: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-col {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-after {
+    background: rgba(63, 143, 70, 0.22);
+    border-color: rgba(111, 180, 120, 0.45);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-shot {
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #cfc8b8;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-before .gn-arc-story__ba-shot img {
+    filter: grayscale(0.35) contrast(0.95) brightness(0.96);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-body {
+    padding: 10px 9px 12px;
+    flex: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-badge {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 8px;
+    padding: 3px 7px;
+    border-radius: 3px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-before .gn-arc-story__ba-badge {
+    background: #e31c1c;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-after .gn-arc-story__ba-badge {
+    background: #3f8f46;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 7px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-list li {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: 6px;
+    align-items: start;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    font-weight: 500;
+    color: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-list svg {
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-cta {
+    margin: 22px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__center {
+    text-align: center;
+    max-width: 36em;
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__center .gn-arc-story__copy {
+    max-width: 48ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__band--white .gn-arc-story__eyebrow {
+    color: {{ section.settings.panel_muted | default: '#8a8578' }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__contrast {
+    display: grid;
+    gap: 0;
+    max-width: 720px;
+    margin: 28px auto 0;
+    border-top: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row-label {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.panel_muted | default: '#8a8578' }};
+    padding-top: 3px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__row-copy {
+    margin: 6px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ritual-heading {
+    margin: 0 0 14px;
+    max-width: none;
+    font-family: var(--font-body-family), sans-serif;
+    font-size: clamp(1.45rem, 2vw, 1.9rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__note {
+    margin: 0;
+    max-width: 48ch;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: {{ section.settings.text_color }};
+    padding-left: 0;
+    border-left: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__timeline {
+    display: grid;
+    gap: 0;
+    max-width: 560px;
+    margin: 28px auto 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 18px;
+    position: relative;
+    padding-bottom: 26px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat:last-child { padding-bottom: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 28px;
+    bottom: 0;
+    width: 1px;
+    background: {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat-time {
+    width: 56px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid {{ section.settings.accent_color }};
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    background: var(--gn-band-cream);
+    position: relative;
+    z-index: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat-title {
+    margin: 2px 0 6px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__beat-copy {
+    margin: 0;
+    max-width: none;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__specs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 48px;
+    border-top: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec {
+    padding: 28px 18px 0;
+    border-left: 1px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec:first-child { border-left: 0; }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec-label {
+    margin: 0 0 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__spec-value {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: {{ section.settings.heading_color }};
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-arc-story__band-inner {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__band--ink,
+    #shopify-section-{{ section.id }} .gn-arc-story__band--white {
+      padding: 36px 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__band--cream {
+      padding-top: 36px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__ba-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__specs { grid-template-columns: 1fr 1fr; }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec:nth-child(odd) { border-left: 0; }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec:nth-child(n+3) {
+      border-top: 1px solid {{ section.settings.divider_color }};
+      padding-top: 20px;
+    }
+  }
+  @media (max-width: 700px) {
+    #shopify-section-{{ section.id }} .gn-arc-story__row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+  @media (max-width: 549px) {
+    #shopify-section-{{ section.id }} .gn-arc-story__band-inner {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__band--ink,
+    #shopify-section-{{ section.id }} .gn-arc-story__band--white {
+      padding: 24px 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__band--cream {
+      padding-top: 24px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__specs { grid-template-columns: 1fr; }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec {
+      border-left: 0;
+      border-top: 1px solid {{ section.settings.divider_color }};
+      padding: 20px 0 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__spec:first-child { border-top: 0; padding-top: 28px; }
+  }
+  {%- else -%}
   #shopify-section-{{ section.id }} .gn-arc-story {
     background: {{ section.settings.background_color }};
     color: {{ section.settings.text_color }};
@@ -177,99 +558,6 @@
     font-size: 0.92rem;
     line-height: 1.55;
     opacity: 0.85;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__panel-copy.is-ba {
-    margin-bottom: 18px;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    align-items: stretch;
-    margin: 0 0 16px;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-col {
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid {{ section.settings.panel_divider }};
-    background: {{ section.settings.panel_diagram_bg }};
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-before {
-    background: rgba(138, 133, 120, 0.12);
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-after {
-    background: rgba(63, 143, 70, 0.14);
-    border-color: rgba(63, 143, 70, 0.35);
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-shot {
-    aspect-ratio: 2 / 3;
-    overflow: hidden;
-    background: #cfc8b8;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-shot img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    display: block;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-before .gn-arc-story__ba-shot img {
-    filter: grayscale(0.35) contrast(0.95) brightness(0.96);
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-body {
-    padding: 10px 9px 12px;
-    flex: 1;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-badge {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 0 8px;
-    padding: 3px 7px;
-    border-radius: 3px;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #fff;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-before .gn-arc-story__ba-badge {
-    background: #e31c1c;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-col.is-after .gn-arc-story__ba-badge {
-    background: #3f8f46;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 7px;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-list li {
-    display: grid;
-    grid-template-columns: 14px 1fr;
-    gap: 6px;
-    align-items: start;
-    font-size: 0.72rem;
-    line-height: 1.3;
-    font-weight: 500;
-    color: {{ section.settings.panel_text }};
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__ba-list svg {
-    width: 14px;
-    height: 14px;
-    margin-top: 1px;
-    display: block;
-  }
-  #shopify-section-{{ section.id }} .gn-arc-story__panel-cta {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.55;
-    font-weight: 600;
-    color: {{ section.settings.panel_heading }};
   }
   #shopify-section-{{ section.id }} .gn-arc-story__panel-media {
     margin: 0 0 24px;
@@ -504,8 +792,173 @@
     }
     #shopify-section-{{ section.id }} .gn-arc-story__spec:first-child { border-top: 0; padding-top: 28px; }
   }
+  {%- endif -%}
 </style>
 
+{%- if is_ba -%}
+<div class="gn-arc-story gn-arc-story--ba">
+  {%- comment -%} Band 1 — Dark green BA lead {%- endcomment -%}
+  <div class="gn-arc-story__band gn-arc-story__band--ink">
+    <div class="gn-arc-story__band-inner">
+      <div class="gn-arc-story__ba-grid">
+        <div class="gn-arc-story__ba-lead">
+          {%- if section.settings.panel_eyebrow != blank -%}
+            <p class="gn-arc-story__eyebrow">{{ section.settings.panel_eyebrow }}</p>
+          {%- endif -%}
+          {%- if section.settings.panel_title != blank -%}
+            <h2 class="gn-arc-story__heading">{{ section.settings.panel_title }}</h2>
+          {%- endif -%}
+          {%- if section.settings.panel_copy != blank -%}
+            <div class="gn-arc-story__copy">{{ section.settings.panel_copy }}</div>
+          {%- endif -%}
+        </div>
+
+        <div class="gn-arc-story__ba">
+          <div class="gn-arc-story__ba-col is-before">
+            <div class="gn-arc-story__ba-shot">
+              {%- if section.settings.before_image != blank -%}
+                {{ section.settings.before_image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 240px, 45vw', alt: ba_before_alt }}
+              {%- else -%}
+                <img src="{{ 'gn-arc-ba-before.webp' | asset_url }}" alt="{{ ba_before_alt | escape }}" width="442" height="674" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="gn-arc-story__ba-body">
+              <span class="gn-arc-story__ba-badge">{{ ba_before_alt }}</span>
+              <ul class="gn-arc-story__ba-list">
+                <li>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>
+                  <span>{{ ba_before_item_1 }}</span>
+                </li>
+                {%- if ba_before_item_2 != blank -%}
+                  <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>
+                    <span>{{ ba_before_item_2 }}</span>
+                  </li>
+                {%- endif -%}
+                {%- if ba_before_item_3 != blank -%}
+                  <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>
+                    <span>{{ ba_before_item_3 }}</span>
+                  </li>
+                {%- endif -%}
+              </ul>
+            </div>
+          </div>
+          <div class="gn-arc-story__ba-col is-after">
+            <div class="gn-arc-story__ba-shot">
+              {%- if section.settings.after_image != blank -%}
+                {{ section.settings.after_image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 240px, 45vw', alt: ba_after_alt }}
+              {%- else -%}
+                <img src="{{ 'gn-arc-ba-after.webp' | asset_url }}" alt="{{ ba_after_alt | escape }}" width="443" height="674" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="gn-arc-story__ba-body">
+              <span class="gn-arc-story__ba-badge">{{ ba_after_alt }}</span>
+              <ul class="gn-arc-story__ba-list">
+                <li>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span>{{ ba_after_item_1 }}</span>
+                </li>
+                {%- if ba_after_item_2 != blank -%}
+                  <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>{{ ba_after_item_2 }}</span>
+                  </li>
+                {%- endif -%}
+                {%- if ba_after_item_3 != blank -%}
+                  <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>{{ ba_after_item_3 }}</span>
+                  </li>
+                {%- endif -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {%- if section.settings.panel_cta != blank -%}
+        <p class="gn-arc-story__panel-cta">{{ section.settings.panel_cta }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} Band 2 — White contrast {%- endcomment -%}
+  <div class="gn-arc-story__band gn-arc-story__band--white">
+    <div class="gn-arc-story__band-inner">
+      <div class="gn-arc-story__center">
+        {%- if section.settings.eyebrow_text != blank -%}
+          <p class="gn-arc-story__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <div class="gn-arc-story__heading">{{ section.settings.heading }}</div>
+        {%- endif -%}
+        {%- if section.settings.copy != blank -%}
+          <div class="gn-arc-story__copy">{{ section.settings.copy }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if contrasts.size > 0 -%}
+        <div class="gn-arc-story__contrast">
+          {%- for block in contrasts -%}
+            <div class="gn-arc-story__row" {{ block.shopify_attributes }}>
+              <p class="gn-arc-story__row-label">{{ block.settings.label }}</p>
+              <div>
+                {%- if block.settings.title != blank -%}
+                  <p class="gn-arc-story__row-title">{{ block.settings.title }}</p>
+                {%- endif -%}
+                {%- if block.settings.copy != blank -%}
+                  <p class="gn-arc-story__row-copy">{{ block.settings.copy }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} Band 3 — Cream ritual + specs {%- endcomment -%}
+  <div class="gn-arc-story__band gn-arc-story__band--cream">
+    <div class="gn-arc-story__band-inner">
+      <div class="gn-arc-story__center">
+        {%- if section.settings.ritual_heading != blank -%}
+          <h3 class="gn-arc-story__ritual-heading">{{ section.settings.ritual_heading }}</h3>
+        {%- endif -%}
+        {%- if section.settings.note != blank -%}
+          <p class="gn-arc-story__note">{{ section.settings.note }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if beats.size > 0 -%}
+        <div class="gn-arc-story__timeline">
+          {%- for block in beats -%}
+            <div class="gn-arc-story__beat" {{ block.shopify_attributes }}>
+              <span class="gn-arc-story__beat-time">{{ block.settings.time }}</span>
+              <div>
+                <p class="gn-arc-story__beat-title">{{ block.settings.title }}</p>
+                <p class="gn-arc-story__beat-copy">{{ block.settings.copy }}</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if specs.size > 0 -%}
+        <div class="gn-arc-story__specs">
+          {%- for block in specs -%}
+            <div class="gn-arc-story__spec" {{ block.shopify_attributes }}>
+              <p class="gn-arc-story__spec-label">{{ block.settings.label }}</p>
+              <p class="gn-arc-story__spec-value">{{ block.settings.value }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- else -%}
 <div class="gn-arc-story">
   <div class="gn-arc-story__inner">
     <div class="gn-arc-story__split">
@@ -521,7 +974,6 @@
         {%- endif -%}
       </div>
 
-      {%- assign contrasts = section.blocks | where: 'type', 'contrast' -%}
       {%- if contrasts.size > 0 -%}
         <div class="gn-arc-story__contrast">
           {%- for block in contrasts -%}
@@ -547,7 +999,6 @@
           <h3 class="gn-arc-story__ritual-heading">{{ section.settings.ritual_heading }}</h3>
         {%- endif -%}
 
-        {%- assign beats = section.blocks | where: 'type', 'beat' -%}
         {%- if beats.size > 0 -%}
           <div class="gn-arc-story__timeline">
             {%- for block in beats -%}
@@ -575,86 +1026,10 @@
           <p class="gn-arc-story__panel-title">{{ section.settings.panel_title }}</p>
         {%- endif -%}
         {%- if section.settings.panel_copy != blank -%}
-          <p class="gn-arc-story__panel-copy{% if section.settings.panel_style == 'before_after' %} is-ba{% endif %}">{{ section.settings.panel_copy }}</p>
+          <p class="gn-arc-story__panel-copy">{{ section.settings.panel_copy }}</p>
         {%- endif -%}
 
-        {%- if section.settings.panel_style == 'before_after' -%}
-          {%- liquid
-            assign ba_before_item_1 = section.settings.before_item_1 | default: 'Constant grip adjustments'
-            assign ba_before_item_2 = section.settings.before_item_2 | default: 'Inconsistent contact'
-            assign ba_before_item_3 = section.settings.before_item_3 | default: 'Weak ball striking'
-            assign ba_after_item_1 = section.settings.after_item_1 | default: 'Pro grip locked in'
-            assign ba_after_item_2 = section.settings.after_item_2 | default: 'Consistent ball striking'
-            assign ba_after_item_3 = section.settings.after_item_3 | default: 'Measurable improvements'
-            assign ba_before_alt = section.settings.before_badge | default: 'Before'
-            assign ba_after_alt = section.settings.after_badge | default: 'After'
-          -%}
-          <div class="gn-arc-story__ba">
-            <div class="gn-arc-story__ba-col is-before">
-              <div class="gn-arc-story__ba-shot">
-                {%- if section.settings.before_image != blank -%}
-                  {{ section.settings.before_image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 200px, 45vw', alt: ba_before_alt }}
-                {%- else -%}
-                  <img src="{{ 'gn-arc-ba-before.webp' | asset_url }}" alt="{{ ba_before_alt | escape }}" width="442" height="674" loading="lazy">
-                {%- endif -%}
-              </div>
-              <div class="gn-arc-story__ba-body">
-                <span class="gn-arc-story__ba-badge">{{ ba_before_alt }}</span>
-                <ul class="gn-arc-story__ba-list">
-                  <li>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#e31c1c" stroke-width="2.8" stroke-linecap="round"/></svg>
-                    <span>{{ ba_before_item_1 }}</span>
-                  </li>
-                  {%- if ba_before_item_2 != blank -%}
-                    <li>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#e31c1c" stroke-width="2.8" stroke-linecap="round"/></svg>
-                      <span>{{ ba_before_item_2 }}</span>
-                    </li>
-                  {%- endif -%}
-                  {%- if ba_before_item_3 != blank -%}
-                    <li>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#e31c1c" stroke-width="2.8" stroke-linecap="round"/></svg>
-                      <span>{{ ba_before_item_3 }}</span>
-                    </li>
-                  {%- endif -%}
-                </ul>
-              </div>
-            </div>
-            <div class="gn-arc-story__ba-col is-after">
-              <div class="gn-arc-story__ba-shot">
-                {%- if section.settings.after_image != blank -%}
-                  {{ section.settings.after_image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 200px, 45vw', alt: ba_after_alt }}
-                {%- else -%}
-                  <img src="{{ 'gn-arc-ba-after.webp' | asset_url }}" alt="{{ ba_after_alt | escape }}" width="443" height="674" loading="lazy">
-                {%- endif -%}
-              </div>
-              <div class="gn-arc-story__ba-body">
-                <span class="gn-arc-story__ba-badge">{{ ba_after_alt }}</span>
-                <ul class="gn-arc-story__ba-list">
-                  <li>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#3f8f46" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span>{{ ba_after_item_1 }}</span>
-                  </li>
-                  {%- if ba_after_item_2 != blank -%}
-                    <li>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#3f8f46" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      <span>{{ ba_after_item_2 }}</span>
-                    </li>
-                  {%- endif -%}
-                  {%- if ba_after_item_3 != blank -%}
-                    <li>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#3f8f46" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      <span>{{ ba_after_item_3 }}</span>
-                    </li>
-                  {%- endif -%}
-                </ul>
-              </div>
-            </div>
-          </div>
-          {%- if section.settings.panel_cta != blank -%}
-            <p class="gn-arc-story__panel-cta">{{ section.settings.panel_cta }}</p>
-          {%- endif -%}
-        {%- elsif section.settings.panel_image != blank -%}
+        {%- if section.settings.panel_image != blank -%}
           <div class="gn-arc-story__panel-media">
             {{ section.settings.panel_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 420px, 100vw' }}
           </div>
@@ -790,26 +1165,23 @@
           </div>
         {%- endif -%}
 
-        {%- unless section.settings.panel_style == 'before_after' -%}
-          <div class="gn-arc-story__panel-meta">
-            <div class="gn-arc-story__panel-meta-item">
-              <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_1 | default: '5 min' }}</p>
-              <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_1 | default: 'Session' }}</p>
-            </div>
-            <div class="gn-arc-story__panel-meta-item">
-              <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_2 | default: '1 job' }}</p>
-              <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_2 | default: 'Focus' }}</p>
-            </div>
-            <div class="gn-arc-story__panel-meta-item">
-              <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_3 | default: 'Click' }}</p>
-              <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_3 | default: 'Feedback' }}</p>
-            </div>
+        <div class="gn-arc-story__panel-meta">
+          <div class="gn-arc-story__panel-meta-item">
+            <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_1 | default: '5 min' }}</p>
+            <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_1 | default: 'Session' }}</p>
           </div>
-        {%- endunless -%}
+          <div class="gn-arc-story__panel-meta-item">
+            <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_2 | default: '1 job' }}</p>
+            <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_2 | default: 'Focus' }}</p>
+          </div>
+          <div class="gn-arc-story__panel-meta-item">
+            <p class="gn-arc-story__panel-meta-value">{{ section.settings.meta_value_3 | default: 'Click' }}</p>
+            <p class="gn-arc-story__panel-meta-label">{{ section.settings.meta_label_3 | default: 'Feedback' }}</p>
+          </div>
+        </div>
       </aside>
     </div>
 
-    {%- assign specs = section.blocks | where: 'type', 'spec' -%}
     {%- if specs.size > 0 -%}
       <div class="gn-arc-story__specs">
         {%- for block in specs -%}
@@ -822,6 +1194,7 @@
     {%- endif -%}
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -883,6 +1256,8 @@
     { "type": "color", "id": "text_color", "label": "Text", "default": "#4a4a44" },
     { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1d3d2a" },
     { "type": "color", "id": "divider_color", "label": "Dividers", "default": "#d8d3c4" },
+    { "type": "color", "id": "band_ink", "label": "Before/After dark band", "default": "#14281c" },
+    { "type": "color", "id": "band_cream", "label": "Ritual cream band", "default": "#f2eee3" },
     { "type": "color", "id": "panel_background", "label": "Panel background", "default": "#f2eee3" },
     { "type": "color", "id": "panel_diagram_bg", "label": "Diagram background", "default": "#faf8f2" },
     { "type": "color", "id": "panel_heading", "label": "Panel heading", "default": "#182b20" },
