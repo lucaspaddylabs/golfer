@@ -1,6 +1,15 @@
+{%- liquid
+  assign faq_bg = section.settings.background_color | default: '#f2eee3'
+  if faq_bg == blank or faq_bg == '#ffffff' or faq_bg == '#fff' or faq_bg == 'white'
+    assign faq_bg = '#f2eee3'
+  endif
+-%}
 <style>
+  #shopify-section-{{ section.id }} {
+    background: {{ faq_bg }};
+  }
   #shopify-section-{{ section.id }} .gn-arc-faq {
-    background: {{ section.settings.background_color }};
+    background: {{ faq_bg }};
     color: {{ section.settings.text_color }};
     padding: {{ section.settings.padding_top }}px 32px {{ section.settings.padding_bottom }}px;
   }
