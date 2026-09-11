@@ -647,3 +647,26 @@ header{
 .menu-drawer__account-icons:not(:has(shop-login-button)) .account-actions__fallback-text{
   display: block;
 }
+
+/* Stacked wordmark on wide desktops; horizontal lockup below 1440px and on mobile */
+.header__heading-logo--horizontal{
+  display: block;
+  width: min(200px, 56vw);
+  max-width: 100%;
+  height: auto;
+}
+@media (min-width: 1025px) and (max-width: 1439px){
+  .header__desktop .header__heading-logo--stacked{
+    display: none !important;
+  }
+  .header__desktop .header__heading-logo--horizontal{
+    display: block;
+    width: 240px;
+    max-width: min(240px, 28vw);
+  }
+}
+@media (min-width: 1440px){
+  .header__desktop .header__heading-logo--horizontal{
+    display: none !important;
+  }
+}

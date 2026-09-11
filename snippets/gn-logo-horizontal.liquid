@@ -1,0 +1,15 @@
+{%- comment -%}
+  Horizontal GOLFERNOW wordmark shipped in theme assets.
+  Accepts: max_width {Number} — display width in px (default 210)
+{%- endcomment -%}
+{%- assign gn_logo_w = max_width | default: 210 -%}
+{%- assign gn_logo_h = gn_logo_w | times: 267.0 | divided_by: 2179.0 | round -%}
+<img
+  src="{{ 'golfernow-logo-horizontal.png' | asset_url }}"
+  class="header__heading-logo header__heading-logo--horizontal"
+  alt="{{ shop.name | escape }}"
+  width="{{ gn_logo_w }}"
+  height="{{ gn_logo_h }}"
+  style="max-width: {{ gn_logo_w }}px"
+  loading="eager"
+>
