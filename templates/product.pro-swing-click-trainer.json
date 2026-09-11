@@ -117,24 +117,6 @@
         "padding_bottom": 10
       }
     },
-    "grip": {
-      "type": "gn-arc-one-grip",
-      "settings": {
-        "eyebrow": "Tour level grip",
-        "heading": "TOUR LEVEL GRIP",
-        "lede": "Moulded grip locks in exact position.",
-        "benefit_1": "No adjusting, no guessing",
-        "benefit_2": "95% of your swing starts with grip",
-        "benefit_3": "Consistency gives immediate results",
-        "image_alt": "Gloved hands holding the ARC ONE grip like a golf club",
-        "background_color": "#ffffff",
-        "heading_color": "#182b20",
-        "text_color": "#4a4a44",
-        "accent_color": "#1d3d2a",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
     "story": {
       "type": "gn-arc-one-story",
       "blocks": {
@@ -377,7 +359,6 @@
   "order": [
     "hero",
     "band",
-    "grip",
     "story",
     "system",
     "faq"
