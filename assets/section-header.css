@@ -651,7 +651,7 @@ header{
 /* Logo lockup follows sticky ATC: horizontal ≤900px, stacked ≥901px */
 .header__heading-logo--horizontal{
   display: none;
-  width: min(200px, 56vw);
+  width: min(168px, 52vw);
   max-width: 100%;
   height: auto;
 }
@@ -661,5 +661,17 @@ header{
   }
   .header__mobile .header__heading-logo--horizontal{
     display: block;
+  }
+  .header__mobile .header__button svg{
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Compact mobile/tablet chrome; leave desktop header proportions alone */
+@media (max-width: 1024px){
+  .header__mobile__grid{
+    min-height: 44px;
+    padding: 6px 0;
   }
 }

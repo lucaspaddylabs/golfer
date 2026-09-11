@@ -25,7 +25,8 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     row-gap: 20px;
-    min-height:50px;
+    min-height:44px;
+    padding: 6px 0;
   }
   .header__mobile__grid>* {
     display: flex;
@@ -65,7 +66,7 @@
     {%- else -%}
     <span class="h5 header__heading-logo--stacked">{{ shop.name }}</span>
     {%- endif -%}
-    {%- render 'gn-logo-horizontal', max_width: 200 -%}
+    {%- render 'gn-logo-horizontal', max_width: 168 -%}
   </a>
   {%- if template.name == "index" and settings.fixed_header_on_index_mobile -%}
   <a href="{{ routes.root_url }}" class="header__heading-link__transparent header__heading-link clear-underline" aria-label="{{ shop.name }}">
@@ -93,7 +94,7 @@
     {%- else -%}
     <span class="h5 header__heading-logo--stacked">{{ shop.name }}</span>
     {%- endif -%}
-    {%- render 'gn-logo-horizontal', max_width: 200 -%}
+    {%- render 'gn-logo-horizontal', max_width: 168 -%}
   </a>
   {%- endif -%}
 {%- if request.page_type != 'index' -%}  
