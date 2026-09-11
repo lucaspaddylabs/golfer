@@ -96,7 +96,7 @@
   #shopify-section-{{ section.id }} .gn-arc-hero__price-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     gap: 10px 14px;
     margin-bottom: 14px;
   }
@@ -111,12 +111,15 @@
     text-decoration: line-through;
     font-size: 1.5rem;
     font-weight: 600;
+    line-height: 1;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__sale {
     display: inline-flex;
     align-items: center;
-    min-height: 26px;
-    padding: 4px 10px;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 1.85rem;
+    padding: 0 10px;
     border-radius: 3px;
     background: {{ section.settings.accent_color }};
     color: {{ section.settings.background_color }};
@@ -124,6 +127,7 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    line-height: 1;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__fieldset {
     padding: 0;
@@ -600,6 +604,11 @@
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__price {
       font-size: 1.45rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__sale {
+      height: 1.45rem;
+      font-size: 0.62rem;
+      padding: 0 8px;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__form-row {
       grid-template-columns: 72px minmax(0, 1fr);
