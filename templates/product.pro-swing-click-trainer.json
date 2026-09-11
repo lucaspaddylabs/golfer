@@ -104,19 +104,6 @@
         "padding_bottom": 0
       }
     },
-    "band": {
-      "type": "gn-arc-one-band",
-      "settings": {
-        "eyebrow": "",
-        "text": "It tells you exactly when your swing goes wrong",
-        "align": "center",
-        "background_color": "#1d3d2a",
-        "text_color": "#f5f3ec",
-        "accent_color": "#9fc3b0",
-        "padding_top": 10,
-        "padding_bottom": 10
-      }
-    },
     "story": {
       "type": "gn-arc-one-story",
       "blocks": {
@@ -298,8 +285,8 @@
         "copy": "ARC ONE covers grip and swing.",
         "link_text": "See the other tools",
         "link_url": "",
-        "background_color": "#f2eee3",
-        "rail_background": "#faf8f2",
+        "background_color": "#ffffff",
+        "rail_background": "#f7f5f0",
         "heading_color": "#182b20",
         "text_color": "#4a4a44",
         "accent_color": "#1d3d2a",
@@ -353,7 +340,7 @@
         "cta_heading": "Want to try it?",
         "cta_copy": "Try ARC ONE risk-free for 30 days. Get yours while the current sale is still live.",
         "cta_button_text": "Add ARC ONE",
-        "background_color": "#f2eee3",
+        "background_color": "#ffffff",
         "heading_color": "#182b20",
         "text_color": "#4a4a44",
         "accent_color": "#1d3d2a",
