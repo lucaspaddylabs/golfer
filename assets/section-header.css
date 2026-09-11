@@ -675,3 +675,11 @@ header{
     padding: 6px 0;
   }
 }
+/* Tablet band (mobile header + stacked logo, no sticky ATC): keep stacked mark short */
+@media (min-width: 901px) and (max-width: 1024px){
+  .header__mobile .header__heading-logo--stacked{
+    max-height: 36px;
+    width: auto;
+    max-width: 72px;
+  }
+}
