@@ -56,7 +56,12 @@
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     gap: 40px;
-    align-items: center;
+    align-items: start;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__ba-lead {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
   #shopify-section-{{ section.id }} .gn-arc-story__ba-lead .gn-arc-story__eyebrow {
     color: #9fc3b0;
@@ -175,11 +180,14 @@
     display: block;
   }
   #shopify-section-{{ section.id }} .gn-arc-story__panel-cta {
-    margin: 22px 0 0;
+    margin: 16px 0 0;
     font-size: 0.95rem;
     line-height: 1.55;
     font-weight: 600;
     color: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-story__panel-cta--mobile {
+    display: none;
   }
   #shopify-section-{{ section.id }} .gn-arc-story__center {
     text-align: center;
@@ -345,6 +353,14 @@
     #shopify-section-{{ section.id }} .gn-arc-story__ba-grid {
       grid-template-columns: 1fr;
       gap: 28px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__panel-cta--desktop {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-story__panel-cta--mobile {
+      display: block;
+      margin: 0;
+      text-align: center;
     }
     #shopify-section-{{ section.id }} .gn-arc-story__specs { grid-template-columns: 1fr 1fr; }
     #shopify-section-{{ section.id }} .gn-arc-story__spec:nth-child(odd) { border-left: 0; }
@@ -811,6 +827,9 @@
           {%- if section.settings.panel_copy != blank -%}
             <div class="gn-arc-story__copy">{{ section.settings.panel_copy }}</div>
           {%- endif -%}
+          {%- if section.settings.panel_cta != blank -%}
+            <p class="gn-arc-story__panel-cta gn-arc-story__panel-cta--desktop">{{ section.settings.panel_cta }}</p>
+          {%- endif -%}
         </div>
 
         <div class="gn-arc-story__ba">
@@ -826,18 +845,18 @@
               <span class="gn-arc-story__ba-badge">{{ ba_before_alt }}</span>
               <ul class="gn-arc-story__ba-list">
                 <li>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#e31c1c" stroke-width="2.8" stroke-linecap="round"/></svg>
                   <span>{{ ba_before_item_1 }}</span>
                 </li>
                 {%- if ba_before_item_2 != blank -%}
                   <li>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#e31c1c" stroke-width="2.8" stroke-linecap="round"/></svg>
                     <span>{{ ba_before_item_2 }}</span>
                   </li>
                 {%- endif -%}
                 {%- if ba_before_item_3 != blank -%}
                   <li>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8" fill="none" stroke="#e31c1c" stroke-width="2.8" stroke-linecap="round"/></svg>
                     <span>{{ ba_before_item_3 }}</span>
                   </li>
                 {%- endif -%}
@@ -856,18 +875,18 @@
               <span class="gn-arc-story__ba-badge">{{ ba_after_alt }}</span>
               <ul class="gn-arc-story__ba-list">
                 <li>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#6fbf76" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   <span>{{ ba_after_item_1 }}</span>
                 </li>
                 {%- if ba_after_item_2 != blank -%}
                   <li>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#6fbf76" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <span>{{ ba_after_item_2 }}</span>
                   </li>
                 {%- endif -%}
                 {%- if ba_after_item_3 != blank -%}
                   <li>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5 10 17l8.5-9.5" fill="none" stroke="#6fbf76" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <span>{{ ba_after_item_3 }}</span>
                   </li>
                 {%- endif -%}
@@ -875,11 +894,11 @@
             </div>
           </div>
         </div>
-      </div>
 
-      {%- if section.settings.panel_cta != blank -%}
-        <p class="gn-arc-story__panel-cta">{{ section.settings.panel_cta }}</p>
-      {%- endif -%}
+        {%- if section.settings.panel_cta != blank -%}
+          <p class="gn-arc-story__panel-cta gn-arc-story__panel-cta--mobile">{{ section.settings.panel_cta }}</p>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 
