@@ -23,14 +23,14 @@
     {%- assign width = logo_svg | split: 'width="' | last | split: '"' | first | times: 1.0 -%}
     {%- assign height = logo_svg | split: 'height="' | last | split: '"' | first | plus: 0 -%}
     {%- assign aspect_ratio = height | divided_by: width -%}
-    <div class="header__heading-logo--svg header__heading-logo--stacked" style="--max-width: {{ logo_max_width }}px; --max-height: {{ logo_max_width | times: aspect_ratio }}px;">
+    <div class="header__heading-logo--svg" style="--max-width: {{ logo_max_width }}px; --max-height: {{ logo_max_width | times: aspect_ratio }}px;">
       {{ logo_svg }}
     </div>
     {%- elsif image_src -%}
     {%- assign image_size_2x = logo_max_width | times: 2 | at_most: 5760 -%}
     <img srcset="{{ image_src | image_url: width: logo_max_width }} 1x, {{ image_src | image_url: width: image_size_2x }} 2x"
          src="{{ image_src | image_url: width: logo_max_width }}"
-         class="header__heading-logo header__heading-logo--stacked"
+         class="header__heading-logo"
          alt="{{ image_src.alt | default: shop.name | escape }}"
          style="max-width: {{ logo_max_width }}px"
          width="{{ logo_max_width }}"
@@ -38,9 +38,8 @@
          loading="lazy"
          >
     {%- else -%}
-    <span class="h5 header__heading-logo--stacked">{{ shop.name }}</span>
+    <span class="h5">{{ shop.name }}</span>
     {%- endif -%}
-    {%- render 'gn-logo-horizontal', max_width: 240 -%}
   </a>
   
   {%- if template.name == "index" and settings.fixed_header_on_index -%}
@@ -52,14 +51,14 @@
     {%- assign width = logo_svg | split: 'width="' | last | split: '"' | first | times: 1.0 -%}
     {%- assign height = logo_svg | split: 'height="' | last | split: '"' | first | plus: 0 -%}
     {%- assign aspect_ratio = height | divided_by: width -%}
-    <div class="header__heading-logo--svg header__heading-logo--stacked" style="--max-width: {{ logo_max_width }}px; --max-height: {{ logo_max_width | times: aspect_ratio }}px;">
+    <div class="header__heading-logo--svg" style="--max-width: {{ logo_max_width }}px; --max-height: {{ logo_max_width | times: aspect_ratio }}px;">
       {{ logo_svg }}
     </div>
     {%- elsif image_src -%}
     {%- assign image_size_2x = logo_max_width | times: 2 | at_most: 5760 -%}
     <img srcset="{{ image_src | image_url: width: logo_max_width }} 1x, {{ image_src | image_url: width: image_size_2x }} 2x"
          src="{{ image_src | image_url: width: logo_max_width }}"
-         class="header__heading-logo header__heading-logo--stacked"
+         class="header__heading-logo"
          alt="{{ image_src.alt | default: shop.name | escape }}"
          style="max-width: {{ logo_max_width }}px"
          width="{{ logo_max_width }}"
@@ -67,9 +66,8 @@
          loading="lazy"
          >
     {%- else -%}
-    <span class="h5 header__heading-logo--stacked">{{ shop.name }}</span>
+    <span class="h5">{{ shop.name }}</span>
     {%- endif -%}
-    {%- render 'gn-logo-horizontal', max_width: 240 -%}
   </a>
   {%- endif -%}
 {%- if request.page_type != 'index' -%}  
