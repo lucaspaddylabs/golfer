@@ -648,10 +648,18 @@ header{
   display: block;
 }
 
-/* Horizontal lockup used in the mobile header (≤1024px) */
+/* Logo lockup follows sticky ATC: horizontal ≤900px, stacked ≥901px */
 .header__heading-logo--horizontal{
-  display: block;
+  display: none;
   width: min(200px, 56vw);
   max-width: 100%;
   height: auto;
+}
+@media (max-width: 900px){
+  .header__mobile .header__heading-logo--stacked{
+    display: none !important;
+  }
+  .header__mobile .header__heading-logo--horizontal{
+    display: block;
+  }
 }
