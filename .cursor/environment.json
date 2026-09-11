@@ -1,7 +1,6 @@
 {
   "name": "Golfer Now (Shopify theme)",
   "install": "npm ci",
-  "start": "npm ci",
   "terminals": [
     {
       "name": "theme-preview",
