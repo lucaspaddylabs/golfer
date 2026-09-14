@@ -114,7 +114,8 @@
 
   #theme-section-{{ section.id }} .gn-home-hero__support {
     margin: 0 0 26px;
-    max-width: 36ch;
+    /* Let it use the full stack width so it stays one line under the headline */
+    max-width: none;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 500;
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
@@ -218,7 +219,7 @@
       <div class="gn-home-hero__stack">
         <h1 class="gn-home-hero__heading">{{ heading_html }}</h1>
         {%- if support != blank -%}
-          <p class="gn-home-hero__support">{{ support | escape | replace: 'from today', 'from&nbsp;today' }}</p>
+          <p class="gn-home-hero__support">{{ support | escape | replace: 'get serious from today', 'get&nbsp;serious&nbsp;from&nbsp;today' }}</p>
         {%- endif -%}
         {%- if button_label != blank -%}
           <a class="gn-home-hero__cta" href="{{ button_link }}">{{ button_label | escape }}</a>
