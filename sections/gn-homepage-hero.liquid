@@ -101,12 +101,13 @@
 
   #theme-section-{{ section.id }} .gn-home-hero__support {
     margin: 0 0 22px;
-    max-width: 42ch;
+    max-width: min(60ch, 100%);
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 500;
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
     line-height: 1.55;
     color: rgba(255, 255, 255, 0.92);
+    text-wrap: pretty;
   }
 
   #theme-section-{{ section.id }} .gn-home-hero__cta {
@@ -182,7 +183,7 @@
     <div class="gn-home-hero__content">
       <h1 class="gn-home-hero__heading">{{ heading_html }}</h1>
       {%- if support != blank -%}
-        <p class="gn-home-hero__support">{{ support | escape }}</p>
+        <p class="gn-home-hero__support">{{ support | escape | replace: 'from today', 'from&nbsp;today' }}</p>
       {%- endif -%}
       {%- if button_label != blank -%}
         <a class="gn-home-hero__cta" href="{{ button_link }}">{{ button_label | escape }}</a>
