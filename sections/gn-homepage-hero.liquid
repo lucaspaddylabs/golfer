@@ -117,22 +117,24 @@
     align-self: flex-start;
     min-height: 50px;
     padding: 0 28px;
-    border: 0;
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 8px;
     background: var(--gn-hero-ink);
     color: #fff;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-size: 0.78rem;
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: background 0.25s ease, opacity 0.25s ease;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
 
   #theme-section-{{ section.id }} .gn-home-hero__cta:hover {
     background: #152c1e;
     color: #fff;
+    border-color: rgba(255, 255, 255, 0.45);
   }
 
   @media (max-width: 749px) {
@@ -147,15 +149,16 @@
     #theme-section-{{ section.id }} .gn-home-hero__shade {
       background: linear-gradient(
         180deg,
-        rgba(12, 22, 14, 0.2) 0%,
-        rgba(12, 22, 14, 0.55) 45%,
-        rgba(12, 22, 14, 0.78) 100%
+        rgba(12, 22, 14, 0.18) 0%,
+        rgba(12, 22, 14, 0.52) 42%,
+        rgba(12, 22, 14, 0.82) 100%
       );
     }
 
     #theme-section-{{ section.id }} .gn-home-hero__content {
       min-height: var(--gn-hero-min-h-mobile);
       justify-content: flex-end;
+      align-items: stretch;
       padding: 32px 5% 40px;
       padding-right: 5%;
       max-width: none;
@@ -163,6 +166,29 @@
 
     #theme-section-{{ section.id }} .gn-home-hero__heading {
       font-size: clamp(1.45rem, 6.2vw, 1.9rem);
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__support {
+      max-width: none;
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__cta {
+      align-self: center;
+      width: min(100%, 320px);
+      min-height: 54px;
+      margin-top: 4px;
+      border: 2px solid #ffffff;
+      background: #ffffff;
+      color: var(--gn-hero-ink);
+      box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__cta:hover {
+      background: #f3f1ea;
+      color: var(--gn-hero-ink);
+      border-color: #ffffff;
     }
   }
 </style>
