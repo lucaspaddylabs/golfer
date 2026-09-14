@@ -31,8 +31,8 @@
   #theme-section-{{ section.id }} .gn-home-hero {
     position: relative;
     overflow: hidden;
-    /* Grow with viewport width so cover crops less on ultra-wide screens */
-    min-height: max(var(--gn-hero-min-h-desktop), calc(100vw / 2.55));
+    /* Grow gently with width, then cap — avoids a sudden crop/lighting jump */
+    min-height: clamp(var(--gn-hero-min-h-desktop), 45vw, 740px);
     background: #122018;
     color: #fff;
   }
@@ -55,13 +55,21 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(
-      100deg,
-      rgba(12, 22, 14, 0.58) 0%,
-      rgba(12, 22, 14, 0.30) 42%,
-      rgba(12, 22, 14, 0.08) 68%,
-      rgba(12, 22, 14, 0.04) 100%
-    );
+    /* Left read shade + soft top-right veil so the sun flare stays even across widths */
+    background:
+      linear-gradient(
+        100deg,
+        rgba(12, 22, 14, 0.58) 0%,
+        rgba(12, 22, 14, 0.30) 42%,
+        rgba(12, 22, 14, 0.10) 68%,
+        rgba(12, 22, 14, 0.06) 100%
+      ),
+      radial-gradient(
+        ellipse 75% 55% at 88% 8%,
+        rgba(12, 22, 14, 0.42) 0%,
+        rgba(12, 22, 14, 0.16) 42%,
+        transparent 72%
+      );
   }
 
   #theme-section-{{ section.id }} .gn-home-hero__content {
@@ -70,7 +78,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: max(var(--gn-hero-min-h-desktop), calc(100vw / 2.55));
+    min-height: clamp(var(--gn-hero-min-h-desktop), 45vw, 740px);
     max-width: 920px;
     padding: clamp(48px, 8vh, 96px) clamp(20px, 5vw, 64px);
     padding-right: clamp(20px, 28vw, 360px);
@@ -196,7 +204,7 @@
       "type": "text",
       "id": "image_position_desktop",
       "label": "Image position (desktop)",
-      "default": "74% 18%",
+      "default": "74% 24%",
       "info": "X% Y%. Lower Y keeps the golfer's head visible on wide screens."
     },
     {
