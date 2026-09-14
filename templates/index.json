@@ -318,32 +318,32 @@
           "type": "feature",
           "settings": {
             "icon": "sound",
-            "title": "Instant feedback",
-            "description": "The click confirms correct sequence."
+            "title": "Hear your release",
+            "description": "Listen for the click to know if you nailed your swing."
           }
         },
         "feature_bg4iKr": {
           "type": "feature",
           "settings": {
             "icon": "check",
-            "title": "No guesswork",
-            "description": "Every swing tells you if the sequence was right."
+            "title": "Instant feedback",
+            "description": "Adjust your swing, and hear the difference."
           }
         },
         "feature_D6Xadk": {
           "type": "feature",
           "settings": {
-            "icon": "chart",
-            "title": "Immediate feel",
-            "description": "Feel it right away. Adjust on the next swing."
+            "icon": "clock",
+            "title": "Practice anywhere",
+            "description": "At home or on the range. No ball, net, or app needed."
           }
         },
         "feature_CPHFez": {
           "type": "feature",
           "settings": {
-            "icon": "check",
-            "title": "Built for repetition",
-            "description": "Durable, balanced and tour tough."
+            "icon": "shield",
+            "title": "Go to the next level",
+            "description": "Train your muscle memory, try your new swing on the course."
           }
         }
       },
