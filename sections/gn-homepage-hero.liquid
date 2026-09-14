@@ -86,9 +86,17 @@
     padding-right: clamp(24px, 12vw, 200px);
   }
 
+  /* Stack width follows the copy so the CTA can center against the text, not the hero column */
+  #theme-section-{{ section.id }} .gn-home-hero__stack {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, 20em);
+    max-width: 100%;
+  }
+
   #theme-section-{{ section.id }} .gn-home-hero__heading {
     margin: 0 0 16px;
-    max-width: 20em;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 700;
     font-size: clamp(1.55rem, 2.4vw + 0.4rem, 2.85rem);
@@ -101,7 +109,6 @@
 
   #theme-section-{{ section.id }} .gn-home-hero__support {
     margin: 0 0 22px;
-    max-width: min(60ch, 100%);
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 500;
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
@@ -114,27 +121,30 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    align-self: flex-start;
+    align-self: center;
+    width: min(100%, 280px);
     min-height: 50px;
     padding: 0 28px;
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    border: 2px solid #ffffff;
     border-radius: 8px;
-    background: var(--gn-hero-ink);
-    color: #fff;
+    background: #ffffff;
+    color: var(--gn-hero-ink);
     font-family: var(--font-body-family), Inter, sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    box-shadow:
+      0 12px 30px rgba(0, 0, 0, 0.32),
+      0 0 0 1px rgba(255, 255, 255, 0.2);
     transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
 
   #theme-section-{{ section.id }} .gn-home-hero__cta:hover {
-    background: #152c1e;
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.45);
+    background: #f3f1ea;
+    color: var(--gn-hero-ink);
+    border-color: #ffffff;
   }
 
   @media (max-width: 749px) {
@@ -163,31 +173,18 @@
       max-width: none;
     }
 
+    #theme-section-{{ section.id }} .gn-home-hero__stack {
+      width: 100%;
+    }
+
     #theme-section-{{ section.id }} .gn-home-hero__heading {
       font-size: clamp(1.45rem, 6.2vw, 1.9rem);
     }
 
-    #theme-section-{{ section.id }} .gn-home-hero__support {
-      max-width: none;
-    }
-
     #theme-section-{{ section.id }} .gn-home-hero__cta {
-      align-self: center;
       width: min(100%, 320px);
       min-height: 54px;
       margin-top: 4px;
-      border: 2px solid #ffffff;
-      background: #ffffff;
-      color: var(--gn-hero-ink);
-      box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.35),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-    }
-
-    #theme-section-{{ section.id }} .gn-home-hero__cta:hover {
-      background: #f3f1ea;
-      color: var(--gn-hero-ink);
-      border-color: #ffffff;
     }
   }
 </style>
@@ -206,13 +203,15 @@
     </div>
     <div class="gn-home-hero__shade" aria-hidden="true"></div>
     <div class="gn-home-hero__content">
-      <h1 class="gn-home-hero__heading">{{ heading_html }}</h1>
-      {%- if support != blank -%}
-        <p class="gn-home-hero__support">{{ support | escape | replace: 'from today', 'from&nbsp;today' }}</p>
-      {%- endif -%}
-      {%- if button_label != blank -%}
-        <a class="gn-home-hero__cta" href="{{ button_link }}">{{ button_label | escape }}</a>
-      {%- endif -%}
+      <div class="gn-home-hero__stack">
+        <h1 class="gn-home-hero__heading">{{ heading_html }}</h1>
+        {%- if support != blank -%}
+          <p class="gn-home-hero__support">{{ support | escape | replace: 'from today', 'from&nbsp;today' }}</p>
+        {%- endif -%}
+        {%- if button_label != blank -%}
+          <a class="gn-home-hero__cta" href="{{ button_link }}">{{ button_label | escape }}</a>
+        {%- endif -%}
+      </div>
     </div>
   </section>
 </div>
