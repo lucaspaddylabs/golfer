@@ -250,9 +250,9 @@
             "number": "01",
             "label": "CONNECT",
             "image": "shopify://shop_images/training_belt_transparent_scaled.png",
-            "product_name": "LINK ONE Training Belt",
+            "product_name": "LINK ONE",
             "product_link": "shopify://products/golf-training-belt",
-            "description": "Build connection and awareness."
+            "description": "Sync your arms and body."
           }
         },
         "step_fBPiGP": {
@@ -261,9 +261,9 @@
             "number": "02",
             "label": "SEQUENCE",
             "image": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
-            "product_name": "ARC ONE Swing Trainer",
+            "product_name": "ARC ONE",
             "product_link": "shopify://products/pro-swing-click-trainer",
-            "description": "Groove the sequence. Hear the release."
+            "description": "Perfect your grip and swing."
           }
         },
         "step_nQAdd3": {
@@ -272,9 +272,9 @@
             "number": "03",
             "label": "STRIKE",
             "image": "shopify://shop_images/trace_mat.png",
-            "product_name": "TRACE ONE Detection Mat",
+            "product_name": "TRACE ONE",
             "product_link": "shopify://products/swing-detection-training-mat",
-            "description": "Find center. Control low point."
+            "description": "Sharpen your strike."
           }
         },
         "step_jifTN6": {
@@ -283,9 +283,9 @@
             "number": "04",
             "label": "ROLL",
             "image": "shopify://shop_images/putting_tutor.png",
-            "product_name": "LINE ONE Putting Tutor",
+            "product_name": "LINE ONE",
             "product_link": "shopify://products/golf-putting-tutor",
-            "description": "Start it on line. Build better rolls."
+            "description": "Precision putting."
           }
         }
       },
