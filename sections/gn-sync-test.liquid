@@ -60,26 +60,8 @@
     flex: 0 0 auto;
   }
   @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .gn-practice-system {
-      padding: 48px 20px;
-    }
     #shopify-section-{{ section.id }} .gn-practice-system__heading {
-      font-size: 1.75rem;
-      line-height: 1.15;
-    }
-    #shopify-section-{{ section.id }} .gn-practice-system__heading br {
-      display: none;
-    }
-    #shopify-section-{{ section.id }} .gn-practice-system__image {
-      margin-top: 28px;
-    }
-    #shopify-section-{{ section.id }} .gn-practice-system__cta {
-      margin-top: 28px;
-    }
-    #shopify-section-{{ section.id }} .gn-practice-system__button {
-      width: 100%;
-      justify-content: center;
-      padding: 15px 22px;
+      font-size: 2rem;
     }
   }
 </style>
@@ -115,13 +97,13 @@
   "name": "Practice system showcase",
   "tag": "section",
   "settings": [
-    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "The practice system" },
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "The Golfer Now System" },
     { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Four tools.<br>One better practice.</p>" },
     { "type": "header", "content": "Image" },
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "range", "id": "image_spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Space above image", "default": 40 },
     { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_text", "label": "Button label", "default": "Explore the system" },
+    { "type": "text", "id": "button_text", "label": "Button label", "default": "Shop the system" },
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "range", "id": "cta_spacing", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Space above button", "default": 40 },
     { "type": "header", "content": "Colors" },

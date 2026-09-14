@@ -9,12 +9,6 @@
     align-items: center;
     padding: {{ section.settings.padding_top | default: 70 }}px 32px {{ section.settings.padding_bottom | default: 70 }}px;
   }
-  @media (min-width: 901px) {
-    #shopify-section-{{ section.id }} .gn-flagship-banner {
-      padding-left: 100px;
-      padding-right: 100px;
-    }
-  }
   #shopify-section-{{ section.id }} .gn-flagship-banner__bg {
     position: absolute;
     inset: 0;
@@ -206,27 +200,23 @@
   @media (max-width: 900px) {
     #shopify-section-{{ section.id }} .gn-flagship-banner {
       min-height: auto;
-      padding: 48px 20px;
     }
     #shopify-section-{{ section.id }} .gn-flagship-banner__inner {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 32px;
       height: auto;
     }
     #shopify-section-{{ section.id }} .gn-flagship-banner__content {
       height: auto;
-      order: 2;
     }
     #shopify-section-{{ section.id }} .gn-flagship-banner__media {
-      height: 240px;
-      order: 1;
+      height: 320px;
     }
     #shopify-section-{{ section.id }} .gn-flagship-banner__heading {
-      font-size: 2.2rem;
+      font-size: 2.75rem;
     }
     #shopify-section-{{ section.id }} .gn-flagship-banner__subheading {
       max-width: 100%;
-      font-size: 1.05rem;
     }
   }
 </style>
@@ -359,8 +349,8 @@
           ],
           "default": "check"
         },
-        { "type": "text", "id": "title", "label": "Title", "default": "Feature title" },
-        { "type": "text", "id": "description", "label": "Description", "default": "Feature description." }
+        { "type": "text", "id": "title", "label": "Title", "default": "Instant feedback" },
+        { "type": "text", "id": "description", "label": "Description", "default": "The click confirms correct sequence." }
       ]
     }
   ],
@@ -368,8 +358,9 @@
     {
       "name": "Flagship trainer banner",
       "blocks": [
-        { "type": "feature", "settings": { "icon": "sound", "title": "Audible feedback", "description": "The click confirms correct sequence." } },
-        { "type": "feature", "settings": { "icon": "chart", "title": "Immediate data", "description": "Feel it right away. Adjust faster." } },
+        { "type": "feature", "settings": { "icon": "sound", "title": "Instant feedback", "description": "The click confirms correct sequence." } },
+        { "type": "feature", "settings": { "icon": "check", "title": "No guesswork", "description": "Every swing tells you if the sequence was right." } },
+        { "type": "feature", "settings": { "icon": "chart", "title": "Immediate feel", "description": "Feel it right away. Adjust on the next swing." } },
         { "type": "feature", "settings": { "icon": "check", "title": "Built for repetition", "description": "Durable, balanced and tour tough." } }
       ]
     }

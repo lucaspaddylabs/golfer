@@ -103,40 +103,28 @@
     flex: 0 0 auto;
   }
   @media (max-width: 900px) {
-    #shopify-section-{{ section.id }} .gn-bundles {
-      padding: 48px 20px;
-    }
     #shopify-section-{{ section.id }} .gn-bundles__heading {
-      font-size: 1.65rem;
-      margin-bottom: 32px;
+      font-size: 1.8rem;
     }
     #shopify-section-{{ section.id }} .gn-bundles__grid {
       flex-direction: column;
-      gap: 24px;
+      gap: 32px;
     }
     #shopify-section-{{ section.id }} .gn-bundles__col {
       border-left: none;
       border-top: 1px solid {{ section.settings.divider_color | default: '#d2d3cc' }};
-      padding: 24px 4px 0;
+      padding: 28px 8px 0;
     }
     #shopify-section-{{ section.id }} .gn-bundles__col:first-child {
       border-top: none;
       padding-top: 0;
     }
     #shopify-section-{{ section.id }} .gn-bundles__col--highlighted {
-      margin: 12px 0 0;
-      padding: 34px 16px 20px;
+      margin: 20px 0 0;
       border-top: 1px solid {{ section.settings.highlight_border_color | default: '#ec7901' }};
     }
     #shopify-section-{{ section.id }} .gn-bundles__col--highlighted + .gn-bundles__col {
       border-top: 1px solid {{ section.settings.divider_color | default: '#d2d3cc' }};
-    }
-    #shopify-section-{{ section.id }} .gn-bundles__images {
-      height: 120px;
-      margin-bottom: 16px;
-    }
-    #shopify-section-{{ section.id }} .gn-bundles__subtitle {
-      margin-bottom: 16px;
     }
   }
 </style>
@@ -214,9 +202,9 @@
     {
       "name": "Bundle comparison",
       "blocks": [
-        { "type": "tier", "settings": { "highlighted": false, "title": "ARC ONE", "subtitle": "Flagship trainer only.", "button_text": "Explore ARC ONE" } },
-        { "type": "tier", "settings": { "highlighted": true, "badge_text": "Recommended", "title": "THE SWING SYSTEM", "subtitle": "LINK ONE + ARC ONE + TRACE ONE", "button_text": "Explore the Swing System" } },
-        { "type": "tier", "settings": { "highlighted": false, "title": "THE COMPLETE SYSTEM", "subtitle": "All four tools.", "button_text": "Explore the Complete System" } }
+        { "type": "tier", "settings": { "highlighted": false, "title": "ARC ONE", "subtitle": "Flagship swing trainer only.", "button_text": "Shop ARC ONE" } },
+        { "type": "tier", "settings": { "highlighted": true, "badge_text": "Recommended", "title": "THE SWING SYSTEM", "subtitle": "LINK ONE + ARC ONE + TRACE ONE", "button_text": "Shop the Swing System" } },
+        { "type": "tier", "settings": { "highlighted": false, "title": "THE COMPLETE SYSTEM", "subtitle": "All four tools.", "button_text": "Shop the Complete System" } }
       ]
     }
   ]

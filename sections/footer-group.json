@@ -37,7 +37,7 @@
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "Putting Tutor",
+            "label": "LINE ONE \u2014 Putting Tutor",
             "url": "/products/golf-putting-tutor"
           }
         },
@@ -45,7 +45,7 @@
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "Training Belt",
+            "label": "LINK ONE \u2014 Training Belt",
             "url": "/products/golf-training-belt"
           }
         },
@@ -53,7 +53,7 @@
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "Swing Trainer",
+            "label": "ARC ONE \u2014 Swing Trainer",
             "url": "/products/pro-swing-click-trainer"
           }
         },
@@ -61,7 +61,7 @@
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "Detection Mat",
+            "label": "TRACE ONE \u2014 Detection Mat",
             "url": "/products/swing-detection-training-mat"
           }
         },
@@ -115,10 +115,10 @@
         }
       },
       "block_order": [
-        "link_putting_tutor",
         "link_training_belt",
         "link_swing_trainer",
         "link_detection_mat",
+        "link_putting_tutor",
         "link_contact",
         "link_privacy",
         "link_terms",
@@ -129,10 +129,10 @@
       "settings": {
         "logo": "shopify://shop_images/Asset_5_300x_182e55cb-9a2b-4557-b2f3-355737398922.png",
         "logo_width": 140,
-        "tagline": "Four instant-feedback tools designed to help you practise with purpose and play better, faster.",
+        "tagline": "Four tools with Instant feedback, designed to help you practice with purpose and play better, faster.",
         "shop_heading": "Shop",
         "support_heading": "Support",
-        "copyright_text": "",
+        "copyright_text": "\u00a9 2026 Golfer Now. All rights reserved.",
         "background_color": "#1d3d2a",
         "text_color": "#ffffff",
         "input_background": "#f7f5ef",
