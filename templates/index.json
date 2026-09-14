@@ -37,7 +37,7 @@
             "video_slide_mode": "autoplay_muted",
             "url": "shopify://collections/all",
             "heading_text": "Play better, faster",
-            "desc": "<p>Four feedback tools designed to build connection, sequence, strike and roll.</p><p></p>",
+            "desc": "<p>Four feedback tools designed to build connection, swing, strike and roll.</p><p></p>",
             "heading_after_description": false,
             "button_name": "Shop Now",
             "button_name_2": "",
@@ -248,7 +248,7 @@
           "type": "step",
           "settings": {
             "number": "01",
-            "label": "CONNECT",
+            "label": "CONNECTION",
             "image": "shopify://shop_images/training_belt_transparent_scaled.png",
             "product_name": "LINK ONE",
             "product_link": "shopify://products/golf-training-belt",
@@ -259,7 +259,7 @@
           "type": "step",
           "settings": {
             "number": "02",
-            "label": "SEQUENCE",
+            "label": "SWING",
             "image": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
             "product_name": "ARC ONE",
             "product_link": "shopify://products/pro-swing-click-trainer",
