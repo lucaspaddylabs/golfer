@@ -81,10 +81,14 @@
     justify-content: center;
     min-height: clamp(var(--gn-hero-min-h-desktop), 45vw, 740px);
     width: 100%;
-    /* Vessel / Promix pattern: centered shell so copy doesn’t pin to the viewport edge */
-    max-width: 1320px;
+    max-width: 1480px;
     margin-inline: auto;
-    padding: clamp(48px, 8vh, 88px) clamp(48px, 5.5vw, 96px);
+    /* Extra left inset on wide so the stack sits in the left-center, not the edge */
+    padding:
+      clamp(48px, 8vh, 88px)
+      clamp(48px, 5vw, 96px)
+      clamp(48px, 8vh, 88px)
+      clamp(64px, 9vw, 180px);
   }
 
   /* Copy column sized for a natural 3–4 line headline, not a skinny left strip */
@@ -92,7 +96,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: min(100%, 34rem);
+    width: min(100%, 36rem);
     max-width: 100%;
   }
 
@@ -240,8 +244,8 @@
       "type": "text",
       "id": "image_position_desktop",
       "label": "Image position (desktop)",
-      "default": "64% 22%",
-      "info": "X% Y%. ~60–68% X keeps the golfer nearer the copy on wide screens."
+      "default": "58% 22%",
+      "info": "X% Y%. ~55–62% X keeps the golfer nearer the copy on wide screens."
     },
     {
       "type": "text",
