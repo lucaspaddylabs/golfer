@@ -75,23 +75,24 @@
   #theme-section-{{ section.id }} .gn-home-hero__content {
     position: relative;
     z-index: 2;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: clamp(var(--gn-hero-min-h-desktop), 45vw, 740px);
     width: 100%;
-    max-width: min(1280px, 68vw);
-    padding: clamp(48px, 8vh, 96px) clamp(20px, 5vw, 64px);
-    /* Keep clear of the golfer, but don’t starve the headline on wide screens */
-    padding-right: clamp(24px, 12vw, 200px);
+    /* Vessel / Promix pattern: centered shell so copy doesn’t pin to the viewport edge */
+    max-width: 1320px;
+    margin-inline: auto;
+    padding: clamp(48px, 8vh, 88px) clamp(48px, 5.5vw, 96px);
   }
 
-  /* Stack width follows the copy so the CTA can center against the text, not the hero column */
+  /* Copy column sized for a natural 3–4 line headline, not a skinny left strip */
   #theme-section-{{ section.id }} .gn-home-hero__stack {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    width: min(100%, 20em);
+    align-items: flex-start;
+    width: min(100%, 34rem);
     max-width: 100%;
   }
 
@@ -99,7 +100,7 @@
     margin: 0 0 16px;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 700;
-    font-size: clamp(1.55rem, 2.4vw + 0.4rem, 2.85rem);
+    font-size: clamp(1.55rem, 2.2vw + 0.55rem, 2.75rem);
     letter-spacing: -0.03em;
     line-height: 1.12;
     text-transform: none;
@@ -108,7 +109,8 @@
   }
 
   #theme-section-{{ section.id }} .gn-home-hero__support {
-    margin: 0 0 22px;
+    margin: 0 0 26px;
+    max-width: 36ch;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 500;
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
@@ -121,10 +123,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    align-self: center;
-    width: min(100%, 280px);
+    align-self: flex-start;
     min-height: 50px;
-    padding: 0 28px;
+    padding: 0 36px;
     border: 2px solid #ffffff;
     border-radius: 8px;
     background: #ffffff;
@@ -169,19 +170,26 @@
       min-height: var(--gn-hero-min-h-mobile);
       justify-content: flex-end;
       align-items: stretch;
-      padding: 32px max(24px, 7%) 40px;
       max-width: none;
+      margin-inline: 0;
+      padding: 32px max(24px, 7%) 40px;
     }
 
     #theme-section-{{ section.id }} .gn-home-hero__stack {
       width: 100%;
+      align-items: stretch;
     }
 
     #theme-section-{{ section.id }} .gn-home-hero__heading {
       font-size: clamp(1.45rem, 6.2vw, 1.9rem);
     }
 
+    #theme-section-{{ section.id }} .gn-home-hero__support {
+      max-width: none;
+    }
+
     #theme-section-{{ section.id }} .gn-home-hero__cta {
+      align-self: center;
       width: min(100%, 320px);
       min-height: 54px;
       margin-top: 4px;
@@ -232,8 +240,8 @@
       "type": "text",
       "id": "image_position_desktop",
       "label": "Image position (desktop)",
-      "default": "74% 24%",
-      "info": "X% Y%. Lower Y keeps the golfer's head visible on wide screens."
+      "default": "64% 22%",
+      "info": "X% Y%. ~60–68% X keeps the golfer nearer the copy on wide screens."
     },
     {
       "type": "text",
