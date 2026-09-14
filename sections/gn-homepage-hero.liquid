@@ -18,7 +18,7 @@
     assign hero_img_alt = 'Golfer on the fairway at golden hour'
   endif
 
-  assign heading_html = heading | escape | replace: ', or ', ',<br>or '
+  assign heading_html = heading | escape
 -%}
 
 <style>
@@ -96,10 +96,7 @@
     line-height: 1.12;
     text-transform: none;
     color: #fff;
-    text-wrap: pretty;
-  }
-
-  #theme-section-{{ section.id }} .gn-home-hero__support {
+    text-wrap: balance;
     margin: 0 0 22px;
     max-width: min(60ch, 100%);
     font-family: var(--font-body-family), Inter, sans-serif;
