@@ -1,4 +1,5 @@
-{%- if template.name != 'product' -%}
+{%- comment -%} Hide on PDP (existing) and homepage — keeps shop/cart sticky elsewhere. {%- endcomment -%}
+{%- if template.name != 'product' and template.name != 'index' -%}
 <footersticky-nav id="theme-section-{{ section.id }}"
      data-section-name="footer-sticky-nav">
     <style>
