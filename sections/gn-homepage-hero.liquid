@@ -31,7 +31,8 @@
   #theme-section-{{ section.id }} .gn-home-hero {
     position: relative;
     overflow: hidden;
-    min-height: var(--gn-hero-min-h-desktop);
+    /* Grow with viewport width so cover crops less on ultra-wide screens */
+    min-height: max(var(--gn-hero-min-h-desktop), calc(100vw / 2.55));
     background: #122018;
     color: #fff;
   }
@@ -45,6 +46,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Bias upward so the golfer's head stays in frame when cover crops */
     object-position: {{ section.settings.image_position_desktop }};
     display: block;
   }
@@ -68,7 +70,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: var(--gn-hero-min-h-desktop);
+    min-height: max(var(--gn-hero-min-h-desktop), calc(100vw / 2.55));
     max-width: 920px;
     padding: clamp(48px, 8vh, 96px) clamp(20px, 5vw, 64px);
     padding-right: clamp(20px, 28vw, 360px);
@@ -194,13 +196,14 @@
       "type": "text",
       "id": "image_position_desktop",
       "label": "Image position (desktop)",
-      "default": "72% center"
+      "default": "74% 18%",
+      "info": "X% Y%. Lower Y keeps the golfer's head visible on wide screens."
     },
     {
       "type": "text",
       "id": "image_position_mobile",
       "label": "Image position (mobile)",
-      "default": "78% center"
+      "default": "78% 28%"
     },
     {
       "type": "text",
