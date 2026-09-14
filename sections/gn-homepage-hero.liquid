@@ -79,16 +79,19 @@
     flex-direction: column;
     justify-content: center;
     min-height: clamp(var(--gn-hero-min-h-desktop), 45vw, 740px);
-    max-width: 920px;
+    width: 100%;
+    max-width: min(1280px, 68vw);
     padding: clamp(48px, 8vh, 96px) clamp(20px, 5vw, 64px);
-    padding-right: clamp(20px, 28vw, 360px);
+    /* Keep clear of the golfer, but don’t starve the headline on wide screens */
+    padding-right: clamp(24px, 12vw, 200px);
   }
 
   #theme-section-{{ section.id }} .gn-home-hero__heading {
     margin: 0 0 16px;
+    max-width: 20em;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 700;
-    font-size: clamp(1.55rem, 3vw, 2.5rem);
+    font-size: clamp(1.55rem, 2.4vw + 0.4rem, 2.85rem);
     letter-spacing: -0.03em;
     line-height: 1.12;
     text-transform: none;
@@ -98,7 +101,7 @@
 
   #theme-section-{{ section.id }} .gn-home-hero__support {
     margin: 0 0 22px;
-    max-width: 36ch;
+    max-width: 42ch;
     font-family: var(--font-body-family), Inter, sans-serif;
     font-weight: 500;
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
