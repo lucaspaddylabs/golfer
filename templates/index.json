@@ -10,118 +10,17 @@
 {
   "sections": {
     "slider_playbetter_gn": {
-      "type": "slider",
-      "blocks": {
-        "banner_playbetter1": {
-          "type": "banner",
-          "settings": {
-            "content_type": "image",
-            "image": "shopify://shop_images/d2793c26-709f-47da-a836-c81d42b50983.png",
-            "image_aligment": "center",
-            "image_overlay_opacity": 10,
-            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-            "video_slide_mode": "autoplay_muted",
-            "url": "shopify://collections/all",
-            "heading_text": "PLAY BETTER, FASTER",
-            "desc": "",
-            "heading_after_description": false,
-            "button_name": "SHOP THE SYSTEM",
-            "button_name_2": "",
-            "secondary_text": "",
-            "secondary_text_position": "bottom-right",
-            "customize_button_size": "default",
-            "btn_min_height": 40,
-            "btn_min_height_mobile": 40,
-            "btn_wide_width": 300,
-            "roundness_button": 20,
-            "heading_size_px": 124,
-            "heading_size_px_tablet": 40,
-            "heading_size_px_mobile": 32,
-            "hover_underline": false,
-            "heading_uppercase_bold": true,
-            "foreground_image_x": 75,
-            "foreground_image_width": 100,
-            "desktop_x": 5,
-            "desktop_y": 42,
-            "tablet_x": 8,
-            "tablet_y": 22,
-            "mobile_x": 8,
-            "mobile_y": 28,
-            "text_align": "text-left",
-            "description_width": 87,
-            "description_width_tablet": 65,
-            "description_width_mobile": 92,
-            "show_background": false,
-            "box_opacity": 90,
-            "show_countdown": false,
-            "year": 2026,
-            "month": 12,
-            "day": 12,
-            "hours": 0,
-            "minutes": 0,
-            "seconds": 0,
-            "heading_text_link": "#ffffff",
-            "heading_text_link_hover": "#ffffff",
-            "color_desc": "#ffffff",
-            "color_desc_hover": "#ffffff",
-            "color_countdown": "#ffffff",
-            "show_button_bg": true,
-            "color_button": "rgba(0,0,0,0)",
-            "color_button_gradient": "",
-            "color_button_border": "rgba(0,0,0,0)",
-            "color_button_text": "rgba(0,0,0,0)",
-            "show_button_bg_hover": true,
-            "color_button_hover": "rgba(0,0,0,0)",
-            "color_button_gradient_hover": "",
-            "color_button_border_hover": "rgba(0,0,0,0)",
-            "color_button_text_hover": "rgba(0,0,0,0)",
-            "show_shadow_button": true,
-            "color_shadow_button": "rgba(0,0,0,0)",
-            "color_shadow_hover_button": "rgba(0,0,0,0)",
-            "color_background_box": "rgba(0,0,0,0)",
-            "color_background_box_hover": "rgba(0,0,0,0)",
-            "image_overlay_color": "rgba(0,0,0,0)"
-          }
-        }
-      },
-      "block_order": [
-        "banner_playbetter1"
-      ],
+      "type": "gn-homepage-hero",
       "settings": {
-        "top_spacing": "none",
-        "width": "page-fullwidth",
-        "image_size": "1.77777",
-        "desktop_image_height": 700,
-        "image_size_mobile": "fixed",
-        "mobile_image_height": 480,
-        "show_logo": true,
-        "logo_svg": "",
-        "logo_max_width": 50,
-        "logo_desktop_x": 50,
-        "logo_desktop_y": 50,
-        "logo_tablet_x": 50,
-        "logo_tablet_y": 50,
-        "logo_mobile_x": 50,
-        "logo_mobile_y": 50,
-        "transition_effect": "flip",
-        "parallax": false,
-        "autoplay_enabled": true,
-        "autoplay_time": 5,
-        "desktop_navigation": "dots_arrows",
-        "dots_alignment_desktop": "center",
-        "arrows_alignment_desktop": "center",
-        "mobile_navigation": "dots",
-        "dots_alignment_mobile": "center",
-        "show_lines": false,
-        "lines_width": "fullwidth",
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_media_background": "rgba(0,0,0,0)",
-        "color_media_icon": "rgba(0,0,0,0)",
-        "color_media_background_hover": "rgba(0,0,0,0)",
-        "color_media_icon_hover": "rgba(0,0,0,0)",
-        "color_media_dots": "rgba(0,0,0,0)"
+        "image_position_desktop": "72% center",
+        "image_position_mobile": "78% center",
+        "heading": "Will you keep muddling along as a golfer, or is it time to improve?",
+        "support": "Golf training essentials so you can get serious from today.",
+        "button_label": "Shop the system",
+        "button_link": "shopify://collections/all",
+        "button_color": "#1d3d2a",
+        "min_height_desktop": 620,
+        "min_height_mobile": 560
       }
     },
     "slider_HMRLGp": {
@@ -350,7 +249,7 @@
           "settings": {
             "number": "01",
             "label": "CONNECT",
-            "image": "shopify://shop_images/training_belt_transparent_scaled.png",
+            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_84219.png",
             "product_name": "LINK ONE",
             "product_link": "shopify://products/golf-training-belt",
             "description": "Build connection and awareness."
@@ -361,7 +260,7 @@
           "settings": {
             "number": "02",
             "label": "SEQUENCE",
-            "image": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
+            "image": "shopify://shop_images/Firefly.png",
             "product_name": "ARC ONE",
             "product_link": "shopify://products/pro-swing-click-trainer",
             "description": "Groove the sequence. Hear the release."
@@ -372,9 +271,9 @@
           "settings": {
             "number": "03",
             "label": "STRIKE",
-            "image": "shopify://shop_images/trace_mat.png",
+            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_66709.png",
             "product_name": "TRACE ONE",
-            "product_link": "shopify://products/swing-detection-training-mat",
+            "product_link": "shopify://products/golf-putting-tutor",
             "description": "Find center. Control low point."
           }
         },
@@ -383,9 +282,9 @@
           "settings": {
             "number": "04",
             "label": "ROLL",
-            "image": "shopify://shop_images/putting_tutor.png",
+            "image": "shopify://shop_images/Firefly_foto_deste_produto_com_melhor_qualidade_nao_mudes_nada_quero_o_produto_igual_354254.png",
             "product_name": "LINE ONE",
-            "product_link": "shopify://products/golf-putting-tutor",
+            "product_link": "shopify://products/swing-detection-training-mat",
             "description": "Start it on line. Build better rolls."
           }
         }
@@ -423,6 +322,14 @@
             "description": "The click confirms correct sequence."
           }
         },
+        "feature_bg4iKr": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "title": "Feature title",
+            "description": "Feature description."
+          }
+        },
         "feature_D6Xadk": {
           "type": "feature",
           "settings": {
@@ -442,21 +349,25 @@
       },
       "block_order": [
         "feature_4Pm4pg",
+        "feature_bg4iKr",
         "feature_D6Xadk",
         "feature_CPHFez"
+      ],
+      "custom_css": [
+        ".gn-flagship-banner {padding-left: 100px; padding-right: 100px;}"
       ],
       "name": "Flagship trainer banner",
       "settings": {
         "eyebrow_text": "Our flagship trainer",
         "heading": "ARC ONE",
         "subheading": "Hear the moment sequence becomes release.",
-        "image": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
+        "image": "shopify://shop_images/Firefly.png",
         "enable_pulse": true,
         "pulse_speed": 2.5,
         "background_image": "shopify://shop_images/pexels-anntarazevich-6370119.jpg",
         "overlay_opacity": 85,
         "button_text": "Shop ARC ONE",
-        "button_link": "shopify://products/pro-swing-click-trainer",
+        "button_link": "",
         "secondary_text": "",
         "secondary_link": "",
         "background_color": "#1d3d2a",
@@ -473,10 +384,10 @@
       "settings": {
         "eyebrow_text": "The practice system",
         "heading": "<p>Four tools.<br/>One better practice.</p>",
-        "image": "shopify://shop_images/ab1b2bb6-6b76-4780-82b0-c81bd333ed73.png",
+        "image": "shopify://shop_images/Firefly_remove_o_texto_do_topo_784212_1.png",
         "image_spacing": 40,
         "button_text": "Explore the system",
-        "button_link": "shopify://collections/all",
+        "button_link": "",
         "cta_spacing": 40,
         "background_color": "#f2eee3",
         "heading_color": "#161615",
@@ -495,9 +406,9 @@
             "badge_text": "Recommended",
             "title": "ARC ONE",
             "subtitle": "Flagship trainer only.",
-            "image": "shopify://shop_images/swing_trainer_transparent.png",
+            "image": "shopify://shop_images/Firefly_make_the_product_centered_768839.png",
             "button_text": "Explore ARC ONE",
-            "button_link": "shopify://products/pro-swing-click-trainer"
+            "button_link": ""
           }
         },
         "tier_9BpNGz": {
@@ -507,9 +418,9 @@
             "badge_text": "Recommended",
             "title": "THE SWING SYSTEM",
             "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
-            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
+            "image": "shopify://shop_images/Firefly_1.png",
             "button_text": "Explore the Swing System",
-            "button_link": "shopify://collections/all"
+            "button_link": ""
           }
         },
         "tier_F4BnxD": {
@@ -519,9 +430,9 @@
             "badge_text": "Recommended",
             "title": "THE COMPLETE SYSTEM",
             "subtitle": "All four tools.",
-            "image": "shopify://shop_images/training_set_transparent.png",
+            "image": "shopify://shop_images/4prod.png",
             "button_text": "Explore the Complete System",
-            "button_link": "shopify://collections/all"
+            "button_link": ""
           }
         }
       },
@@ -553,7 +464,7 @@
         "heading": "We built Golfer Now because practice should teach you something.",
         "description": "Golf is hard enough. Practice shouldn't be guesswork. We design tools that give you clear feedback so every rep has a purpose, and every session moves you forward.\n\nGolfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service.",
         "button_text": "Our method",
-        "button_link": "shopify://collections/all",
+        "button_link": "",
         "reverse_layout": false,
         "video": "shopify://files/videos/videoaboutus.mov",
         "fade_amount": 22,
@@ -562,8 +473,8 @@
         "text_color": "#767671",
         "accent_color": "#1d3d2a",
         "min_height": 420,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 65,
+        "padding_bottom": 65
       }
     },
     "media_about_gn": {

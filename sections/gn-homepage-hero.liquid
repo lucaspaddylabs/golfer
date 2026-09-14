@@ -1,0 +1,262 @@
+{% comment %}
+  Golfer Now homepage hero — Fairway variant.
+  Replaces the old "Play better, faster" slider slide.
+  Background defaults to theme asset hero-golfer-fairway.png so it ships with the theme.
+{% endcomment %}
+
+{%- liquid
+  assign heading = section.settings.heading | default: 'Will you keep muddling along as a golfer, or is it time to improve?'
+  assign support = section.settings.support | default: 'Golf training essentials so you can get serious from today.'
+  assign button_label = section.settings.button_label | default: 'Shop the system'
+  assign button_link = section.settings.button_link | default: routes.all_products_collection_url
+
+  if section.settings.image != blank
+    assign hero_img = section.settings.image | image_url: width: 2400
+    assign hero_img_alt = section.settings.image.alt | default: heading
+  else
+    assign hero_img = 'hero-golfer-fairway.png' | asset_url
+    assign hero_img_alt = 'Golfer on the fairway at golden hour'
+  endif
+
+  assign heading_html = heading | escape | replace: ', or ', ',<br>or '
+-%}
+
+<style>
+  #theme-section-{{ section.id }} {
+    --gn-hero-ink: {{ section.settings.button_color }};
+    --gn-hero-min-h-desktop: {{ section.settings.min_height_desktop }}px;
+    --gn-hero-min-h-mobile: {{ section.settings.min_height_mobile }}px;
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: var(--gn-hero-min-h-desktop);
+    background: #122018;
+    color: #fff;
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position_desktop }};
+    display: block;
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      rgba(12, 22, 14, 0.58) 0%,
+      rgba(12, 22, 14, 0.30) 42%,
+      rgba(12, 22, 14, 0.08) 68%,
+      rgba(12, 22, 14, 0.04) 100%
+    );
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: var(--gn-hero-min-h-desktop);
+    max-width: 920px;
+    padding: clamp(48px, 8vh, 96px) clamp(20px, 5vw, 64px);
+    padding-right: clamp(20px, 28vw, 360px);
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__heading {
+    margin: 0 0 16px;
+    font-family: var(--font-body-family), Inter, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.55rem, 3vw, 2.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    text-transform: none;
+    color: #fff;
+    text-wrap: pretty;
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__support {
+    margin: 0 0 22px;
+    max-width: 36ch;
+    font-family: var(--font-body-family), Inter, sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    min-height: 50px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--gn-hero-ink);
+    color: #fff;
+    font-family: var(--font-body-family), Inter, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s ease, opacity 0.25s ease;
+  }
+
+  #theme-section-{{ section.id }} .gn-home-hero__cta:hover {
+    background: #152c1e;
+    color: #fff;
+  }
+
+  @media (max-width: 749px) {
+    #theme-section-{{ section.id }} .gn-home-hero {
+      min-height: var(--gn-hero-min-h-mobile);
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__media img {
+      object-position: {{ section.settings.image_position_mobile }};
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__shade {
+      background: linear-gradient(
+        180deg,
+        rgba(12, 22, 14, 0.2) 0%,
+        rgba(12, 22, 14, 0.55) 45%,
+        rgba(12, 22, 14, 0.78) 100%
+      );
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__content {
+      min-height: var(--gn-hero-min-h-mobile);
+      justify-content: flex-end;
+      padding: 32px 5% 40px;
+      padding-right: 5%;
+      max-width: none;
+    }
+
+    #theme-section-{{ section.id }} .gn-home-hero__heading {
+      font-size: clamp(1.45rem, 6.2vw, 1.9rem);
+    }
+  }
+</style>
+
+<div id="theme-section-{{ section.id }}" class="gn-home-hero-section">
+  <section class="gn-home-hero" aria-label="{{ heading | escape }}">
+    <div class="gn-home-hero__media">
+      <img
+        src="{{ hero_img }}"
+        alt="{{ hero_img_alt | escape }}"
+        width="1942"
+        height="809"
+        loading="eager"
+        fetchpriority="high"
+      >
+    </div>
+    <div class="gn-home-hero__shade" aria-hidden="true"></div>
+    <div class="gn-home-hero__content">
+      <h1 class="gn-home-hero__heading">{{ heading_html }}</h1>
+      {%- if support != blank -%}
+        <p class="gn-home-hero__support">{{ support | escape }}</p>
+      {%- endif -%}
+      {%- if button_label != blank -%}
+        <a class="gn-home-hero__cta" href="{{ button_link }}">{{ button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "GN Homepage hero",
+  "tag": "section",
+  "class": "section-gn-homepage-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Optional. If empty, uses the Fairway theme asset."
+    },
+    {
+      "type": "text",
+      "id": "image_position_desktop",
+      "label": "Image position (desktop)",
+      "default": "72% center"
+    },
+    {
+      "type": "text",
+      "id": "image_position_mobile",
+      "label": "Image position (mobile)",
+      "default": "78% center"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Will you keep muddling along as a golfer, or is it time to improve?"
+    },
+    {
+      "type": "textarea",
+      "id": "support",
+      "label": "Support text",
+      "default": "Golf training essentials so you can get serious from today."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop the system"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#1d3d2a"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 420,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "label": "Min height (desktop)",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 420,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Min height (mobile)",
+      "default": 560
+    }
+  ],
+  "presets": [
+    {
+      "name": "GN Homepage hero"
+    }
+  ]
+}
+{% endschema %}
