@@ -282,11 +282,15 @@
     background: {{ section.settings.divider_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-story__beat-time {
+    box-sizing: border-box;
     width: 56px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 28px;
+    height: auto;
+    padding: 5px 6px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    line-height: 1.15;
     border: 1px solid {{ section.settings.accent_color }};
     border-radius: 999px;
     font-size: 0.72rem;
@@ -508,11 +512,15 @@
     background: {{ section.settings.divider_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-story__beat-time {
+    box-sizing: border-box;
     width: 72px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 28px;
+    height: auto;
+    padding: 5px 8px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    line-height: 1.15;
     border: 1px solid {{ section.settings.accent_color }};
     border-radius: 999px;
     font-size: 0.7rem;
