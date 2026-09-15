@@ -7,7 +7,7 @@
         "top_spacing": "small",
         "width": "default",
         "image_ratio": "auto",
-        "show_vendor": true
+        "show_vendor": false
       }
     },
     "cart-footer": {

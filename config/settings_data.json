@@ -384,7 +384,7 @@
     "show_shadow_header_mobile": true,
     "show_shadow_hover_button2": true,
     "show_type_product_card": false,
-    "show_vendor": true,
+    "show_vendor": false,
     "show_vendor_product_card": true,
     "show_wishlist_mobile_product_card": true,
     "show_wishlist_product_card": true,

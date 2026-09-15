@@ -1,0 +1,281 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "gn-arc-one-hero",
+      "blocks": {
+        "trust_1": {
+          "type": "trust",
+          "settings": {
+            "icon": "truck",
+            "text": "Free shipping"
+          }
+        },
+        "trust_2": {
+          "type": "trust",
+          "settings": {
+            "icon": "shield",
+            "text": "30-day returns"
+          }
+        },
+        "trust_3": {
+          "type": "trust",
+          "settings": {
+            "icon": "globe",
+            "text": "Worldwide shipping"
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3"
+      ],
+      "settings": {
+        "eyebrow_text": "GREEN KIT",
+        "heading": "MARKER FORK",
+        "tagline": "Mark the ball. Fix the pitch. Pocket it.",
+        "benefit_1": "Divot fork and ball marker in one",
+        "benefit_2": "Zinc alloy, light in the pocket",
+        "benefit_3": "Non-slip marker so it stays put",
+        "lede": "You should not be hunting a tee and a coin on the green. This is a proper fork for pitch marks and a marker that sits still. One piece, black finish, done.",
+        "stage_label": "On the green",
+        "signal_label_1": "Mark",
+        "signal_text_1": "Set the marker. Lift the ball. The mark does not slide.",
+        "signal_label_2": "Repair",
+        "signal_text_2": "Push the tines in at the edge of the pitch. Close the turf. Do not scoop.",
+        "quantity_label": "Qty",
+        "add_to_cart_text": "Add to bag",
+        "choose_options_text": "Choose options",
+        "sold_out_text": "Sold out",
+        "sale_badge_text": "Sale",
+        "show_dynamic_checkout": false,
+        "show_sticky_atc": true,
+        "product_image_override": "",
+        "product_image_alt": "",
+        "enable_pulse": false,
+        "pulse_speed": 2.5,
+        "overlay_opacity": 65,
+        "background_color": "#ffffff",
+        "ink_color": "#182b20",
+        "muted_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "stage_color": "#1d3d2a",
+        "stage_text_color": "#f5f3ec",
+        "stage_accent": "#4d846e",
+        "min_height": 480,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "band": {
+      "type": "gn-arc-one-band",
+      "settings": {
+        "eyebrow": "",
+        "text": "Fix the mark you made. Leave the green better than you found it.",
+        "align": "center",
+        "background_color": "#1d3d2a",
+        "text_color": "#f5f3ec",
+        "accent_color": "#9fc3b0",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "story": {
+      "type": "gn-arc-one-story",
+      "blocks": {
+        "contrast_1": {
+          "type": "contrast",
+          "settings": {
+            "label": "Usual problem",
+            "title": "A tee, a coin, and a half-repaired pitch",
+            "copy": "You improvise. The mark moves. The green stays bruised. The group behind waits."
+          }
+        },
+        "contrast_2": {
+          "type": "contrast",
+          "settings": {
+            "label": "With this fork",
+            "title": "One tool. Two jobs. Ten seconds.",
+            "copy": "Marker down, ball up, tines in from the sides, turf closed. Back in the pocket."
+          }
+        },
+        "beat_1": {
+          "type": "beat",
+          "settings": {
+            "time": "Mark",
+            "title": "Park the ball",
+            "copy": "Place the marker behind the ball. Lift. The anti-slip face keeps it from skating."
+          }
+        },
+        "beat_2": {
+          "type": "beat",
+          "settings": {
+            "time": "Repair",
+            "title": "Work the edge, not the middle",
+            "copy": "Push turf inward from around the pitch. Pulling up from the center kills the root."
+          }
+        },
+        "beat_3": {
+          "type": "beat",
+          "settings": {
+            "time": "Pocket",
+            "title": "Put it away",
+            "copy": "Compact zinc piece. It belongs next to the ball marker habit, not in the bottom of the bag."
+          }
+        },
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "label": "Build",
+            "value": "Zinc alloy, black finish"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "label": "Jobs",
+            "value": "Divot repair + ball marker"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "label": "Feel",
+            "value": "Light, one-piece, pocketable"
+          }
+        },
+        "spec_4": {
+          "type": "spec",
+          "settings": {
+            "label": "Where",
+            "value": "Greens, practice putting, travel"
+          }
+        }
+      },
+      "block_order": [
+        "contrast_1",
+        "contrast_2",
+        "beat_1",
+        "beat_2",
+        "beat_3",
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Green etiquette, made automatic",
+        "heading": "<p>Mark it. Fix it. Do not hold the group up.</p>",
+        "copy": "<p>A good fork is not a souvenir. It is the tool you use every hole that finds the putting surface. This one is small, metal, and does both jobs without extra parts.</p>",
+        "ritual_heading": "The ten-second green routine",
+        "note": "Repair before you read the putt. The green is not a suggestion.",
+        "panel_style": "none",
+        "panel_eyebrow": "On the green",
+        "panel_title": "Marker down. Pitch closed.",
+        "panel_copy": "Push from the sides of the bruise. Smooth with the putter. Walk to your read.",
+        "diagram_heading": "",
+        "diagram_top_label": "",
+        "diagram_marker": "",
+        "diagram_bottom_label": "",
+        "arc_label_early": "",
+        "early_title": "",
+        "early_copy": "",
+        "arc_label_later": "",
+        "later_title": "",
+        "later_copy": "",
+        "meta_value_1": "10 sec",
+        "meta_label_1": "Routine",
+        "meta_value_2": "Two",
+        "meta_label_2": "Jobs",
+        "meta_value_3": "Pocket",
+        "meta_label_3": "Home",
+        "background_color": "#ffffff",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "panel_background": "#f2eee3",
+        "panel_diagram_bg": "#faf8f2",
+        "panel_heading": "#182b20",
+        "panel_text": "#4a4a44",
+        "panel_accent": "#1d3d2a",
+        "panel_muted": "#8a8578",
+        "panel_divider": "#d8d3c4",
+        "padding_top": 20,
+        "padding_bottom": 80
+      }
+    },
+    "faq": {
+      "type": "gn-arc-one-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I repair a pitch mark?",
+            "answer": "<p>Insert the tines at the edge of the bruise and push turf toward the center. Do not pry up from the middle — that tears the root. Tap it flat with the putter.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does the marker stay on the fork?",
+            "answer": "<p>It is a dedicated marker with a non-slip face. Use it on the green, then pocket the fork. It is not a clip-on hat badge.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will it rust?",
+            "answer": "<p>Zinc alloy with a black finish. Wipe it dry after a wet round like any other metal tool.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does it count toward Buy 2, get the 3rd free?",
+            "answer": "<p>Yes. Add any two of towel, fork, and brush — the lowest-priced accessory is free when all three are in the bag.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "heading": "Common questions",
+        "cta_heading": "Carry a real green tool",
+        "cta_copy": "Not a tee. Not a coin. A fork and a marker that stay in the pocket.",
+        "cta_button_text": "Add the fork",
+        "background_color": "#f2eee3",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "cta_background": "#1d3d2a",
+        "cta_text_color": "#f5f3ec",
+        "cta_button_background": "#f5f1e8",
+        "cta_button_text_color": "#1d3d2a",
+        "padding_top": 70,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "band",
+    "story",
+    "faq"
+  ]
+}

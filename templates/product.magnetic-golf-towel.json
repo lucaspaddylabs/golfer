@@ -1,0 +1,281 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "gn-arc-one-hero",
+      "blocks": {
+        "trust_1": {
+          "type": "trust",
+          "settings": {
+            "icon": "truck",
+            "text": "Free shipping"
+          }
+        },
+        "trust_2": {
+          "type": "trust",
+          "settings": {
+            "icon": "shield",
+            "text": "30-day returns"
+          }
+        },
+        "trust_3": {
+          "type": "trust",
+          "settings": {
+            "icon": "globe",
+            "text": "Worldwide shipping"
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3"
+      ],
+      "settings": {
+        "eyebrow_text": "COURSE KIT",
+        "heading": "MAGNETIC TOWEL",
+        "tagline": "Clip it to the bag. Wipe grooves and hands. It stays put.",
+        "benefit_1": "Strong magnet holds to the bag",
+        "benefit_2": "Waffle microfiber dries fast",
+        "benefit_3": "Carabiner for belt or cart",
+        "lede": "A round of golf is wet hands, muddy grooves, and a towel that falls off the bag. This one snaps on magnetically, clips if you want a backup, and actually absorbs. Pick a color and keep it on the cart.",
+        "stage_label": "How you use it",
+        "signal_label_1": "On the bag",
+        "signal_text_1": "Magnet grabs metal. It does not blow into the rough.",
+        "signal_label_2": "On the shot",
+        "signal_text_2": "Wipe the face, then the hands. Back on the bag in one motion.",
+        "quantity_label": "Qty",
+        "add_to_cart_text": "Add to bag",
+        "choose_options_text": "Choose color",
+        "sold_out_text": "Sold out",
+        "sale_badge_text": "Sale",
+        "show_dynamic_checkout": false,
+        "show_sticky_atc": true,
+        "product_image_override": "",
+        "product_image_alt": "",
+        "enable_pulse": false,
+        "pulse_speed": 2.5,
+        "overlay_opacity": 65,
+        "background_color": "#ffffff",
+        "ink_color": "#182b20",
+        "muted_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "stage_color": "#1d3d2a",
+        "stage_text_color": "#f5f3ec",
+        "stage_accent": "#4d846e",
+        "min_height": 480,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "band": {
+      "type": "gn-arc-one-band",
+      "settings": {
+        "eyebrow": "",
+        "text": "If it is not on the bag, it is not a golf towel.",
+        "align": "center",
+        "background_color": "#1d3d2a",
+        "text_color": "#f5f3ec",
+        "accent_color": "#9fc3b0",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "story": {
+      "type": "gn-arc-one-story",
+      "blocks": {
+        "contrast_1": {
+          "type": "contrast",
+          "settings": {
+            "label": "Usual problem",
+            "title": "The towel lives in a pocket — or on the ground",
+            "copy": "You need it between shots. If it is buried or it fell off, you skip the wipe. Grooves stay packed."
+          }
+        },
+        "contrast_2": {
+          "type": "contrast",
+          "settings": {
+            "label": "With this towel",
+            "title": "It is on the bag until you grab it",
+            "copy": "Magnet on metal, carabiner as backup. Wipe, clip, walk. No rummaging."
+          }
+        },
+        "beat_1": {
+          "type": "beat",
+          "settings": {
+            "time": "Setup",
+            "title": "Clip it once",
+            "copy": "Magnet to the bag frame or cart. Add the carabiner if you want a second hold."
+          }
+        },
+        "beat_2": {
+          "type": "beat",
+          "settings": {
+            "time": "Shot",
+            "title": "Wipe the face",
+            "copy": "Waffle microfiber takes mud and moisture off grooves and grip."
+          }
+        },
+        "beat_3": {
+          "type": "beat",
+          "settings": {
+            "time": "Walk",
+            "title": "Put it back",
+            "copy": "It snaps on. You are not fishing it out of a side pocket on the next tee."
+          }
+        },
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "label": "Cloth",
+            "value": "Quick-dry waffle microfiber"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "label": "Hold",
+            "value": "Magnet plus carabiner"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "label": "Colors",
+            "value": "Green, black, blue, gray, white, dark gray"
+          }
+        },
+        "spec_4": {
+          "type": "spec",
+          "settings": {
+            "label": "Where",
+            "value": "Bag, cart, or belt loop"
+          }
+        }
+      },
+      "block_order": [
+        "contrast_1",
+        "contrast_2",
+        "beat_1",
+        "beat_2",
+        "beat_3",
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Why it is on the bag",
+        "heading": "<p>A towel you can reach without thinking.</p>",
+        "copy": "<p>Clean grooves hold spin. Dry hands hold the club. This towel is built for that loop: absorb, dry, stay attached. It is not a gym towel with a golf label.</p>",
+        "ritual_heading": "Keep it in the shot routine",
+        "note": "Wipe the face after the shot, not after you have already walked off angry.",
+        "panel_style": "none",
+        "panel_eyebrow": "On the course",
+        "panel_title": "Grab. Wipe. Snap back.",
+        "panel_copy": "The magnet is the point. If you have to tie a knot or hunt a clip every hole, you will stop using it.",
+        "diagram_heading": "",
+        "diagram_top_label": "",
+        "diagram_marker": "",
+        "diagram_bottom_label": "",
+        "arc_label_early": "",
+        "early_title": "",
+        "early_copy": "",
+        "arc_label_later": "",
+        "later_title": "",
+        "later_copy": "",
+        "meta_value_1": "1 clip",
+        "meta_label_1": "Setup",
+        "meta_value_2": "Wipe",
+        "meta_label_2": "Job",
+        "meta_value_3": "Bag",
+        "meta_label_3": "Home",
+        "background_color": "#ffffff",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "panel_background": "#f2eee3",
+        "panel_diagram_bg": "#faf8f2",
+        "panel_heading": "#182b20",
+        "panel_text": "#4a4a44",
+        "panel_accent": "#1d3d2a",
+        "panel_muted": "#8a8578",
+        "panel_divider": "#d8d3c4",
+        "padding_top": 20,
+        "padding_bottom": 80
+      }
+    },
+    "faq": {
+      "type": "gn-arc-one-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will the magnet scratch my clubs?",
+            "answer": "<p>Clip it to the bag frame or cart, not the clubface. The magnet is for metal on the bag, not for hanging off a wedge.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I wash it?",
+            "answer": "<p>Yes. Machine wash cold, skip fabric softener so the microfiber keeps grabbing moisture. Air dry.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is the carabiner required?",
+            "answer": "<p>No. Use the magnet alone if the bag has metal. The carabiner is there when you want a second hold on a belt or strap.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does it count toward Buy 2, get the 3rd free?",
+            "answer": "<p>Yes. It is one of the three cart accessories. Add any two of towel, fork, and brush — the lowest-priced one is free when all three are in the bag.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "heading": "Common questions",
+        "cta_heading": "Keep a towel where you actually need it",
+        "cta_copy": "On the bag. Not in a pocket you forget until the 14th.",
+        "cta_button_text": "Add the towel",
+        "background_color": "#f2eee3",
+        "heading_color": "#182b20",
+        "text_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "divider_color": "#d8d3c4",
+        "cta_background": "#1d3d2a",
+        "cta_text_color": "#f5f3ec",
+        "cta_button_background": "#f5f1e8",
+        "cta_button_text_color": "#1d3d2a",
+        "padding_top": 70,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "band",
+    "story",
+    "faq"
+  ]
+}

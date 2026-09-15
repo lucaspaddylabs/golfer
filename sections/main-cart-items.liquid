@@ -106,13 +106,6 @@
 
             <div class="cart-item__details">
               <div class="cart-item__details__items body3 mt--first-child-0">
-                {%- if section.settings.show_vendor -%}
-                <p>
-                  <a class="mt0 product-card-small__meta link link__base-to_accent-color text-uppercase a--no-hover-color native-hover"
-                     href="{{ routes.collections_url }}/all?filter.p.vendor={{ item.product.vendor | escape }}">{{ item.product.vendor }}</a>
-                </p>
-                {%- endif -%}
-
                 <a href="{{ item.url }}" class="mt10 h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
                 <div class="mt10">{{ item.original_price | money }}</div>
