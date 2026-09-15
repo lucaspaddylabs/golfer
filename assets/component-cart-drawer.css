@@ -200,7 +200,8 @@ cart-drawer.is-empty .drawer__footer {
     margin-left:28px;
     margin-right:28px;
   }
-  .cart-drawer__toggle{
+  .cart-drawer__toggle,
+  .gn-cart-upsell{
     margin-left:28px;
     margin-right:28px;
   }
@@ -214,7 +215,8 @@ cart-drawer.is-empty .drawer__footer {
   .cart-drawer__collection-products,
   .drawer__footer-content,
   .cart-drawer__toggle,
-  .cart__footer__information{
+  .cart__footer__information,
+  .gn-cart-upsell{
     padding-left:28px;
     padding-right:28px;
   }
@@ -231,7 +233,8 @@ cart-drawer.is-empty .drawer__footer {
   .cart-drawer__collection-products,
   .drawer__footer-content,
   .cart-drawer__toggle,
-  .cart__footer__information{
+  .cart__footer__information,
+  .gn-cart-upsell{
     padding-left:16px;
     padding-right:16px;
   }
@@ -544,6 +547,170 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 .gn-cart-trust-row .gn-trust-icon svg {
   width: 24px;
   height: 24px;
+}
+
+.gn-cart-upsell {
+  display: block;
+  margin: 24px 0 0;
+  padding: 20px 0 4px;
+  border-top: 1px solid var(--gn-divider);
+}
+.gn-cart-upsell__header {
+  margin-bottom: 14px;
+}
+.gn-cart-upsell__heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gn-ink);
+}
+.gn-cart-upsell__sub {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--gn-muted);
+}
+.gn-cart-upsell__carousel {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+.gn-cart-upsell__viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.gn-cart-upsell__track {
+  display: flex;
+  transition: transform 0.28s ease;
+  will-change: transform;
+}
+.gn-cart-upsell__slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+.gn-cart-upsell__card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+  background: var(--gn-cream);
+  border-radius: 4px;
+}
+.gn-cart-upsell__media {
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+.gn-cart-upsell__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.gn-cart-upsell__details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.gn-cart-upsell__title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--gn-ink);
+  text-decoration: none;
+}
+.gn-cart-upsell__title:hover {
+  color: var(--gn-accent);
+}
+.gn-cart-upsell__price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.gn-cart-upsell__price-current {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--gn-ink);
+}
+.gn-cart-upsell__price-compare {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gn-muted);
+}
+.gn-cart-upsell__option {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--gn-muted);
+}
+.gn-cart-upsell__select {
+  width: 100%;
+  max-width: 160px;
+  min-height: 36px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--gn-divider);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--gn-ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.gn-cart-upsell__add {
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 0 14px !important;
+  width: auto !important;
+  display: inline-flex !important;
+  align-self: flex-start;
+  font-size: 0.72rem !important;
+}
+.gn-cart-upsell__add.is-loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+.gn-cart-upsell__nav {
+  flex: 0 0 28px;
+  width: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gn-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.gn-cart-upsell__nav svg {
+  width: 16px;
+  height: 16px;
+}
+.gn-cart-upsell__nav svg path {
+  fill: currentColor;
+}
+.gn-cart-upsell__nav:hover {
+  color: var(--gn-accent);
+}
+.gn-cart-upsell__nav:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+.gn-cart-upsell__slide.is-adding {
+  opacity: 0.55;
+}
+.gn-cart-upsell + .cart-drawer__toggle {
+  margin-top: 8px;
 }
 
 @media (max-width: 749px) {

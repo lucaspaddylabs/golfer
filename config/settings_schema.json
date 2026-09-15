@@ -4254,6 +4254,31 @@
         "label": "Image ratio"
       },
       {
+        "type": "checkbox",
+        "id": "cart_drawer_upsell_enable",
+        "label": "Show accessory offer in cart drawer",
+        "default": true,
+        "info": "Carousel of 3 accessories. Items already in the cart are hidden. Pair this with a Shopify automatic discount: buy 3 of these products, customer gets the lowest-priced one free."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_1",
+        "label": "Accessory 1",
+        "info": "Defaults to Golf Club Brush & Groove Sharpener Tool if left blank."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_2",
+        "label": "Accessory 2",
+        "info": "Defaults to Golf Ball Marker Fork if left blank."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_3",
+        "label": "Accessory 3",
+        "info": "Defaults to Magnetic Golf Towel if left blank."
+      },
+      {
         "type": "header",
         "content": "CART PAGE"
       },

@@ -165,3 +165,94 @@ class CartDrawerItems extends CartItems {
 }
 
 customElements.define('cart-drawer-items', CartDrawerItems);
+
+class CartDrawerUpsell extends HTMLElement {
+  connectedCallback() {
+    this.track = this.querySelector('[data-upsell-track]');
+    this.slides = Array.from(this.querySelectorAll('[data-upsell-slide]'));
+    this.prevBtn = this.querySelector('[data-upsell-prev]');
+    this.nextBtn = this.querySelector('[data-upsell-next]');
+    this.index = 0;
+    this.adding = false;
+
+    this.prevBtn?.addEventListener('click', () => this.go(-1));
+    this.nextBtn?.addEventListener('click', () => this.go(1));
+    this.querySelectorAll('[data-upsell-variant]').forEach((select) => {
+      select.addEventListener('change', (event) => {
+        const slide = event.target.closest('[data-upsell-slide]');
+        const button = slide?.querySelector('[data-upsell-add]');
+        if (button) button.dataset.variantId = event.target.value;
+      });
+    });
+    this.querySelectorAll('[data-upsell-add]').forEach((button) => {
+      button.addEventListener('click', (event) => this.add(event.currentTarget));
+    });
+
+    this.go(0);
+  }
+
+  go(step) {
+    if (!this.slides.length) return;
+    this.index = (this.index + step + this.slides.length) % this.slides.length;
+    if (this.track) {
+      this.track.style.transform = `translateX(-${this.index * 100}%)`;
+    }
+  }
+
+  add(button) {
+    if (this.adding || !button) return;
+    const variantId = Number(button.dataset.variantId);
+    if (!variantId) return;
+
+    const cart = this.closest('cart-drawer');
+    const slide = button.closest('[data-upsell-slide]');
+    this.adding = true;
+    button.classList.add('is-loading');
+    button.setAttribute('aria-disabled', 'true');
+    slide?.classList.add('is-adding');
+
+    const body = {
+      id: variantId,
+      quantity: 1,
+    };
+    if (cart) {
+      body.sections = cart.getSectionsToRender().map((section) => section.id);
+      body.sections_url = window.location.pathname;
+    }
+
+    fetch(`${routes.cart_add_url}`, { ...fetchConfig('javascript'), body: JSON.stringify(body) })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.status) {
+          const errors = document.getElementById('CartDrawer-CartErrors');
+          if (errors) errors.textContent = response.description || response.message || window.cartStrings.error;
+          slide?.classList.remove('is-adding');
+          return;
+        }
+
+        publish(PUB_SUB_EVENTS.cartUpdate, {
+          source: 'cart-drawer-upsell',
+          productVariantId: variantId,
+          cartData: response,
+        });
+
+        if (cart) {
+          cart.classList.remove('is-empty');
+          cart.renderContents(response);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        slide?.classList.remove('is-adding');
+      })
+      .finally(() => {
+        this.adding = false;
+        button.classList.remove('is-loading');
+        button.removeAttribute('aria-disabled');
+      });
+  }
+}
+
+if (!customElements.get('cart-drawer-upsell')) {
+  customElements.define('cart-drawer-upsell', CartDrawerUpsell);
+}
