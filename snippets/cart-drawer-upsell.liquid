@@ -60,7 +60,7 @@
             <img
               src="{{ product.featured_media | image_url: width: 240 }}"
               srcset="{{ product.featured_media | image_url: width: 160 }} 160w, {{ product.featured_media | image_url: width: 240 }} 240w"
-              sizes="72px"
+              sizes="56px"
               width="{{ product.featured_media.width }}"
               height="{{ product.featured_media.height }}"
               alt="{{ product.featured_media.alt | default: product.title | escape }}"
@@ -69,41 +69,66 @@
           </a>
         {%- endif -%}
         <div class="gn-cart-upsell__details">
-          <a class="gn-cart-upsell__title" href="{{ product.url }}">{{ product.title | escape }}</a>
-          <div class="gn-cart-upsell__price">
-            <span class="gn-cart-upsell__price-current">{{ price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-            {%- if compare_at_price > price -%}
-              <s class="gn-cart-upsell__price-compare">{{ compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
-            {%- endif -%}
+          <div class="gn-cart-upsell__top">
+            <a class="gn-cart-upsell__title" href="{{ product.url }}">{{ product.title | escape }}</a>
+            <div class="gn-cart-upsell__price">
+              <span class="gn-cart-upsell__price-current">{{ price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+              {%- if compare_at_price > price -%}
+                <s class="gn-cart-upsell__price-compare">{{ compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+              {%- endif -%}
+            </div>
           </div>
-          <div class="gn-cart-upsell__option">
-            {%- if product.has_only_default_variant == false -%}
-              <label>
-                <span>{{ product.options_with_values.first.name }}</span>
-                <select class="gn-cart-upsell__select" data-upsell-variant aria-label="{{ product.options_with_values.first.name | escape }}">
-                  {%- for variant in product.variants -%}
-                    <option
-                      value="{{ variant.id }}"
-                      {% if variant.id == current_variant.id %}selected{% endif %}
-                      {% unless variant.available %}disabled{% endunless %}
-                    >
-                      {{ variant.title }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-              </label>
-            {%- else -%}
-              <span class="gn-cart-upsell__option-spacer" aria-hidden="true"></span>
-            {%- endif -%}
+          <div class="gn-cart-upsell__row">
+            <div class="gn-cart-upsell__swatches" role="radiogroup" aria-label="Color">
+              {%- if product.has_only_default_variant == false -%}
+                {%- for variant in product.variants -%}
+                  {%- liquid
+                    assign swatch_name = variant.title | downcase | strip
+                    assign swatch_hex = '#8a8a8a'
+                    case swatch_name
+                      when 'green', 'atrovirens'
+                        assign swatch_hex = '#1d3d2a'
+                      when 'black'
+                        assign swatch_hex = '#111111'
+                      when 'blue', 'royal blue'
+                        assign swatch_hex = '#2a6fbb'
+                      when 'navy blue', 'navy'
+                        assign swatch_hex = '#1a365d'
+                      when 'silver'
+                        assign swatch_hex = '#c5c9cf'
+                      when 'gray', 'grey'
+                        assign swatch_hex = '#8d8d8d'
+                      when 'dark gray', 'dark grey'
+                        assign swatch_hex = '#4a4a4a'
+                      when 'white'
+                        assign swatch_hex = '#ffffff'
+                      when 'orange'
+                        assign swatch_hex = '#e67a2e'
+                    endcase
+                  -%}
+                  <button
+                    type="button"
+                    class="gn-cart-upsell__swatch{% if variant.id == current_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                    style="--swatch: {{ swatch_hex }};"
+                    data-upsell-variant
+                    data-variant-id="{{ variant.id }}"
+                    aria-label="{{ variant.title | escape }}"
+                    aria-pressed="{% if variant.id == current_variant.id %}true{% else %}false{% endif %}"
+                    title="{{ variant.title | escape }}"
+                    {% unless variant.available %}disabled{% endunless %}
+                  ></button>
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+            <button
+              type="button"
+              class="btn gn-cart-upsell__add"
+              data-upsell-add
+              data-variant-id="{{ current_variant.id }}"
+            >
+              <span>Add</span>
+            </button>
           </div>
-          <button
-            type="button"
-            class="btn gn-cart-upsell__add"
-            data-upsell-add
-            data-variant-id="{{ current_variant.id }}"
-          >
-            <span>Add to bag</span>
-          </button>
         </div>
       </div>
     </div>
@@ -121,11 +146,11 @@
           <h6 class="gn-cart-upsell__heading mt0 mb0">Buy 2, get the 3rd free</h6>
           <p class="gn-cart-upsell__sub mt0 mb0">
             {%- if offer_in_cart == 0 -%}
-              Add these 3 accessories. The lowest-priced one is free.
+              Lowest-priced item is free with all 3.
             {%- elsif offer_in_cart == 1 -%}
-              1 of 3 added. Add 2 more — the cheapest is free.
+              1 of 3 added. Add 2 more for the free item.
             {%- else -%}
-              2 of 3 added. Add 1 more to unlock the free item.
+              2 of 3 added. Add 1 more — it's free.
             {%- endif -%}
           </p>
         </div>

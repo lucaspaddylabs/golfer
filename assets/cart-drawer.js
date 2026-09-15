@@ -177,11 +177,16 @@ class CartDrawerUpsell extends HTMLElement {
 
     this.prevBtn?.addEventListener('click', () => this.go(-1));
     this.nextBtn?.addEventListener('click', () => this.go(1));
-    this.querySelectorAll('[data-upsell-variant]').forEach((select) => {
-      select.addEventListener('change', (event) => {
-        const slide = event.target.closest('[data-upsell-slide]');
-        const button = slide?.querySelector('[data-upsell-add]');
-        if (button) button.dataset.variantId = event.target.value;
+    this.querySelectorAll('[data-upsell-variant]').forEach((swatch) => {
+      swatch.addEventListener('click', () => {
+        const slide = swatch.closest('[data-upsell-slide]');
+        if (!slide) return;
+        slide.querySelectorAll('[data-upsell-variant]').forEach((item) => {
+          item.classList.toggle('is-selected', item === swatch);
+          item.setAttribute('aria-pressed', item === swatch ? 'true' : 'false');
+        });
+        const button = slide.querySelector('[data-upsell-add]');
+        if (button) button.dataset.variantId = swatch.dataset.variantId;
       });
     });
     this.querySelectorAll('[data-upsell-add]').forEach((button) => {
