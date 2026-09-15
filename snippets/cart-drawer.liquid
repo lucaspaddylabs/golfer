@@ -163,9 +163,9 @@ component-swiper-slider.css
                           </p>
                           {%- endif -%}
         
-                          <a href="{{ item.url }}" class="mt10 h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
+                          <a href="{{ item.url }}" class="h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
-                          <div class="mt10">{{ item.original_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
+                          <div class="cart-item__unit-price">{{ item.original_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
                           {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
                           <dl class="mt3">
                             {%- if item.product.has_only_default_variant == false -%}
@@ -200,7 +200,7 @@ component-swiper-slider.css
                           {%- endif -%}
 
                           {%- if item.original_line_price > item.final_line_price -%}
-                            <span class="cart-item__discount-badge mt8">
+                            <span class="cart-item__discount-badge">
                               {%- if item.final_line_price == 0 -%}
                                 Free
                               {%- else -%}
@@ -215,7 +215,8 @@ component-swiper-slider.css
                             {%- render "icon-info" -%}
                           </div>
                         </div>
-                        <div class="cart-item__quantity mt20">
+                        <div class="cart-item__actions">
+                        <div class="cart-item__quantity">
                           <label class="visually-hidden" for="Drawer-quantity-{{ item.index | plus: 1 }}">
                             {{ 'products.product.quantity.label' | t }}
                           </label>
@@ -253,7 +254,7 @@ component-swiper-slider.css
                             </a>
                           </cart-remove-button>
                         </div>
-                        <div class="cart-item__totals mt16">
+                        <div class="cart-item__totals">
                           <div class="loading-overlay hidden">
                             <div class="loading-overlay__spinner">
                               <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
@@ -290,6 +291,7 @@ component-swiper-slider.css
                             {{ item.variant.unit_price_measurement.reference_unit }}
                           </div>
                           {%- endif -%}
+                        </div>
                         </div>
                       </div>
                     </div>
