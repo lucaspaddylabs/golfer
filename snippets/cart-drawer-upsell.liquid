@@ -76,22 +76,26 @@
               <s class="gn-cart-upsell__price-compare">{{ compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
             {%- endif -%}
           </div>
-          {%- if product.has_only_default_variant == false -%}
-            <label class="gn-cart-upsell__option">
-              <span>{{ product.options_with_values.first.name }}</span>
-              <select class="gn-cart-upsell__select" data-upsell-variant aria-label="{{ product.options_with_values.first.name | escape }}">
-                {%- for variant in product.variants -%}
-                  <option
-                    value="{{ variant.id }}"
-                    {% if variant.id == current_variant.id %}selected{% endif %}
-                    {% unless variant.available %}disabled{% endunless %}
-                  >
-                    {{ variant.title }}
-                  </option>
-                {%- endfor -%}
-              </select>
-            </label>
-          {%- endif -%}
+          <div class="gn-cart-upsell__option">
+            {%- if product.has_only_default_variant == false -%}
+              <label>
+                <span>{{ product.options_with_values.first.name }}</span>
+                <select class="gn-cart-upsell__select" data-upsell-variant aria-label="{{ product.options_with_values.first.name | escape }}">
+                  {%- for variant in product.variants -%}
+                    <option
+                      value="{{ variant.id }}"
+                      {% if variant.id == current_variant.id %}selected{% endif %}
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                      {{ variant.title }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </label>
+            {%- else -%}
+              <span class="gn-cart-upsell__option-spacer" aria-hidden="true"></span>
+            {%- endif -%}
+          </div>
           <button
             type="button"
             class="btn gn-cart-upsell__add"
@@ -108,34 +112,32 @@
 
 {%- if remaining_count > 0 -%}
   <cart-drawer-upsell class="gn-cart-upsell" data-remaining="{{ remaining_count }}">
-    <div class="gn-cart-upsell__header">
-      <h6 class="gn-cart-upsell__heading mt0 mb0">Buy 2, get the 3rd free</h6>
-      <p class="gn-cart-upsell__sub mt0 mb0">
-        {%- if offer_in_cart == 0 -%}
-          Add these 3 accessories. The lowest-priced one is free.
-        {%- elsif offer_in_cart == 1 -%}
-          1 of 3 added. Add 2 more — the cheapest is free.
-        {%- else -%}
-          2 of 3 added. Add 1 more to unlock the free item.
-        {%- endif -%}
-      </p>
-    </div>
     <div class="gn-cart-upsell__carousel">
-      {%- if remaining_count > 1 -%}
-        <button type="button" class="gn-cart-upsell__nav gn-cart-upsell__nav--prev" data-upsell-prev aria-label="Previous product">
-          {%- render 'icon-arrow-left' -%}
-        </button>
-      {%- endif -%}
-      <div class="gn-cart-upsell__viewport" data-upsell-viewport>
-        <div class="gn-cart-upsell__track" data-upsell-track>
-          {{ upsell_slides }}
+      <button type="button" class="gn-cart-upsell__nav gn-cart-upsell__nav--prev" data-upsell-prev aria-label="Previous product"{% if remaining_count < 2 %} aria-hidden="true" tabindex="-1"{% endif %}>
+        {%- render 'icon-arrow-left' -%}
+      </button>
+      <div class="gn-cart-upsell__main">
+        <div class="gn-cart-upsell__header">
+          <h6 class="gn-cart-upsell__heading mt0 mb0">Buy 2, get the 3rd free</h6>
+          <p class="gn-cart-upsell__sub mt0 mb0">
+            {%- if offer_in_cart == 0 -%}
+              Add these 3 accessories. The lowest-priced one is free.
+            {%- elsif offer_in_cart == 1 -%}
+              1 of 3 added. Add 2 more — the cheapest is free.
+            {%- else -%}
+              2 of 3 added. Add 1 more to unlock the free item.
+            {%- endif -%}
+          </p>
+        </div>
+        <div class="gn-cart-upsell__viewport" data-upsell-viewport>
+          <div class="gn-cart-upsell__track" data-upsell-track>
+            {{ upsell_slides }}
+          </div>
         </div>
       </div>
-      {%- if remaining_count > 1 -%}
-        <button type="button" class="gn-cart-upsell__nav gn-cart-upsell__nav--next" data-upsell-next aria-label="Next product">
-          {%- render 'icon-arrow-right' -%}
-        </button>
-      {%- endif -%}
+      <button type="button" class="gn-cart-upsell__nav gn-cart-upsell__nav--next" data-upsell-next aria-label="Next product"{% if remaining_count < 2 %} aria-hidden="true" tabindex="-1"{% endif %}>
+        {%- render 'icon-arrow-right' -%}
+      </button>
     </div>
   </cart-drawer-upsell>
 {%- endif -%}
