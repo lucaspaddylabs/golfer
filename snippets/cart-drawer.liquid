@@ -200,9 +200,13 @@ component-swiper-slider.css
                           {%- endif -%}
 
                           {%- if item.original_line_price > item.final_line_price -%}
-                            {%- assign save_cents = item.original_line_price | minus: item.final_line_price -%}
                             <span class="cart-item__discount-badge mt8">
-                              Save {{ save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                              {%- if item.final_line_price == 0 -%}
+                                Free
+                              {%- else -%}
+                                {%- assign save_cents = item.original_line_price | minus: item.final_line_price -%}
+                                Save {{ save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                              {%- endif -%}
                             </span>
                           {%- endif -%}
 
@@ -259,7 +263,13 @@ component-swiper-slider.css
                           </div>
                           {%- if item.original_line_price != item.final_line_price -%}
                             <div class="cart-item__discounted-prices">
-                              <span class="price__sale">{{ item.final_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                              <span class="price__sale{% if item.final_line_price == 0 %} price__free{% endif %}">
+                                {%- if item.final_line_price == 0 -%}
+                                  Free
+                                {%- else -%}
+                                  {{ item.final_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                                {%- endif -%}
+                              </span>
                               <s class="price__regular">{{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                             </div>
                           {%- else -%}

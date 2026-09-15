@@ -208,8 +208,12 @@
                   <div class="visually-hidden">
                     {{ 'products.product.price.sale_price' | t }}
                   </div>
-                  <div class="h5 price__sale mt3">
-                    {{ item.final_line_price | money }}
+                  <div class="h5 price__sale mt3{% if item.final_line_price == 0 %} price__free{% endif %}">
+                    {%- if item.final_line_price == 0 -%}
+                      Free
+                    {%- else -%}
+                      {{ item.final_line_price | money }}
+                    {%- endif -%}
                   </div>
                 </div>
                 {%- else -%}

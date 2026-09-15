@@ -114,6 +114,11 @@ cart-drawer.is-empty .drawer__footer {
   font-size: 1rem;
 }
 
+#CartDrawer .price__sale.price__free {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 #CartDrawer .cart-item__discounted-prices {
   display: flex;
   flex-wrap: wrap;

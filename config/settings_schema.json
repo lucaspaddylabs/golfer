@@ -4264,7 +4264,7 @@
         "type": "product",
         "id": "cart_drawer_upsell_1",
         "label": "Accessory 1",
-        "info": "Defaults to Golf Club Brush & Groove Sharpener Tool if left blank."
+        "info": "Defaults to Magnetic Golf Towel if left blank."
       },
       {
         "type": "product",
@@ -4276,7 +4276,7 @@
         "type": "product",
         "id": "cart_drawer_upsell_3",
         "label": "Accessory 3",
-        "info": "Defaults to Magnetic Golf Towel if left blank."
+        "info": "Defaults to Golf Club Brush & Groove Sharpener Tool if left blank."
       },
       {
         "type": "header",
