@@ -445,6 +445,21 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   letter-spacing: -0.02em;
 }
 
+#CartDrawer .totals__subtotal-value--sale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+#CartDrawer .totals__compare {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gn-muted);
+  text-decoration: line-through;
+}
+
 #CartDrawer .tax-note {
   color: var(--gn-muted);
   font-size: 0.82rem;

@@ -40,8 +40,15 @@
           </div>
           {%- endif -%}
           <div class="totals{% if settings.show_add_discount_code %} mt40{% endif %}">
-            <h3 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h3>&nbsp;
-            <p class="mt0 h3 totals__subtotal-value">{{ cart.total_price | money_with_currency }}</p>
+            <h3 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h3>
+            {%- if cart.original_total_price > cart.total_price -%}
+              <p class="mt0 h3 totals__subtotal-value totals__subtotal-value--sale">
+                <span>{{ cart.total_price | money_with_currency }}</span>
+                <s class="totals__compare">{{ cart.original_total_price | money_with_currency }}</s>
+              </p>
+            {%- else -%}
+              <p class="mt0 h3 totals__subtotal-value">{{ cart.total_price | money_with_currency }}</p>
+            {%- endif -%}
           </div>
           {% if settings.show_installments %}
             <span class="cart__summary-item cart__installments display-block mt10">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
