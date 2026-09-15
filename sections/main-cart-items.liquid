@@ -57,6 +57,23 @@
       <div id="main-cart-items" class="js-contents body3" data-id="{{ section.id }}">
         <div class="main-cart-items__wrapper">
           {%- for item in cart.items -%}
+          {%- liquid
+            assign cart_item_save = item.original_line_price | minus: item.final_line_price
+            if item.line_level_total_discount > cart_item_save
+              assign cart_item_save = item.line_level_total_discount
+            endif
+            assign cart_item_alloc = 0
+            for allocation in item.discount_allocations
+              assign cart_item_alloc = cart_item_alloc | plus: allocation.amount
+            endfor
+            if cart_item_alloc > cart_item_save
+              assign cart_item_save = cart_item_alloc
+            endif
+            assign cart_item_pay = item.original_line_price | minus: cart_item_save
+            if cart_item_pay < 0
+              assign cart_item_pay = 0
+            endif
+          -%}
           <div class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
             {% if item.image %}
             <div class="cart-item__media {{ settings.image_hover }}">
@@ -195,7 +212,7 @@
                     </svg>
                   </div>
                 </div>
-                {%- if item.original_line_price != item.final_line_price -%}
+                {%- if cart_item_save > 0 -%}
                 <div class="cart-item__discounted-prices">
                   <div class="visually-hidden">
                     {{ 'products.product.price.regular_price' | t }}
@@ -208,11 +225,11 @@
                   <div class="visually-hidden">
                     {{ 'products.product.price.sale_price' | t }}
                   </div>
-                  <div class="h5 price__sale mt3{% if item.final_line_price == 0 %} price__free{% endif %}">
-                    {%- if item.final_line_price == 0 -%}
+                  <div class="h5 price__sale mt3{% if cart_item_pay == 0 %} price__free{% endif %}">
+                    {%- if cart_item_pay == 0 -%}
                       Free
                     {%- else -%}
-                      {{ item.final_line_price | money }}
+                      {{ cart_item_pay | money }}
                     {%- endif -%}
                   </div>
                 </div>
