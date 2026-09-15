@@ -8,7 +8,7 @@
   assign heading = section.settings.heading | default: 'Will you keep muddling along as a golfer, or is it time to improve?'
   assign support = section.settings.support | default: 'Golf training essentials so you can get serious from today.'
   assign button_label = section.settings.button_label | default: 'Shop the system'
-  assign button_link = section.settings.button_link | default: routes.all_products_collection_url
+  assign button_link = section.settings.button_link | default: '/collections/the-system'
 
   if section.settings.image != blank
     assign hero_img = section.settings.image | image_url: width: 2400
@@ -276,7 +276,7 @@
       "type": "url",
       "id": "button_link",
       "label": "Button link",
-      "default": "/collections/all"
+      "default": "/collections/the-system"
     },
     {
       "type": "color",
