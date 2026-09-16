@@ -173,7 +173,7 @@
     },
     "accept_terms_checkbox_html": "I agree with the <a href=\"/policies/terms-of-service\">Terms and Conditions.</a>",
     "free_shipping": {
-      "normal_html": "Spend {{ price }} to Free shipping",
+      "normal_html": "Spend {{ price }} to unlock free shipping",
       "free_shipping_html": "Free shipping!"
     },
     "reviews": {
