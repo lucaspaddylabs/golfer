@@ -21,15 +21,34 @@ cart-drawer #CartDrawer.cart-drawer {
   height: 100%;
   max-height: 100%;
   border-radius: 0;
-  padding: 28px 0 20px;
+  padding: 0 0 20px;
   background: #fff;
   color: var(--gn-ink);
   box-shadow: -8px 0 32px rgba(24, 43, 32, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+cart-drawer #CartDrawer .drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding: 14px 28px 12px;
+  border-bottom: 1px solid var(--gn-divider);
 }
 cart-drawer .popup-modal__toggle {
-  top: 18px;
-  right: 12px;
+  position: relative;
+  top: auto;
+  right: auto;
+  flex: 0 0 auto;
+  padding: 4px;
   color: var(--gn-ink);
+  line-height: 0;
+}
+cart-drawer #CartDrawer .drawer__inner {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 cart-drawer.is-empty .drawer__footer {
@@ -57,9 +76,10 @@ cart-drawer.is-empty .drawer__footer {
   font-weight: 700;
   letter-spacing: -0.01em;
   text-transform: none;
-  padding-bottom: 14px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--gn-divider);
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+  line-height: 1.2;
 }
 
 #CartDrawer .cart-drawer__empty-content h4 {
@@ -258,16 +278,20 @@ cart-drawer.is-empty .drawer__footer {
   cart-drawer.popup-modal .popup-modal__content,
   cart-drawer #CartDrawer.cart-drawer {
     width: 100%;
-    padding: 12px 0 16px;
+    padding: 0 0 16px;
+  }
+  cart-drawer #CartDrawer .drawer__header {
+    padding: 10px 16px 8px;
   }
   cart-drawer .popup-modal__toggle {
-    top: 10px;
-    right: 8px;
+    top: auto;
+    right: auto;
+    padding: 4px;
   }
   #CartDrawer .drawer__heading {
     font-size: 0.88rem;
-    padding-bottom: 10px;
-    margin-bottom: 4px;
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
   #CartDrawer .free-delivery-bar {
     margin-top: 8px;
