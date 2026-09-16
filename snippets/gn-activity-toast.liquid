@@ -75,7 +75,7 @@
     background: #f3f1ea;
     color: var(--gn-toast-ink);
   }
-  @media (max-width: 749px) {
+  @media (max-width: 900px) {
     .gn-activity-toast {
       --gn-toast-clear: 96px;
       max-width: calc(100vw - 24px);
@@ -262,7 +262,7 @@
 
     // Keep toast above sticky ATC / footer bars without covering the button
     const clearStickyBars = () => {
-      const mobile = window.matchMedia('(max-width: 749px)').matches;
+      const mobile = window.matchMedia('(max-width: 900px)').matches;
       let clear = mobile ? 96 : 24;
       if (mobile) {
         const candidates = document.querySelectorAll(
