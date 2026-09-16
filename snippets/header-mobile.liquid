@@ -42,12 +42,11 @@
 <div>
 {%- endif -%}
   <a href="{{ routes.root_url }}" class="header__heading-link clear-underline" aria-label="{{ shop.name }}">
-    {%- render 'gn-logo-stacked', max_width: section.settings.logo_max_width_mobile | default: 80 -%}
+    {%- comment -%} Mobile chrome (≤900 sticky-ATC band) always uses the horizontal wordmark — stacked is desktop-only. {%- endcomment -%}
     {%- render 'gn-logo-horizontal', max_width: 168 -%}
   </a>
   {%- if template.name == "index" and settings.fixed_header_on_index_mobile -%}
   <a href="{{ routes.root_url }}" class="header__heading-link__transparent header__heading-link clear-underline" aria-label="{{ shop.name }}">
-    {%- render 'gn-logo-stacked', max_width: settings.logo_max_width_transparent_mobile | default: section.settings.logo_max_width_mobile | default: 80 -%}
     {%- render 'gn-logo-horizontal', max_width: 168 -%}
   </a>
   {%- endif -%}

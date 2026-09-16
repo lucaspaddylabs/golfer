@@ -648,50 +648,28 @@ header{
   display: block;
 }
 
-/* Logo lockup shares sticky-ATC breakpoint (900px):
-   ≤900 sticky ATC on → horizontal wordmark
-   ≥901 sticky ATC off → stacked mark (mobile header until 1024; desktop header from 1025) */
-.header__heading-logo--stacked{
-  display: none;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-}
-.header__heading-logo--horizontal{
-  display: none;
+/* Mobile header ships horizontal wordmark only (see header-mobile.liquid).
+   Desktop header (≥901) uses the theme logo / stacked mark. */
+.header__mobile .header__heading-logo--horizontal{
+  display: block;
   width: min(168px, 52vw);
   max-width: 100%;
   height: auto;
 }
+.header__mobile .header__heading-logo--stacked{
+  display: none !important;
+}
 @media (max-width: 900px){
-  .header__mobile .header__heading-logo--stacked{
-    display: none !important;
-  }
-  .header__mobile .header__heading-logo--horizontal{
-    display: block !important;
-  }
   .header__mobile .header__button svg{
     width: 18px;
     height: 18px;
   }
-}
-@media (min-width: 901px){
-  .header__mobile .header__heading-logo--stacked{
-    display: block !important;
-  }
-  .header__mobile .header__heading-logo--horizontal{
-    display: none !important;
-  }
-}
-
-/* Compact mobile chrome with sticky ATC (≤900px) */
-@media (max-width: 900px){
   .header__mobile__grid{
     min-height: 44px;
     padding: 6px 0;
   }
 }
-/* Mid band (901–1024): stacked mark while mobile header still shows */
+/* Desktop chrome from 901px — keep stacked / settings logo compact on tablets */
 @media (min-width: 901px) and (max-width: 1024px){
   .header__desktop .header__heading-logo{
     max-height: 40px;
