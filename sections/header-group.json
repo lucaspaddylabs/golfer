@@ -145,7 +145,7 @@
         "is_sticky": false,
         "show_close": false,
         "text_color": "#ffffff",
-        "font_size": 13,
+        "font_size": 11,
         "padding_y": 8
       }
     },
