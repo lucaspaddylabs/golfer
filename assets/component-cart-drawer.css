@@ -258,6 +258,23 @@ cart-drawer.is-empty .drawer__footer {
   cart-drawer.popup-modal .popup-modal__content,
   cart-drawer #CartDrawer.cart-drawer {
     width: 100%;
+    padding: 12px 0 16px;
+  }
+  cart-drawer .popup-modal__toggle {
+    top: 10px;
+    right: 8px;
+  }
+  #CartDrawer .drawer__heading {
+    font-size: 0.88rem;
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+  }
+  #CartDrawer .free-delivery-bar {
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+  #CartDrawer #cart-page-free-delivery {
+    margin-top: 8px;
   }
   .cart-drawer__warnings,
   .cart-drawer__collection-products,
