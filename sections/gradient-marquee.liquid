@@ -334,6 +334,13 @@
         clone.removeAttribute('data-marquee-seed');
         track.appendChild(clone);
       });
+
+      // Keep a calm constant px/s after cloning (longer track used to make the same duration feel too fast)
+      var configured = {{ section.settings.speed | default: 50 }};
+      var half = track.scrollWidth / 2;
+      var pxPerSec = 1000 / Math.max(configured, 10); // speed 50 ≈ 20px/s
+      var seconds = Math.max(30, half / pxPerSec);
+      bar.style.setProperty('--marquee-speed', seconds + 's');
     }
 
     rebuild();
@@ -357,7 +364,7 @@
     { "type": "color", "id": "gradient_color_2", "label": "Custom Color 2", "default": "#764ba2" },
     { "type": "color", "id": "gradient_color_3", "label": "Custom Color 3", "default": "#f093fb" },
     { "type": "header", "content": "Marquee Settings" },
-    { "type": "range", "id": "speed", "label": "Scroll Speed (seconds)", "min": 10, "max": 60, "step": 5, "default": 25, "info": "Lower = faster" },
+    { "type": "range", "id": "speed", "label": "Scroll Speed (seconds)", "min": 20, "max": 90, "step": 5, "default": 50, "info": "Higher = slower. Duration scales with track width so wide screens stay calm." },
     { "type": "select", "id": "direction", "label": "Scroll Direction", "options": [{ "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }], "default": "left" },
     { "type": "header", "content": "Effects" },
     { "type": "checkbox", "id": "show_glow", "label": "Text Glow Effect", "default": false },
