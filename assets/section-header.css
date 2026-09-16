@@ -652,21 +652,30 @@ header{
    Desktop header (≥901) uses the theme logo / stacked mark. */
 .header__mobile .header__heading-logo--horizontal{
   display: block;
-  width: min(168px, 52vw);
+  width: min(148px, 48vw);
   max-width: 100%;
   height: auto;
 }
 .header__mobile .header__heading-logo--stacked{
   display: none !important;
 }
+/* Compact Promix-style chrome: kill fat page-width vertical padding on mobile */
 @media (max-width: 900px){
+  .header__mobile .page-width{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .header__mobile__grid{
+    min-height: 40px;
+    padding: 6px 0;
+  }
   .header__mobile .header__button svg{
     width: 18px;
     height: 18px;
   }
-  .header__mobile__grid{
-    min-height: 44px;
-    padding: 6px 0;
+  .header__mobile .header__heading,
+  .header__mobile .header__heading-link{
+    line-height: 0;
   }
 }
 /* Desktop chrome from 901px — keep stacked / settings logo compact on tablets */

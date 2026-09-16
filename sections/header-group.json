@@ -152,7 +152,8 @@
     "header_classic_gn": {
       "type": "header",
       "custom_css": [
-        ".page-width {padding: 20px;}"
+        ".page-width {padding-left: 12px; padding-right: 12px;}",
+        ".header__desktop .page-width {padding-top: 8px; padding-bottom: 8px;}"
       ],
       "settings": {
         "menu": "main-menu",
