@@ -102,7 +102,7 @@
         "msg_presidents": {
           "type": "message",
           "settings": {
-            "text": "PRESIDENTS CUP SALE",
+            "text": "Presidents Cup Sale",
             "link": "",
             "show_icon": true,
             "icon": "trophy"
@@ -111,7 +111,7 @@
         "msg_shipping": {
           "type": "message",
           "settings": {
-            "text": "FREE SHIPPING $50+",
+            "text": "Free Shipping $50+",
             "link": "",
             "show_icon": true,
             "icon": "truck"
@@ -120,7 +120,7 @@
         "msg_gifts": {
           "type": "message",
           "settings": {
-            "text": "FREE GIFTS",
+            "text": "Free Gifts",
             "link": "",
             "show_icon": true,
             "icon": "gift"
