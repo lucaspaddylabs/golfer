@@ -835,7 +835,8 @@
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card:hover {
     border-color: {{ section.settings.accent_color }};
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-popular {
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-popular,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-best-value {
     border-color: {{ section.settings.accent_color }};
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected {
@@ -898,7 +899,8 @@
     line-height: 1;
     white-space: nowrap;
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular {
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--best-value {
     width: auto;
     min-width: 0;
     height: 26px;
@@ -909,10 +911,12 @@
     background: {{ section.settings.accent_color }};
     color: #fff;
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular .gn-arc-hero__bundle-check-label {
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular .gn-arc-hero__bundle-check-label,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--best-value .gn-arc-hero__bundle-check-label {
     display: inline;
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular svg {
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--popular svg,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-check--best-value svg {
     width: 0;
     opacity: 0;
     color: transparent;
@@ -922,14 +926,16 @@
     background: #fff;
     color: #2ab0ea;
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular {
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--best-value {
     border-color: #fff;
     background: #fff;
     color: #2ab0ea;
     gap: 4px;
     padding: 0 9px 0 6px;
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular svg {
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--popular svg,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-card.is-selected .gn-arc-hero__bundle-check--best-value svg {
     width: 12px;
     opacity: 1;
     color: #2ab0ea;
@@ -1151,16 +1157,18 @@
                     {%- assign bundle_total = bundle_unit_price | times: bundle_qty | minus: bundle_save_cents -%}
                     {%- assign bundle_was = bundle_unit_price | times: bundle_qty -%}
                     <div
-                      class="gn-arc-hero__bundle-card{% if block.settings.popular %} is-popular{% endif %}{% if bundle_qty == 1 %} is-selected{% endif %}"
+                      class="gn-arc-hero__bundle-card{% if block.settings.popular %} is-popular{% endif %}{% if block.settings.best_value %} is-best-value{% endif %}{% if bundle_qty == 1 %} is-selected{% endif %}"
                       data-gn-bundle
                       data-bundle-qty="{{ bundle_qty }}"
                       data-bundle-save="{{ bundle_save_cents }}"
                       {{ block.shopify_attributes }}
                     >
-                      <span class="gn-arc-hero__bundle-check{% if block.settings.popular %} gn-arc-hero__bundle-check--popular{% endif %}" aria-hidden="true">
+                      <span class="gn-arc-hero__bundle-check{% if block.settings.popular %} gn-arc-hero__bundle-check--popular{% endif %}{% if block.settings.best_value %} gn-arc-hero__bundle-check--best-value{% endif %}" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
                         {%- if block.settings.popular -%}
                           <span class="gn-arc-hero__bundle-check-label">Most popular</span>
+                        {%- elsif block.settings.best_value -%}
+                          <span class="gn-arc-hero__bundle-check-label">Best value</span>
                         {%- endif -%}
                       </span>
                       <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
@@ -1786,7 +1794,8 @@
       "settings": [
         { "type": "number", "id": "quantity", "label": "Quantity", "default": 1 },
         { "type": "number", "id": "save_amount", "label": "Save amount ($)", "default": 0, "info": "Discount in dollars off the total for this tier." },
-        { "type": "checkbox", "id": "popular", "label": "Show 'Most Popular' badge", "default": false }
+        { "type": "checkbox", "id": "popular", "label": "Show 'Most Popular' badge", "default": false },
+        { "type": "checkbox", "id": "best_value", "label": "Show 'Best Value' badge", "default": false }
       ]
     }
   ],
