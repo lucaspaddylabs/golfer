@@ -1,0 +1,332 @@
+{% comment %}
+  Site-wide activity toast (social proof).
+  Included from layout/theme.liquid. Sits above sticky ATC on mobile.
+{% endcomment %}
+<style>
+  .gn-activity-toast {
+    --gn-toast-ink: #182b20;
+    --gn-toast-accent: #1d3d2a;
+    --gn-toast-muted: #6b7a70;
+    --gn-toast-divider: #d7ddd8;
+    --gn-toast-clear: 24px;
+    position: fixed;
+    left: max(16px, env(safe-area-inset-left));
+    bottom: max(var(--gn-toast-clear), calc(env(safe-area-inset-bottom) + 16px));
+    z-index: 2147483000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: min(360px, calc(100vw - 32px));
+    padding: 12px;
+    border-radius: 12px;
+    background: #fff;
+    color: var(--gn-toast-ink);
+    box-shadow: 0 10px 30px rgba(24, 43, 32, 0.18);
+    border: 1px solid var(--gn-toast-divider);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.28s ease, transform 0.28s ease, bottom 0.2s ease;
+  }
+  .gn-activity-toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .gn-activity-toast[hidden] {
+    display: none !important;
+  }
+  .gn-activity-toast__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: #e7f0ea;
+    color: var(--gn-toast-accent);
+  }
+  .gn-activity-toast__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .gn-activity-toast__copy {
+    margin: 0;
+    flex: 1 1 auto;
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  .gn-activity-toast__dismiss {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    margin: 0 -4px 0 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--gn-toast-muted);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .gn-activity-toast__dismiss:hover {
+    background: #f3f1ea;
+    color: var(--gn-toast-ink);
+  }
+  @media (max-width: 749px) {
+    .gn-activity-toast {
+      --gn-toast-clear: 96px;
+      max-width: calc(100vw - 24px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gn-activity-toast {
+      transition: none;
+    }
+  }
+</style>
+
+<div
+  class="gn-activity-toast"
+  data-gn-activity-toast
+  data-toast-first="4.5"
+  data-toast-visible="6.5"
+  data-toast-interval="17"
+  role="status"
+  aria-live="polite"
+  hidden
+>
+  <span class="gn-activity-toast__icon" data-gn-toast-icon aria-hidden="true"></span>
+  <p class="gn-activity-toast__copy" data-gn-toast-message></p>
+  <button class="gn-activity-toast__dismiss" type="button" data-gn-toast-dismiss aria-label="Dismiss notifications">×</button>
+</div>
+
+<script>
+  (() => {
+    if (window.__gnActivityToastReady) return;
+    window.__gnActivityToastReady = true;
+
+    const toast = document.querySelector('[data-gn-activity-toast]');
+    if (!toast) return;
+    const storageKey = 'gn-activity-toast-dismissed';
+    try {
+      if (sessionStorage.getItem(storageKey) === '1') return;
+    } catch (e) {}
+
+    if (toast.parentElement !== document.body) {
+      document.body.appendChild(toast);
+    }
+
+    const messageEl = toast.querySelector('[data-gn-toast-message]');
+    const iconEl = toast.querySelector('[data-gn-toast-icon]');
+    const dismissBtn = toast.querySelector('[data-gn-toast-dismiss]');
+    const firstDelay = Number(toast.dataset.toastFirst || 4.5) * 1000;
+    const visibleFor = Number(toast.dataset.toastVisible || 6.5) * 1000;
+    const interval = Number(toast.dataset.toastInterval || 17) * 1000;
+
+    const people = [
+            // Top 5 states — 50 entries (10 each)
+            { name: 'Marcus', city: 'Los Angeles, CA' },
+            { name: 'Sofia', city: 'San Diego, CA' },
+            { name: 'Ryan', city: 'San Francisco, CA' },
+            { name: 'Aaliyah', city: 'Sacramento, CA' },
+            { name: 'Kenji', city: 'San Jose, CA' },
+            { name: 'Maya', city: 'Irvine, CA' },
+            { name: 'Carlos', city: 'Oakland, CA' },
+            { name: 'Elena', city: 'Fresno, CA' },
+            { name: 'Noah', city: 'Long Beach, CA' },
+            { name: 'Priya', city: 'Pasadena, CA' },
+            { name: 'Jenna', city: 'Miami, FL' },
+            { name: 'Andre', city: 'Orlando, FL' },
+            { name: 'Camila', city: 'Tampa, FL' },
+            { name: 'Tyler', city: 'Jacksonville, FL' },
+            { name: 'Nadia', city: 'Fort Lauderdale, FL' },
+            { name: 'Jordan', city: 'St. Petersburg, FL' },
+            { name: 'Isabella', city: 'Naples, FL' },
+            { name: 'Derek', city: 'West Palm Beach, FL' },
+            { name: 'Lucia', city: 'Sarasota, FL' },
+            { name: 'Kevin', city: 'Tallahassee, FL' },
+            { name: 'Diego', city: 'Austin, TX' },
+            { name: 'Harper', city: 'Houston, TX' },
+            { name: 'Miguel', city: 'Dallas, TX' },
+            { name: 'Ava', city: 'San Antonio, TX' },
+            { name: 'Brett', city: 'Fort Worth, TX' },
+            { name: 'Sofia', city: 'Plano, TX' },
+            { name: 'Jamal', city: 'El Paso, TX' },
+            { name: 'Riley', city: 'Arlington, TX' },
+            { name: 'Grace', city: 'Round Rock, TX' },
+            { name: 'Omar', city: 'Corpus Christi, TX' },
+            { name: 'Priya', city: 'Brooklyn, NY' },
+            { name: 'Liam', city: 'New York, NY' },
+            { name: 'Zoe', city: 'Buffalo, NY' },
+            { name: 'Ethan', city: 'Rochester, NY' },
+            { name: 'Amara', city: 'Albany, NY' },
+            { name: 'Chris', city: 'Syracuse, NY' },
+            { name: 'Nina', city: 'Queens, NY' },
+            { name: 'Owen', city: 'White Plains, NY' },
+            { name: 'Leah', city: 'Yonkers, NY' },
+            { name: 'David', city: 'Staten Island, NY' },
+            { name: 'Ethan', city: 'Columbus, OH' },
+            { name: 'Madison', city: 'Cleveland, OH' },
+            { name: 'Aaron', city: 'Cincinnati, OH' },
+            { name: 'Chloe', city: 'Dayton, OH' },
+            { name: 'Brandon', city: 'Toledo, OH' },
+            { name: 'Kayla', city: 'Akron, OH' },
+            { name: 'Seth', city: 'Dublin, OH' },
+            { name: 'Megan', city: 'Canton, OH' },
+            { name: 'Travis', city: 'Parma, OH' },
+            { name: 'Olivia', city: 'Youngstown, OH' },
+            // Other US markets — 50 entries
+            { name: 'Hunter', city: 'Phoenix, AZ' },
+            { name: 'Sienna', city: 'Scottsdale, AZ' },
+            { name: 'Cole', city: 'Tucson, AZ' },
+            { name: 'Brooke', city: 'Denver, CO' },
+            { name: 'Mason', city: 'Boulder, CO' },
+            { name: 'Paige', city: 'Colorado Springs, CO' },
+            { name: 'Devin', city: 'Atlanta, GA' },
+            { name: 'Jasmine', city: 'Savannah, GA' },
+            { name: 'Malik', city: 'Augusta, GA' },
+            { name: 'Claire', city: 'Chicago, IL' },
+            { name: 'Anthony', city: 'Naperville, IL' },
+            { name: 'Reese', city: 'Evanston, IL' },
+            { name: 'Grant', city: 'Charlotte, NC' },
+            { name: 'Hailey', city: 'Raleigh, NC' },
+            { name: 'Isaiah', city: 'Asheville, NC' },
+            { name: 'Lauren', city: 'Seattle, WA' },
+            { name: 'Cody', city: 'Bellevue, WA' },
+            { name: 'Nina', city: 'Spokane, WA' },
+            { name: 'Patrick', city: 'Philadelphia, PA' },
+            { name: 'Sadie', city: 'Pittsburgh, PA' },
+            { name: 'Victor', city: 'Allentown, PA' },
+            { name: 'Emma', city: 'Boston, MA' },
+            { name: 'Jake', city: 'Cambridge, MA' },
+            { name: 'Tessa', city: 'Worcester, MA' },
+            { name: 'Connor', city: 'Nashville, TN' },
+            { name: 'Bella', city: 'Memphis, TN' },
+            { name: 'Wyatt', city: 'Knoxville, TN' },
+            { name: 'Aisha', city: 'Detroit, MI' },
+            { name: 'Blake', city: 'Grand Rapids, MI' },
+            { name: 'Nora', city: 'Ann Arbor, MI' },
+            { name: 'Caleb', city: 'Portland, OR' },
+            { name: 'Ivy', city: 'Eugene, OR' },
+            { name: 'Miles', city: 'Bend, OR' },
+            { name: 'Faith', city: 'Minneapolis, MN' },
+            { name: 'Owen', city: 'St. Paul, MN' },
+            { name: 'Kara', city: 'Duluth, MN' },
+            { name: 'Luis', city: 'Las Vegas, NV' },
+            { name: 'Gia', city: 'Reno, NV' },
+            { name: 'Henry', city: 'Salt Lake City, UT' },
+            { name: 'June', city: 'Provo, UT' },
+            { name: 'Sam', city: 'Kansas City, MO' },
+            { name: 'Elle', city: 'St. Louis, MO' },
+            { name: 'Nate', city: 'Oklahoma City, OK' },
+            { name: 'Ruby', city: 'Tulsa, OK' },
+            { name: 'Ian', city: 'New Orleans, LA' },
+            { name: 'Mila', city: 'Baton Rouge, LA' },
+            { name: 'George', city: 'Charleston, SC' },
+            { name: 'Piper', city: 'Greenville, SC' },
+            { name: 'Alex', city: 'Indianapolis, IN' },
+            { name: 'Quinn', city: 'Milwaukee, WI' }
+          ];
+
+    // Shuffle once per visit so top-5 density stays ~50% while order feels random
+    for (let i = people.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = people[i];
+      people[i] = people[j];
+      people[j] = tmp;
+    }
+
+    const svgAttrs = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+    const icons = {
+      club: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="19.5" cy="19.5" r="1.5"/><path d="M17 5.92 9 2v18H7v-1.73c-1.79.35-3 .99-3 1.73 0 1.1 2.69 2 6 2s6-.9 6-2c0-.99-2.16-1.81-5-1.97V8.98l6-3.06z"/></svg>`,
+      gift: `<svg ${svgAttrs}><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M4 13h16"/><path d="M12 10v10"/><path d="M12 10c-1.8-2.4-4.5-2.6-5.5-1.4C5.2 10 6.4 12 8.5 12"/><path d="M12 10c1.8-2.4 4.5-2.6 5.5-1.4C18.8 10 17.6 12 15.5 12"/></svg>`,
+      bag: `<svg ${svgAttrs}><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>`,
+      tick: `<svg ${svgAttrs}><circle cx="12" cy="12" r="9"/><path d="m8.2 12.2 2.6 2.6 5-5.2"/></svg>`
+    };
+    const systemProducts = ['ARC ONE', 'LINE ONE', 'SYNC ONE', 'TRACE ONE'];
+    const slides = [
+      { icon: 'club', bought: true, text: (p, prod) => `${p.name} from ${p.city} just bought ${prod}!` },
+      { icon: 'gift', text: (p) => `${p.name} unlocked a free gift with their order!` },
+      { icon: 'bag', bought: true, text: (p, prod) => `${p.name} from ${p.city} just bought ${prod}!` },
+      { icon: 'tick', text: (p) => `${p.name} selected the 3-item bundle — 50% off!` }
+    ];
+
+    let index = 0;
+    let productIndex = 0;
+    let hideTimer = null;
+    let cycleTimer = null;
+    let stopped = false;
+
+    // Keep toast above sticky ATC / footer bars without covering the button
+    const clearStickyBars = () => {
+      const mobile = window.matchMedia('(max-width: 749px)').matches;
+      let clear = mobile ? 96 : 24;
+      if (mobile) {
+        const candidates = document.querySelectorAll(
+          '[data-gn-sticky-atc], .gn-arc-hero__sticky, [class*="sticky-add"], [class*="sticky-atc"], [id*="sticky-cart"], [class*="StickyAddToCart"]'
+        );
+        let tallest = 0;
+        candidates.forEach((el) => {
+          const style = window.getComputedStyle(el);
+          if (style.display === 'none' || style.visibility === 'hidden') return;
+          const h = el.getBoundingClientRect().height;
+          if (h > tallest) tallest = h;
+        });
+        if (tallest > 0) clear = Math.ceil(tallest) + 14;
+      }
+      toast.style.setProperty('--gn-toast-clear', clear + 'px');
+    };
+    clearStickyBars();
+    window.addEventListener('resize', clearStickyBars);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', clearStickyBars);
+    }
+    window.setTimeout(clearStickyBars, 800);
+    window.setTimeout(clearStickyBars, 2500);
+
+    const stop = () => {
+      stopped = true;
+      toast.classList.remove('is-visible');
+      toast.setAttribute('hidden', '');
+      if (hideTimer) window.clearTimeout(hideTimer);
+      if (cycleTimer) window.clearInterval(cycleTimer);
+    };
+
+    const showNext = () => {
+      if (stopped || document.hidden) return;
+      clearStickyBars();
+      const person = people[index % people.length];
+      const slide = slides[index % slides.length];
+      index += 1;
+      let prod = 'ARC ONE';
+      if (slide.bought) {
+        prod = systemProducts[productIndex % systemProducts.length];
+        productIndex += 1;
+      }
+      if (iconEl) iconEl.innerHTML = icons[slide.icon] || icons.bag;
+      messageEl.textContent = slide.text(person, prod);
+      toast.removeAttribute('hidden');
+      requestAnimationFrame(() => toast.classList.add('is-visible'));
+      if (hideTimer) window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(() => {
+        toast.classList.remove('is-visible');
+        window.setTimeout(() => {
+          if (!toast.classList.contains('is-visible')) toast.setAttribute('hidden', '');
+        }, 280);
+      }, visibleFor);
+    };
+
+    dismissBtn?.addEventListener('click', () => {
+      try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+      stop();
+    });
+
+    window.setTimeout(() => {
+      showNext();
+      cycleTimer = window.setInterval(showNext, interval);
+    }, firstDelay);
+  })();
+</script>

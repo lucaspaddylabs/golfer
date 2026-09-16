@@ -73,7 +73,6 @@
         "benefit_1": "Perfect your grip",
         "benefit_2": "Fix your slices and hooks",
         "benefit_3": "Practice anywhere with instant feedback",
-        "lede": "Make a few slow practice swings and listen for the click. Early means you\u2019re casting. Closer to impact means the timing is better. No balls, no net, no app.",
         "stage_label": "What the click means",
         "signal_label_1": "Early click",
         "signal_text_1": "You\u2019re letting go near the top.",
@@ -101,7 +100,20 @@
         "stage_accent": "#4d846e",
         "min_height": 480,
         "padding_top": 0,
-        "padding_bottom": 0
+        "padding_bottom": 0,
+        "show_review_strip": true,
+        "star_color": "yellow",
+        "show_bestfor": true,
+        "bestfor_style": "muted",
+        "bestfor_label": "Best for:",
+        "bestfor_value": "Grip and swing.",
+        "bestfor_muted_text": "Grip and swing",
+        "review_rating": "4.8",
+        "review_sold_text": "10,000+ sold",
+        "show_viewer_badge": true,
+        "viewer_min": 126,
+        "viewer_max": 134,
+        "viewer_interval": 9
       }
     },
     "story": {
@@ -340,7 +352,7 @@
         "cta_heading": "Want to try it?",
         "cta_copy": "Try ARC ONE risk-free for 30 days. Get yours while the current sale is still live.",
         "cta_button_text": "Add ARC ONE",
-        "background_color": "#f2eee3",
+        "background_color": "#ffffff",
         "heading_color": "#182b20",
         "text_color": "#4a4a44",
         "accent_color": "#1d3d2a",
@@ -349,8 +361,8 @@
         "cta_text_color": "#f5f3ec",
         "cta_button_background": "#f5f1e8",
         "cta_button_text_color": "#1d3d2a",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "padding_top": 70,
+        "padding_bottom": 80
       }
     }
   },

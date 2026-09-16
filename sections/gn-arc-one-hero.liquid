@@ -7,6 +7,19 @@
   endif
   assign hero_product_image = section.settings.product_image_override
   assign hero_image_alt = section.settings.product_image_alt | default: product.title
+
+  # Preview A/B: ?gn_stars=yellow|green and ?gn_bestfor=emphasized|muted (handled in JS)
+  assign star_color = section.settings.star_color | default: 'yellow'
+  if star_color == 'green'
+    assign star_fill = section.settings.accent_color | default: '#1d3d2a'
+  else
+    assign star_fill = '#E4B53C'
+  endif
+
+  assign bestfor_style = section.settings.bestfor_style | default: 'muted'
+  assign viewer_min = section.settings.viewer_min | default: 126
+  assign viewer_max = section.settings.viewer_max | default: 134
+  assign viewer_start = viewer_min | plus: viewer_max | divided_by: 2
 %}
 
 <style>
@@ -33,6 +46,40 @@
     justify-content: flex-start;
     padding: 28px 0 16px 40px;
   }
+  #shopify-section-{{ section.id }} .gn-arc-hero__review-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+    margin: 0 0 12px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__review-rating {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: {{ section.settings.ink_color }};
+    line-height: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    line-height: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stars svg {
+    width: 17px;
+    height: 17px;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__review-copy {
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: {{ section.settings.ink_color }};
+    line-height: 1;
+  }
   #shopify-section-{{ section.id }} .gn-arc-hero__eyebrow {
     margin: 0 0 8px;
     font-size: 0.72rem;
@@ -41,8 +88,15 @@
     text-transform: uppercase;
     color: {{ section.settings.accent_color }};
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__heading {
+  #shopify-section-{{ section.id }} .gn-arc-hero__title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
     margin: 0 0 10px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__heading {
+    margin: 0;
     font-family: var(--font-body-family), sans-serif;
     font-size: clamp(2rem, 3.4vw, 2.65rem);
     line-height: 0.95;
@@ -50,11 +104,50 @@
     letter-spacing: -0.03em;
     color: {{ section.settings.ink_color }};
   }
-  #shopify-section-{{ section.id }} .gn-arc-hero__tagline {
+  #shopify-section-{{ section.id }} .gn-arc-hero__viewer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #e7f0ea;
+    color: {{ section.settings.accent_color }};
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__viewer svg {
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__viewer-count {
+    font-variant-numeric: tabular-nums;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__tagline,
+  #shopify-section-{{ section.id }} .gn-arc-hero__bestfor {
     margin: 0 0 12px;
     max-width: 36ch;
     font-size: 1rem;
     line-height: 1.4;
+    font-weight: 500;
+    color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bestfor-label {
+    font-weight: 500;
+    color: {{ section.settings.muted_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bestfor-value {
+    font-weight: 700;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bestfor--muted .gn-arc-hero__bestfor-label {
+    font-weight: 700;
+    color: {{ section.settings.ink_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bestfor--muted .gn-arc-hero__bestfor-value {
     font-weight: 500;
     color: {{ section.settings.muted_color }};
   }
@@ -569,17 +662,39 @@
       animation: none;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__buy-col {
-      padding: 12px 16px 16px;
+      padding: 20px 16px 16px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__review-strip {
+      margin: 2px 0 10px;
+      gap: 5px 7px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__review-rating {
+      font-size: 0.84rem;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stars svg {
+      width: 15px;
+      height: 15px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__review-copy {
+      font-size: 0.78rem;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__eyebrow {
       margin-bottom: 6px;
       font-size: 0.7rem;
     }
-    #shopify-section-{{ section.id }} .gn-arc-hero__heading {
+    #shopify-section-{{ section.id }} .gn-arc-hero__title-row {
       margin-bottom: 6px;
+      gap: 8px 10px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__heading {
       font-size: clamp(1.7rem, 8vw, 2.1rem);
     }
-    #shopify-section-{{ section.id }} .gn-arc-hero__tagline {
+    #shopify-section-{{ section.id }} .gn-arc-hero__viewer {
+      font-size: 0.68rem;
+      padding: 4px 9px;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__tagline,
+    #shopify-section-{{ section.id }} .gn-arc-hero__bestfor {
       margin-bottom: 10px;
       max-width: none;
       font-size: 0.95rem;
@@ -898,8 +1013,51 @@
       {%- if section.settings.eyebrow_text != blank -%}
         <p class="gn-arc-hero__eyebrow">{{ section.settings.eyebrow_text }}</p>
       {%- endif -%}
-      <h1 class="gn-arc-hero__heading">{{ section.settings.heading | default: product.title }}</h1>
-      {%- if section.settings.tagline != blank -%}
+      <div class="gn-arc-hero__title-row">
+        <h1 class="gn-arc-hero__heading">{{ section.settings.heading | default: product.title }}</h1>
+        {%- if section.settings.show_viewer_badge -%}
+          <span
+            class="gn-arc-hero__viewer"
+            data-gn-viewer
+            data-viewer-min="{{ viewer_min }}"
+            data-viewer-max="{{ viewer_max }}"
+            data-viewer-interval="{{ section.settings.viewer_interval | default: 9 }}"
+            aria-live="polite"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <span><span class="gn-arc-hero__viewer-count" data-gn-viewer-count>{{ viewer_start }}</span> viewing</span>
+          </span>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.show_review_strip -%}
+        <div
+          class="gn-arc-hero__review-strip"
+          aria-label="{{ section.settings.review_rating }} out of 5 · {{ section.settings.review_sold_text | escape }}"
+        >
+          <p class="gn-arc-hero__review-rating">{{ section.settings.review_rating }}</p>
+          <span class="gn-arc-hero__stars" aria-hidden="true" data-gn-stars data-default-star="{{ star_color }}" data-star-yellow="#E4B53C" data-star-green="{{ section.settings.accent_color | default: '#1d3d2a' }}">
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 20 20" fill="{{ star_fill }}" xmlns="http://www.w3.org/2000/svg"><path d="M10 1.5l2.35 4.76 5.25.76-3.8 3.7.9 5.22L10 13.77l-4.7 2.47.9-5.22-3.8-3.7 5.25-.76L10 1.5z"/></svg>
+            {%- endfor -%}
+          </span>
+          <p class="gn-arc-hero__review-copy">{{ section.settings.review_sold_text }}</p>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.show_bestfor -%}
+        <div class="gn-arc-hero__bestfor-wrap" data-gn-bestfor-wrap data-default-style="{{ bestfor_style }}">
+          <p class="gn-arc-hero__bestfor" data-gn-bestfor-emphasized{% if bestfor_style == 'muted' %} hidden{% endif %}>
+            <span class="gn-arc-hero__bestfor-label">{{ section.settings.bestfor_label }}</span>
+            <span class="gn-arc-hero__bestfor-value">{{ section.settings.bestfor_value }}</span>
+          </p>
+          <p class="gn-arc-hero__bestfor gn-arc-hero__bestfor--muted" data-gn-bestfor-muted{% if bestfor_style != 'muted' %} hidden{% endif %}>
+            <span class="gn-arc-hero__bestfor-label">{{ section.settings.bestfor_label }}</span>
+            <span class="gn-arc-hero__bestfor-value">{{ section.settings.bestfor_muted_text }}</span>
+          </p>
+        </div>
+      {%- elsif section.settings.tagline != blank -%}
         <p class="gn-arc-hero__tagline">{{ section.settings.tagline }}</p>
       {%- endif -%}
       {%- if section.settings.benefit_1 != blank or section.settings.benefit_2 != blank or section.settings.benefit_3 != blank -%}
@@ -1199,6 +1357,7 @@
     </div>
   {% endif %}
 
+
   <script type="application/json" data-gn-variants>
     {{ product.variants | json }}
   </script>
@@ -1209,6 +1368,45 @@
     const section = document.getElementById('gn-arc-hero-{{ section.id }}');
     if (!section || section.dataset.gnReady === 'true') return;
     section.dataset.gnReady = 'true';
+
+    // Preview A/B helpers: ?gn_stars=yellow|green  ?gn_bestfor=emphasized|muted
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const starParam = params.get('gn_stars');
+      const bestParam = params.get('gn_bestfor');
+      const stars = section.querySelector('[data-gn-stars]');
+      if (stars && (starParam === 'yellow' || starParam === 'green')) {
+        const fill = starParam === 'green' ? stars.dataset.starGreen : stars.dataset.starYellow;
+        stars.querySelectorAll('svg').forEach((svg) => svg.setAttribute('fill', fill));
+      }
+      const wrap = section.querySelector('[data-gn-bestfor-wrap]');
+      if (wrap && (bestParam === 'emphasized' || bestParam === 'muted')) {
+        const emphasized = wrap.querySelector('[data-gn-bestfor-emphasized]');
+        const muted = wrap.querySelector('[data-gn-bestfor-muted]');
+        if (emphasized && muted) {
+          emphasized.hidden = bestParam !== 'emphasized';
+          muted.hidden = bestParam !== 'muted';
+        }
+      }
+    })();
+
+    // Viewer badge: draft count 126–134, tick every ~9s
+    (() => {
+      const badge = section.querySelector('[data-gn-viewer]');
+      const countEl = section.querySelector('[data-gn-viewer-count]');
+      if (!badge || !countEl) return;
+      const min = Number(badge.dataset.viewerMin || 126);
+      const max = Number(badge.dataset.viewerMax || 134);
+      const intervalSec = Number(badge.dataset.viewerInterval || 9);
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const roll = () => Math.floor(min + Math.random() * (max - min + 1));
+      countEl.textContent = String(roll());
+      if (reduced) return;
+      window.setInterval(() => {
+        countEl.textContent = String(roll());
+      }, Math.max(3, intervalSec) * 1000);
+    })();
+
 
     const variants = JSON.parse(section.querySelector('[data-gn-variants]').textContent);
     const form = section.querySelector('#{{ product_form_id }}');
@@ -1476,7 +1674,44 @@
     { "type": "header", "content": "Copy" },
     { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "Sequence trainer" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "ARC ONE" },
-    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Hear the moment your release arrives." },
+    { "type": "textarea", "id": "tagline", "label": "Tagline (fallback)", "default": "Hear the moment your release arrives.", "info": "Only shown when Best for is disabled." },
+    { "type": "header", "content": "Review & sales strip" },
+    { "type": "checkbox", "id": "show_review_strip", "label": "Show review & sales strip", "default": true, "info": "Locked under the product title (below ARC ONE / SWING TRAINER)." },
+    { "type": "text", "id": "review_rating", "label": "Rating number", "default": "4.8" },
+    { "type": "text", "id": "review_sold_text", "label": "Sold text", "default": "10,000+ sold" },
+    {
+      "type": "select",
+      "id": "star_color",
+      "label": "Star color",
+      "options": [
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "green", "label": "Brand green" }
+      ],
+      "default": "yellow",
+      "info": "Locked to yellow; star size locked slightly larger than the strip text."
+    },
+    { "type": "header", "content": "Best for line" },
+    { "type": "checkbox", "id": "show_bestfor", "label": "Show Best for line (replaces tagline)", "default": true },
+    {
+      "type": "select",
+      "id": "bestfor_style",
+      "label": "Best for style",
+      "options": [
+        { "value": "emphasized", "label": "Best for (muted) + Grip and swing. (strong)" },
+        { "value": "muted", "label": "Best for (bold) + Grip and swing (muted)" }
+      ],
+      "default": "muted",
+      "info": "Locked to bold Best for + muted Grip and swing. Preview override: ?gn_bestfor=emphasized|muted"
+    },
+    { "type": "text", "id": "bestfor_label", "label": "Label (emphasized style)", "default": "Best for:" },
+    { "type": "text", "id": "bestfor_value", "label": "Value (emphasized style)", "default": "Grip and swing." },
+    { "type": "text", "id": "bestfor_muted_text", "label": "Muted style text", "default": "Grip and swing" },
+    { "type": "header", "content": "Viewer badge" },
+    { "type": "checkbox", "id": "show_viewer_badge", "label": "Show viewing badge beside title", "default": true },
+    { "type": "number", "id": "viewer_min", "label": "Viewer count min", "default": 126 },
+    { "type": "number", "id": "viewer_max", "label": "Viewer count max", "default": 134 },
+    { "type": "range", "id": "viewer_interval", "min": 5, "max": 20, "step": 1, "unit": "s", "label": "Viewer refresh interval", "default": 9 },
+    { "type": "header", "content": "Activity notifications" },
     { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Perfect your grip" },
     { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Fix your slices and hooks" },
     { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Practice anywhere with instant feedback" },
