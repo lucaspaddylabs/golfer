@@ -10,6 +10,7 @@ component-cart-drawer.css,
 component-price.css,
 component-toggle.css,
 component-cart-items.css,
+component-free-delivery-bar.css,
 swiper-bundle.min.css,
 component-swiper-slider.css
 ' -%}
@@ -33,15 +34,12 @@ component-swiper-slider.css
             </div>
             <h4 class="mb0">{{ 'sections.cart.empty' | t }}</h4>
 
-            <button class="mt40 btn btn__transition-text w-full"
+            <button class="mt40 btn w-full"
                     type="button"
                     onclick="this.closest('cart-drawer').close()"
                     aria-label="{{ 'accessibility.close' | t }}"
                     >
-              <div class="btn__texts">
-                <span class="btn__top-text is-visible">{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
-                <span class="btn__bottom-text is-hidden">{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
-              </div>
+              <span>{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
             </button>
 
             {%- if shop.customer_accounts_enabled and customer == nil -%}
@@ -110,7 +108,7 @@ component-swiper-slider.css
       {%- endif -%}
       <div class="drawer__footer">
         <div class="drawer__footer-content">
-          <h4 class="drawer__heading mt0 mb0">{{ 'sections.cart.title' | t }}</h4>
+          <h4 class="drawer__heading mt0 mb0">Your bag ({{ cart.item_count }})</h4>
           {%- if settings.show_free_delivery -%}
           <div id="cart-page-free-delivery" class="free-delivery-bar">
             {%- render "free-delivery-bar" -%}
@@ -126,6 +124,23 @@ component-swiper-slider.css
                 
                 <div class="drawer__cart-items-wrapper">
                   {%- for item in cart.items -%}
+                  {%- liquid
+                    assign cart_item_save = item.original_line_price | minus: item.final_line_price
+                    if item.line_level_total_discount > cart_item_save
+                      assign cart_item_save = item.line_level_total_discount
+                    endif
+                    assign cart_item_alloc = 0
+                    for allocation in item.discount_allocations
+                      assign cart_item_alloc = cart_item_alloc | plus: allocation.amount
+                    endfor
+                    if cart_item_alloc > cart_item_save
+                      assign cart_item_save = cart_item_alloc
+                    endif
+                    assign cart_item_pay = item.original_line_price | minus: cart_item_save
+                    if cart_item_pay < 0
+                      assign cart_item_pay = 0
+                    endif
+                  -%}
                   <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
                     <div class="drawer__cart-item__content">
                       {% if item.image %}
@@ -158,16 +173,9 @@ component-swiper-slider.css
                       {% endif %}
                       <div class="drawer__cart-item__details">
                         <div class="drawer__cart-item__details__items body3 mt--first-child-0">
-                          {%- if settings.show_vendor -%}
-                          <p>
-                            <a class="mt0 product-card-small__meta link link__base-to_accent-color text-uppercase a--no-hover-color native-hover"
-                               href="{{ routes.collections_url }}/all?filter.p.vendor={{ item.product.vendor | escape }}">{{ item.product.vendor }}</a>
-                          </p>
-                          {%- endif -%}
-        
-                          <a href="{{ item.url }}" class="mt10 h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
+                          <a href="{{ item.url }}" class="h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
-                          <div class="mt10">{{ item.original_price | money }}</div>
+                          <div class="cart-item__unit-price">{{ item.original_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
                           {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
                           <dl class="mt3">
                             {%- if item.product.has_only_default_variant == false -%}
@@ -201,22 +209,23 @@ component-swiper-slider.css
                           <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                           {%- endif -%}
 
-                          {%- capture _content -%}
-                          {%- for discount in item.discounts -%}
-                          <li class="discounts__discount cart-item-message__content">
-                            {%- render 'icon-discount' -%}
-                            <span class="cart-item-message__content__text">{{ discount.title }}</span>
-                          </li>
-                          {%- endfor -%}
-                          {%- endcapture -%}
-                          <ul class="mt10 discounts cart-item-message unstyle-ul" role="list" aria-label="{{ 'customer.order.discount' | t }}">{{ _content }}</ul>
+                          {%- if cart_item_save > 0 -%}
+                            <span class="cart-item__discount-badge">
+                              {%- if cart_item_pay == 0 -%}
+                                Free
+                              {%- else -%}
+                                Save {{ cart_item_save | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                              {%- endif -%}
+                            </span>
+                          {%- endif -%}
 
                           <div class="cart-item__error cart-item-message__content" id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}" role="alert">
                             <span class="cart-item__error-text cart-item-message__content__text"></span>
                             {%- render "icon-info" -%}
                           </div>
                         </div>
-                        <div class="cart-item__quantity mt20">
+                        <div class="cart-item__actions">
+                        <div class="cart-item__quantity">
                           <label class="visually-hidden" for="Drawer-quantity-{{ item.index | plus: 1 }}">
                             {{ 'products.product.quantity.label' | t }}
                           </label>
@@ -254,7 +263,7 @@ component-swiper-slider.css
                             </a>
                           </cart-remove-button>
                         </div>
-                        <div class="cart-item__totals mt20">
+                        <div class="cart-item__totals">
                           <div class="loading-overlay hidden">
                             <div class="loading-overlay__spinner">
                               <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
@@ -262,27 +271,21 @@ component-swiper-slider.css
                               </svg>
                             </div>
                           </div>
-                          {%- if item.original_line_price != item.final_line_price -%}
-                          <div class="cart-item__discounted-prices">
-                            <div class="visually-hidden">
-                              {{ 'products.product.price.regular_price' | t }}
+                          {%- if cart_item_save > 0 -%}
+                            <div class="cart-item__discounted-prices">
+                              <span class="price__sale{% if cart_item_pay == 0 %} price__free{% endif %}">
+                                {%- if cart_item_pay == 0 -%}
+                                  Free
+                                {%- else -%}
+                                  {{ cart_item_pay | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                                {%- endif -%}
+                              </span>
+                              <s class="price__regular">{{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                             </div>
-                            <div>                     
-                              <div class="price price__regular body3">
-                                {{ item.original_line_price | money }}
-                              </div>
-                            </div>
-                            <div class="visually-hidden">
-                              {{ 'products.product.price.sale_price' | t }}
-                            </div>
-                            <div class="h5 price__sale mt3">
-                              {{ item.final_line_price | money }}
-                            </div>
-                          </div>
                           {%- else -%}
-                          <span class="h5 price__main">
-                            {{ item.original_line_price | money }}
-                          </span>
+                            <span class="price__main">
+                              {{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                            </span>
                           {%- endif -%}
         
                           {%- if item.variant.available and item.unit_price_measurement -%}
@@ -297,6 +300,7 @@ component-swiper-slider.css
                             {{ item.variant.unit_price_measurement.reference_unit }}
                           </div>
                           {%- endif -%}
+                        </div>
                         </div>
                       </div>
                     </div>
@@ -314,9 +318,10 @@ component-swiper-slider.css
           </cart-drawer-items>
         </div>
         <div class="drawer__footer-footer">
+          {%- if cart != empty and settings.cart_drawer_upsell_enable != false -%}
+            {%- render 'cart-drawer-upsell' -%}
+          {%- endif -%}
 
-          {%- render 'gn-cart-upsell' -%}
-        
           {%- if settings.show_cart_note -%}
           <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
             <details class="chm-toggle">
@@ -340,7 +345,7 @@ component-swiper-slider.css
           </toggle-component>
           {%- endif -%}
 
-          {% comment %} Discount code UI hidden — reinstate by removing `false and` when codes are ready {% endcomment %}
+          {% comment %} Discount code UI temporarily hidden — reinstate by removing `false and` when codes are ready {% endcomment %}
           {%- if false and settings.show_add_discount_code -%}
           {%- capture html -%}
           {%- render "cart-discount", section_id:section.id -%}
@@ -361,8 +366,15 @@ component-swiper-slider.css
           <div class="cart__footer__information">
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
               <div class="totals">
-                <h4 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h4>&nbsp;
-                <p class="mt0 h4 totals__subtotal-value">{{ cart.total_price | money_with_currency }}</p>
+                <h4 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h4>
+                {%- if cart.original_total_price > cart.total_price -%}
+                  <p class="mt0 h4 totals__subtotal-value totals__subtotal-value--sale">
+                    <span>{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                    <s class="totals__compare">{{ cart.original_total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+                  </p>
+                {%- else -%}
+                  <p class="mt0 h4 totals__subtotal-value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                {%- endif -%}
               </div>
   
               {% if settings.show_installments %}
@@ -418,28 +430,30 @@ component-swiper-slider.css
             <div class="mt20">
               <button type="submit"
                       id="CartDrawer-Checkout"
-                      class="btn btn--checkout btn__transition-text w-full"
+                      class="btn btn--checkout w-full"
                       name="checkout"
                       form="CartDrawer-Form"{% if cart == empty %} disabled{% endif %}
                       >
-                <div class="btn__texts">
-                  <span class="btn__top-text is-visible">{%- render "icon-check" -%}{{ 'sections.cart.checkout' | t }}</span>
-                  <span class="btn__bottom-text is-hidden">{%- render "icon-check" -%}{{ 'sections.cart.checkout' | t }}</span>
-                </div>
+                <span>
+                  Checkout
+                  {%- if cart.total_price > 0 -%}
+                    &nbsp;– {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                  {%- endif -%}
+                </span>
               </button>
             </div>
             <div class="gn-cart-trust-row" aria-label="Checkout assurances">
               <div class="gn-trust-item">
-                {%- render 'gn-trust-icons', icon: 'lock', text: 'Secure checkout' -%}
-                <span>Secure checkout</span>
+                {%- render 'gn-trust-icons', icon: 'truck', text: 'Free shipping' -%}
+                <span>Free shipping</span>
               </div>
               <div class="gn-trust-item">
-                {%- render 'gn-trust-icons', icon: 'returns', text: '30-day returns' -%}
+                {%- render 'gn-trust-icons', icon: 'shield', text: '30-day returns' -%}
                 <span>30-day returns</span>
               </div>
               <div class="gn-trust-item">
-                {%- render 'gn-trust-icons', icon: 'truck', text: 'Free shipping $50+' -%}
-                <span>Free shipping $50+</span>
+                {%- render 'gn-trust-icons', icon: 'globe', text: 'Worldwide shipping' -%}
+                <span>Worldwide shipping</span>
               </div>
             </div>
             {%- endif -%}
@@ -452,10 +466,6 @@ component-swiper-slider.css
                 {%- render "icon-arrow-left-2" -%}
                 <span>{{ 'general.continue_shopping' | t }}</span>
               </button>
-              <a href="{{ routes.cart_url }}" class="link link--medium link-hover-span strong{% if settings.buttons_uppercase %} text-uppercase{% endif %}">
-                <span>{{- 'general.cart.view_empty_cart' | t -}}</span>
-                {%- render "icon-arrow-right-2" -%}
-              </a>
             </div>
           </div>            
           
