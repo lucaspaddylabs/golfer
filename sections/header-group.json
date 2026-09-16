@@ -105,7 +105,7 @@
             "text": "PRESIDENTS CUP SALE",
             "link": "",
             "show_icon": true,
-            "icon": "star"
+            "icon": "trophy"
           }
         },
         "msg_shipping": {
@@ -140,14 +140,13 @@
         "gradient_color_3": "#244a34",
         "speed": 25,
         "direction": "left",
-        "separator": "•",
         "show_glow": false,
         "show_shimmer": false,
         "is_sticky": false,
         "show_close": false,
         "text_color": "#ffffff",
-        "font_size": 14,
-        "padding_y": 12
+        "font_size": 13,
+        "padding_y": 8
       }
     },
     "header_classic_gn": {
