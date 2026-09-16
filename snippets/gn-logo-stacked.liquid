@@ -1,0 +1,15 @@
+{%- comment -%}
+  Stacked GOLFERNOW mark shipped in theme assets (mobile).
+  Accepts: max_width {Number} — display width in px (default 80)
+{%- endcomment -%}
+{%- assign gn_logo_w = max_width | default: 80 -%}
+{%- assign gn_logo_h = gn_logo_w | times: 88.0 | divided_by: 160.0 | round -%}
+<img
+  src="{{ 'golfernow-logo-stacked.png' | asset_url }}"
+  class="header__heading-logo header__heading-logo--stacked"
+  alt="{{ shop.name | escape }}"
+  width="{{ gn_logo_w }}"
+  height="{{ gn_logo_h }}"
+  style="max-width: {{ gn_logo_w }}px"
+  loading="eager"
+>

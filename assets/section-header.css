@@ -648,7 +648,13 @@ header{
   display: block;
 }
 
-/* Logo lockup follows sticky ATC: horizontal ≤900px, stacked ≥901px */
+/* Logo lockup: stacked on mobile (≤900px), horizontal wordmark above */
+.header__heading-logo--stacked{
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
 .header__heading-logo--horizontal{
   display: none;
   width: min(168px, 52vw);
@@ -657,18 +663,26 @@ header{
 }
 @media (max-width: 900px){
   .header__mobile .header__heading-logo--stacked{
-    display: none !important;
+    display: block !important;
   }
   .header__mobile .header__heading-logo--horizontal{
-    display: block;
+    display: none !important;
   }
   .header__mobile .header__button svg{
     width: 18px;
     height: 18px;
   }
 }
+@media (min-width: 901px){
+  .header__mobile .header__heading-logo--stacked{
+    display: none !important;
+  }
+  .header__mobile .header__heading-logo--horizontal{
+    display: block;
+  }
+}
 
-/* Compact mobile chrome (hamburger + horizontal logo ≤900px) */
+/* Compact mobile chrome (hamburger + stacked logo ≤900px) */
 @media (max-width: 900px){
   .header__mobile__grid{
     min-height: 44px;
