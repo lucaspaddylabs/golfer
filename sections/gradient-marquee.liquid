@@ -72,8 +72,10 @@
 
   .gradient-marquee-track {
     display: flex;
+    width: max-content;
     animation: marquee-scroll var(--marquee-speed, 25s) linear infinite;
     white-space: nowrap;
+    will-change: transform;
   }
 
   .gradient-marquee-bar:hover .gradient-marquee-track {
@@ -92,6 +94,7 @@
   .gradient-marquee-content {
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
     gap: 2.5rem;
     padding: 0 1.25rem;
   }
@@ -240,9 +243,10 @@
   "
 >
   <div class="gradient-marquee-inner">
-    <div class="gradient-marquee-track">
+    <div class="gradient-marquee-track" data-marquee-track>
+      {%- comment -%} Two seed groups; JS clones until track always covers ≥2 viewports (seamless on ultrawide). {%- endcomment -%}
       {%- for i in (1..2) -%}
-        <div class="gradient-marquee-content">
+        <div class="gradient-marquee-content" data-marquee-seed>
           {%- for block in section.blocks -%}
             {%- if block.settings.text != blank -%}
               {%- if block.settings.link != blank -%}
@@ -296,6 +300,50 @@
     </button>
   {%- endif -%}
 </div>
+<script>
+  (function () {
+    var bar = document.getElementById('gradient-marquee-{{ section.id }}');
+    if (!bar) return;
+    var track = bar.querySelector('[data-marquee-track]');
+    if (!track) return;
+
+    function rebuild() {
+      var seeds = Array.prototype.slice.call(track.querySelectorAll('[data-marquee-seed]'));
+      if (!seeds.length) return;
+
+      // Keep only the seed nodes, then rebuild clones
+      Array.prototype.slice.call(track.children).forEach(function (child) {
+        if (!child.hasAttribute('data-marquee-seed')) child.remove();
+      });
+
+      var viewport = Math.max(window.innerWidth || 0, bar.clientWidth || 0, 320);
+      var guard = 0;
+      // Grow the first half until it covers the viewport
+      while (track.scrollWidth < viewport + 20 && guard < 24) {
+        seeds.forEach(function (node) {
+          var clone = node.cloneNode(true);
+          clone.removeAttribute('data-marquee-seed');
+          track.appendChild(clone);
+        });
+        guard += 1;
+      }
+
+      // Duplicate the whole half so translateX(-50%) loops seamlessly
+      Array.prototype.slice.call(track.children).forEach(function (node) {
+        var clone = node.cloneNode(true);
+        clone.removeAttribute('data-marquee-seed');
+        track.appendChild(clone);
+      });
+    }
+
+    rebuild();
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(rebuild, 150);
+    });
+  })();
+</script>
 {%- endif -%}
 {% schema %}
 {
