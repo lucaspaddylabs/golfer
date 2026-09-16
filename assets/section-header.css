@@ -648,9 +648,11 @@ header{
   display: block;
 }
 
-/* Logo lockup: stacked on mobile (≤900px), horizontal wordmark above */
+/* Logo lockup shares sticky-ATC breakpoint (900px):
+   ≤900 sticky ATC on → stacked mark
+   ≥901 sticky ATC off → horizontal wordmark (mobile header until 1024; desktop header from 1025) */
 .header__heading-logo--stacked{
-  display: block;
+  display: none;
   width: auto;
   max-width: 100%;
   height: auto;
@@ -678,18 +680,18 @@ header{
     display: none !important;
   }
   .header__mobile .header__heading-logo--horizontal{
-    display: block;
+    display: block !important;
   }
 }
 
-/* Compact mobile chrome (hamburger + stacked logo ≤900px) */
+/* Compact mobile chrome with sticky ATC (≤900px) */
 @media (max-width: 900px){
   .header__mobile__grid{
     min-height: 44px;
     padding: 6px 0;
   }
 }
-/* Mid desktop (901–1024): stacked mark stays side-aligned with text nav */
+/* Mid band (901–1024): horizontal wordmark while mobile header still shows */
 @media (min-width: 901px) and (max-width: 1024px){
   .header__desktop .header__heading-logo{
     max-height: 40px;
