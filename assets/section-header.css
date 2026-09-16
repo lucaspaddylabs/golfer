@@ -649,8 +649,8 @@ header{
 }
 
 /* Logo lockup shares sticky-ATC breakpoint (900px):
-   ≤900 sticky ATC on → stacked mark
-   ≥901 sticky ATC off → horizontal wordmark (mobile header until 1024; desktop header from 1025) */
+   ≤900 sticky ATC on → horizontal wordmark
+   ≥901 sticky ATC off → stacked mark (mobile header until 1024; desktop header from 1025) */
 .header__heading-logo--stacked{
   display: none;
   width: auto;
@@ -665,10 +665,10 @@ header{
 }
 @media (max-width: 900px){
   .header__mobile .header__heading-logo--stacked{
-    display: block !important;
+    display: none !important;
   }
   .header__mobile .header__heading-logo--horizontal{
-    display: none !important;
+    display: block !important;
   }
   .header__mobile .header__button svg{
     width: 18px;
@@ -677,10 +677,10 @@ header{
 }
 @media (min-width: 901px){
   .header__mobile .header__heading-logo--stacked{
-    display: none !important;
+    display: block !important;
   }
   .header__mobile .header__heading-logo--horizontal{
-    display: block !important;
+    display: none !important;
   }
 }
 
@@ -691,7 +691,7 @@ header{
     padding: 6px 0;
   }
 }
-/* Mid band (901–1024): horizontal wordmark while mobile header still shows */
+/* Mid band (901–1024): stacked mark while mobile header still shows */
 @media (min-width: 901px) and (max-width: 1024px){
   .header__desktop .header__heading-logo{
     max-height: 40px;
