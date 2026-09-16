@@ -96,43 +96,65 @@
         "color_base_rating": "rgba(0,0,0,0)"
       }
     },
-    "promo_header_D3qrqW": {
-      "type": "promo-header",
-      "name": "t:header.promo_header",
+    "gradient_marquee_gn": {
+      "type": "gradient-marquee",
+      "blocks": {
+        "msg_presidents": {
+          "type": "message",
+          "settings": {
+            "text": "PRESIDENTS CUP SALE",
+            "link": "",
+            "show_icon": true,
+            "icon": "star"
+          }
+        },
+        "msg_shipping": {
+          "type": "message",
+          "settings": {
+            "text": "FREE SHIPPING $50+",
+            "link": "",
+            "show_icon": true,
+            "icon": "truck"
+          }
+        },
+        "msg_gifts": {
+          "type": "message",
+          "settings": {
+            "text": "FREE GIFTS",
+            "link": "",
+            "show_icon": true,
+            "icon": "gift"
+          }
+        }
+      },
+      "block_order": [
+        "msg_presidents",
+        "msg_shipping",
+        "msg_gifts"
+      ],
+      "name": "Gradient Marquee Bar",
       "settings": {
-        "top_spacing": "none",
-        "width": "default",
-        "next_show_time": 5,
-        "content_align": "align-items-center",
-        "show_icon": "image",
-        "icon_width": 20,
-        "image": "shopify://shop_images/Firefly_make_teh_icon_white_and_remove_background_949808_1.png",
-        "icon_name": "",
-        "block_text": "<p>FREE Shipping Available</p>",
-        "show_lines": false,
-        "show_lines_bottom": false,
-        "lines_width": "fullwidth",
-        "background": "color",
-        "color_background": "#1d3d2a",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "v_padding": 6,
-        "color_base": "#ffffff",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_icon": "rgba(0,0,0,0)",
-        "color_close": "rgba(0,0,0,0)"
+        "gradient_style": "custom",
+        "gradient_color_1": "#1d3d2a",
+        "gradient_color_2": "#1d3d2a",
+        "gradient_color_3": "#244a34",
+        "speed": 25,
+        "direction": "left",
+        "separator": "•",
+        "show_glow": false,
+        "show_shimmer": false,
+        "is_sticky": false,
+        "show_close": false,
+        "text_color": "#ffffff",
+        "font_size": 14,
+        "padding_y": 12
       }
     },
     "header_classic_gn": {
       "type": "header",
+      "custom_css": [
+        ".page-width {padding: 20px;}"
+      ],
       "settings": {
         "menu": "main-menu",
         "width": "default",
@@ -140,15 +162,15 @@
         "sticky_type": "always",
         "logo": "shopify://shop_images/golfer_now_new_logo_720513ab-b4bb-4d37-9016-d32af186f4aa.png",
         "logo_svg": "",
-        "logo_max_width": 80,
+        "logo_max_width": 100,
         "logo_mobile": "shopify://shop_images/golfer_now_new_logo_720513ab-b4bb-4d37-9016-d32af186f4aa.png",
         "logo_svg_mobile": "",
-        "logo_max_width_mobile": 72,
+        "logo_max_width_mobile": 110,
         "menu_font_weight": "strong",
         "logo_position": "logo-to-left",
         "classic_menu_position": "top-menu-to-left",
         "break_main_menu_count": 3,
-        "show_search": "hide",
+        "show_search": "closed",
         "icons_text": "hide",
         "show_top_line": false,
         "show_bottom_line": false,
@@ -335,8 +357,8 @@
                 "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
                 "video_slide_mode": "autoplay_muted",
                 "url": "",
-                "heading_text": "",
-                "desc": "",
+                "heading_text": "Review of the Best Casting rods 2027",
+                "desc": "<p>The best selection of fishing rods at the best prices!</p>",
                 "heading_after_description": false,
                 "button_name": "",
                 "heading_size_px": 36,
@@ -392,7 +414,7 @@
   },
   "order": [
     "popup_search_modules_NGUfkt",
-    "promo_header_D3qrqW",
+    "gradient_marquee_gn",
     "header_classic_gn",
     "megamenu_modules_jcEWaq"
   ]
