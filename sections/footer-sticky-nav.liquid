@@ -1,5 +1,5 @@
-{%- comment -%} Hide on PDP (existing) and homepage — keeps shop/cart sticky elsewhere. {%- endcomment -%}
-{%- if template.name != 'product' and template.name != 'index' -%}
+{%- comment -%} Footer Home/Shop/Cart sticky disabled site-wide — PDP uses the blue ATC sticky instead. {%- endcomment -%}
+{%- if false -%}
 <footersticky-nav id="theme-section-{{ section.id }}"
      data-section-name="footer-sticky-nav">
     <style>
