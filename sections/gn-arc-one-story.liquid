@@ -821,7 +821,42 @@
 
 {%- if is_ba -%}
 <div class="gn-arc-story gn-arc-story--ba">
-  {%- comment -%} Band 1 — Dark green BA lead {%- endcomment -%}
+  {%- comment -%} Band 1 — White contrast (problem it solves) {%- endcomment -%}
+  <div class="gn-arc-story__band gn-arc-story__band--white">
+    <div class="gn-arc-story__band-inner">
+      <div class="gn-arc-story__center">
+        {%- if section.settings.eyebrow_text != blank -%}
+          <p class="gn-arc-story__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <div class="gn-arc-story__heading">{{ section.settings.heading }}</div>
+        {%- endif -%}
+        {%- if section.settings.copy != blank -%}
+          <div class="gn-arc-story__copy">{{ section.settings.copy }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if contrasts.size > 0 -%}
+        <div class="gn-arc-story__contrast">
+          {%- for block in contrasts -%}
+            <div class="gn-arc-story__row" {{ block.shopify_attributes }}>
+              <p class="gn-arc-story__row-label">{{ block.settings.label }}</p>
+              <div>
+                {%- if block.settings.title != blank -%}
+                  <p class="gn-arc-story__row-title">{{ block.settings.title }}</p>
+                {%- endif -%}
+                {%- if block.settings.copy != blank -%}
+                  <p class="gn-arc-story__row-copy">{{ block.settings.copy }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} Band 2 — Dark green BA lead {%- endcomment -%}
   <div class="gn-arc-story__band gn-arc-story__band--ink">
     <div class="gn-arc-story__band-inner">
       <div class="gn-arc-story__ba-grid">
@@ -907,41 +942,6 @@
           <p class="gn-arc-story__panel-cta gn-arc-story__panel-cta--mobile">{{ section.settings.panel_cta }}</p>
         {%- endif -%}
       </div>
-    </div>
-  </div>
-
-  {%- comment -%} Band 2 — White contrast {%- endcomment -%}
-  <div class="gn-arc-story__band gn-arc-story__band--white">
-    <div class="gn-arc-story__band-inner">
-      <div class="gn-arc-story__center">
-        {%- if section.settings.eyebrow_text != blank -%}
-          <p class="gn-arc-story__eyebrow">{{ section.settings.eyebrow_text }}</p>
-        {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <div class="gn-arc-story__heading">{{ section.settings.heading }}</div>
-        {%- endif -%}
-        {%- if section.settings.copy != blank -%}
-          <div class="gn-arc-story__copy">{{ section.settings.copy }}</div>
-        {%- endif -%}
-      </div>
-
-      {%- if contrasts.size > 0 -%}
-        <div class="gn-arc-story__contrast">
-          {%- for block in contrasts -%}
-            <div class="gn-arc-story__row" {{ block.shopify_attributes }}>
-              <p class="gn-arc-story__row-label">{{ block.settings.label }}</p>
-              <div>
-                {%- if block.settings.title != blank -%}
-                  <p class="gn-arc-story__row-title">{{ block.settings.title }}</p>
-                {%- endif -%}
-                {%- if block.settings.copy != blank -%}
-                  <p class="gn-arc-story__row-copy">{{ block.settings.copy }}</p>
-                {%- endif -%}
-              </div>
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
   </div>
 
