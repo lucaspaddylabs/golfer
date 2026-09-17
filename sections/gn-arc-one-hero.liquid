@@ -579,22 +579,22 @@
     opacity: 0.82;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__sticky { display: none; }
-  /* Body-portaled sticky — escapes section stacking contexts that collapse z-index. */
+  /* Body-portaled sticky — escapes section stacking; keep BELOW cart/menu drawers (z-index 100+). */
   .gn-arc-hero__sticky[data-gn-sticky-atc] {
     position: fixed !important;
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    z-index: 2147482000 !important;
+    z-index: 90 !important;
     display: none;
     justify-content: center;
     padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
     background: {{ section.settings.background_color }};
     border-top: 1px solid {{ section.settings.divider_color }};
     transform: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
   .gn-arc-hero__sticky[data-gn-sticky-atc] .gn-arc-hero__cta {
     min-height: 46px;
@@ -621,10 +621,15 @@
   }
   @media (max-width: 900px) {
     .gn-arc-hero__sticky[data-gn-sticky-atc] {
-      display: flex !important;
+      display: flex;
     }
-    body.overflow-hidden .gn-arc-hero__sticky[data-gn-sticky-atc] {
+    /* Drawers/menus set body.overflow-hidden — sticky must not sit on top of Checkout. */
+    body.overflow-hidden .gn-arc-hero__sticky[data-gn-sticky-atc],
+    .gn-arc-hero__sticky[data-gn-sticky-atc][data-gn-modal-open="true"] {
       display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
     }
   }
   @media (max-width: 900px) {
@@ -1685,11 +1690,26 @@
       if (sticky.parentElement !== document.body) {
         document.body.appendChild(sticky);
       }
-      sticky.style.setProperty('opacity', '1', 'important');
-      sticky.style.setProperty('visibility', 'visible', 'important');
-      sticky.style.setProperty('z-index', '2147482000', 'important');
+
+      const isModalOpen = () =>
+        document.body.classList.contains('overflow-hidden') ||
+        Boolean(document.querySelector('cart-drawer.active, cart-notification.active, .popup-modal.active, details.menu-opening'));
+
+      const syncStickyVisibility = () => {
+        const show =
+          window.matchMedia('(max-width: 900px)').matches && !isModalOpen();
+        sticky.dataset.gnModalOpen = isModalOpen() ? 'true' : 'false';
+        sticky.style.removeProperty('opacity');
+        sticky.style.removeProperty('visibility');
+        sticky.style.removeProperty('pointer-events');
+        sticky.style.setProperty('display', show ? 'flex' : 'none', 'important');
+        sticky.setAttribute('aria-hidden', show ? 'false' : 'true');
+      };
+
       sticky.style.setProperty('position', 'fixed', 'important');
-      sticky.style.setProperty('display', window.matchMedia('(max-width: 900px)').matches ? 'flex' : 'none', 'important');
+      sticky.style.setProperty('z-index', '90', 'important');
+      syncStickyVisibility();
+
       if (window.visualViewport) {
         const repositionSticky = () => {
           const vv = window.visualViewport;
@@ -1700,14 +1720,13 @@
         window.visualViewport.addEventListener('scroll', repositionSticky);
         repositionSticky();
       }
-      window.addEventListener('resize', () => {
-        sticky.style.setProperty(
-          'display',
-          window.matchMedia('(max-width: 900px)').matches && !document.body.classList.contains('overflow-hidden')
-            ? 'flex'
-            : 'none',
-          'important'
-        );
+
+      window.addEventListener('resize', syncStickyVisibility);
+
+      const modalObserver = new MutationObserver(syncStickyVisibility);
+      modalObserver.observe(document.body, { attributes: true, attributeFilter: ['class', 'style'] });
+      document.querySelectorAll('cart-drawer, cart-notification, .popup-modal, details.menu-drawer, details.disclosure-has-popup').forEach((el) => {
+        modalObserver.observe(el, { attributes: true, attributeFilter: ['class', 'open'] });
       });
     }
 
