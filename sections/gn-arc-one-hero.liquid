@@ -759,18 +759,24 @@
     #shopify-section-{{ section.id }} .gn-arc-hero__signals {
       grid-template-columns: 1fr;
     }
+    body.overflow-hidden #shopify-section-{{ section.id }} .gn-arc-hero__sticky {
+      display: none !important;
+    }
     #shopify-section-{{ section.id }} .gn-arc-hero__sticky {
       position: fixed;
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 40;
+      z-index: 90;
       display: flex;
       justify-content: center;
       padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
       background: {{ section.settings.background_color }};
       border-top: 1px solid {{ section.settings.divider_color }};
-      transform: translateY(0);
+      transform: none;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto;
     }
     #shopify-section-{{ section.id }} .gn-arc-hero__sticky-title {
       margin: 0;
@@ -1628,6 +1634,8 @@
     });
 
     if (sticky) {
+      sticky.style.setProperty('opacity', '1', 'important');
+      sticky.style.setProperty('visibility', 'visible', 'important');
       if (window.visualViewport) {
         const repositionSticky = () => {
           const vv = window.visualViewport;
