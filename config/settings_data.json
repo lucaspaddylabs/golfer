@@ -366,7 +366,7 @@
     "show_compare_mobile_product_card": false,
     "show_compare_product_card": true,
     "show_description_product_card": false,
-    "show_free_delivery": false,
+    "show_free_delivery": true,
     "show_number_rating": true,
     "show_quantity_product_card": false,
     "show_quick_view_mobile_product_card": false,
