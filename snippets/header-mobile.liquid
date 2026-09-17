@@ -77,11 +77,11 @@
 {%- endif -%}
 {%- endcapture -%}
 
+{{ 'gn-mobile-menu.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'gn-mobile-menu.js' | asset_url }}" defer></script>
 <div class="{{ page_width }}{% if settings.show_shadow_header_mobile %} header__mobile__shadow{% endif %}">
   {%- if section_settings_background -%}<div class="section-background border__radius">{%- endif -%}
   <div class="header__mobile__grid">
-    {{ 'gn-mobile-menu.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'gn-mobile-menu.js' | asset_url }}" defer></script>
     <div class="menu-drawer gn-mnav-host">
       <menu-drawer>
         <details class="disclosure-has-popup">
