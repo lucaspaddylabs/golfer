@@ -109,9 +109,10 @@
                     class="btn gn-cart-upsell__add"
                     data-upsell-add
                     data-variant-id="{{ selected_variant.id }}"
+                    aria-label="Add {{ product.title | escape }} to cart"
                     {% unless selected_variant.available %}disabled{% endunless %}
                   >
-                    Add
+                    <span>Add</span>
                   </button>
                 </div>
               </div>

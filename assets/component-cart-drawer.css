@@ -824,8 +824,20 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   padding: 0 10px !important;
   width: auto !important;
   display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   flex: 0 0 auto;
   font-size: 0.68rem !important;
+  line-height: 1 !important;
+  color: #fff !important;
+  --color: #fff !important;
+}
+.gn-cart-upsell__add > span {
+  position: relative;
+  z-index: 1;
+  color: #fff !important;
+  line-height: 1;
+  white-space: nowrap;
 }
 .gn-cart-upsell__add.is-loading {
   pointer-events: none;
