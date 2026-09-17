@@ -367,7 +367,7 @@
         "background_image": "shopify://shop_images/pexels-anntarazevich-6370119.jpg",
         "overlay_opacity": 85,
         "button_text": "Shop ARC ONE",
-        "button_link": "shopify://collections/the-system",
+        "button_link": "shopify://products/pro-swing-click-trainer",
         "secondary_text": "",
         "secondary_link": "",
         "background_color": "#1d3d2a",
@@ -408,7 +408,7 @@
             "subtitle": "Flagship swing trainer only.",
             "image": "shopify://shop_images/swing_trainer_transparent.png",
             "button_text": "Shop ARC ONE",
-            "button_link": "shopify://collections/the-system"
+            "button_link": "shopify://products/pro-swing-click-trainer"
           }
         },
         "tier_9BpNGz": {
