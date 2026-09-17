@@ -579,6 +579,54 @@
     opacity: 0.82;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__sticky { display: none; }
+  /* Body-portaled sticky — escapes section stacking contexts that collapse z-index. */
+  .gn-arc-hero__sticky[data-gn-sticky-atc] {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 2147482000 !important;
+    display: none;
+    justify-content: center;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: {{ section.settings.background_color }};
+    border-top: 1px solid {{ section.settings.divider_color }};
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  .gn-arc-hero__sticky[data-gn-sticky-atc] .gn-arc-hero__cta {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 420px;
+    border: 0;
+    border-radius: 4px;
+    padding: 14px 22px;
+    background: #2ab0ea;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .gn-arc-hero__sticky[data-gn-sticky-atc] .gn-arc-hero__cta s {
+    opacity: 0.65;
+    font-weight: 400;
+  }
+  @media (max-width: 900px) {
+    .gn-arc-hero__sticky[data-gn-sticky-atc] {
+      display: flex !important;
+    }
+    body.overflow-hidden .gn-arc-hero__sticky[data-gn-sticky-atc] {
+      display: none !important;
+    }
+  }
   @media (max-width: 900px) {
     #shopify-section-{{ section.id }} .gn-arc-hero__inner {
       grid-template-columns: 1fr;
@@ -1634,8 +1682,14 @@
     });
 
     if (sticky) {
+      if (sticky.parentElement !== document.body) {
+        document.body.appendChild(sticky);
+      }
       sticky.style.setProperty('opacity', '1', 'important');
       sticky.style.setProperty('visibility', 'visible', 'important');
+      sticky.style.setProperty('z-index', '2147482000', 'important');
+      sticky.style.setProperty('position', 'fixed', 'important');
+      sticky.style.setProperty('display', window.matchMedia('(max-width: 900px)').matches ? 'flex' : 'none', 'important');
       if (window.visualViewport) {
         const repositionSticky = () => {
           const vv = window.visualViewport;
@@ -1646,6 +1700,15 @@
         window.visualViewport.addEventListener('scroll', repositionSticky);
         repositionSticky();
       }
+      window.addEventListener('resize', () => {
+        sticky.style.setProperty(
+          'display',
+          window.matchMedia('(max-width: 900px)').matches && !document.body.classList.contains('overflow-hidden')
+            ? 'flex'
+            : 'none',
+          'important'
+        );
+      });
     }
 
     bundleCards.forEach((card) => {
