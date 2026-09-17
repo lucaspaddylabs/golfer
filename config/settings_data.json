@@ -263,7 +263,7 @@
     "content_for_index": [],
     "continue_shopping_link": "shopify://collections/all",
     "currency_code_enabled": false,
-    "enable_breadcrumb": true,
+    "enable_breadcrumb": false,
     "enable_compare": false,
     "enable_rating": true,
     "enable_rating_product_card": false,
