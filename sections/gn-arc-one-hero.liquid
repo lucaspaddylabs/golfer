@@ -1691,9 +1691,12 @@
         document.body.appendChild(sticky);
       }
 
-      const isModalOpen = () =>
-        document.body.classList.contains('overflow-hidden') ||
-        Boolean(document.querySelector('cart-drawer.active, cart-notification.active, .popup-modal.active, details.menu-opening'));
+      const isModalOpen = () => {
+        if (document.body.classList.contains('overflow-hidden')) return true;
+        if (document.querySelector('cart-drawer.active, cart-notification.active')) return true;
+        if (document.querySelector('details.menu-opening')) return true;
+        return false;
+      };
 
       const syncStickyVisibility = () => {
         const show =
@@ -1723,9 +1726,20 @@
 
       window.addEventListener('resize', syncStickyVisibility);
 
-      const modalObserver = new MutationObserver(syncStickyVisibility);
+      // Cart drawer removes .active / overflow-hidden on a 500ms delay — re-sync after that.
+      let restoreTimer = 0;
+      const syncStickyVisibilitySoon = () => {
+        syncStickyVisibility();
+        window.clearTimeout(restoreTimer);
+        restoreTimer = window.setTimeout(syncStickyVisibility, 560);
+      };
+
+      const modalObserver = new MutationObserver(syncStickyVisibilitySoon);
       modalObserver.observe(document.body, { attributes: true, attributeFilter: ['class', 'style'] });
-      document.querySelectorAll('cart-drawer, cart-notification, .popup-modal, details.menu-drawer, details.disclosure-has-popup').forEach((el) => {
+      document.querySelectorAll('cart-drawer, cart-notification').forEach((el) => {
+        modalObserver.observe(el, { attributes: true, attributeFilter: ['class'] });
+      });
+      document.querySelectorAll('details.menu-drawer, details.disclosure-has-popup').forEach((el) => {
         modalObserver.observe(el, { attributes: true, attributeFilter: ['class', 'open'] });
       });
     }
