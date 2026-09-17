@@ -80,76 +80,27 @@
 <div class="{{ page_width }}{% if settings.show_shadow_header_mobile %} header__mobile__shadow{% endif %}">
   {%- if section_settings_background -%}<div class="section-background border__radius">{%- endif -%}
   <div class="header__mobile__grid">
-    <div class="menu-drawer">
+    {{ 'gn-mobile-menu.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'gn-mobile-menu.js' | asset_url }}" defer></script>
+    <div class="menu-drawer gn-mnav-host">
       <menu-drawer>
         <details class="disclosure-has-popup">
           <summary>
-            <div class="menu-drawer__button header__button">
+            <div class="menu-drawer__button header__button" aria-label="{{ 'accessibility.menu' | t | default: 'Menu' }}">
               {%- render "icon-hamburger" -%}
             </div>
           </summary>
           <div class="popup-modal popup-modal__left">
             <div class="popup-modal__overlay" onclick="this.closest('menu-drawer').closeMenuDrawer('custom')"></div>
             <div class="popup-modal__content popup-modal__content__f-height">
-              <button class="popup-modal__toggle" type="button" aria-label="{{ 'accessibility.close' | t }}">
-                {% render 'icon-close' %}
-              </button>
-              <div class="popup-modal__content__data custom__scrollbar" role="dialog" aria-modal="true" tabindex="-1">
-                {%- render "menu-drawer", linklist:section.settings.menu.links, show_icon:true, type:"main-menu", svg_icons:svg_icons -%}
-                {%- render "menu-drawer", linklist:secondary_menu_links, show_icon:false, type:"secondary-menu" -%}
-                {%- if user_icons != blank -%}
-                <div class="menu-drawer__account-icons">
-                  {{ user_icons | replace: "body2", '' }}
-                </div>
-                {%- endif -%}
-                {%- if social_media != blank -%}
-                <div class="menu-drawer__social">
-                  <ul class="unstyle-ul wokiee-social__icons header-social-icons">
-                    {{ social_media | replace: "body2", '' }}
-                  </ul>
-                </div>
-                {%- endif -%}
-
-                {%- if country_selector != blank or language_selector != blank -%}
-                <div class="menu-drawer__selectors">
-                  {{ country_selector | replace:"toright", "" }}{{ language_selector | replace:'<div class="header__separate-line"></div>', '' }}
-                </div>
-                {%- endif -%}
-
-                {% assign phone = section.blocks | where: "type", "phone" %}
-                {%- for block in phone -%}
-                {%- capture phone_content_button -%}
-                {%- if block.settings.main__0 == false -%}
-                <div class="header-phone-number__desktop">
-                  {%- if block.settings.text__0 != blank or block.settings.phone_icon__0 != blank -%}
-                    {%- if block.settings.phone_as_link__0 -%}
-                    <a href="tel:{{ block.settings.phone | replace:" ", "" }}" class="mt0 h4 clear-underline header-phone-number__icon">{%- render 'icons-list' icon_name: block.settings.phone_icon__0 -%}{{ block.settings.phone__0 }}</a>
-                    {%- else -%}
-                    <p class="mt0 h4 header-phone-number__icon">{%- render 'icons-list' icon_name: block.settings.phone_icon__0 -%}{{ block.settings.phone__0 }}</p>
-                    {%- endif -%}
-                  {%- endif -%}
-                  {%- if block.settings.text__0 != blank -%}<p class="mt0 body3 phone-slogan">{{ block.settings.text__0 }}</p>{%- endif -%}
-                </div>
-                {%- endif -%}
-                {%- endcapture -%}
-
-                {%- liquid
-                    assign hide_social_value = false
-                    if social_media != blank
-                    assign hide_social_value = "true"
-                    endif
-                    capture phone_content
-                    render "header-contacts", block:block, hide_social:hide_social_value
-                    endcapture
-                -%}
-                {%- if phone_content_button != blank or phone_content != blank -%}
-                <div class="menu-drawer__phones">
-                  {{ phone_content_button }}
-                  {{ phone_content }}
-                </div>
-                {%- endif -%}
-                {%- endfor -%}
-
+              <div
+                class="popup-modal__content__data custom__scrollbar"
+                role="dialog"
+                aria-modal="true"
+                aria-label="{{ 'accessibility.menu' | t | default: 'Menu' }}"
+                tabindex="-1"
+              >
+                {%- render 'gn-mobile-menu', linklist: section.settings.menu.links -%}
               </div>
             </div>
           </div>

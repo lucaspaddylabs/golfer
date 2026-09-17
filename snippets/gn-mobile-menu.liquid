@@ -1,0 +1,120 @@
+{%- comment -%}
+  Compact mobile navigation for Golfer Now.
+  Uses the header's main menu linklist (real titles + URLs).
+  Accepts: linklist {Object}
+{%- endcomment -%}
+{%- liquid
+  assign accessories_url = '/collections/accessories'
+  if linklist != blank
+    for link in linklist
+      assign title_down = link.title | downcase
+      if title_down contains 'accessor'
+        assign accessories_url = link.url
+        break
+      endif
+    endfor
+  endif
+-%}
+
+<div class="gn-mnav" data-gn-mnav>
+  <div class="gn-mnav__top">
+    <a href="{{ routes.root_url }}" class="gn-mnav__logo" aria-label="{{ shop.name | escape }}">
+      {%- render 'gn-logo-horizontal', max_width: 118 -%}
+    </a>
+    <button class="popup-modal__toggle" type="button" aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon-close' %}
+    </button>
+  </div>
+
+  {%- if linklist != blank -%}
+    <nav class="gn-mnav__nav" aria-label="Main menu">
+      <ul class="gn-mnav__list">
+        {%- for link in linklist -%}
+          {%- if link.links != blank -%}
+            {%- assign panel_id = 'gn-mnav-panel-' | append: forloop.index -%}
+            <li class="gn-mnav__item">
+              <button
+                type="button"
+                class="gn-mnav__toggle disclosure-selector"
+                data-gn-mnav-toggle
+                aria-expanded="false"
+                aria-controls="{{ panel_id }}"
+                id="{{ panel_id }}-btn"
+              >
+                <span>{{ link.title | escape }}</span>
+                <svg class="gn-mnav__chevron" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="M3.2 5.6 8 10.4l4.8-4.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div
+                class="gn-mnav__panel"
+                id="{{ panel_id }}"
+                data-gn-mnav-panel
+                role="region"
+                aria-labelledby="{{ panel_id }}-btn"
+                hidden
+              >
+                <ul class="gn-mnav__sublist">
+                  {%- if link.url != blank and link.url != '#' -%}
+                    <li>
+                      <a href="{{ link.url }}" class="gn-mnav__sublink gn-mnav__sublink--all">
+                        View all
+                      </a>
+                    </li>
+                  {%- endif -%}
+                  {%- for childlink in link.links -%}
+                    <li>
+                      <a
+                        href="{{ childlink.url }}"
+                        class="gn-mnav__sublink{% if childlink.current %} is-active{% endif %}"
+                      >
+                        {{ childlink.title | escape }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </li>
+          {%- else -%}
+            <li class="gn-mnav__item">
+              <a
+                href="{{ link.url }}"
+                class="gn-mnav__link{% if link.current %} is-active{% endif %}"
+              >
+                <span>{{ link.title | escape }}</span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
+
+  <a class="gn-mnav__gift" href="{{ accessories_url }}">
+    <span class="gn-mnav__gift-icon" aria-hidden="true">
+      {%- render 'icon-gift' -%}
+    </span>
+    <span class="gn-mnav__gift-copy">
+      <span class="gn-mnav__gift-title">FREE GIFT</span>
+      <span class="gn-mnav__gift-sub">Buy any 2 accessories then choose a free gift!</span>
+    </span>
+    <svg class="gn-mnav__gift-chevron" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="M6 3.2 10.8 8 6 12.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <div class="gn-mnav__trust" aria-label="Store assurances">
+    <span class="gn-mnav__trust-item">
+      {%- render 'gn-trust-icons', icon: 'truck', text: 'Free shipping $50+' -%}
+      Free shipping $50+
+    </span>
+    <span class="gn-mnav__trust-item">
+      {%- render 'gn-trust-icons', icon: 'shield', text: '30-day returns' -%}
+      30-day returns
+    </span>
+    <span class="gn-mnav__trust-item">
+      {%- render 'gn-trust-icons', icon: 'globe', text: 'Worldwide shipping' -%}
+      Worldwide shipping
+    </span>
+  </div>
+</div>

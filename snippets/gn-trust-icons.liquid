@@ -8,6 +8,8 @@
     assign lower = text | downcase
     if lower contains 'return'
       assign icon = 'returns'
+    elsif lower contains 'worldwide' or lower contains 'globe'
+      assign icon = 'globe'
     elsif lower contains 'ship' or lower contains 'track' or lower contains 'deliver'
       assign icon = 'truck'
     elsif lower contains 'support' or lower contains '24/7' or lower contains 'chat'
@@ -41,6 +43,13 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 3 20 7v6c0 5-3.4 7.7-8 9-4.6-1.3-8-4-8-9V7l8-4z"/>
         <path d="m9 12 2 2 4-4"/>
+      </svg>
+    {%- when 'globe' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M3 12h18"/>
+        <path d="M12 3a14 14 0 0 1 0 18"/>
+        <path d="M12 3a14 14 0 0 0 0 18"/>
       </svg>
     {%- else -%}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
