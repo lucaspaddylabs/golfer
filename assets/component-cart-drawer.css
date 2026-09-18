@@ -76,6 +76,7 @@ cart-drawer.is-empty .drawer__footer {
 .drawer__footer, .drawer__inner-empty{
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   height: 100%;
   min-height: 0;
   overflow: hidden;
@@ -234,27 +235,28 @@ cart-drawer.is-empty .drawer__footer {
   padding-right: 16px;
   box-sizing: border-box;
 }
+/* Gift + checkout anchor — never shrinks or scrolls; cart lines give way above */
 .drawer__footer-footer {
   display: flex;
   flex-direction: column;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
+  flex-shrink: 0;
   min-height: 0;
-  max-height: 58%;
+  position: relative;
+  z-index: 5;
+  background: #fff;
 }
-/* Gift band pinned above checkout — does not scroll with cart lines */
 .gn-cart-gift-pin {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  overflow: hidden;
   padding-left: 16px;
   padding-right: 16px;
   box-sizing: border-box;
   background: #fff;
   position: relative;
   z-index: 4;
-  box-shadow: 0 -4px 12px rgba(24, 43, 32, 0.04);
+  box-shadow: 0 -4px 12px rgba(24, 43, 32, 0.06);
 }
 .drawer__footer-footer .cart__footer__information{
   margin-top: 0;
@@ -265,6 +267,7 @@ cart-drawer.is-empty .drawer__footer {
 /* Checkout sticky — ATC-like footprint; always fully visible */
 #CartDrawer .gn-cart-checkout-sticky {
   flex: 0 0 auto;
+  flex-shrink: 0;
   margin-top: 0;
   position: relative;
   z-index: 5;
@@ -309,13 +312,25 @@ cart-drawer.is-empty .drawer__footer {
 .cart-drawer__toggle+.cart__footer__information{
   margin-top: 0;
 }
-/* Cart lines only — fills space between shipping bar and pinned gift */
+/* Only cart lines scroll — must shrink (flex-basis 0) so gift stays glued above checkout */
 .drawer__footer-content{
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
+  max-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  position: relative;
+  z-index: 1;
+}
+.drawer__footer-content cart-drawer-items,
+.drawer__footer-content .cart-drawer__form,
+.drawer__footer-content .drawer__contents,
+.drawer__footer-content .js-contents,
+.drawer__footer-content .drawer__cart-items-wrapper {
+  min-height: 0;
+  max-width: 100%;
 }
 .cart-drawer__warnings:only-child{
   padding-bottom: 20px;
@@ -757,6 +772,18 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   margin: 0;
   padding: 10px 0 8px;
   border-top: 0;
+}
+@media (max-width: 576px) {
+  .gn-cart-upsell {
+    padding: 6px 0 4px;
+  }
+  .gn-cart-upsell .gn-gift-progress {
+    margin: 8px 2px 0;
+  }
+  .gn-cart-upsell__card {
+    min-height: 72px;
+    padding: 6px;
+  }
 }
 .gn-cart-upsell__header {
   margin-bottom: 8px;
