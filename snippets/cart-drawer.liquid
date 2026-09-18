@@ -143,8 +143,27 @@ component-swiper-slider.css
                     if cart_item_pay < 0
                       assign cart_item_pay = 0
                     endif
+
+                    assign is_gift_accessory = false
+                    if item.product.handle == 'magnetic-golf-towel' or item.product.handle == 'golf-ball-marker-fork' or item.product.handle == 'golf-club-brush-groove-sharpener-tool'
+                      assign is_gift_accessory = true
+                    endif
+                    if settings.cart_drawer_upsell_1 != blank and item.product_id == settings.cart_drawer_upsell_1.id
+                      assign is_gift_accessory = true
+                    endif
+                    if settings.cart_drawer_upsell_2 != blank and item.product_id == settings.cart_drawer_upsell_2.id
+                      assign is_gift_accessory = true
+                    endif
+                    if settings.cart_drawer_upsell_3 != blank and item.product_id == settings.cart_drawer_upsell_3.id
+                      assign is_gift_accessory = true
+                    endif
+
+                    assign is_gift_unlocked_line = false
+                    if cart_item_pay == 0 and is_gift_accessory and cart_item_save > 0
+                      assign is_gift_unlocked_line = true
+                    endif
                   -%}
-                  <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
+                  <div class="drawer__cart-item{% if is_gift_unlocked_line %} drawer__cart-item--gift{% endif %}" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
                     <div class="drawer__cart-item__content">
                       {% if item.image %}
                       <div class="drawer__cart-item__media {{ settings.image_hover }}">
@@ -212,13 +231,7 @@ component-swiper-slider.css
                           <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                           {%- endif -%}
 
-                          {%- liquid
-                            assign is_gift_accessory = false
-                            if item.product.handle == 'magnetic-golf-towel' or item.product.handle == 'golf-ball-marker-fork' or item.product.handle == 'golf-club-brush-groove-sharpener-tool'
-                              assign is_gift_accessory = true
-                            endif
-                          -%}
-                          {%- if cart_item_pay == 0 and is_gift_accessory and cart_item_save > 0 -%}
+                          {%- if is_gift_unlocked_line -%}
                             <span class="cart-item__gift-badge">Gift unlocked</span>
                             <span class="cart-item__gift-free">1 unit free</span>
                           {%- elsif cart_item_save > 0 -%}

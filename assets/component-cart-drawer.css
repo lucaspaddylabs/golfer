@@ -439,12 +439,20 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   padding-top:0;
 }
 
+#CartDrawer .drawer__cart-items-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 .drawer__cart-item{
   margin-top: 0;
   padding: 12px 0;
   border-bottom: 1px solid var(--gn-divider);
 }
-.drawer__cart-item:first-child {
+#CartDrawer .drawer__cart-item--gift {
+  order: -1;
+}
+.drawer__cart-item:first-child,
+#CartDrawer .drawer__cart-item--gift {
   padding-top: 4px;
 }
 .drawer__cart-item:last-child {
