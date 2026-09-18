@@ -1,0 +1,11 @@
+{
+  "name": "Golfer Now (Shopify theme)",
+  "install": "npm ci",
+  "terminals": [
+    {
+      "name": "theme-preview",
+      "command": "python3 -m http.server 8080 --directory preview"
+    }
+  ],
+  "ports": [{ "name": "theme-preview", "port": 8080 }]
+}
