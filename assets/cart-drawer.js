@@ -6,21 +6,61 @@ class CartDrawer extends HTMLElement {
     this.setHeaderCartIconAccessibility();
   }
 
+  /**
+   * Policy A — header cart intercept:
+   * - Icons keep href="{{ routes.cart_url }}" (/cart) so no-JS (and pre-JS) clicks reach the cart page.
+   * - When this drawer is present and JS has loaded, intercept those clicks and open the drawer instead.
+   * - Uses capture-phase document delegation so re-rendered icon markup still opens the drawer.
+   */
   setHeaderCartIconAccessibility() {
-    document.querySelectorAll('[id*="cart-icon-bubble"]').forEach((cartLink) => {
+    const markIcon = (cartLink) => {
       cartLink.setAttribute('role', 'button');
       cartLink.setAttribute('aria-haspopup', 'dialog');
-      cartLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        this.open(cartLink);
-      });
-      cartLink.addEventListener('keydown', (event) => {
-        if (event.code.toUpperCase() === 'SPACE') {
-          event.preventDefault();
-          this.open(cartLink);
-        }
-      });
-    })
+      if (!cartLink.getAttribute('aria-controls')) {
+        cartLink.setAttribute('aria-controls', 'CartDrawer');
+      }
+    };
+
+    document.querySelectorAll('a[id^="cart-icon-bubble"]').forEach(markIcon);
+
+    if (CartDrawer.headerCartInterceptBound) return;
+    CartDrawer.headerCartInterceptBound = true;
+
+    const cartIconFromEvent = (event) => {
+      const target = event.target;
+      if (!target || typeof target.closest !== 'function') return null;
+      return target.closest('a[id^="cart-icon-bubble"]');
+    };
+
+    const openDrawerForIcon = (event, cartLink) => {
+      const drawer = document.querySelector('cart-drawer');
+      // No drawer on /cart template (or if cart_type != drawer) → allow native /cart navigation.
+      if (!drawer) return;
+      event.preventDefault();
+      markIcon(cartLink);
+      drawer.open(cartLink);
+    };
+
+    document.addEventListener(
+      'click',
+      (event) => {
+        const cartLink = cartIconFromEvent(event);
+        if (!cartLink) return;
+        openDrawerForIcon(event, cartLink);
+      },
+      true
+    );
+
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.code !== 'Space' && event.key !== ' ') return;
+        const cartLink = cartIconFromEvent(event);
+        if (!cartLink) return;
+        openDrawerForIcon(event, cartLink);
+      },
+      true
+    );
   }
 
   open(triggeredBy) {

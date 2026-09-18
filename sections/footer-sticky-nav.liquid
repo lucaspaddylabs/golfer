@@ -147,7 +147,10 @@
         {%- endif -%}
 
         {%- if settings.cart_type != "catalog_mode" and section.settings.enable_cart -%}
-        <a href="{{ routes.cart_url }}" class="footer-sticky-nav__item clear-underline" id="cart-icon-bubble--footer">
+        {%- comment -%}
+          Policy A: href stays /cart for no-JS fallback. cart-drawer.js intercepts when drawer JS works.
+        {%- endcomment -%}
+        <a href="{{ routes.cart_url }}" class="footer-sticky-nav__item clear-underline" id="cart-icon-bubble--footer" aria-controls="CartDrawer">
             {%- render "cart-icon-bubble--footer" -%}
         </a>
         {%- endif -%}

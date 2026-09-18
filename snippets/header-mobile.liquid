@@ -122,7 +122,10 @@
       </div>
       {%- endif -%}
       {%- if settings.cart_type != "catalog_mode" -%}
-      <a href="{{ routes.cart_url }}" class="header__button" id="cart-icon-bubble--mobile">
+      {%- comment -%}
+        Policy A: href stays /cart for no-JS fallback. cart-drawer.js intercepts when drawer JS works.
+      {%- endcomment -%}
+      <a href="{{ routes.cart_url }}" class="header__button" id="cart-icon-bubble--mobile" aria-controls="CartDrawer">
         {%- render 'cart-icon-bubble' -%}
       </a>
       {%- endif -%}
