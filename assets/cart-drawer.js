@@ -208,189 +208,132 @@ customElements.define('cart-drawer-items', CartDrawerItems);
 
 class CartDrawerUpsell extends HTMLElement {
   connectedCallback() {
-    if (this._giftBound) return;
-    this._giftBound = true;
-    this.busy = false;
-    this.errorEl = this.querySelector('[data-gift-error]');
+    this.track = this.querySelector('[data-upsell-track]');
+    this.slides = Array.from(this.querySelectorAll('[data-upsell-slide]'));
+    this.prevBtn = this.querySelector('[data-upsell-prev]');
+    this.nextBtn = this.querySelector('[data-upsell-next]');
+    this.index = 0;
+    this.adding = false;
+    this.autoplayMs = 4000;
+    this._autoplayTimer = null;
 
-    this.addEventListener('click', (event) => {
-      const swatch = event.target.closest('[data-gift-variant]');
-      if (swatch && this.contains(swatch)) {
-        event.preventDefault();
-        this.selectVariant(swatch);
-        return;
-      }
-      const minusBtn = event.target.closest('[data-gift-minus]');
-      if (minusBtn && this.contains(minusBtn)) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.changeQty(minusBtn, -1, false);
-        return;
-      }
-      const plusBtn = event.target.closest('[data-gift-plus]');
-      if (plusBtn && this.contains(plusBtn)) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.changeQty(plusBtn, 1, false);
-        return;
-      }
-      const addBtn = event.target.closest('[data-gift-add]');
-      if (addBtn && this.contains(addBtn)) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.changeQty(addBtn, 1, true);
-      }
+    this.prevBtn?.addEventListener('click', () => {
+      this.go(-1);
+      this.restartAutoplay();
     });
+    this.nextBtn?.addEventListener('click', () => {
+      this.go(1);
+      this.restartAutoplay();
+    });
+    this.querySelectorAll('[data-upsell-variant]').forEach((swatch) => {
+      swatch.addEventListener('click', () => {
+        const slide = swatch.closest('[data-upsell-slide]');
+        if (!slide) return;
+        slide.querySelectorAll('[data-upsell-variant]').forEach((item) => {
+          item.classList.toggle('is-selected', item === swatch);
+          item.setAttribute('aria-pressed', item === swatch ? 'true' : 'false');
+        });
+        const button = slide.querySelector('[data-upsell-add]');
+        if (button) button.dataset.variantId = swatch.dataset.variantId;
+        this.restartAutoplay();
+      });
+    });
+    this.querySelectorAll('[data-upsell-add]').forEach((button) => {
+      button.addEventListener('click', (event) => this.add(event.currentTarget));
+    });
+
+    this.addEventListener('mouseenter', () => this.stopAutoplay());
+    this.addEventListener('mouseleave', () => this.startAutoplay());
+    this.addEventListener('focusin', () => this.stopAutoplay());
+    this.addEventListener('focusout', (event) => {
+      if (!this.contains(event.relatedTarget)) this.startAutoplay();
+    });
+
+    this.go(0);
+    this.startAutoplay();
   }
 
-  selectVariant(swatch) {
-    const row = swatch.closest('[data-gift-row]');
-    if (!row) return;
-    row.querySelectorAll('[data-gift-variant]').forEach((item) => {
-      const selected = item === swatch;
-      item.classList.toggle('is-selected', selected);
-      item.setAttribute('aria-pressed', selected ? 'true' : 'false');
-    });
-    const variantId = swatch.dataset.variantId;
-    const qty = Number(swatch.dataset.qty || 0);
-    const lineKey = swatch.dataset.lineKey || '';
-    row.querySelectorAll('[data-gift-add], [data-gift-plus], [data-gift-minus]').forEach((btn) => {
-      btn.dataset.variantId = variantId;
-      btn.dataset.lineKey = lineKey;
-    });
-    const qtyValue = row.querySelector('[data-gift-qty-value]');
-    if (qtyValue) qtyValue.textContent = String(qty);
-    const minus = row.querySelector('[data-gift-minus]');
-    if (minus) minus.disabled = qty <= 0;
-    const meta = row.querySelector('.gn-gift-row__meta');
-    if (meta) {
-      const label = swatch.getAttribute('aria-label') || '';
-      meta.textContent = meta.textContent.replace(/^[^·]+·/, `${label} ·`);
+  disconnectedCallback() {
+    this.stopAutoplay();
+  }
+
+  startAutoplay() {
+    this.stopAutoplay();
+    if (this.slides.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this._autoplayTimer = window.setInterval(() => this.go(1), this.autoplayMs);
+  }
+
+  stopAutoplay() {
+    if (this._autoplayTimer) {
+      window.clearInterval(this._autoplayTimer);
+      this._autoplayTimer = null;
     }
   }
 
-  showError(message) {
-    if (!this.errorEl) return;
-    this.errorEl.hidden = !message;
-    this.errorEl.textContent = message || '';
+  restartAutoplay() {
+    this.startAutoplay();
   }
 
-  changeQty(button, delta, fromAdd) {
-    if (this.busy || !button || button.disabled) return;
+  go(step) {
+    if (!this.slides.length) return;
+    this.index = (this.index + step + this.slides.length) % this.slides.length;
+    if (this.track) {
+      this.track.style.transform = `translateX(-${this.index * 100}%)`;
+    }
+  }
+
+  add(button) {
+    if (this.adding || !button) return;
     const variantId = Number(button.dataset.variantId);
-    if (!variantId || !Number.isFinite(delta) || delta === 0) return;
+    if (!variantId) return;
 
-    const row = button.closest('[data-gift-row]');
     const cart = this.closest('cart-drawer');
-
-    this.busy = true;
-    this.showError('');
+    const slide = button.closest('[data-upsell-slide]');
+    this.adding = true;
+    this.stopAutoplay();
     button.classList.add('is-loading');
     button.setAttribute('aria-disabled', 'true');
-    row?.classList.add('is-adding');
+    slide?.classList.add('is-adding');
 
-    const sections = cart ? cart.getSectionsToRender().map((section) => section.id) : [];
-    const sections_url = window.location.pathname;
-    const config = fetchConfig('javascript');
-
-    const addQty = (quantity) =>
-      fetch(`${routes.cart_add_url}`, {
-        ...config,
-        body: JSON.stringify({
-          id: variantId,
-          quantity,
-          sections,
-          sections_url,
-        }),
-      }).then((response) => response.json());
-
-    const clearVariantLines = (matches, withSections) => {
-      const updates = {};
-      matches.forEach((item) => {
-        updates[item.key] = 0;
-      });
-      const body = {
-        updates,
-        sections_url,
-      };
-      if (withSections) body.sections = sections;
-      return fetch(`${routes.cart_update_url}`, {
-        ...config,
-        body: JSON.stringify(body),
-      }).then((response) => response.json());
+    const body = {
+      id: variantId,
+      quantity: 1,
     };
+    if (cart) {
+      body.sections = cart.getSectionsToRender().map((section) => section.id);
+      body.sections_url = window.location.pathname;
+    }
 
-    fetch(`${routes.cart_url}.js`)
+    fetch(`${routes.cart_add_url}`, { ...fetchConfig('javascript'), body: JSON.stringify(body) })
       .then((response) => response.json())
-      .then((cartJson) => {
-        const matches = (cartJson.items || []).filter(
-          (item) => Number(item.variant_id) === variantId
-        );
-        const currentQty = matches.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
-
-        if (delta < 0 && currentQty <= 0) {
-          throw new Error('nothing-to-remove');
-        }
-
-        const nextQty = Math.max(0, currentQty + delta);
-
-        // Nothing yet — one clean add
-        if (matches.length === 0) {
-          return addQty(nextQty || 1);
-        }
-
-        // Always wipe same-variant lines (paid + free splits), then re-add the
-        // total as one block. Discount may re-split into paid + free (2 lines OK),
-        // but won't keep stacking a 3rd line after gift unlock.
-        return clearVariantLines(matches, nextQty === 0).then((cleared) => {
-          if (cleared?.status) return cleared;
-          if (nextQty <= 0) return cleared;
-          return addQty(nextQty);
-        });
-      })
       .then((response) => {
-        if (!response || response.status) {
-          if (response?.status) {
-            this.showError(
-              response.description || response.message || window.cartStrings?.error || 'Could not update cart'
-            );
-          }
-          row?.classList.remove('is-adding');
+        if (response.status) {
+          const errors = document.getElementById('CartDrawer-CartErrors');
+          if (errors) errors.textContent = response.description || response.message || window.cartStrings.error;
+          slide?.classList.remove('is-adding');
+          this.startAutoplay();
           return;
         }
 
         publish(PUB_SUB_EVENTS.cartUpdate, {
-          source: fromAdd ? 'cart-drawer-gift-add' : 'cart-drawer-gift-qty',
+          source: 'cart-drawer-upsell',
           productVariantId: variantId,
           cartData: response,
         });
 
-        if (!cart) return;
-
-        cart.classList.remove('is-empty');
-        if (response.sections) {
+        if (cart) {
+          cart.classList.remove('is-empty');
           cart.renderContents(response);
-          return;
         }
-
-        return fetch(`${routes.cart_url}?section_id=cart-drawer`)
-          .then((sectionResponse) => sectionResponse.text())
-          .then((html) => {
-            const doc = new DOMParser().parseFromString(html, 'text/html');
-            const incoming = doc.querySelector('#CartDrawer');
-            const current = document.getElementById('CartDrawer');
-            if (current && incoming) current.innerHTML = incoming.innerHTML;
-          });
       })
       .catch((error) => {
-        if (error?.message !== 'nothing-to-remove') {
-          console.error(error);
-          this.showError(window.cartStrings?.error || 'Could not update cart');
-        }
-        row?.classList.remove('is-adding');
+        console.error(error);
+        slide?.classList.remove('is-adding');
+        this.startAutoplay();
       })
       .finally(() => {
-        this.busy = false;
+        this.adding = false;
         button.classList.remove('is-loading');
         button.removeAttribute('aria-disabled');
       });
