@@ -434,8 +434,14 @@ component-swiper-slider.css
               </label>
             </terms_and_condition-checkbox>
             {%- endif -%}
+            <div class="drawer__inner__links gn-cart-continue">
+              <button class="link link--medium link-hover-span strong{% if settings.buttons_uppercase %} text-uppercase{% endif %}" type="button" onclick="this.closest('.popup-modal').close()" aria-label="{{ 'accessibility.close' | t }}">
+                {%- render "icon-arrow-left-2" -%}
+                <span>{{ 'general.continue_shopping' | t }}</span>
+              </button>
+            </div>
             {%- if settings.show_checkout_button -%}
-            <div class="mt10">
+            <div class="mt8">
               <button type="submit"
                       id="CartDrawer-Checkout"
                       class="btn btn--checkout w-full"
@@ -454,13 +460,6 @@ component-swiper-slider.css
             {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
             <div class="cart__dynamic-checkout-buttons additional-checkout-buttons additional-checkout-buttons--vertical mt10">{{ content_for_additional_checkout_buttons }}</div>
             {% endif %}
-
-            <div class="mt8 drawer__inner__links">
-              <button class="link link--medium link-hover-span strong{% if settings.buttons_uppercase %} text-uppercase{% endif %}" type="button" onclick="this.closest('.popup-modal').close()" aria-label="{{ 'accessibility.close' | t }}">
-                {%- render "icon-arrow-left-2" -%}
-                <span>{{ 'general.continue_shopping' | t }}</span>
-              </button>
-            </div>
           </div>            
           
         </div>
