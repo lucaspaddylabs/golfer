@@ -282,7 +282,6 @@ class CartDrawerUpsell extends HTMLElement {
 
     const row = button.closest('[data-gift-row]');
     const cart = this.closest('cart-drawer');
-    const cartItems = cart?.querySelector('cart-drawer-items');
 
     this.busy = true;
     this.showError('');
@@ -290,51 +289,60 @@ class CartDrawerUpsell extends HTMLElement {
     button.setAttribute('aria-disabled', 'true');
     row?.classList.add('is-adding');
 
+    const sections = cart ? cart.getSectionsToRender().map((section) => section.id) : [];
+    const sections_url = window.location.pathname;
+    const config = fetchConfig('javascript');
+
     fetch(`${routes.cart_url}.js`)
       .then((response) => response.json())
       .then((cartJson) => {
-        const matches = (cartJson.items || [])
-          .map((item, index) => ({ ...item, line: index + 1 }))
-          .filter((item) => Number(item.variant_id) === variantId);
+        const matches = (cartJson.items || []).filter(
+          (item) => Number(item.variant_id) === variantId
+        );
         const currentQty = matches.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
 
         if (delta < 0 && currentQty <= 0) {
           throw new Error('nothing-to-remove');
         }
 
-        // Same path as main cart line +/- : /cart/change.js via cart-drawer-items.updateQuantity
-        if (currentQty > 0 && cartItems && typeof cartItems.updateQuantity === 'function') {
-          const target = matches[0];
-          const nextLineQty = Math.max(0, Number(target.quantity) + delta);
-          // Hand off — updateQuantity re-renders .drawer__inner (includes gift panel).
-          this.busy = false;
-          button.classList.remove('is-loading');
-          button.removeAttribute('aria-disabled');
-          row?.classList.remove('is-adding');
-          cartItems.updateQuantity(target.line, nextLineQty, delta < 0 ? 'minus' : 'plus', variantId);
-          return null;
+        const nextQty = Math.max(0, currentQty + delta);
+
+        // First add — single clean line
+        if (matches.length === 0) {
+          return fetch(`${routes.cart_add_url}`, {
+            ...config,
+            body: JSON.stringify({
+              id: variantId,
+              quantity: nextQty || 1,
+              sections,
+              sections_url,
+            }),
+          }).then((response) => response.json());
         }
 
-        if (delta < 0) {
-          throw new Error('nothing-to-remove');
-        }
+        // Consolidate same-variant lines onto the first key and zero the rest.
+        // Stops BXGY/free-gift splits leaving 3+ towel rows for one gift qty.
+        const updates = {};
+        matches.forEach((item, index) => {
+          updates[item.key] = index === 0 ? nextQty : 0;
+        });
 
-        const sections = cart ? cart.getSectionsToRender().map((section) => section.id) : [];
-        return fetch(`${routes.cart_add_url}`, {
-          ...fetchConfig('javascript'),
+        return fetch(`${routes.cart_update_url}`, {
+          ...config,
           body: JSON.stringify({
-            id: variantId,
-            quantity: 1,
+            updates,
             sections,
-            sections_url: window.location.pathname,
+            sections_url,
           }),
         }).then((response) => response.json());
       })
       .then((response) => {
-        if (response == null) return;
-
-        if (response.status) {
-          this.showError(response.description || response.message || window.cartStrings?.error || 'Could not update cart');
+        if (!response || response.status) {
+          if (response?.status) {
+            this.showError(
+              response.description || response.message || window.cartStrings?.error || 'Could not update cart'
+            );
+          }
           row?.classList.remove('is-adding');
           return;
         }
@@ -345,10 +353,23 @@ class CartDrawerUpsell extends HTMLElement {
           cartData: response,
         });
 
-        if (cart) {
-          cart.classList.remove('is-empty');
+        if (!cart) return;
+
+        cart.classList.remove('is-empty');
+        if (response.sections) {
           cart.renderContents(response);
+          return;
         }
+
+        // Fallback section refresh if update response omitted sections
+        return fetch(`${routes.cart_url}?section_id=cart-drawer`)
+          .then((sectionResponse) => sectionResponse.text())
+          .then((html) => {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const incoming = doc.querySelector('#CartDrawer');
+            const current = document.getElementById('CartDrawer');
+            if (current && incoming) current.innerHTML = incoming.innerHTML;
+          });
       })
       .catch((error) => {
         if (error?.message !== 'nothing-to-remove') {
