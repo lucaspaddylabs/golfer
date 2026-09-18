@@ -383,12 +383,12 @@ component-swiper-slider.css
               <div class="totals">
                 <h4 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h4>
                 {%- if cart.original_total_price > cart.total_price -%}
-                  <p class="mt0 h4 totals__subtotal-value totals__subtotal-value--sale">
-                    <span>{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                  <p class="mt0 mb0 totals__subtotal-value totals__subtotal-value--sale">
+                    <span class="totals__price">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                     <s class="totals__compare">{{ cart.original_total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                   </p>
                 {%- else -%}
-                  <p class="mt0 h4 totals__subtotal-value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                  <p class="mt0 mb0 totals__subtotal-value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
                 {%- endif -%}
               </div>
   
