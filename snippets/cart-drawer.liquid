@@ -111,14 +111,16 @@ component-swiper-slider.css
       </div>        
       {%- endif -%}
       <div class="drawer__footer">
-        <div class="drawer__footer-content">
-          {%- if settings.show_free_delivery -%}
+        {%- if settings.show_free_delivery -%}
+        <div class="drawer__footer-shipping">
           <div id="cart-page-free-delivery" class="free-delivery-bar">
             {%- render "free-delivery-bar" -%}
             <div class="free-delivery-bar__end hide"></div>
           </div>
-          {%- endif -%}
+        </div>
+        {%- endif -%}
 
+        <div class="drawer__footer-content">
           <cart-drawer-items{% if cart == empty %} class="is-empty"{% endif %}>
             <form action="{{ routes.cart_url }}" id="CartDrawer-Form" class="cart__contents cart-drawer__form" method="post">
               <div id="CartDrawer-CartItems" class="drawer__contents js-contents">
@@ -321,7 +323,7 @@ component-swiper-slider.css
           </cart-drawer-items>
         </div>
         <div class="drawer__footer-footer">
-          <div class="drawer__footer-scroll">
+          <div class="gn-cart-gift-pin">
             {%- if cart != empty and settings.cart_drawer_upsell_enable != false -%}
               {%- render 'gn-cart-upsell' -%}
             {%- endif -%}
@@ -447,20 +449,6 @@ component-swiper-slider.css
                   {%- endif -%}
                 </span>
               </button>
-            </div>
-            <div class="gn-cart-trust-row" aria-label="Checkout assurances">
-              <div class="gn-trust-item">
-                {%- render 'gn-trust-icons', icon: 'truck', text: 'Free shipping $50+' -%}
-                <span>Free shipping $50+</span>
-              </div>
-              <div class="gn-trust-item">
-                {%- render 'gn-trust-icons', icon: 'shield', text: '30-day returns' -%}
-                <span>30-day returns</span>
-              </div>
-              <div class="gn-trust-item">
-                {%- render 'gn-trust-icons', icon: 'globe', text: 'Worldwide shipping' -%}
-                <span>Worldwide shipping</span>
-              </div>
             </div>
             {%- endif -%}
             {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}

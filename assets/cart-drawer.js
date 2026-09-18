@@ -209,6 +209,7 @@ customElements.define('cart-drawer-items', CartDrawerItems);
 class CartDrawerUpsell extends HTMLElement {
   connectedCallback() {
     this.track = this.querySelector('[data-upsell-track]');
+    this.viewport = this.querySelector('.gn-cart-upsell__viewport');
     this.slides = Array.from(this.querySelectorAll('[data-upsell-slide]'));
     this.prevBtn = this.querySelector('[data-upsell-prev]');
     this.nextBtn = this.querySelector('[data-upsell-next]');
@@ -216,6 +217,7 @@ class CartDrawerUpsell extends HTMLElement {
     this.adding = false;
     this.autoplayMs = 4000;
     this._autoplayTimer = null;
+    this._swipe = null;
 
     this.prevBtn?.addEventListener('click', () => {
       this.go(-1);
@@ -242,6 +244,8 @@ class CartDrawerUpsell extends HTMLElement {
       button.addEventListener('click', (event) => this.add(event.currentTarget));
     });
 
+    this.bindSwipe();
+
     this.addEventListener('mouseenter', () => this.stopAutoplay());
     this.addEventListener('mouseleave', () => this.startAutoplay());
     this.addEventListener('focusin', () => this.stopAutoplay());
@@ -255,6 +259,98 @@ class CartDrawerUpsell extends HTMLElement {
 
   disconnectedCallback() {
     this.stopAutoplay();
+    this.unbindSwipe();
+  }
+
+  bindSwipe() {
+    const target = this.viewport || this.track;
+    if (!target || this._swipeBound) return;
+    this._swipeBound = true;
+    this._onPointerDown = (event) => this.onSwipeStart(event);
+    this._onPointerMove = (event) => this.onSwipeMove(event);
+    this._onPointerUp = (event) => this.onSwipeEnd(event);
+    target.addEventListener('pointerdown', this._onPointerDown, { passive: true });
+    target.addEventListener('pointermove', this._onPointerMove, { passive: false });
+    target.addEventListener('pointerup', this._onPointerUp);
+    target.addEventListener('pointercancel', this._onPointerUp);
+    target.addEventListener('pointerleave', this._onPointerUp);
+  }
+
+  unbindSwipe() {
+    const target = this.viewport || this.track;
+    if (!target || !this._swipeBound) return;
+    target.removeEventListener('pointerdown', this._onPointerDown);
+    target.removeEventListener('pointermove', this._onPointerMove);
+    target.removeEventListener('pointerup', this._onPointerUp);
+    target.removeEventListener('pointercancel', this._onPointerUp);
+    target.removeEventListener('pointerleave', this._onPointerUp);
+    this._swipeBound = false;
+  }
+
+  onSwipeStart(event) {
+    if (this.slides.length < 2 || event.button > 0) return;
+    // Let buttons/links/swatches keep normal click behaviour unless a real drag starts
+    this._swipe = {
+      id: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      dx: 0,
+      dragging: false,
+      width: (this.viewport || this).clientWidth || 1,
+    };
+    this.stopAutoplay();
+  }
+
+  onSwipeMove(event) {
+    const swipe = this._swipe;
+    if (!swipe || event.pointerId !== swipe.id || !this.track) return;
+
+    const dx = event.clientX - swipe.startX;
+    const dy = event.clientY - swipe.startY;
+    swipe.dx = dx;
+
+    if (!swipe.dragging) {
+      if (Math.abs(dx) < 8) return;
+      if (Math.abs(dy) > Math.abs(dx)) {
+        this._swipe = null;
+        this.snapToIndex();
+        this.startAutoplay();
+        return;
+      }
+      swipe.dragging = true;
+      try {
+        (this.viewport || this.track).setPointerCapture?.(event.pointerId);
+      } catch (_) {}
+      this.track.classList.add('is-dragging');
+    }
+
+    event.preventDefault();
+    const percent = this.index * 100 - (dx / swipe.width) * 100;
+    this.track.style.transition = 'none';
+    this.track.style.transform = `translateX(-${percent}%)`;
+  }
+
+  onSwipeEnd(event) {
+    const swipe = this._swipe;
+    if (!swipe || (event && event.pointerId !== swipe.id)) return;
+    this._swipe = null;
+    if (this.track) {
+      this.track.classList.remove('is-dragging');
+      this.track.style.transition = '';
+    }
+
+    if (swipe.dragging && Math.abs(swipe.dx) > Math.min(48, swipe.width * 0.18)) {
+      this.go(swipe.dx < 0 ? 1 : -1);
+    } else {
+      this.snapToIndex();
+    }
+    this.restartAutoplay();
+  }
+
+  snapToIndex() {
+    if (!this.track) return;
+    this.track.style.transition = '';
+    this.track.style.transform = `translateX(-${this.index * 100}%)`;
   }
 
   startAutoplay() {
@@ -278,9 +374,7 @@ class CartDrawerUpsell extends HTMLElement {
   go(step) {
     if (!this.slides.length) return;
     this.index = (this.index + step + this.slides.length) % this.slides.length;
-    if (this.track) {
-      this.track.style.transform = `translateX(-${this.index * 100}%)`;
-    }
+    this.snapToIndex();
   }
 
   add(button) {
