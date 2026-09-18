@@ -293,6 +293,33 @@ class CartDrawerUpsell extends HTMLElement {
     const sections_url = window.location.pathname;
     const config = fetchConfig('javascript');
 
+    const addQty = (quantity) =>
+      fetch(`${routes.cart_add_url}`, {
+        ...config,
+        body: JSON.stringify({
+          id: variantId,
+          quantity,
+          sections,
+          sections_url,
+        }),
+      }).then((response) => response.json());
+
+    const clearVariantLines = (matches, withSections) => {
+      const updates = {};
+      matches.forEach((item) => {
+        updates[item.key] = 0;
+      });
+      const body = {
+        updates,
+        sections_url,
+      };
+      if (withSections) body.sections = sections;
+      return fetch(`${routes.cart_update_url}`, {
+        ...config,
+        body: JSON.stringify(body),
+      }).then((response) => response.json());
+    };
+
     fetch(`${routes.cart_url}.js`)
       .then((response) => response.json())
       .then((cartJson) => {
@@ -307,34 +334,19 @@ class CartDrawerUpsell extends HTMLElement {
 
         const nextQty = Math.max(0, currentQty + delta);
 
-        // First add — single clean line
+        // Nothing yet — one clean add
         if (matches.length === 0) {
-          return fetch(`${routes.cart_add_url}`, {
-            ...config,
-            body: JSON.stringify({
-              id: variantId,
-              quantity: nextQty || 1,
-              sections,
-              sections_url,
-            }),
-          }).then((response) => response.json());
+          return addQty(nextQty || 1);
         }
 
-        // Consolidate same-variant lines onto the first key and zero the rest.
-        // Stops BXGY/free-gift splits leaving 3+ towel rows for one gift qty.
-        const updates = {};
-        matches.forEach((item, index) => {
-          updates[item.key] = index === 0 ? nextQty : 0;
+        // Always wipe same-variant lines (paid + free splits), then re-add the
+        // total as one block. Discount may re-split into paid + free (2 lines OK),
+        // but won't keep stacking a 3rd line after gift unlock.
+        return clearVariantLines(matches, nextQty === 0).then((cleared) => {
+          if (cleared?.status) return cleared;
+          if (nextQty <= 0) return cleared;
+          return addQty(nextQty);
         });
-
-        return fetch(`${routes.cart_update_url}`, {
-          ...config,
-          body: JSON.stringify({
-            updates,
-            sections,
-            sections_url,
-          }),
-        }).then((response) => response.json());
       })
       .then((response) => {
         if (!response || response.status) {
@@ -361,7 +373,6 @@ class CartDrawerUpsell extends HTMLElement {
           return;
         }
 
-        // Fallback section refresh if update response omitted sections
         return fetch(`${routes.cart_url}?section_id=cart-drawer`)
           .then((sectionResponse) => sectionResponse.text())
           .then((html) => {
