@@ -147,7 +147,7 @@
       "view": "View my cart ({{ count }})",
       "view_empty_cart": "View Cart",
       "item_added": "Item added to your cart",
-      "drawer_collection_heading": "Top products of this week",
+      "drawer_collection_heading": "Customers Also Bought",
       "drawer_note_heading": "Order special instructions",
       "drawer_discount_heading": "Discount",
       "discount": "Apply a discount code",

@@ -45,19 +45,20 @@ component-swiper-slider.css
               <span>{%- render "icon-arrow-left-2" -%}{{ 'general.continue_shopping' | t }}</span>
             </button>
 
-            {%- if shop.customer_accounts_enabled and customer == nil -%}
-              <p class="h5 mt40">{{ 'sections.cart.login.title' | t }}</p>
-              <p class="mt16 body2">
-                {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
-              </p>
-            {%- endif -%}
+            {%- comment -%} Empty-cart login prompt hidden — keep checkout path simple. {%- endcomment -%}
       
           </div>
         </div>
 
-        {%- if settings.cart_drawer_collection != blank -%}
+        {%- liquid
+          assign empty_cart_collection = collections['the-system']
+          if empty_cart_collection == blank or empty_cart_collection.products_count == 0
+            assign empty_cart_collection = collections['frontpage']
+          endif
+        -%}
+        {%- if empty_cart_collection != blank and empty_cart_collection.products_count > 0 -%}
         <div class="cart-drawer__collection-products mt40">
-          <h6 class="mt0 mb0">{{ "general.cart.drawer_collection_heading" | t }}</h6>
+          <h6 class="mt0 mb0">Customers Also Bought</h6>
           <div class="mt16 swiper-no-mask-mobile">
             {%- assign data_grid = "2,3,2,2,3" -%}
             <swiper-slider class="swiper"
@@ -70,29 +71,29 @@ component-swiper-slider.css
                            data-script="{{ 'swiper-bundle.min.js' | asset_url }}"
               >
               <div class="swiper-wrapper swiper-wrapper--max-height">
-                {%- for product in settings.cart_drawer_collection.products limit:4 -%}
+                {%- for product in empty_cart_collection.products limit:4 -%}
                 <div class="swiper-slide" lazy="true">
                   {%- render 'product-card',
                     customize: true,
                     product_card_product: product,
-                    product_collection:settings.cart_drawer_collection,
+                    product_collection: empty_cart_collection,
                     image_ratio_value: settings.cart_drawer_image_ratio,
                     image_hover_type: 'default',
                     show_secondary_image: 'normal',
-                    show_price:true,
-                    show_sku:false,
-                    show_vendor:settings.show_vendor,
-                    show_type:false,
-                    hover_underline:false,
+                    show_price: true,
+                    show_sku: false,
+                    show_vendor: false,
+                    show_type: false,
+                    hover_underline: false,
                     button_type_product: "hide",
                     show_quantity: false,
-                    show_badge_sold_out:true,
-                    show_badge_on_sale:true,
-                    show_badge_feature:true,
-                    show_countdown:true,
-                    truncate_product_name:true,
-                    small_radius:true,
-                    enable_rating_product_card: settings.enable_rating_drawer
+                    show_badge_sold_out: true,
+                    show_badge_on_sale: false,
+                    show_badge_feature: false,
+                    show_countdown: false,
+                    truncate_product_name: true,
+                    small_radius: true,
+                    enable_rating_product_card: false
                 -%}
                 </div>
                 {%- endfor -%}
@@ -211,7 +212,16 @@ component-swiper-slider.css
                           <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                           {%- endif -%}
 
-                          {%- if cart_item_save > 0 -%}
+                          {%- liquid
+                            assign is_gift_accessory = false
+                            if item.product.handle == 'magnetic-golf-towel' or item.product.handle == 'golf-ball-marker-fork' or item.product.handle == 'golf-club-brush-groove-sharpener-tool'
+                              assign is_gift_accessory = true
+                            endif
+                          -%}
+                          {%- if cart_item_pay == 0 and is_gift_accessory and cart_item_save > 0 -%}
+                            <span class="cart-item__gift-badge">Gift unlocked</span>
+                            <span class="cart-item__gift-free">1 unit free</span>
+                          {%- elsif cart_item_save > 0 -%}
                             <span class="cart-item__discount-badge">
                               {%- if cart_item_pay == 0 -%}
                                 Free
@@ -320,52 +330,55 @@ component-swiper-slider.css
           </cart-drawer-items>
         </div>
         <div class="drawer__footer-footer">
-          {%- if cart != empty and settings.cart_drawer_upsell_enable != false -%}
-            {%- render 'gn-cart-upsell' -%}
-          {%- endif -%}
+          <div class="drawer__footer-scroll">
+            {%- if cart != empty and settings.cart_drawer_upsell_enable != false -%}
+              {%- render 'gn-cart-upsell' -%}
+            {%- endif -%}
 
-          {%- if settings.show_cart_note -%}
-          <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
-            <details class="chm-toggle">
-              <summary>
-                <div class="chm-toggle__button">
-                  <h6 class="mt0 mb0">{{ "general.cart.drawer_note_heading" | t }}</h6>
-                  <div class="plusminus"></div>
+            {%- comment -%} Order Special Instructions hidden to make space for free-gift panel. {%- endcomment -%}
+            {%- if false and settings.show_cart_note -%}
+            <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
+              <details class="chm-toggle">
+                <summary>
+                  <div class="chm-toggle__button">
+                    <h6 class="mt0 mb0">{{ "general.cart.drawer_note_heading" | t }}</h6>
+                    <div class="plusminus"></div>
+                  </div>
+                </summary>
+                <div class="chm-toggle__content section__richtext__editor">
+                  <cart-note class="field field--text-area">
+                    <textarea class="text-area field__input"
+                              id="CartDrawer-Note"
+                              name="note"
+                              placeholder="{{ 'sections.cart.note' | t }}"
+                              >{{ cart.note }}</textarea>
+                    <label class="field__label" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
+                  </cart-note>
                 </div>
-              </summary>
-              <div class="chm-toggle__content section__richtext__editor">
-                <cart-note class="field field--text-area">
-                  <textarea class="text-area field__input"
-                            id="CartDrawer-Note"
-                            name="note"
-                            placeholder="{{ 'sections.cart.note' | t }}"
-                            >{{ cart.note }}</textarea>         
-                  <label class="field__label" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
-                </cart-note>
-              </div>
-            </details>
-          </toggle-component>
-          {%- endif -%}
+              </details>
+            </toggle-component>
+            {%- endif -%}
 
-          {% comment %} Discount code UI temporarily hidden — reinstate by removing `false and` when codes are ready {% endcomment %}
-          {%- if false and settings.show_add_discount_code -%}
-          {%- capture html -%}
-          {%- render "cart-discount", section_id:section.id -%}
-          {%- endcapture -%}
-          <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
-            <details class="chm-toggle{% if html contains 'cart-discount__pill' %} toggle-opening toggle-opening-auto{% endif %}"{% if html contains 'cart-discount__pill' %} open{% endif %}>
-              <summary>
-                <div class="chm-toggle__button">
-                  <h6 class="mt0 mb0">{{ "general.cart.drawer_discount_heading" | t }}</h6>
-                  <div class="plusminus"></div>
-                </div>
-              </summary>
-              <div class="chm-toggle__content section__richtext__editor">{{- html -}}</div>
-            </details>
-          </toggle-component>
-          {%- endif -%}
+            {% comment %} Discount code UI temporarily hidden — reinstate by removing `false and` when codes are ready {% endcomment %}
+            {%- if false and settings.show_add_discount_code -%}
+            {%- capture html -%}
+            {%- render "cart-discount", section_id:section.id -%}
+            {%- endcapture -%}
+            <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
+              <details class="chm-toggle{% if html contains 'cart-discount__pill' %} toggle-opening toggle-opening-auto{% endif %}"{% if html contains 'cart-discount__pill' %} open{% endif %}>
+                <summary>
+                  <div class="chm-toggle__button">
+                    <h6 class="mt0 mb0">{{ "general.cart.drawer_discount_heading" | t }}</h6>
+                    <div class="plusminus"></div>
+                  </div>
+                </summary>
+                <div class="chm-toggle__content section__richtext__editor">{{- html -}}</div>
+              </details>
+            </toggle-component>
+            {%- endif -%}
+          </div>
 
-          <div class="cart__footer__information">
+          <div class="cart__footer__information gn-cart-checkout-sticky">
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
               <div class="totals">
                 <h4 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h4>
@@ -463,7 +476,7 @@ component-swiper-slider.css
             <div class="cart__dynamic-checkout-buttons additional-checkout-buttons additional-checkout-buttons--vertical mt10">{{ content_for_additional_checkout_buttons }}</div>
             {% endif %}
 
-            <div class="mt40 drawer__inner__links">
+            <div class="mt12 drawer__inner__links">
               <button class="link link--medium link-hover-span strong{% if settings.buttons_uppercase %} text-uppercase{% endif %}" type="button" onclick="this.closest('.popup-modal').close()" aria-label="{{ 'accessibility.close' | t }}">
                 {%- render "icon-arrow-left-2" -%}
                 <span>{{ 'general.continue_shopping' | t }}</span>

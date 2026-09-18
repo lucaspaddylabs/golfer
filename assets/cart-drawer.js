@@ -208,75 +208,139 @@ customElements.define('cart-drawer-items', CartDrawerItems);
 
 class CartDrawerUpsell extends HTMLElement {
   connectedCallback() {
-    this.track = this.querySelector('[data-upsell-track]');
-    this.slides = Array.from(this.querySelectorAll('[data-upsell-slide]'));
-    this.prevBtn = this.querySelector('[data-upsell-prev]');
-    this.nextBtn = this.querySelector('[data-upsell-next]');
-    this.index = 0;
-    this.adding = false;
+    if (this._giftBound) return;
+    this._giftBound = true;
+    this.busy = false;
+    this.errorEl = this.querySelector('[data-gift-error]');
 
-    this.prevBtn?.addEventListener('click', () => this.go(-1));
-    this.nextBtn?.addEventListener('click', () => this.go(1));
-    this.querySelectorAll('[data-upsell-variant]').forEach((swatch) => {
-      swatch.addEventListener('click', () => {
-        const slide = swatch.closest('[data-upsell-slide]');
-        if (!slide) return;
-        slide.querySelectorAll('[data-upsell-variant]').forEach((item) => {
-          item.classList.toggle('is-selected', item === swatch);
-          item.setAttribute('aria-pressed', item === swatch ? 'true' : 'false');
-        });
-        const button = slide.querySelector('[data-upsell-add]');
-        if (button) button.dataset.variantId = swatch.dataset.variantId;
-      });
+    this.addEventListener('click', (event) => {
+      const swatch = event.target.closest('[data-gift-variant]');
+      if (swatch && this.contains(swatch)) {
+        event.preventDefault();
+        this.selectVariant(swatch);
+        return;
+      }
+      const minusBtn = event.target.closest('[data-gift-minus]');
+      if (minusBtn && this.contains(minusBtn)) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.changeQty(minusBtn, -1, false);
+        return;
+      }
+      const plusBtn = event.target.closest('[data-gift-plus]');
+      if (plusBtn && this.contains(plusBtn)) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.changeQty(plusBtn, 1, false);
+        return;
+      }
+      const addBtn = event.target.closest('[data-gift-add]');
+      if (addBtn && this.contains(addBtn)) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.changeQty(addBtn, 1, true);
+      }
     });
-    this.querySelectorAll('[data-upsell-add]').forEach((button) => {
-      button.addEventListener('click', (event) => this.add(event.currentTarget));
-    });
-
-    this.go(0);
   }
 
-  go(step) {
-    if (!this.slides.length) return;
-    this.index = (this.index + step + this.slides.length) % this.slides.length;
-    if (this.track) {
-      this.track.style.transform = `translateX(-${this.index * 100}%)`;
+  selectVariant(swatch) {
+    const row = swatch.closest('[data-gift-row]');
+    if (!row) return;
+    row.querySelectorAll('[data-gift-variant]').forEach((item) => {
+      const selected = item === swatch;
+      item.classList.toggle('is-selected', selected);
+      item.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+    const variantId = swatch.dataset.variantId;
+    const qty = Number(swatch.dataset.qty || 0);
+    const lineKey = swatch.dataset.lineKey || '';
+    row.querySelectorAll('[data-gift-add], [data-gift-plus], [data-gift-minus]').forEach((btn) => {
+      btn.dataset.variantId = variantId;
+      btn.dataset.lineKey = lineKey;
+    });
+    const qtyValue = row.querySelector('[data-gift-qty-value]');
+    if (qtyValue) qtyValue.textContent = String(qty);
+    const minus = row.querySelector('[data-gift-minus]');
+    if (minus) minus.disabled = qty <= 0;
+    const meta = row.querySelector('.gn-gift-row__meta');
+    if (meta) {
+      const label = swatch.getAttribute('aria-label') || '';
+      meta.textContent = meta.textContent.replace(/^[^·]+·/, `${label} ·`);
     }
   }
 
-  add(button) {
-    if (this.adding || !button) return;
-    const variantId = Number(button.dataset.variantId);
-    if (!variantId) return;
+  showError(message) {
+    if (!this.errorEl) return;
+    this.errorEl.hidden = !message;
+    this.errorEl.textContent = message || '';
+  }
 
+  changeQty(button, delta, fromAdd) {
+    if (this.busy || !button || button.disabled) return;
+    const variantId = Number(button.dataset.variantId);
+    if (!variantId || !Number.isFinite(delta) || delta === 0) return;
+
+    const row = button.closest('[data-gift-row]');
     const cart = this.closest('cart-drawer');
-    const slide = button.closest('[data-upsell-slide]');
-    this.adding = true;
+    const cartItems = cart?.querySelector('cart-drawer-items');
+
+    this.busy = true;
+    this.showError('');
     button.classList.add('is-loading');
     button.setAttribute('aria-disabled', 'true');
-    slide?.classList.add('is-adding');
+    row?.classList.add('is-adding');
 
-    const body = {
-      id: variantId,
-      quantity: 1,
-    };
-    if (cart) {
-      body.sections = cart.getSectionsToRender().map((section) => section.id);
-      body.sections_url = window.location.pathname;
-    }
-
-    fetch(`${routes.cart_add_url}`, { ...fetchConfig('javascript'), body: JSON.stringify(body) })
+    fetch(`${routes.cart_url}.js`)
       .then((response) => response.json())
+      .then((cartJson) => {
+        const matches = (cartJson.items || [])
+          .map((item, index) => ({ ...item, line: index + 1 }))
+          .filter((item) => Number(item.variant_id) === variantId);
+        const currentQty = matches.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+        if (delta < 0 && currentQty <= 0) {
+          throw new Error('nothing-to-remove');
+        }
+
+        // Same path as main cart line +/- : /cart/change.js via cart-drawer-items.updateQuantity
+        if (currentQty > 0 && cartItems && typeof cartItems.updateQuantity === 'function') {
+          const target = matches[0];
+          const nextLineQty = Math.max(0, Number(target.quantity) + delta);
+          // Hand off — updateQuantity re-renders .drawer__inner (includes gift panel).
+          this.busy = false;
+          button.classList.remove('is-loading');
+          button.removeAttribute('aria-disabled');
+          row?.classList.remove('is-adding');
+          cartItems.updateQuantity(target.line, nextLineQty, delta < 0 ? 'minus' : 'plus', variantId);
+          return null;
+        }
+
+        if (delta < 0) {
+          throw new Error('nothing-to-remove');
+        }
+
+        const sections = cart ? cart.getSectionsToRender().map((section) => section.id) : [];
+        return fetch(`${routes.cart_add_url}`, {
+          ...fetchConfig('javascript'),
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 1,
+            sections,
+            sections_url: window.location.pathname,
+          }),
+        }).then((response) => response.json());
+      })
       .then((response) => {
+        if (response == null) return;
+
         if (response.status) {
-          const errors = document.getElementById('CartDrawer-CartErrors');
-          if (errors) errors.textContent = response.description || response.message || window.cartStrings.error;
-          slide?.classList.remove('is-adding');
+          this.showError(response.description || response.message || window.cartStrings?.error || 'Could not update cart');
+          row?.classList.remove('is-adding');
           return;
         }
 
         publish(PUB_SUB_EVENTS.cartUpdate, {
-          source: 'cart-drawer-upsell',
+          source: fromAdd ? 'cart-drawer-gift-add' : 'cart-drawer-gift-qty',
           productVariantId: variantId,
           cartData: response,
         });
@@ -287,11 +351,14 @@ class CartDrawerUpsell extends HTMLElement {
         }
       })
       .catch((error) => {
-        console.error(error);
-        slide?.classList.remove('is-adding');
+        if (error?.message !== 'nothing-to-remove') {
+          console.error(error);
+          this.showError(window.cartStrings?.error || 'Could not update cart');
+        }
+        row?.classList.remove('is-adding');
       })
       .finally(() => {
-        this.adding = false;
+        this.busy = false;
         button.classList.remove('is-loading');
         button.removeAttribute('aria-disabled');
       });

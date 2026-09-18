@@ -1,6 +1,7 @@
 {%- comment -%}
-  Cart drawer accessory carousel (Buy 3 / get lowest free pairing).
-  Uses settings.cart_drawer_upsell_enable + cart_drawer_upsell_1/2/3.
+  Free-gift accessory panel (preview → smoke → live).
+  Buy 3 eligible accessory units → lowest free (store promotion).
+  Products: magnetic towel, ball marker, brush + sharpener.
 {%- endcomment -%}
 {%- unless settings.cart_drawer_upsell_enable == false -%}
   {%- liquid
@@ -17,133 +18,224 @@
       assign upsell_3 = all_products['golf-club-brush-groove-sharpener-tool']
     endif
 
-    assign cart_product_ids = ','
+    assign gift_units = 0
+    assign gift_savings = 0
     for item in cart.items
-      assign cart_product_ids = cart_product_ids | append: item.product_id | append: ','
+      if item.product_id == upsell_1.id or item.product_id == upsell_2.id or item.product_id == upsell_3.id
+        assign gift_units = gift_units | plus: item.quantity
+        assign line_save = item.original_line_price | minus: item.final_line_price
+        if line_save > 0
+          assign gift_savings = gift_savings | plus: line_save
+        endif
+      endif
     endfor
+
+    if gift_units >= 3
+      assign gift_state = 3
+      assign gift_headline = 'Free gift in the bag!'
+      assign gift_sub = 'Your FREE gift has been applied automatically.'
+    elsif gift_units == 2
+      assign gift_state = 2
+      assign gift_headline = 'Nearly there!'
+      assign gift_sub = "Now add your 3rd — it's free"
+    elsif gift_units == 1
+      assign gift_state = 1
+      assign gift_headline = '1 added, 2 more to choose'
+      assign gift_sub = 'Add 1 more, then select your free one'
+    else
+      assign gift_state = 0
+      assign gift_headline = 'Unlock a free gift'
+      assign gift_sub = 'Choose 3 accessories to get 1 free'
+    endif
   -%}
 
-  {%- assign upsell_slide_count = 0 -%}
-  {%- capture upsell_slides -%}
-    {%- for i in (1..3) -%}
-      {%- liquid
-        case i
-          when 1
-            assign product = upsell_1
-          when 2
-            assign product = upsell_2
-          when 3
-            assign product = upsell_3
-        endcase
-      -%}
-      {%- if product != blank -%}
-        {%- assign id_token = ',' | append: product.id | append: ',' -%}
-        {%- unless cart_product_ids contains id_token -%}
-          {%- assign selected_variant = product.selected_or_first_available_variant -%}
-          {%- assign upsell_slide_count = upsell_slide_count | plus: 1 -%}
-          <div class="gn-cart-upsell__slide" data-upsell-slide>
-            <div class="gn-cart-upsell__card">
-              <a class="gn-cart-upsell__media" href="{{ product.url }}">
-                {%- if product.featured_media -%}
-                  <img
-                    src="{{ product.featured_media | image_url: width: 160 }}"
-                    alt="{{ product.featured_media.alt | default: product.title | escape }}"
-                    width="56"
-                    height="56"
-                    loading="lazy"
-                  >
-                {%- endif -%}
-              </a>
-              <div class="gn-cart-upsell__details">
-                <div class="gn-cart-upsell__top">
-                  <a class="gn-cart-upsell__title" href="{{ product.url }}">{{ product.title }}</a>
-                  <div class="gn-cart-upsell__price">
-                    <span class="gn-cart-upsell__price-current">{{ selected_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                    {%- if selected_variant.compare_at_price > selected_variant.price -%}
-                      <s class="gn-cart-upsell__price-compare">{{ selected_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
-                    {%- endif -%}
-                  </div>
-                </div>
-                <div class="gn-cart-upsell__row">
-                  <div class="gn-cart-upsell__swatches">
-                    {%- if product.has_only_default_variant == false -%}
-                      {%- for variant in product.variants -%}
-                        {%- liquid
-                          assign swatch_color = variant.option1 | handle
-                          case swatch_color
-                            when 'green'
-                              assign swatch_hex = '#1d3d2a'
-                            when 'black'
-                              assign swatch_hex = '#111111'
-                            when 'blue'
-                              assign swatch_hex = '#2a5f9e'
-                            when 'gray'
-                              assign swatch_hex = '#9a9a9a'
-                            when 'grey'
-                              assign swatch_hex = '#9a9a9a'
-                            when 'white'
-                              assign swatch_hex = '#f4f4f4'
-                            when 'dark-gray'
-                              assign swatch_hex = '#555555'
-                            when 'silver'
-                              assign swatch_hex = '#c0c0c0'
-                            else
-                              assign swatch_hex = '#d8d3c4'
-                          endcase
-                        -%}
-                        <button
-                          type="button"
-                          class="gn-cart-upsell__swatch{% if variant.id == selected_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
-                          style="--swatch: {{ swatch_hex }};"
-                          data-upsell-variant
-                          data-variant-id="{{ variant.id }}"
-                          aria-label="{{ variant.title | escape }}"
-                          aria-pressed="{% if variant.id == selected_variant.id %}true{% else %}false{% endif %}"
-                          {% unless variant.available %}disabled{% endunless %}
-                        ></button>
-                      {%- endfor -%}
-                    {%- endif -%}
-                  </div>
-                  <button
-                    type="button"
-                    class="btn gn-cart-upsell__add"
-                    data-upsell-add
-                    data-variant-id="{{ selected_variant.id }}"
-                    aria-label="Add {{ product.title | escape }} to cart"
-                    {% unless selected_variant.available %}disabled{% endunless %}
-                  >
-                    <span>Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        {%- endunless -%}
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endcapture -%}
+  <cart-drawer-upsell
+    class="gn-gift-panel"
+    data-gift-state="{{ gift_state }}"
+    data-gift-units="{{ gift_units }}"
+    aria-label="Free gift offer"
+  >
+    <div class="gn-gift-panel__unlock">
+      <h3 class="gn-gift-panel__headline">{{ gift_headline }}</h3>
+      <p class="gn-gift-panel__sub">{{ gift_sub }}</p>
 
-  {%- if upsell_slide_count > 0 -%}
-    <cart-drawer-upsell class="gn-cart-upsell">
-      <div class="gn-cart-upsell__header">
-        <div class="gn-cart-upsell__heading">Accessories</div>
-        <div class="gn-cart-upsell__sub">Buy 3, get the lowest free</div>
-      </div>
-      <div class="gn-cart-upsell__carousel">
-        <button type="button" class="gn-cart-upsell__nav" data-upsell-prev aria-label="Previous accessory"{% if upsell_slide_count < 2 %} aria-hidden="true"{% endif %}>
-          {%- render 'icon-arrow-left' -%}
-        </button>
-        <div class="gn-cart-upsell__main">
-          <div class="gn-cart-upsell__viewport">
-            <div class="gn-cart-upsell__track" data-upsell-track>
-              {{ upsell_slides }}
+      <div class="gn-gift-progress" aria-hidden="true">
+        <div class="gn-gift-progress__track">
+          <div class="gn-gift-progress__fill is-{{ gift_state }}"></div>
+        </div>
+        <div class="gn-gift-progress__steps">
+          <div class="gn-gift-step{% if gift_state >= 1 %} is-complete{% endif %}">
+            <div class="gn-gift-step__dot">{% if gift_state >= 1 %}✓{% else %}1{% endif %}</div>
+            <div class="gn-gift-step__label">1st accessory</div>
+          </div>
+          <div class="gn-gift-step{% if gift_state >= 2 %} is-complete{% endif %}">
+            <div class="gn-gift-step__dot">{% if gift_state >= 2 %}✓{% else %}2{% endif %}</div>
+            <div class="gn-gift-step__label">2nd accessory</div>
+          </div>
+          <div class="gn-gift-step{% if gift_state >= 3 %} is-done{% elsif gift_state == 2 %} is-amber{% endif %}">
+            <div class="gn-gift-step__dot">
+              {%- if gift_state >= 3 -%}🎁
+              {%- else -%}🔒
+              {%- endif -%}
+            </div>
+            <div class="gn-gift-step__label">
+              {%- if gift_state >= 3 -%}Gift added
+              {%- elsif gift_state == 2 -%}Nearly there
+              {%- else -%}FREE gift
+              {%- endif -%}
             </div>
           </div>
         </div>
-        <button type="button" class="gn-cart-upsell__nav" data-upsell-next aria-label="Next accessory"{% if upsell_slide_count < 2 %} aria-hidden="true"{% endif %}>
-          {%- render 'icon-arrow-right' -%}
-        </button>
       </div>
-    </cart-drawer-upsell>
-  {%- endif -%}
+    </div>
+
+    <div class="gn-gift-rows">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          case i
+            when 1
+              assign product = upsell_1
+            when 2
+              assign product = upsell_2
+            when 3
+              assign product = upsell_3
+          endcase
+        -%}
+        {%- if product != blank -%}
+          {%- liquid
+            assign selected_variant = product.selected_or_first_available_variant
+            assign row_qty = 0
+            assign row_key = ''
+            for item in cart.items
+              if item.product_id == product.id
+                assign selected_variant = item.variant
+                break
+              endif
+            endfor
+            for item in cart.items
+              if item.variant_id == selected_variant.id
+                assign row_qty = row_qty | plus: item.quantity
+                assign row_key = item.key
+              endif
+            endfor
+          -%}
+          <article class="gn-gift-row" data-gift-row data-product-id="{{ product.id }}">
+            <a class="gn-gift-row__media" href="{{ product.url }}">
+              {%- if selected_variant.featured_media -%}
+                <img
+                  src="{{ selected_variant.featured_media | image_url: width: 120 }}"
+                  alt="{{ selected_variant.featured_media.alt | default: product.title | escape }}"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+              {%- elsif product.featured_media -%}
+                <img
+                  src="{{ product.featured_media | image_url: width: 120 }}"
+                  alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+              {%- endif -%}
+            </a>
+            <div class="gn-gift-row__body">
+              <h4 class="gn-gift-row__title">{{ product.title }}</h4>
+              {%- if product.has_only_default_variant == false -%}
+                <div class="gn-gift-row__swatches">
+                  {%- for variant in product.variants -%}
+                    {%- liquid
+                      assign swatch_color = variant.option1 | handle
+                      case swatch_color
+                        when 'green'
+                          assign swatch_hex = '#1d3d2a'
+                        when 'black'
+                          assign swatch_hex = '#111111'
+                        when 'blue'
+                          assign swatch_hex = '#2a5f9e'
+                        when 'gray'
+                          assign swatch_hex = '#9a9a9a'
+                        when 'grey'
+                          assign swatch_hex = '#9a9a9a'
+                        when 'silver'
+                          assign swatch_hex = '#c0c0c0'
+                        else
+                          assign swatch_hex = '#d8d3c4'
+                      endcase
+                      assign v_qty = 0
+                      assign v_key = ''
+                      for item in cart.items
+                        if item.variant_id == variant.id
+                          assign v_qty = item.quantity
+                          assign v_key = item.key
+                        endif
+                      endfor
+                    -%}
+                    <button
+                      type="button"
+                      class="gn-gift-row__swatch{% if variant.id == selected_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                      style="--swatch: {{ swatch_hex }};"
+                      data-gift-variant
+                      data-variant-id="{{ variant.id }}"
+                      data-line-key="{{ v_key }}"
+                      data-qty="{{ v_qty }}"
+                      aria-label="{{ variant.title | escape }}"
+                      aria-pressed="{% if variant.id == selected_variant.id %}true{% else %}false{% endif %}"
+                      {% unless variant.available %}disabled{% endunless %}
+                    ></button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+              <div class="gn-gift-row__meta">
+                {%- unless product.has_only_default_variant -%}
+                  {{ selected_variant.title }} ·
+                {%- endunless -%}
+                {{ selected_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                · {{ row_qty }} in cart
+              </div>
+              <div class="gn-gift-row__controls">
+                <div class="gn-gift-qty" data-gift-qty>
+                  <button
+                    type="button"
+                    data-gift-minus
+                    data-variant-id="{{ selected_variant.id }}"
+                    data-line-key="{{ row_key }}"
+                    aria-label="Decrease {{ product.title | escape }}"
+                    {% if row_qty == 0 %}disabled{% endif %}
+                  >-</button>
+                  <span data-gift-qty-value>{{ row_qty }}</span>
+                  <button
+                    type="button"
+                    data-gift-plus
+                    data-variant-id="{{ selected_variant.id }}"
+                    data-line-key="{{ row_key }}"
+                    aria-label="Increase {{ product.title | escape }}"
+                    {% unless selected_variant.available %}disabled{% endunless %}
+                  >+</button>
+                </div>
+                <button
+                  type="button"
+                  class="btn gn-gift-row__add"
+                  data-gift-add
+                  data-variant-id="{{ selected_variant.id }}"
+                  aria-label="Add {{ product.title | escape }} to cart"
+                  {% unless selected_variant.available %}disabled{% endunless %}
+                >
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if gift_state >= 3 and gift_savings > 0 -%}
+      <div class="gn-gift-savings">
+        You’ve unlocked {{ gift_savings | money | replace: 'US$', '$' | replace: 'US $', '$' }} in savings.
+      </div>
+    {%- endif -%}
+
+    <p class="gn-gift-panel__error" data-gift-error hidden role="alert"></p>
+  </cart-drawer-upsell>
 {%- endunless -%}
