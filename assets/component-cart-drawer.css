@@ -21,7 +21,7 @@ cart-drawer #CartDrawer.cart-drawer {
   height: 100%;
   max-height: 100%;
   border-radius: 0;
-  padding: 0 0 20px;
+  padding: 0;
   background: #fff;
   color: var(--gn-ink);
   box-shadow: -8px 0 32px rgba(24, 43, 32, 0.12);
@@ -241,7 +241,7 @@ cart-drawer.is-empty .drawer__footer {
 .drawer__footer-footer .cart__footer__information{
   margin-top: 0;
   padding-top: 10px;
-  padding-bottom: 8px;
+  padding-bottom: 0;
   border-top: 1px solid var(--gn-divider);
 }
 /* Checkout CTA + trust row pinned below gift panel — keep compact */
@@ -252,6 +252,7 @@ cart-drawer.is-empty .drawer__footer {
   z-index: 5;
   background: #fff;
   box-shadow: 0 -6px 16px rgba(24, 43, 32, 0.05);
+  padding-bottom: 0;
 }
 #CartDrawer .gn-cart-checkout-sticky .tax-note.mt10,
 #CartDrawer .gn-cart-checkout-sticky .tax-note {
@@ -261,6 +262,9 @@ cart-drawer.is-empty .drawer__footer {
 }
 #CartDrawer .gn-cart-checkout-sticky .mt20 {
   margin-top: 10px !important;
+}
+#CartDrawer .gn-cart-checkout-sticky .mt10 {
+  margin-top: 8px !important;
 }
 #CartDrawer .gn-cart-checkout-sticky .gn-cart-trust-row {
   margin-top: 8px;
@@ -280,10 +284,13 @@ cart-drawer.is-empty .drawer__footer {
   width: 16px;
   height: 16px;
 }
+/* Continue shopping flush to drawer bottom (slightly cropped is OK) */
 #CartDrawer .gn-cart-checkout-sticky .drawer__inner__links,
 #CartDrawer .gn-cart-checkout-sticky .mt12,
 #CartDrawer .gn-cart-checkout-sticky .mt8 {
-  margin-top: 8px !important;
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 2px;
 }
 #CartDrawer .gn-cart-checkout-sticky .drawer__inner__links .link {
   font-size: 0.78rem;
@@ -358,15 +365,16 @@ cart-drawer.is-empty .drawer__footer {
     padding-left: 28px;
     padding-right: 28px;
   }
-  .drawer__footer-footer .cart__footer__information{
-    padding-bottom:28px;
+  .drawer__footer-footer .cart__footer__information,
+  #CartDrawer .gn-cart-checkout-sticky {
+    padding-bottom: 0;
   }
 }
 @media (max-width:576px){
   cart-drawer.popup-modal .popup-modal__content,
   cart-drawer #CartDrawer.cart-drawer {
     width: 100%;
-    padding: 0 0 16px;
+    padding: 0;
   }
   cart-drawer #CartDrawer .drawer__header {
     padding: 10px 16px 8px;
@@ -402,8 +410,9 @@ cart-drawer.is-empty .drawer__footer {
     padding-left: 16px;
     padding-right: 16px;
   }
-  .drawer__footer-footer .cart__footer__information{
-    padding-bottom:24px;
+  .drawer__footer-footer .cart__footer__information,
+  #CartDrawer .gn-cart-checkout-sticky {
+    padding-bottom: 0;
   }
 }
 .drawer__footer-footer .chm-toggle:first-child{
@@ -576,8 +585,9 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 }
 
 #CartDrawer .totals__subtotal-value {
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 #CartDrawer .totals__subtotal-value--sale {
@@ -585,11 +595,11 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 6px;
 }
 
 #CartDrawer .totals__compare {
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 500;
   color: var(--gn-muted);
   text-decoration: line-through;
