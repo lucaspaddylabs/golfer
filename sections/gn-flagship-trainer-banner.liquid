@@ -179,6 +179,13 @@
     height: auto;
     object-fit: contain;
   }
+  #shopify-section-{{ section.id }} .gn-flagship-banner__media a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
   {%- if section.settings.enable_pulse -%}
   @keyframes gn-flagship-pulse-{{ section.id }} {
     0%, 100% {
@@ -293,8 +300,15 @@
     </div>
 
     {%- if section.settings.image != blank -%}
+    {%- assign gn_flagship_image_link = section.settings.image_link | default: section.settings.button_link -%}
     <div class="gn-flagship-banner__media{% if section.settings.enable_pulse %} has-pulse{% endif %}">
-      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 900px, 100vw' }}
+      {%- if gn_flagship_image_link != blank -%}
+        <a href="{{ gn_flagship_image_link }}">
+          {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 900px, 100vw' }}
+        </a>
+      {%- else -%}
+        {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 900px, 100vw' }}
+      {%- endif -%}
     </div>
     {%- endif -%}
   </div>
@@ -311,6 +325,7 @@
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Perfect your grip and swing." },
     { "type": "header", "content": "Image" },
     { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "url", "id": "image_link", "label": "Image link", "info": "Where the image redirects when clicked. Defaults to the button link below if left blank." },
     { "type": "checkbox", "id": "enable_pulse", "label": "Pulse animation on image", "default": true },
     { "type": "range", "id": "pulse_speed", "min": 1, "max": 6, "step": 0.5, "unit": "s", "label": "Pulse speed", "default": 2.5 },
     { "type": "header", "content": "Background" },

@@ -2,10 +2,22 @@
 <div class="submenu-design__simple">
   <ul class="unstyle-ul">
     {%- for childlink in link.links -%}
+    {%- assign childlink_image = childlink.object.featured_image | default: childlink.object.image -%}
+    {%- assign childlink_label = childlink.object.type -%}
+    {%- assign childlink_name = childlink.title | split: ' — ' | first | split: ' – ' | first | split: ' - ' | first | strip -%}
     {%- if childlink.links != blank -%}
     <li class="submenu-container">
-      <a href="{{ childlink.url }}" class="submenu__item {{ size }}">
-        <span><span class="submenu__item_text">{{ childlink.title | escape }}</span>{%- render "menu-badge" item_name:childlink.title, show_inline:true -%}</span>
+      <a href="{{ childlink.url }}" class="submenu__item shop-dropdown__row {{ size }}">
+        {%- if childlink_image != blank -%}
+        <span class="shop-dropdown__thumb">{{ childlink_image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '88,176,220', sizes: '88px', alt: childlink.title }}</span>
+        {%- else -%}
+        <span class="shop-dropdown__thumb shop-dropdown__thumb--empty"></span>
+        {%- endif -%}
+        <span class="shop-dropdown__text">
+          {%- if childlink_label != blank -%}<span class="shop-dropdown__label">{{ childlink_label | escape }}</span>{%- endif -%}
+          <span class="submenu__item_text shop-dropdown__name">{{ childlink_name | escape }}</span>
+        </span>
+        {%- render "menu-badge" item_name:childlink.title, show_inline:true -%}
         {%- render "icon-arrow-right-small" -%}
       </a>
 
@@ -23,8 +35,17 @@
     </li>
     {%- else -%}
     <li>
-      <a href="{{ childlink.url }}" class="submenu__item {{ size }}">
-        <span><span class="submenu__item_text">{{ childlink.title | escape }}</span>{%- render "menu-badge" item_name:childlink.title, show_inline:true -%}</span>
+      <a href="{{ childlink.url }}" class="submenu__item shop-dropdown__row {{ size }}">
+        {%- if childlink_image != blank -%}
+        <span class="shop-dropdown__thumb">{{ childlink_image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '88,176,220', sizes: '88px', alt: childlink.title }}</span>
+        {%- else -%}
+        <span class="shop-dropdown__thumb shop-dropdown__thumb--empty"></span>
+        {%- endif -%}
+        <span class="shop-dropdown__text">
+          {%- if childlink_label != blank -%}<span class="shop-dropdown__label">{{ childlink_label | escape }}</span>{%- endif -%}
+          <span class="submenu__item_text shop-dropdown__name">{{ childlink_name | escape }}</span>
+        </span>
+        {%- render "menu-badge" item_name:childlink.title, show_inline:true -%}
       </a>
     </li>
     {%- endif -%}

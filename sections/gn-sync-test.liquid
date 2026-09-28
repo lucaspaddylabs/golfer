@@ -26,12 +26,22 @@
     color: {{ section.settings.heading_color | default: '#464646' }};
   }
   #shopify-section-{{ section.id }} .gn-practice-system__image {
+    position: relative;
     margin-top: {{ section.settings.image_spacing | default: 40 }}px;
   }
   #shopify-section-{{ section.id }} .gn-practice-system__image img {
     display: block;
     width: 100%;
     height: auto;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__hotspot {
+    position: absolute;
+    display: block;
+    outline: none;
+  }
+  #shopify-section-{{ section.id }} .gn-practice-system__hotspot:hover,
+  #shopify-section-{{ section.id }} .gn-practice-system__hotspot:focus-visible {
+    background: rgba(29, 61, 42, 0.08);
   }
   #shopify-section-{{ section.id }} .gn-practice-system__cta {
     display: flex;
@@ -78,6 +88,17 @@
     {%- if section.settings.image != blank -%}
     <div class="gn-practice-system__image">
       {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 1100px, 100vw' }}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'hotspot' and block.settings.link != blank -%}
+          <a
+            href="{{ block.settings.link }}"
+            class="gn-practice-system__hotspot"
+            aria-label="{{ block.settings.label | default: 'Shop this product' }}"
+            style="left: {{ block.settings.left }}%; top: {{ block.settings.top }}%; width: {{ block.settings.width }}%; height: {{ block.settings.height }}%;"
+            {{ block.shopify_attributes }}
+          ></a>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
     {%- endif -%}
 
@@ -114,8 +135,31 @@
     { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 70 }
   ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Clickable area",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Accessibility label", "info": "Not shown visually, only read by screen readers.", "default": "Shop this product" },
+        { "type": "url", "id": "link", "label": "Product link" },
+        { "type": "header", "content": "Position on image" },
+        { "type": "range", "id": "left", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Left", "default": 0 },
+        { "type": "range", "id": "top", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Top", "default": 0 },
+        { "type": "range", "id": "width", "min": 1, "max": 100, "step": 1, "unit": "%", "label": "Width", "default": 25 },
+        { "type": "range", "id": "height", "min": 1, "max": 100, "step": 1, "unit": "%", "label": "Height", "default": 100 }
+      ]
+    }
+  ],
   "presets": [
-    { "name": "Practice system showcase" }
+    {
+      "name": "Practice system showcase",
+      "blocks": [
+        { "type": "hotspot", "settings": { "label": "Shop LINK ONE", "left": 0, "top": 0, "width": 25, "height": 100 } },
+        { "type": "hotspot", "settings": { "label": "Shop ARC ONE", "left": 25, "top": 0, "width": 25, "height": 100 } },
+        { "type": "hotspot", "settings": { "label": "Shop TRACE ONE", "left": 50, "top": 0, "width": 25, "height": 100 } },
+        { "type": "hotspot", "settings": { "label": "Shop LINE ONE", "left": 75, "top": 0, "width": 25, "height": 100 } }
+      ]
+    }
   ]
 }
 {% endschema %}

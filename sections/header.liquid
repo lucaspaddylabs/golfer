@@ -35,7 +35,136 @@
     .menuwith-logo__2floor > :nth-child(2) { grid-area: full; }
     {%- endif -%}
   }
+
+  /* Shop dropdown: clubhouse-style panel with product thumbnails */
+  .desktop-main-menu > ul.list-menu--inline > li.submenu-container > .submenu-design__simple{
+    width: 400px;
+    max-height: min(560px, 70vh);
+    padding: 16px;
+    border-radius: 20px;
+    background: #2F3B2A;
+    box-shadow: 0 12px 32px rgba(0,0,0,.22);
+    overflow-y: auto;
+    top: calc(100% + var(--header__submenu__top-offset, 10px)) !important;
+    transition: opacity var(--duration-medium) ease, visibility var(--duration-medium) ease !important;
+  }
+  /* Grace-period fallback: keeps the panel forced open for a short window after
+     the pointer leaves, so a momentary hover-chain drop (animation, reflow,
+     a stray pixel gap) doesn't slam the menu shut before the mouse lands on
+     an item. See the "gn-submenu-hover-intent" script below. */
+  .submenu-container.gn-submenu-force-open > [class*="submenu-design__"]{
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    top: calc(100% + var(--header__submenu__top-offset, 10px)) !important;
+  }
+  .desktop-main-menu > ul.list-menu--inline > li.submenu-container > .submenu-design__simple > ul{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .desktop-main-menu > ul.list-menu--inline > li.submenu-container > .submenu-design__simple .submenu__item.shop-dropdown__row{
+    padding: 12px;
+    gap: 16px;
+    border-radius: 16px;
+    color: #F3F1DE;
+  }
+  .desktop-main-menu > ul.list-menu--inline > li.submenu-container > .submenu-design__simple li:hover > .submenu__item.shop-dropdown__row{
+    background: #6B7A5E;
+    color: #F3F1DE;
+    text-decoration: none;
+  }
+  .desktop-main-menu > ul.list-menu--inline > li.submenu-container > .submenu-design__simple .submenu__item_text:before{
+    content: none;
+  }
+  .desktop-main-menu > ul.list-menu--inline > li.submenu-container > .submenu-design__simple .submenu__item svg path{
+    fill: #F3F1DE;
+  }
+  .shop-dropdown__thumb{
+    flex: 0 0 auto;
+    width: 88px;
+    height: 88px;
+    border-radius: 16px;
+    background: #6B7A5E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .shop-dropdown__row:hover .shop-dropdown__thumb{
+    background: rgba(243,241,222,.18);
+  }
+  .shop-dropdown__thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .shop-dropdown__thumb--empty:after{
+    content: "";
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1.8px solid rgba(243,241,222,.7);
+  }
+  .shop-dropdown__text{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .shop-dropdown__label{
+    font-size: 13px;
+    font-weight: 500;
+    color: #D9CBB0;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .shop-dropdown__name{
+    font-size: 18px;
+    font-weight: 500;
+    color: #F3F1DE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>
+<script>
+  (function gnSubmenuHoverIntent() {
+    if (window.__gnSubmenuHoverIntentInit) return;
+    window.__gnSubmenuHoverIntentInit = true;
+    var CLOSE_DELAY_MS = 350;
+
+    function init() {
+      var triggers = document.querySelectorAll('.desktop-main-menu > ul.list-menu--inline > li.submenu-container');
+      triggers.forEach(function (li) {
+        if (li.__gnHoverIntentBound) return;
+        li.__gnHoverIntentBound = true;
+        var closeTimer = null;
+        li.addEventListener('mouseenter', function () {
+          if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          li.classList.add('gn-submenu-force-open');
+        });
+        li.addEventListener('mouseleave', function () {
+          closeTimer = setTimeout(function () {
+            li.classList.remove('gn-submenu-force-open');
+            closeTimer = null;
+          }, CLOSE_DELAY_MS);
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
 
 {%- if section.settings.enable__sticky_header != "none" and template.name != 'product' and template.name != 'collection' -%}
 <sticky-header class="display-flex sticky-header{% if section.settings.sticky_type == "scroll" %} sticky-header-scroll{% endif %} enable-on__{{ section.settings.enable__sticky_header }}"></sticky-header>

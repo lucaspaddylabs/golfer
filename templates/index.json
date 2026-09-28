@@ -381,6 +381,58 @@
     "gn_sync_test_8RYXP6": {
       "type": "gn-sync-test",
       "name": "Practice system showcase",
+      "blocks": {
+        "hotspot_link1": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Shop LINK ONE",
+            "link": "shopify://products/golf-training-belt",
+            "left": 0,
+            "top": 0,
+            "width": 25,
+            "height": 100
+          }
+        },
+        "hotspot_arc1": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Shop ARC ONE",
+            "link": "shopify://products/pro-swing-click-trainer",
+            "left": 25,
+            "top": 0,
+            "width": 25,
+            "height": 100
+          }
+        },
+        "hotspot_trace1": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Shop TRACE ONE",
+            "link": "shopify://products/swing-detection-training-mat",
+            "left": 50,
+            "top": 0,
+            "width": 25,
+            "height": 100
+          }
+        },
+        "hotspot_line1": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Shop LINE ONE",
+            "link": "shopify://products/golf-putting-tutor",
+            "left": 75,
+            "top": 0,
+            "width": 25,
+            "height": 100
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_link1",
+        "hotspot_arc1",
+        "hotspot_trace1",
+        "hotspot_line1"
+      ],
       "settings": {
         "eyebrow_text": "The Golfer Now System",
         "heading": "<p>Golf training essentials.<br/>Made for each other.</p>",
