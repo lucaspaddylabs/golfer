@@ -24,19 +24,21 @@
   #shopify-section-{{ section.id }} .gn-bundles__col {
     flex: 1 1 0;
     min-width: 0;
-    padding: 0 28px;
+    margin: -20px 6px 0;
+    padding: 34px 22px 20px;
     text-align: center;
     border-left: 1px solid {{ section.settings.divider_color | default: '#d2d3cc' }};
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-bundles__col:hover {
+    box-shadow: inset 0 0 0 1px {{ section.settings.highlight_border_color | default: '#ec7901' }};
   }
   #shopify-section-{{ section.id }} .gn-bundles__col:first-child {
     border-left: none;
   }
   #shopify-section-{{ section.id }} .gn-bundles__col--highlighted {
     position: relative;
-    margin: -20px 6px 0;
-    padding: 34px 22px 20px;
-    border: 1px solid {{ section.settings.highlight_border_color | default: '#ec7901' }};
-    border-radius: 8px;
   }
   #shopify-section-{{ section.id }} .gn-bundles__col--highlighted + .gn-bundles__col {
     border-left: none;
