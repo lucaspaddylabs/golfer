@@ -102,10 +102,10 @@
         "msg_presidents": {
           "type": "message",
           "settings": {
-            "text": "Presidents Cup Sale",
+            "text": "Halloween Sale",
             "link": "",
             "show_icon": true,
-            "icon": "trophy"
+            "icon": "sparkle"
           }
         },
         "msg_shipping": {
