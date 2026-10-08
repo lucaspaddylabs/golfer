@@ -5,6 +5,12 @@
 {%- endcomment -%}
 {%- liquid
   assign accessories_url = '/collections/accessories'
+  assign mega_menu_index = '|'
+  for block in section.blocks
+    if block.type == 'mega_menu'
+      assign mega_menu_index = mega_menu_index | append: block.settings.mega_menu_item_name | append: '%%' | append: forloop.index0 | append: '|'
+    endif
+  endfor
   if linklist != blank
     for link in linklist
       assign title_down = link.title | downcase
@@ -30,6 +36,14 @@
     <nav class="gn-mnav__nav" aria-label="Main menu">
       <ul class="gn-mnav__list">
         {%- for link in linklist -%}
+          {%- liquid
+            assign megamenu_block = nil
+            assign mm_key = '|' | append: link.title | append: '%%'
+            if mega_menu_index contains mm_key
+              assign mm_idx = mega_menu_index | split: mm_key | last | split: '|' | first | plus: 0
+              assign megamenu_block = section.blocks[mm_idx]
+            endif
+          -%}
           {%- if link.links != blank -%}
             {%- assign panel_id = 'gn-mnav-panel-' | append: forloop.index -%}
             <li class="gn-mnav__item">
@@ -54,25 +68,49 @@
                 aria-labelledby="{{ panel_id }}-btn"
                 hidden
               >
-                <ul class="gn-mnav__sublist">
+                {%- if megamenu_block != nil -%}
+                  <ul class="gn-mnav__cards">
+                    {%- for childlink in link.links -%}
+                      {%- assign image_key = 'icon_image' | append: forloop.index -%}
+                      {%- assign card_image = megamenu_block.settings[image_key] -%}
+                      <li class="gn-mnav__card">
+                        <a href="{{ childlink.url }}" class="gn-mnav__card-link{% if childlink.current %} is-active{% endif %}">
+                          {%- if card_image != blank -%}
+                            <span class="gn-mnav__card-media">
+                              {%- render 'component-image', image_ratio_value: megamenu_block.settings.image_ratio, image_source: card_image -%}
+                            </span>
+                          {%- endif -%}
+                          <span class="gn-mnav__card-title">{{ childlink.title | escape }}</span>
+                        </a>
+                        {%- if childlink.links != blank -%}
+                          <ul class="gn-mnav__card-subs">
+                            {%- for grandchild in childlink.links -%}
+                              <li><a href="{{ grandchild.url }}" class="gn-mnav__card-sub">{{ grandchild.title | escape }}</a></li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
                   {%- if link.url != blank and link.url != '#' -%}
-                    <li>
-                      <a href="{{ link.url }}" class="gn-mnav__sublink gn-mnav__sublink--all">
-                        View all
-                      </a>
-                    </li>
+                    <a href="{{ link.url }}" class="gn-mnav__sublink gn-mnav__sublink--all">View all</a>
                   {%- endif -%}
-                  {%- for childlink in link.links -%}
-                    <li>
-                      <a
-                        href="{{ childlink.url }}"
-                        class="gn-mnav__sublink{% if childlink.current %} is-active{% endif %}"
-                      >
-                        {{ childlink.title | escape }}
-                      </a>
-                    </li>
-                  {%- endfor -%}
-                </ul>
+                {%- else -%}
+                  <ul class="gn-mnav__sublist">
+                    {%- if link.url != blank and link.url != '#' -%}
+                      <li>
+                        <a href="{{ link.url }}" class="gn-mnav__sublink gn-mnav__sublink--all">View all</a>
+                      </li>
+                    {%- endif -%}
+                    {%- for childlink in link.links -%}
+                      <li>
+                        <a href="{{ childlink.url }}" class="gn-mnav__sublink{% if childlink.current %} is-active{% endif %}">
+                          {{ childlink.title | escape }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
               </div>
             </li>
           {%- else -%}

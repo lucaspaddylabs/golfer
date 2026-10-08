@@ -100,7 +100,7 @@
                 aria-label="{{ 'accessibility.menu' | t | default: 'Menu' }}"
                 tabindex="-1"
               >
-                {%- render 'gn-mobile-menu', linklist: section.settings.menu.links -%}
+                {%- render 'gn-mobile-menu', linklist: section.settings.menu.links, section: section -%}
               </div>
             </div>
           </div>

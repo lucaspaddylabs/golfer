@@ -274,3 +274,57 @@
     transition: none !important;
   }
 }
+
+/* Mega menu image cards (mirrors desktop mega menu, adapted to the drawer) */
+.gn-mnav__cards {
+  list-style: none;
+  margin: 0;
+  padding: 8px var(--gn-mnav-pad-x) 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gn-mnav__card-link {
+  display: block;
+  color: var(--gn-mnav-ink);
+  text-decoration: none;
+}
+
+.gn-mnav__card-media {
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.gn-mnav__card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.gn-mnav__card-title {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.gn-mnav__card-subs {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+}
+
+.gn-mnav__card-sub {
+  display: block;
+  padding: 3px 0;
+  color: var(--gn-mnav-ink);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.gn-mnav__cards + .gn-mnav__sublink--all {
+  margin-top: 4px;
+}
