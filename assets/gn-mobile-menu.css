@@ -317,3 +317,39 @@
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
+
+/* Dark panel matching the desktop shop dropdown (sections/header.liquid) */
+.gn-mnav__panel {
+  background: #2f3b2a;
+  padding: 8px 10px 10px;
+}
+
+.gn-mnav__panel .gn-mnav__sublink {
+  color: #f3f1de;
+  border-radius: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.gn-mnav__panel .gn-mnav__sublink:active,
+.gn-mnav__panel .gn-mnav__sublink.is-active {
+  background: #6b7a5e;
+}
+
+.gn-mnav__panel .gn-mnav__sublink:focus-visible {
+  outline-color: #f3f1de;
+}
+
+.gn-mnav__panel .gn-mnav__thumb {
+  background: #6b7a5e;
+  border-radius: 14px;
+}
+
+.gn-mnav__panel .gn-mnav__row-label {
+  color: #d9cbb0;
+  opacity: 1;
+}
+
+.gn-mnav__panel .gn-mnav__row-name {
+  color: #f3f1de;
+}
