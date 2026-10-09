@@ -1,0 +1,133 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-halloween {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_top }}px 24px {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__eyebrow {
+    margin: 0 0 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__heading {
+    margin: 0 0 12px;
+    font-family: var(--font-body-family);
+    font-size: 2.8rem;
+    line-height: 1.15;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__text {
+    margin: 0 auto 24px;
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__button {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.button_text_color }};
+    transition: transform 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__button:hover {
+    transform: translateY(-2px);
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__fall {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__item {
+    position: absolute;
+    top: -12%;
+    line-height: 1;
+    opacity: 0.9;
+    animation: gn-halloween-fall linear infinite;
+  }
+  @keyframes gn-halloween-fall {
+    0%   { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(calc(100% + 140px)) rotate(360deg); }
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .gn-halloween__heading { font-size: 2rem; }
+    #shopify-section-{{ section.id }} .gn-halloween__text { font-size: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .gn-halloween__item { animation: none; top: 10%; }
+  }
+</style>
+
+<div class="gn-halloween">
+  {%- if section.settings.show_falling -%}
+    {%- assign icons = section.settings.icons | split: ',' -%}
+    <div class="gn-halloween__fall" aria-hidden="true">
+      {%- for i in (1..section.settings.item_count) -%}
+        {%- assign idx = forloop.index0 | modulo: icons.size -%}
+        <span
+          class="gn-halloween__item"
+          style="left: {{ forloop.index0 | times: 37 | modulo: 100 }}%; font-size: {{ forloop.index0 | modulo: 4 | times: 6 | plus: 20 }}px; animation-duration: {{ forloop.index0 | modulo: 5 | times: 2 | plus: 9 }}s; animation-delay: -{{ forloop.index0 | times: 1.7 }}s;"
+        >{{ icons[idx] | strip }}</span>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="gn-halloween__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="gn-halloween__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="gn-halloween__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="gn-halloween__text">{{ section.settings.text }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      <a class="gn-halloween__button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Halloween celebration",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Halloween Sale" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Spooky season savings" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Treat your game to something special. Limited-time Halloween offers on our training aids." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Falling decorations" },
+    { "type": "checkbox", "id": "show_falling", "label": "Show falling decorations", "default": true },
+    { "type": "text", "id": "icons", "label": "Decorations (comma separated emoji)", "default": "🎃,🦇,👻,🕸️" },
+    { "type": "range", "id": "item_count", "min": 4, "max": 30, "step": 1, "label": "Number of decorations", "default": 14 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#1b1230" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#e6dff2" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#ec7901" },
+    { "type": "color", "id": "button_text_color", "label": "Button text color", "default": "#ffffff" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom padding", "default": 60 }
+  ],
+  "presets": [
+    { "name": "Halloween celebration" }
+  ]
+}
+{% endschema %}

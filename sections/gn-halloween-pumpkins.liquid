@@ -1,0 +1,131 @@
+{%- assign pumpkin_src = 'halloween-pumpkin.png' | asset_url -%}
+{%- if section.settings.image != blank -%}
+  {%- assign pumpkin_src = section.settings.image | image_url: width: 200 -%}
+{%- endif -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    position: static;
+    height: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-pumpkins {
+    position: fixed;
+    inset: 0;
+    z-index: {{ section.settings.z_index }};
+    pointer-events: none;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .gn-pumpkins__item {
+    position: absolute;
+    top: 0;
+    width: var(--size);
+    height: auto;
+    opacity: {{ section.settings.opacity | divided_by: 100.0 }};
+    transform: translateY(-120px);
+    animation: gn-pumpkin-fall var(--duration) linear var(--delay) infinite;
+  }
+  @keyframes gn-pumpkin-fall {
+    0%   { transform: translate3d(0, -120px, 0) rotate(0deg); }
+    50%  { transform: translate3d(var(--sway), 55vh, 0) rotate(180deg); }
+    100% { transform: translate3d(0, calc(100vh + 120px), 0) rotate(360deg); }
+  }
+  #shopify-section-{{ section.id }} .gn-spider {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: {{ section.settings.z_index }};
+    pointer-events: none;
+    animation: gn-spider-walk {{ section.settings.spider_speed }}s linear infinite;
+  }
+  #shopify-section-{{ section.id }} .gn-spider__body {
+    display: block;
+    height: auto;
+    animation: gn-spider-bob 0.3s ease-in-out infinite alternate;
+  }
+  #shopify-section-{{ section.id }} .gn-spider__legs--a { animation: gn-spider-legs 0.3s ease-in-out infinite alternate; transform-origin: 50px 40px; }
+  #shopify-section-{{ section.id }} .gn-spider__legs--b { animation: gn-spider-legs 0.3s ease-in-out infinite alternate-reverse; transform-origin: 50px 40px; }
+  @keyframes gn-spider-walk {
+    0%   { transform: translateX(-{{ section.settings.spider_size }}px); }
+    100% { transform: translateX(100vw); }
+  }
+  @keyframes gn-spider-bob {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-3px); }
+  }
+  @keyframes gn-spider-legs {
+    from { transform: rotate(-5deg); }
+    to   { transform: rotate(5deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .gn-pumpkins,
+    #shopify-section-{{ section.id }} .gn-spider { display: none; }
+  }
+</style>
+
+<div class="gn-pumpkins" aria-hidden="true">
+  {%- for i in (1..section.settings.count) -%}
+    {%- assign n = forloop.index0 -%}
+    {%- assign size = n | modulo: 4 | times: 8 | plus: section.settings.min_size -%}
+    {%- assign duration = n | modulo: 5 | times: 2 | plus: section.settings.speed -%}
+    {%- assign sway = n | modulo: 3 | minus: 1 | times: 40 -%}
+    <img
+      class="gn-pumpkins__item"
+      src="{{ pumpkin_src }}"
+      alt=""
+      loading="lazy"
+      width="{{ size }}"
+      height="{{ size | times: 644 | divided_by: 708 }}"
+      style="left: {{ n | times: 37 | plus: 5 | modulo: 96 }}%; --size: {{ size }}px; --duration: {{ duration }}s; --delay: -{{ n | times: 2.3 }}s; --sway: {{ sway }}px;"
+    >
+  {%- endfor -%}
+</div>
+
+{%- if section.settings.show_spider -%}
+  <div class="gn-spider" aria-hidden="true">
+    <svg class="gn-spider__body" viewBox="0 0 100 70" width="{{ section.settings.spider_size }}" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="{{ section.settings.spider_color }}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <g class="gn-spider__legs gn-spider__legs--a">
+          <path d="M42 34 L24 16 L8 26"/>
+          <path d="M40 40 L16 40 L4 54"/>
+          <path d="M58 34 L76 16 L92 26"/>
+          <path d="M60 40 L84 40 L96 54"/>
+        </g>
+        <g class="gn-spider__legs gn-spider__legs--b">
+          <path d="M42 30 L30 8 L14 10"/>
+          <path d="M42 44 L26 58 L12 66"/>
+          <path d="M58 30 L70 8 L86 10"/>
+          <path d="M58 44 L74 58 L88 66"/>
+        </g>
+      </g>
+      <ellipse cx="50" cy="42" rx="15" ry="18" fill="{{ section.settings.spider_color }}"/>
+      <circle cx="50" cy="24" r="10" fill="{{ section.settings.spider_color }}"/>
+      <circle cx="46" cy="22" r="2.6" fill="#fff"/>
+      <circle cx="54" cy="22" r="2.6" fill="#fff"/>
+      <circle cx="46" cy="22" r="1.1" fill="#d00"/>
+      <circle cx="54" cy="22" r="1.1" fill="#d00"/>
+    </svg>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Falling pumpkins",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Pumpkin image (optional)", "info": "Uses the built-in pumpkin if empty. Use a transparent PNG." },
+    { "type": "range", "id": "count", "min": 3, "max": 30, "step": 1, "label": "Number of pumpkins", "default": 12 },
+    { "type": "range", "id": "min_size", "min": 20, "max": 80, "step": 2, "unit": "px", "label": "Smallest size", "default": 36 },
+    { "type": "range", "id": "speed", "min": 5, "max": 20, "step": 1, "unit": "s", "label": "Fall time (lower = faster)", "default": 9 },
+    { "type": "range", "id": "opacity", "min": 20, "max": 100, "step": 5, "unit": "%", "label": "Opacity", "default": 100 },
+    { "type": "range", "id": "z_index", "min": 1, "max": 100, "step": 1, "label": "Layer (z-index)", "default": 5, "info": "Raise to fall in front of header/menus, lower to go behind." },
+    { "type": "header", "content": "Spider" },
+    { "type": "checkbox", "id": "show_spider", "label": "Show walking spider", "default": true },
+    { "type": "range", "id": "spider_size", "min": 30, "max": 150, "step": 5, "unit": "px", "label": "Spider size", "default": 70 },
+    { "type": "range", "id": "spider_speed", "min": 6, "max": 40, "step": 1, "unit": "s", "label": "Time to cross the screen", "default": 16 },
+    { "type": "color", "id": "spider_color", "label": "Spider color", "default": "#111111" }
+  ],
+  "presets": [
+    { "name": "Falling pumpkins" }
+  ]
+}
+{% endschema %}

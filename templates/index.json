@@ -241,6 +241,14 @@
         "color_media_dots": "rgba(0,0,0,0)"
       }
     },
+    "gn_pumpkins_gn": {
+      "type": "gn-halloween-pumpkins",
+      "settings": {}
+    },
+    "gn_halloween_gn": {
+      "type": "gn-halloween",
+      "settings": {}
+    },
     "gn_method_steps_yrATw8": {
       "type": "gn-method-steps",
       "blocks": {
@@ -885,6 +893,8 @@
   },
   "order": [
     "slider_playbetter_gn",
+    "gn_pumpkins_gn",
+    "gn_halloween_gn",
     "slider_HMRLGp",
     "text_icons1_gn",
     "gn_method_steps_yrATw8",
