@@ -39,6 +39,30 @@
     },
     "gn_halloween_gn": {
       "type": "gn-halloween",
+      "blocks": {
+        "deal_swing_system": {
+          "type": "deal",
+          "settings": {
+            "title": "THE SWING SYSTEM",
+            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
+            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
+            "link": "shopify://collections/the-system"
+          }
+        },
+        "deal_complete_system": {
+          "type": "deal",
+          "settings": {
+            "title": "THE COMPLETE SYSTEM",
+            "subtitle": "All four tools.",
+            "image": "shopify://shop_images/training_set_transparent.png",
+            "link": "shopify://collections/the-system"
+          }
+        }
+      },
+      "block_order": [
+        "deal_swing_system",
+        "deal_complete_system"
+      ],
       "settings": {
         "eyebrow": "Halloween Sale",
         "heading": "Spooky season savings",
@@ -275,40 +299,8 @@
         "color_media_dots": "rgba(0,0,0,0)"
       }
     },
-    "gn_pumpkins_gn": {
-      "type": "gn-halloween-pumpkins",
-      "settings": {}
-    },
     "gn_halloween_countdown_gn": {
       "type": "gn-halloween-countdown",
-      "settings": {}
-    },
-    "gn_halloween_gn": {
-      "type": "gn-halloween",
-      "blocks": {
-        "deal_swing_system": {
-          "type": "deal",
-          "settings": {
-            "title": "THE SWING SYSTEM",
-            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
-            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
-            "link": "shopify://collections/the-system"
-          }
-        },
-        "deal_complete_system": {
-          "type": "deal",
-          "settings": {
-            "title": "THE COMPLETE SYSTEM",
-            "subtitle": "All four tools.",
-            "image": "shopify://shop_images/training_set_transparent.png",
-            "link": "shopify://collections/the-system"
-          }
-        }
-      },
-      "block_order": [
-        "deal_swing_system",
-        "deal_complete_system"
-      ],
       "settings": {}
     },
     "gn_method_steps_yrATw8": {
