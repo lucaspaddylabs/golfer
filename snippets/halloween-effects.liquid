@@ -1,0 +1,79 @@
+{%- comment -%}
+  Site-wide Halloween effect (falling pumpkins + walking spider).
+  Turn it off in Theme settings > Halloween effects, or delete the
+  {% render 'halloween-effects' %} line in layout/theme.liquid.
+{%- endcomment -%}
+{%- if settings.halloween_fx_enabled -%}
+  {%- assign hfx_z = settings.halloween_fx_z_index -%}
+  {%- assign hfx_spider_size = settings.halloween_fx_spider_size -%}
+  <style>
+    .gn-hfx { position: fixed; inset: 0; z-index: {{ hfx_z }}; pointer-events: none; overflow: hidden; }
+    .gn-hfx__pumpkin {
+      position: absolute;
+      top: 0;
+      width: var(--size);
+      height: auto;
+      transform: translateY(-120px);
+      animation: gn-hfx-fall var(--duration) linear var(--delay) infinite;
+    }
+    @keyframes gn-hfx-fall {
+      0%   { transform: translate3d(0, -120px, 0) rotate(0deg); }
+      50%  { transform: translate3d(var(--sway), 55vh, 0) rotate(180deg); }
+      100% { transform: translate3d(0, calc(100vh + 120px), 0) rotate(360deg); }
+    }
+    .gn-hfx__spider {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: {{ hfx_z }};
+      pointer-events: none;
+      animation: gn-hfx-walk {{ settings.halloween_fx_spider_speed }}s linear infinite;
+    }
+    .gn-hfx__spider svg { display: block; height: auto; animation: gn-hfx-bob 0.3s ease-in-out infinite alternate; }
+    .gn-hfx__legs-a { animation: gn-hfx-legs 0.3s ease-in-out infinite alternate; transform-origin: 50px 40px; }
+    .gn-hfx__legs-b { animation: gn-hfx-legs 0.3s ease-in-out infinite alternate-reverse; transform-origin: 50px 40px; }
+    @keyframes gn-hfx-walk { 0% { transform: translateX(-{{ hfx_spider_size }}px); } 100% { transform: translateX(100vw); } }
+    @keyframes gn-hfx-bob { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+    @keyframes gn-hfx-legs { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+    @media (prefers-reduced-motion: reduce) { .gn-hfx, .gn-hfx__spider { display: none; } }
+  </style>
+
+  <div class="gn-hfx" aria-hidden="true">
+    {%- for i in (1..settings.halloween_fx_count) -%}
+      {%- assign n = forloop.index0 -%}
+      {%- assign size = n | modulo: 4 | times: 8 | plus: settings.halloween_fx_min_size -%}
+      {%- assign duration = n | modulo: 5 | times: 2 | plus: settings.halloween_fx_speed -%}
+      {%- assign sway = n | modulo: 3 | minus: 1 | times: 40 -%}
+      <img
+        class="gn-hfx__pumpkin"
+        src="{{ 'halloween-pumpkin.png' | asset_url }}"
+        alt=""
+        loading="lazy"
+        width="{{ size }}"
+        height="{{ size | times: 644 | divided_by: 708 }}"
+        style="left: {{ n | times: 37 | plus: 5 | modulo: 96 }}%; --size: {{ size }}px; --duration: {{ duration }}s; --delay: -{{ n | times: 2.3 }}s; --sway: {{ sway }}px;"
+      >
+    {%- endfor -%}
+  </div>
+
+  {%- if settings.halloween_fx_spider -%}
+    <div class="gn-hfx__spider" aria-hidden="true">
+      <svg viewBox="0 0 100 70" width="{{ hfx_spider_size }}" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <g class="gn-hfx__legs-a">
+            <path d="M42 34 L24 16 L8 26"/><path d="M40 40 L16 40 L4 54"/>
+            <path d="M58 34 L76 16 L92 26"/><path d="M60 40 L84 40 L96 54"/>
+          </g>
+          <g class="gn-hfx__legs-b">
+            <path d="M42 30 L30 8 L14 10"/><path d="M42 44 L26 58 L12 66"/>
+            <path d="M58 30 L70 8 L86 10"/><path d="M58 44 L74 58 L88 66"/>
+          </g>
+        </g>
+        <ellipse cx="50" cy="42" rx="15" ry="18" fill="#111"/>
+        <circle cx="50" cy="24" r="10" fill="#111"/>
+        <circle cx="46" cy="22" r="2.6" fill="#fff"/><circle cx="54" cy="22" r="2.6" fill="#fff"/>
+        <circle cx="46" cy="22" r="1.1" fill="#d00"/><circle cx="54" cy="22" r="1.1" fill="#d00"/>
+      </svg>
+    </div>
+  {%- endif -%}
+{%- endif -%}

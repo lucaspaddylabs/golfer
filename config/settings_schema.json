@@ -4791,5 +4791,90 @@
         "label": "Open external link in new tab"
       }
     ]
+  },
+  {
+    "name": "Halloween effects",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Falling pumpkins and walking spider on every page"
+      },
+      {
+        "type": "checkbox",
+        "id": "halloween_fx_enabled",
+        "label": "Enable Halloween effects",
+        "default": true,
+        "info": "Untick and Save to turn the effect off site-wide."
+      },
+      {
+        "type": "range",
+        "id": "halloween_fx_count",
+        "min": 3,
+        "max": 30,
+        "step": 1,
+        "label": "Number of pumpkins",
+        "default": 6
+      },
+      {
+        "type": "range",
+        "id": "halloween_fx_min_size",
+        "min": 20,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Smallest pumpkin size",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "halloween_fx_speed",
+        "min": 5,
+        "max": 20,
+        "step": 1,
+        "unit": "s",
+        "label": "Fall time (lower = faster)",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "halloween_fx_z_index",
+        "min": 1,
+        "max": 1000,
+        "step": 1,
+        "label": "Layer (z-index)",
+        "default": 50,
+        "info": "Raise to fall in front of the header, lower to go behind."
+      },
+      {
+        "type": "header",
+        "content": "Spider"
+      },
+      {
+        "type": "checkbox",
+        "id": "halloween_fx_spider",
+        "label": "Show walking spider",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "halloween_fx_spider_size",
+        "min": 30,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Spider size",
+        "default": 70
+      },
+      {
+        "type": "range",
+        "id": "halloween_fx_spider_speed",
+        "min": 6,
+        "max": 40,
+        "step": 1,
+        "unit": "s",
+        "label": "Time to cross the screen",
+        "default": 19
+      }
+    ]
   }
 ]

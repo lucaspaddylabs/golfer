@@ -23,20 +23,6 @@
         "min_height_mobile": 560
       }
     },
-    "gn_pumpkins_gn": {
-      "type": "gn-halloween-pumpkins",
-      "settings": {
-        "count": 6,
-        "min_size": 36,
-        "speed": 8,
-        "opacity": 100,
-        "z_index": 5,
-        "show_spider": true,
-        "spider_size": 70,
-        "spider_speed": 19,
-        "spider_color": "#111111"
-      }
-    },
     "gn_halloween_gn": {
       "type": "gn-halloween",
       "blocks": {
@@ -952,7 +938,6 @@
   },
   "order": [
     "slider_playbetter_gn",
-    "gn_pumpkins_gn",
     "gn_halloween_gn",
     "slider_HMRLGp",
     "text_icons1_gn",
