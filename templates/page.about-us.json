@@ -11,36 +11,15 @@
   "sections": {
     "hero": {
       "type": "gn-about-hero",
-      "disabled": true,
       "settings": {
         "eyebrow": "ABOUT US",
         "heading": "",
         "text": "",
-        "background_color": "#f7f5ef",
+        "background_color": "#FFFFFF",
         "heading_color": "#1a1a1a",
         "text_color": "#5c5c56",
-        "accent_color": "#ec7901",
+        "accent_color": "#263C2C",
         "padding_top": 55,
-        "padding_bottom": 0
-      }
-    },
-    "story": {
-      "type": "gn-story-banner",
-      "settings": {
-        "eyebrow_text": "ABOUT US",
-        "heading": "GOLFER NOW WAS BUILT FOR GOLFERS",
-        "description": "",
-        "button_text": "Shop the system",
-        "button_link": "shopify://collections/the-system",
-        "reverse_layout": false,
-        "video": "shopify://files/videos/videoaboutus.mov",
-        "fade_amount": 28,
-        "box_color": "#f7f5ef",
-        "heading_color": "#464646",
-        "text_color": "#767671",
-        "accent_color": "#1d3d2a",
-        "min_height": 280,
-        "padding_top": 0,
         "padding_bottom": 0
       }
     },
@@ -80,9 +59,29 @@
         "card_color": "#ffffff",
         "heading_color": "#1a1a1a",
         "text_color": "#5c5c56",
-        "accent_color": "#ec7901",
+        "accent_color": "#263C2C",
         "padding_top": 70,
         "padding_bottom": 70
+      }
+    },
+    "story": {
+      "type": "gn-story-banner",
+      "settings": {
+        "eyebrow_text": "ABOUT US",
+        "heading": "GOLFER NOW WAS BUILT FOR GOLFERS",
+        "description": "",
+        "button_text": "Shop the system",
+        "button_link": "shopify://collections/the-system",
+        "reverse_layout": false,
+        "video": "shopify://files/videos/videoaboutus.mov",
+        "fade_amount": 28,
+        "box_color": "#f7f5ef",
+        "heading_color": "#464646",
+        "text_color": "#767671",
+        "accent_color": "#1d3d2a",
+        "min_height": 280,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "operator": {
@@ -97,7 +96,7 @@
         "panel_color": "#1d3d2a",
         "heading_color": "#ffffff",
         "text_color": "#e6ebe7",
-        "accent_color": "#ec7901",
+        "accent_color": "#2AB0EA",
         "button_text_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 80
@@ -106,8 +105,8 @@
   },
   "order": [
     "hero",
-    "story",
     "values",
+    "story",
     "operator"
   ]
 }
