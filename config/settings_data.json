@@ -429,6 +429,11 @@
         "type": "shopify://apps/halloween-day-celebration/blocks/halloween-embedded/4282f646-1628-4ad8-af96-dc9bb1554758",
         "disabled": false,
         "settings": {}
+      },
+      "409951731435663064": {
+        "type": "shopify://apps/dakaas-store-effects/blocks/app-embed/bf1c5ad9-e345-428b-a2e7-cfde42309a53",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
