@@ -58,6 +58,7 @@
         "deal_halloween_gift",
         "deal_complete_system"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Halloween Sale",
         "heading": "Your Halloween Golf Upgrade",
