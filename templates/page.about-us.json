@@ -200,11 +200,83 @@
         "color_shadow_button": "rgba(0,0,0,0)",
         "color_shadow_hover_button": "rgba(0,0,0,0)"
       }
+    },
+    "text_who_operates": {
+      "type": "text",
+      "blocks": {
+        "heading_who": {
+          "type": "heading",
+          "settings": {
+            "main_subheading": "Transparency",
+            "main_heading": "Who operates Golfer Now"
+          }
+        },
+        "richtext_who": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p>Golfer Now is operated by <strong>Zinetic LLC</strong>. Zinetic LLC also operates a network of subscription-based websites. Golfer Now is its online store for golf and outdoor products, and it is run as a separate shop with its own catalogue, pricing and customer service.</p><p>We want you to know exactly who you are buying from. If you have any questions about Golfer Now, Zinetic LLC or how the two relate, please get in touch through our <a href=\"/pages/contact\">contact page</a> and we will be happy to explain.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_who",
+        "richtext_who"
+      ],
+      "name": "t:names.text",
+      "settings": {
+        "heading_position": "normal",
+        "heading_aligment": "text-center",
+        "top_spacing": "normal",
+        "width": "default",
+        "grid": "page-width-nine",
+        "height": "auto",
+        "height_value": 600,
+        "height_mobile": "auto",
+        "height_mobile_value": 600,
+        "text_align": "text-center",
+        "hover_underline": false,
+        "url": "",
+        "show_lines": false,
+        "lines_width": "fullwidth",
+        "background": "hide",
+        "color_background": "rgba(0,0,0,0)",
+        "gradient": "",
+        "image_overlay_opacity": 0,
+        "image_overlay_color": "rgba(0,0,0,0)",
+        "image_overlay_opacity_mobile": 0,
+        "image_overlay_color_mobile": "rgba(0,0,0,0)",
+        "show_parallax": false,
+        "imagealign": "center",
+        "imagesize": "cover",
+        "background_width": "fullwidth",
+        "background_spacing": "normal",
+        "remove_bottom_spacing": false,
+        "color_base": "rgba(0,0,0,0)",
+        "color_accent": "rgba(0,0,0,0)",
+        "color_lines": "rgba(0,0,0,0)",
+        "color_text_link": "rgba(0,0,0,0)",
+        "color_text_link_hover": "rgba(0,0,0,0)",
+        "color_desc": "rgba(0,0,0,0)",
+        "show_button_bg": true,
+        "color_button": "rgba(0,0,0,0)",
+        "color_button_gradient": "",
+        "color_button_border": "rgba(0,0,0,0)",
+        "color_button_text": "rgba(0,0,0,0)",
+        "show_button_bg_hover": true,
+        "color_button_hover": "rgba(0,0,0,0)",
+        "color_button_gradient_hover": "",
+        "color_button_border_hover": "rgba(0,0,0,0)",
+        "color_button_text_hover": "rgba(0,0,0,0)",
+        "show_shadow_button": true,
+        "color_shadow_button": "rgba(0,0,0,0)",
+        "color_shadow_hover_button": "rgba(0,0,0,0)"
+      }
     }
   },
   "order": [
     "main",
     "gallery_JVc3bi",
-    "text_dYrLGf"
+    "text_dYrLGf",
+    "text_who_operates"
   ]
 }
