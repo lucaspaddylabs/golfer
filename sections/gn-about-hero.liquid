@@ -1,0 +1,74 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-abouthero {
+    background: {{ section.settings.background_color }};
+    padding: {{ section.settings.padding_top }}px 32px {{ section.settings.padding_bottom }}px;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-abouthero__inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .gn-abouthero__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-abouthero__heading {
+    margin: 0 0 22px;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-abouthero__rule {
+    width: 44px;
+    height: 3px;
+    border-radius: 2px;
+    margin: 0 auto 22px;
+    background: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-abouthero__text {
+    margin: 0 auto;
+    max-width: 640px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: {{ section.settings.text_color }};
+  }
+</style>
+
+<div class="gn-abouthero">
+  <div class="gn-abouthero__inner">
+    {%- if section.settings.eyebrow != blank -%}<p class="gn-abouthero__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h1 class="gn-abouthero__heading">{{ section.settings.heading }}</h1>
+    <div class="gn-abouthero__rule"></div>
+    <p class="gn-abouthero__text">{{ section.settings.text }}</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About hero",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Practice smarter. Play better." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Golfer Now makes quality golf training tools that help any golfer improve, at home or on the range." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#f7f5ef" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#1a1a1a" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#5c5c56" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#ec7901" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 160, "step": 5, "unit": "px", "label": "Top padding", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 160, "step": 5, "unit": "px", "label": "Bottom padding", "default": 60 }
+  ],
+  "presets": [{ "name": "About hero" }]
+}
+{% endschema %}

@@ -9,274 +9,80 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "hero": {
+      "type": "gn-about-hero",
       "settings": {
-        "show_heading": true,
-        "heading_aligment": "text-center",
-        "top_spacing": "normal",
-        "width": "default",
-        "background": "hide",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "background_spacing": "normal",
-        "remove_bottom_spacing": false
+        "eyebrow": "About us",
+        "heading": "Practice smarter. Play better.",
+        "text": "Golfer Now makes quality golf training tools that help any golfer improve, at home or on the range."
       }
     },
-    "gallery_JVc3bi": {
-      "type": "gallery",
+    "story": {
+      "type": "gn-story-banner",
+      "settings": {
+        "eyebrow_text": "Our story",
+        "heading": "Golfer Now was built for golfers to help remove the guesswork from practice sessions.",
+        "description": "Golf is hard. Our tools help break down each stage of the development, to help any golfer go to the next level. Our system of golfing essentials has been especially designed so that anyone can practice anywhere. No expensive coaches or specialist training areas are required. Just simple tools to build the pro-level repetition that's needed.",
+        "button_text": "Shop the system",
+        "button_link": "shopify://collections/the-system",
+        "reverse_layout": false,
+        "video": "shopify://files/videos/videoaboutus.mov",
+        "fade_amount": 22,
+        "box_color": "#f7f5ef",
+        "heading_color": "#464646",
+        "text_color": "#767671",
+        "accent_color": "#1d3d2a",
+        "min_height": 420,
+        "padding_top": 65,
+        "padding_bottom": 65
+      }
+    },
+    "values": {
+      "type": "gn-about-values",
       "blocks": {
-        "item_7HPL3H": {
-          "type": "item",
+        "v1": {
+          "type": "value",
           "settings": {
-            "image": ""
+            "title": "Practice anywhere",
+            "text": "No coaches or specialist training areas needed. Our tools work at home, in the garden or on the range."
           }
         },
-        "item_zAqidK": {
-          "type": "item",
+        "v2": {
+          "type": "value",
           "settings": {
-            "image": ""
+            "title": "Pro-level repetition",
+            "text": "Simple tools that break your swing into stages, so you can build the repetition that improves your game."
           }
         },
-        "item_aLq3KD": {
-          "type": "item",
+        "v3": {
+          "type": "value",
           "settings": {
-            "image": ""
-          }
-        },
-        "item_68WRzp": {
-          "type": "item",
-          "settings": {
-            "image": ""
+            "title": "Quality you can trust",
+            "text": "Carefully selected products, competitive prices and dependable customer service every step of the way."
           }
         }
       },
       "block_order": [
-        "item_7HPL3H",
-        "item_zAqidK",
-        "item_aLq3KD",
-        "item_68WRzp"
+        "v1",
+        "v2",
+        "v3"
       ],
-      "name": "t:names.gallery",
       "settings": {
-        "main_subheading": "",
-        "main_heading": "",
-        "main_desc": "",
-        "heading_aligment": "text-center",
-        "icon_name": "",
-        "link_name": "",
-        "url": "",
-        "icon_name_2": "",
-        "link_name_2": "",
-        "url_2": "",
-        "top_spacing": "normal",
-        "width": "default",
-        "grid": "page-grid-4",
-        "grid_tablet": "page-grid-st-4",
-        "mobile_grid": "2",
-        "image_hover": "default",
-        "image_ratio": "auto",
-        "image_zoom": true,
-        "show_lines": false,
-        "lines_width": "fullwidth",
-        "background": "hide",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "background_spacing": "normal",
-        "remove_bottom_spacing": false,
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_lines_hover": "rgba(0,0,0,0)",
-        "color_icon_bg": "rgba(0,0,0,0)",
-        "color_icon_icon": "rgba(0,0,0,0)",
-        "show_button_bg2": true,
-        "color_button2": "rgba(0,0,0,0)",
-        "color_button_gradient2": "",
-        "color_button_border2": "rgba(0,0,0,0)",
-        "color_button_text2": "rgba(0,0,0,0)",
-        "color_button_icon2": "rgba(0,0,0,0)",
-        "show_button_bg_hover2": true,
-        "color_button_hover2": "rgba(0,0,0,0)",
-        "color_button_gradient_hover2": "",
-        "color_button_border_hover2": "rgba(0,0,0,0)",
-        "color_button_text_hover2": "rgba(0,0,0,0)",
-        "color_button_icon_hover2": "rgba(0,0,0,0)",
-        "show_shadow_button2": true,
-        "color_shadow_button2": "rgba(0,0,0,0)",
-        "color_shadow_hover_button2": "rgba(0,0,0,0)"
+        "heading": "What we stand for"
       }
     },
-    "text_dYrLGf": {
-      "type": "text",
-      "blocks": {
-        "heading_bV73Gq": {
-          "type": "heading",
-          "settings": {
-            "main_subheading": "Our Story",
-            "main_heading": "About Golfer Now"
-          }
-        },
-        "richtext_BhbRXe": {
-          "type": "richtext",
-          "settings": {
-            "text": "<p>Golfer Now is dedicated to providing golfers and outdoor enthusiasts with quality products, competitive prices, and a secure shopping experience. As part of Zinetic LLC, we're committed to delivering exceptional customer service while continually expanding our selection of golf and outdoor gear to help you enjoy every adventure.</p><p>Golfer Now was created with a simple purpose: to make quality golf and outdoor products more accessible to enthusiasts of all skill levels. As part of Zinetic LLC's expansion into e-commerce, we combine years of experience in online business operations with a commitment to delivering a trusted, secure, and customer-focused shopping experience. Our mission is to help golfers and outdoor adventurers enjoy their passion by offering carefully selected products, competitive pricing, and dependable service every step of the way.</p>"
-          }
-        },
-        "button_XQUEXc": {
-          "type": "button",
-          "settings": {
-            "button_name": "Shop Now"
-          }
-        }
-      },
-      "block_order": [
-        "heading_bV73Gq",
-        "richtext_BhbRXe",
-        "button_XQUEXc"
-      ],
-      "name": "t:names.text",
+    "operator": {
+      "type": "gn-about-operator",
       "settings": {
-        "heading_position": "normal",
-        "heading_aligment": "text-center",
-        "top_spacing": "normal",
-        "width": "default",
-        "grid": "page-width-nine",
-        "height": "auto",
-        "height_value": 600,
-        "height_mobile": "auto",
-        "height_mobile_value": 600,
-        "text_align": "text-center",
-        "hover_underline": false,
-        "url": "shopify://collections/all",
-        "show_lines": false,
-        "lines_width": "fullwidth",
-        "background": "hide",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "background_spacing": "normal",
-        "remove_bottom_spacing": false,
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_text_link": "rgba(0,0,0,0)",
-        "color_text_link_hover": "rgba(0,0,0,0)",
-        "color_desc": "rgba(0,0,0,0)",
-        "show_button_bg": true,
-        "color_button": "rgba(0,0,0,0)",
-        "color_button_gradient": "",
-        "color_button_border": "rgba(0,0,0,0)",
-        "color_button_text": "rgba(0,0,0,0)",
-        "show_button_bg_hover": true,
-        "color_button_hover": "rgba(0,0,0,0)",
-        "color_button_gradient_hover": "",
-        "color_button_border_hover": "rgba(0,0,0,0)",
-        "color_button_text_hover": "rgba(0,0,0,0)",
-        "show_shadow_button": true,
-        "color_shadow_button": "rgba(0,0,0,0)",
-        "color_shadow_hover_button": "rgba(0,0,0,0)"
-      }
-    },
-    "text_who_operates": {
-      "type": "text",
-      "blocks": {
-        "heading_who": {
-          "type": "heading",
-          "settings": {
-            "main_subheading": "Transparency",
-            "main_heading": "Who operates Golfer Now"
-          }
-        },
-        "richtext_who": {
-          "type": "richtext",
-          "settings": {
-            "text": "<p>Golfer Now is operated by <strong>Zinetic LLC</strong>. Zinetic LLC also operates a network of subscription-based websites. Golfer Now is its online store for golf and outdoor products, and it is run as a separate shop with its own catalogue, pricing and customer service.</p><p>We want you to know exactly who you are buying from. If you have any questions about Golfer Now, Zinetic LLC or how the two relate, please get in touch through our <a href=\"/pages/contact\">contact page</a> and we will be happy to explain.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_who",
-        "richtext_who"
-      ],
-      "name": "t:names.text",
-      "settings": {
-        "heading_position": "normal",
-        "heading_aligment": "text-center",
-        "top_spacing": "normal",
-        "width": "default",
-        "grid": "page-width-nine",
-        "height": "auto",
-        "height_value": 600,
-        "height_mobile": "auto",
-        "height_mobile_value": 600,
-        "text_align": "text-center",
-        "hover_underline": false,
-        "url": "",
-        "show_lines": false,
-        "lines_width": "fullwidth",
-        "background": "hide",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "image_overlay_opacity": 0,
-        "image_overlay_color": "rgba(0,0,0,0)",
-        "image_overlay_opacity_mobile": 0,
-        "image_overlay_color_mobile": "rgba(0,0,0,0)",
-        "show_parallax": false,
-        "imagealign": "center",
-        "imagesize": "cover",
-        "background_width": "fullwidth",
-        "background_spacing": "normal",
-        "remove_bottom_spacing": false,
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)",
-        "color_text_link": "rgba(0,0,0,0)",
-        "color_text_link_hover": "rgba(0,0,0,0)",
-        "color_desc": "rgba(0,0,0,0)",
-        "show_button_bg": true,
-        "color_button": "rgba(0,0,0,0)",
-        "color_button_gradient": "",
-        "color_button_border": "rgba(0,0,0,0)",
-        "color_button_text": "rgba(0,0,0,0)",
-        "show_button_bg_hover": true,
-        "color_button_hover": "rgba(0,0,0,0)",
-        "color_button_gradient_hover": "",
-        "color_button_border_hover": "rgba(0,0,0,0)",
-        "color_button_text_hover": "rgba(0,0,0,0)",
-        "show_shadow_button": true,
-        "color_shadow_button": "rgba(0,0,0,0)",
-        "color_shadow_hover_button": "rgba(0,0,0,0)"
+        "button_label": "Contact us",
+        "button_link": "/pages/contact"
       }
     }
   },
   "order": [
-    "main",
-    "gallery_JVc3bi",
-    "text_dYrLGf",
-    "text_who_operates"
+    "hero",
+    "story",
+    "values",
+    "operator"
   ]
 }
