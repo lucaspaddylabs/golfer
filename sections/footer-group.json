@@ -33,19 +33,11 @@
     "gn_footer_main": {
       "type": "gn-footer",
       "blocks": {
-        "link_putting_tutor": {
-          "type": "link",
-          "settings": {
-            "column": "shop",
-            "label": "LINE ONE \u2014 Putting Tutor",
-            "url": "/products/golf-putting-tutor"
-          }
-        },
         "link_training_belt": {
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "LINK ONE \u2014 Training Belt",
+            "label": "LINK ONE — Training Belt",
             "url": "/products/golf-training-belt"
           }
         },
@@ -53,7 +45,7 @@
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "ARC ONE \u2014 Swing Trainer",
+            "label": "ARC ONE — Swing Trainer",
             "url": "/products/pro-swing-click-trainer"
           }
         },
@@ -61,8 +53,16 @@
           "type": "link",
           "settings": {
             "column": "shop",
-            "label": "TRACE ONE \u2014 Detection Mat",
+            "label": "TRACE ONE — Detection Mat",
             "url": "/products/swing-detection-training-mat"
+          }
+        },
+        "link_putting_tutor": {
+          "type": "link",
+          "settings": {
+            "column": "shop",
+            "label": "LINE ONE — Putting Tutor",
+            "url": "/products/golf-putting-tutor"
           }
         },
         "link_contact": {
@@ -132,7 +132,7 @@
         "tagline": "Four tools with Instant feedback, designed to help you practice with purpose and play better, faster.",
         "shop_heading": "Shop",
         "support_heading": "Support",
-        "copyright_text": "\u00a9 2026 Golfer Now. All rights reserved.",
+        "copyright_text": "© 2026 Golfer Now. Zinetic LLC. All rights reserved.",
         "instagram_url": "https://www.instagram.com/golfer_now/",
         "facebook_url": "https://www.facebook.com/profile.php?id=61594379489625",
         "background_color": "#1d3d2a",
