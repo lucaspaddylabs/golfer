@@ -26,41 +26,34 @@
     "gn_halloween_gn": {
       "type": "gn-halloween",
       "blocks": {
-        "deal_swing_system": {
+        "deal_halloween_gift": {
           "type": "deal",
           "settings": {
-            "product": "",
-            "title": "THE SWING SYSTEM",
-            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
-            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
-            "link": "shopify://collections/the-system",
-            "badge": "",
-            "sale_price": "",
-            "original_price": ""
+            "title": "HALLOWEEN GIFT PACKAGE",
+            "badge": "Halloween offer",
+            "button_label": "Get My Halloween Gift"
           }
         },
         "deal_complete_system": {
           "type": "deal",
           "settings": {
-            "product": "",
             "title": "THE COMPLETE SYSTEM",
-            "subtitle": "All four tools.",
+            "subtitle": "All 4 tools, including putting practice.",
+            "badge": "Halloween offer",
+            "button_label": "Get My Complete System",
             "image": "shopify://shop_images/training_set_transparent.png",
-            "link": "shopify://collections/the-system",
-            "badge": "",
-            "sale_price": "",
-            "original_price": ""
+            "link": "shopify://collections/the-system"
           }
         }
       },
       "block_order": [
-        "deal_swing_system",
+        "deal_halloween_gift",
         "deal_complete_system"
       ],
       "settings": {
         "eyebrow": "Halloween Sale",
-        "heading": "Spooky season savings",
-        "text": "Treat your game to something special. Limited-time Halloween offers on our training aids.",
+        "heading": "Your Halloween Golf Upgrade",
+        "text": "Choose your bundle. See your savings. Start practising.",
         "button_label": "Shop now",
         "button_link": "",
         "show_falling": true,
@@ -72,7 +65,12 @@
         "accent_color": "#ec7901",
         "button_text_color": "#ffffff",
         "padding_top": 35,
-        "padding_bottom": 25
+        "padding_bottom": 25,
+        "timer_label": "Halloween offer ends in",
+        "deadline": "",
+        "ended_text": "This offer has ended.",
+        "image_height": 240,
+        "image_height_mobile": 200
       }
     },
     "slider_HMRLGp": {
