@@ -29,20 +29,28 @@
         "deal_halloween_gift": {
           "type": "deal",
           "settings": {
+            "product": "",
             "title": "HALLOWEEN GIFT PACKAGE",
+            "subtitle": "",
             "badge": "Halloween offer",
-            "button_label": "Get My Halloween Gift"
+            "button_label": "Get My Halloween Gift",
+            "link": "",
+            "sale_price": "",
+            "savings_amount": ""
           }
         },
         "deal_complete_system": {
           "type": "deal",
           "settings": {
+            "product": "",
             "title": "THE COMPLETE SYSTEM",
             "subtitle": "All 4 tools, including putting practice.",
             "badge": "Halloween offer",
             "button_label": "Get My Complete System",
             "image": "shopify://shop_images/training_set_transparent.png",
-            "link": "shopify://collections/the-system"
+            "link": "shopify://collections/the-system",
+            "sale_price": "150$",
+            "savings_amount": "50"
           }
         }
       },
@@ -54,8 +62,9 @@
         "eyebrow": "Halloween Sale",
         "heading": "Your Halloween Golf Upgrade",
         "text": "Choose your bundle. See your savings. Start practising.",
-        "button_label": "Shop now",
-        "button_link": "",
+        "timer_label": "Halloween offer ends in",
+        "deadline": "",
+        "ended_text": "This offer has ended.",
         "show_falling": true,
         "icons": "🎃,🦇,👻,🕸️",
         "item_count": 6,
@@ -64,13 +73,10 @@
         "text_color": "#e6dff2",
         "accent_color": "#ec7901",
         "button_text_color": "#ffffff",
-        "padding_top": 35,
-        "padding_bottom": 25,
-        "timer_label": "Halloween offer ends in",
-        "deadline": "",
-        "ended_text": "This offer has ended.",
         "image_height": 240,
-        "image_height_mobile": 200
+        "image_height_mobile": 200,
+        "padding_top": 35,
+        "padding_bottom": 25
       }
     },
     "slider_HMRLGp": {
