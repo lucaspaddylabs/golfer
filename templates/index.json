@@ -245,6 +245,10 @@
       "type": "gn-halloween-pumpkins",
       "settings": {}
     },
+    "gn_halloween_countdown_gn": {
+      "type": "gn-halloween-countdown",
+      "settings": {}
+    },
     "gn_halloween_gn": {
       "type": "gn-halloween",
       "settings": {}
@@ -894,6 +898,7 @@
   "order": [
     "slider_playbetter_gn",
     "gn_pumpkins_gn",
+    "gn_halloween_countdown_gn",
     "gn_halloween_gn",
     "slider_HMRLGp",
     "text_icons1_gn",

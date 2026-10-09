@@ -1,0 +1,137 @@
+<style>
+  #shopify-section-{{ section.id }} .gn-hcd {
+    padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.page_background }};
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 28px;
+    border-radius: 0 0 18px 18px;
+    background: {{ section.settings.bar_color }};
+    color: {{ section.settings.text_color }};
+    font-size: 1.3rem;
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 0;
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__icon {
+    width: 38px;
+    height: auto;
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__units {
+    display: flex;
+    gap: 14px;
+    margin-bottom: -30px;
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__unit {
+    width: 98px;
+    padding: 16px 0 34px;
+    text-align: center;
+    color: #fff;
+    background: {{ section.settings.tile_color }};
+    clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__num {
+    display: block;
+    font-size: 2.6rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  #shopify-section-{{ section.id }} .gn-hcd__cap {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .gn-hcd__bar { font-size: 1rem; gap: 8px; padding: 0 12px; }
+    #shopify-section-{{ section.id }} .gn-hcd__label { padding: 10px 0 0; width: 100%; justify-content: center; }
+    #shopify-section-{{ section.id }} .gn-hcd__label--after { padding: 0 0 10px; order: 3; }
+    #shopify-section-{{ section.id }} .gn-hcd__units { gap: 8px; margin-bottom: -24px; }
+    #shopify-section-{{ section.id }} .gn-hcd__unit { width: 70px; padding: 10px 0 26px; }
+    #shopify-section-{{ section.id }} .gn-hcd__num { font-size: 1.8rem; }
+    #shopify-section-{{ section.id }} .gn-hcd__cap { font-size: 0.65rem; }
+    #shopify-section-{{ section.id }} .gn-hcd__label--after { margin-top: 28px; }
+  }
+</style>
+
+<div class="gn-hcd" data-gn-hcd data-target="{{ section.settings.target_date }}" data-done="{{ section.settings.done_text | escape }}">
+  <div class="gn-hcd__bar">
+    <div class="gn-hcd__label">
+      <img class="gn-hcd__icon" src="{{ 'halloween-pumpkin.png' | asset_url }}" alt="" width="38" height="35">
+      <span>{{ section.settings.text_before }}</span>
+    </div>
+    <div class="gn-hcd__units" role="timer" aria-live="off">
+      <div class="gn-hcd__unit"><span class="gn-hcd__num" data-d>00</span><span class="gn-hcd__cap">Days</span></div>
+      <div class="gn-hcd__unit"><span class="gn-hcd__num" data-h>00</span><span class="gn-hcd__cap">Hrs</span></div>
+      <div class="gn-hcd__unit"><span class="gn-hcd__num" data-m>00</span><span class="gn-hcd__cap">Min</span></div>
+      <div class="gn-hcd__unit"><span class="gn-hcd__num" data-s>00</span><span class="gn-hcd__cap">Sec</span></div>
+    </div>
+    <div class="gn-hcd__label gn-hcd__label--after">
+      <span>{{ section.settings.text_after }}</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.querySelector('#shopify-section-{{ section.id }} [data-gn-hcd]');
+    if (!root) return;
+    var now = new Date();
+    var target = root.dataset.target ? new Date(root.dataset.target) : null;
+    if (!target || isNaN(target)) {
+      target = new Date(now.getFullYear(), 9, 31, 0, 0, 0);
+      if (now > target) target = new Date(now.getFullYear() + 1, 9, 31, 0, 0, 0);
+    }
+    var els = { d: root.querySelector('[data-d]'), h: root.querySelector('[data-h]'), m: root.querySelector('[data-m]'), s: root.querySelector('[data-s]') };
+    var pad = function (n) { return n < 10 ? '0' + n : String(n); };
+    var timer;
+    function tick() {
+      var left = Math.max(0, Math.floor((target - new Date()) / 1000));
+      els.d.textContent = pad(Math.floor(left / 86400));
+      els.h.textContent = pad(Math.floor(left / 3600) % 24);
+      els.m.textContent = pad(Math.floor(left / 60) % 60);
+      els.s.textContent = pad(left % 60);
+      if (left === 0) {
+        clearInterval(timer);
+        if (root.dataset.done) root.querySelector('.gn-hcd__bar').textContent = root.dataset.done;
+      }
+    }
+    tick();
+    timer = setInterval(tick, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Halloween countdown",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "text_before", "label": "Text before", "default": "Only" },
+    { "type": "text", "id": "text_after", "label": "Text after", "default": "until HALLOWEEN" },
+    { "type": "text", "id": "target_date", "label": "Target date/time", "info": "Format: 2026-10-31T00:00:00. Leave empty to count down to the next Oct 31.", "default": "" },
+    { "type": "text", "id": "done_text", "label": "Text when finished", "default": "Happy Halloween! 🎃" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bar_color", "label": "Bar color", "default": "#d4d4d4" },
+    { "type": "color", "id": "tile_color", "label": "Tile color", "default": "#9b2315" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "page_background", "label": "Section background", "default": "#ffffff" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Top padding", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Bottom padding", "default": 30 }
+  ],
+  "presets": [
+    { "name": "Halloween countdown" }
+  ]
+}
+{% endschema %}
