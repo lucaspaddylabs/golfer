@@ -43,19 +43,27 @@
         "deal_swing_system": {
           "type": "deal",
           "settings": {
+            "product": "",
             "title": "THE SWING SYSTEM",
             "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
             "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
-            "link": "shopify://collections/the-system"
+            "link": "shopify://collections/the-system",
+            "badge": "",
+            "sale_price": "",
+            "original_price": ""
           }
         },
         "deal_complete_system": {
           "type": "deal",
           "settings": {
+            "product": "",
             "title": "THE COMPLETE SYSTEM",
             "subtitle": "All four tools.",
             "image": "shopify://shop_images/training_set_transparent.png",
-            "link": "shopify://collections/the-system"
+            "link": "shopify://collections/the-system",
+            "badge": "",
+            "sale_price": "",
+            "original_price": ""
           }
         }
       },
@@ -575,7 +583,7 @@
         "heading": "Golfer Now was built for golfers to help remove the guesswork from practice sessions.",
         "description": "Golf is hard. Our tools help break down each stage of the development, to help any golfer go to the next level. Our system of golfing essentials has been especially designed so that anyone can practice anywhere. No expensive coaches or specialist training areas are required. Just simple tools to build the pro-level repetition that's needed.",
         "button_text": "Our method",
-        "button_link": "",
+        "button_link": "shopify://pages/about-us",
         "reverse_layout": false,
         "video": "shopify://files/videos/videoaboutus.mov",
         "fade_amount": 22,

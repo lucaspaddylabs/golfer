@@ -11,30 +11,37 @@
   "sections": {
     "hero": {
       "type": "gn-about-hero",
+      "disabled": true,
       "settings": {
-        "eyebrow": "About us",
-        "heading": "Practice smarter. Play better.",
-        "text": "Golfer Now makes quality golf training tools that help any golfer improve, at home or on the range."
+        "eyebrow": "ABOUT US",
+        "heading": "",
+        "text": "",
+        "background_color": "#f7f5ef",
+        "heading_color": "#1a1a1a",
+        "text_color": "#5c5c56",
+        "accent_color": "#ec7901",
+        "padding_top": 55,
+        "padding_bottom": 0
       }
     },
     "story": {
       "type": "gn-story-banner",
       "settings": {
-        "eyebrow_text": "Our story",
-        "heading": "Golfer Now was built for golfers to help remove the guesswork from practice sessions.",
-        "description": "Golf is hard. Our tools help break down each stage of the development, to help any golfer go to the next level. Our system of golfing essentials has been especially designed so that anyone can practice anywhere. No expensive coaches or specialist training areas are required. Just simple tools to build the pro-level repetition that's needed.",
+        "eyebrow_text": "ABOUT US",
+        "heading": "GOLFER NOW WAS BUILT FOR GOLFERS",
+        "description": "",
         "button_text": "Shop the system",
         "button_link": "shopify://collections/the-system",
         "reverse_layout": false,
         "video": "shopify://files/videos/videoaboutus.mov",
-        "fade_amount": 22,
+        "fade_amount": 28,
         "box_color": "#f7f5ef",
         "heading_color": "#464646",
         "text_color": "#767671",
         "accent_color": "#1d3d2a",
-        "min_height": 420,
-        "padding_top": 65,
-        "padding_bottom": 65
+        "min_height": 280,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "values": {
@@ -68,14 +75,32 @@
         "v3"
       ],
       "settings": {
-        "heading": "What we stand for"
+        "heading": "WHAT WE STAND FOR",
+        "background_color": "#F6F5F0",
+        "card_color": "#ffffff",
+        "heading_color": "#1a1a1a",
+        "text_color": "#5c5c56",
+        "accent_color": "#ec7901",
+        "padding_top": 70,
+        "padding_bottom": 70
       }
     },
     "operator": {
       "type": "gn-about-operator",
       "settings": {
+        "eyebrow": "Transparency",
+        "heading": "Who operates Golfer Now",
+        "text": "<p>Golfer Now is operated by <strong>Zinetic LLC</strong>. Zinetic LLC also operates a network of subscription-based websites. Golfer Now is its online store for golf and outdoor products, run as a separate shop with its own catalogue, pricing and customer service.</p><p>We want you to know exactly who you are buying from. If you have any questions about Golfer Now, Zinetic LLC or how the two relate, please get in touch and we will be happy to explain.</p>",
         "button_label": "Contact us",
-        "button_link": "/pages/contact"
+        "button_link": "/pages/contact",
+        "page_background": "#f7f5ef",
+        "panel_color": "#1d3d2a",
+        "heading_color": "#ffffff",
+        "text_color": "#e6ebe7",
+        "accent_color": "#ec7901",
+        "button_text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 80
       }
     }
   },
