@@ -26,59 +26,15 @@
     "gn_pumpkins_gn": {
       "type": "gn-halloween-pumpkins",
       "settings": {
-        "count": 12,
+        "count": 6,
         "min_size": 36,
-        "speed": 9,
+        "speed": 8,
         "opacity": 100,
         "z_index": 5,
         "show_spider": true,
         "spider_size": 70,
-        "spider_speed": 16,
+        "spider_speed": 19,
         "spider_color": "#111111"
-      }
-    },
-    "gn_halloween_gn": {
-      "type": "gn-halloween",
-      "blocks": {
-        "deal_swing_system": {
-          "type": "deal",
-          "settings": {
-            "title": "THE SWING SYSTEM",
-            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
-            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
-            "link": "shopify://collections/the-system"
-          }
-        },
-        "deal_complete_system": {
-          "type": "deal",
-          "settings": {
-            "title": "THE COMPLETE SYSTEM",
-            "subtitle": "All four tools.",
-            "image": "shopify://shop_images/training_set_transparent.png",
-            "link": "shopify://collections/the-system"
-          }
-        }
-      },
-      "block_order": [
-        "deal_swing_system",
-        "deal_complete_system"
-      ],
-      "settings": {
-        "eyebrow": "Halloween Sale",
-        "heading": "Spooky season savings",
-        "text": "Treat your game to something special. Limited-time Halloween offers on our training aids.",
-        "button_label": "Shop now",
-        "button_link": "",
-        "show_falling": true,
-        "icons": "🎃,🦇,👻,🕸️",
-        "item_count": 6,
-        "background_color": "#1b1230",
-        "heading_color": "#ffffff",
-        "text_color": "#e6dff2",
-        "accent_color": "#ec7901",
-        "button_text_color": "#ffffff",
-        "padding_top": 35,
-        "padding_bottom": 25
       }
     },
     "slider_HMRLGp": {
@@ -298,10 +254,6 @@
         "color_media_arrows": "rgba(0,0,0,0)",
         "color_media_dots": "rgba(0,0,0,0)"
       }
-    },
-    "gn_halloween_countdown_gn": {
-      "type": "gn-halloween-countdown",
-      "settings": {}
     },
     "gn_method_steps_yrATw8": {
       "type": "gn-method-steps",
@@ -949,7 +901,6 @@
   "order": [
     "slider_playbetter_gn",
     "gn_pumpkins_gn",
-    "gn_halloween_gn",
     "slider_HMRLGp",
     "text_icons1_gn",
     "gn_method_steps_yrATw8",
