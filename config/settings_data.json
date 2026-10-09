@@ -432,7 +432,7 @@
       },
       "409951731435663064": {
         "type": "shopify://apps/dakaas-store-effects/blocks/app-embed/bf1c5ad9-e345-428b-a2e7-cfde42309a53",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       }
     }
