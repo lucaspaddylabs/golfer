@@ -26,6 +26,20 @@
     "gn_halloween_gn": {
       "type": "gn-halloween",
       "blocks": {
+        "deal_swing_system": {
+          "type": "deal",
+          "settings": {
+            "product": "",
+            "title": "THE SWING SYSTEM",
+            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
+            "badge": "Halloween offer",
+            "button_label": "Get My Swing System",
+            "image": "shopify://shop_images/hf_20261012_085332_1c4800ef-5930-416d-b7b0-c4b6cacef649.png",
+            "link": "shopify://collections/the-system",
+            "sale_price": "",
+            "savings_amount": ""
+          }
+        },
         "deal_halloween_gift": {
           "type": "deal",
           "settings": {
@@ -50,30 +64,17 @@
             "button_label": "Get My Complete System",
             "image": "shopify://shop_images/hf_20261012_085207_26d7ac69-ccf0-4690-a4d6-c17e97b07ca8.png",
             "link": "shopify://collections/the-system",
-            "sale_price": "150$",
+            "sale_price": "150.08$",
             "savings_amount": "50"
-          }
-        },
-        "deal_swing_system": {
-          "type": "deal",
-          "settings": {
-            "product": "",
-            "title": "THE SWING SYSTEM",
-            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
-            "badge": "Halloween offer",
-            "button_label": "Get My Swing System",
-            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
-            "link": "shopify://collections/the-system",
-            "sale_price": "",
-            "savings_amount": ""
           }
         }
       },
       "block_order": [
-        "deal_halloween_gift",
         "deal_swing_system",
+        "deal_halloween_gift",
         "deal_complete_system"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Halloween Sale",
         "heading": "Your Halloween Golf Upgrade",
