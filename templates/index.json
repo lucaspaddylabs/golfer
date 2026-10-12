@@ -53,10 +53,25 @@
             "sale_price": "150$",
             "savings_amount": "50"
           }
+        },
+        "deal_swing_system": {
+          "type": "deal",
+          "settings": {
+            "product": "",
+            "title": "THE SWING SYSTEM",
+            "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
+            "badge": "Halloween offer",
+            "button_label": "Get My Swing System",
+            "image": "shopify://shop_images/bfbe39d5-566e-4119-abed-3f8eaed61b09.png",
+            "link": "shopify://collections/the-system",
+            "sale_price": "",
+            "savings_amount": ""
+          }
         }
       },
       "block_order": [
         "deal_halloween_gift",
+        "deal_swing_system",
         "deal_complete_system"
       ],
       "settings": {
