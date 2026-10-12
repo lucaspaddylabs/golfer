@@ -31,11 +31,12 @@
           "settings": {
             "product": "",
             "title": "HALLOWEEN GIFT PACKAGE",
-            "subtitle": "",
+            "subtitle": "Surprise your family with the perfect gilf",
             "badge": "Halloween offer",
             "button_label": "Get My Halloween Gift",
-            "link": "",
-            "sale_price": "",
+            "image": "shopify://shop_images/image_58.png",
+            "link": "shopify://products/pro-swing-click-trainer",
+            "sale_price": "100$",
             "savings_amount": ""
           }
         },
@@ -47,7 +48,7 @@
             "subtitle": "All 4 tools, including putting practice.",
             "badge": "Halloween offer",
             "button_label": "Get My Complete System",
-            "image": "shopify://shop_images/training_set_transparent.png",
+            "image": "shopify://shop_images/hf_20261012_085207_26d7ac69-ccf0-4690-a4d6-c17e97b07ca8.png",
             "link": "shopify://collections/the-system",
             "sale_price": "150$",
             "savings_amount": "50"
@@ -58,7 +59,6 @@
         "deal_halloween_gift",
         "deal_complete_system"
       ],
-      "disabled": true,
       "settings": {
         "eyebrow": "Halloween Sale",
         "heading": "Your Halloween Golf Upgrade",
