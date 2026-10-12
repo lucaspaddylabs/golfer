@@ -36,7 +36,7 @@
             "button_label": "Get My Swing System",
             "image": "shopify://shop_images/hf_20261012_085332_1c4800ef-5930-416d-b7b0-c4b6cacef649.png",
             "link": "shopify://collections/the-system",
-            "sale_price": "",
+            "sale_price": "100$",
             "savings_amount": ""
           }
         },
@@ -44,7 +44,7 @@
           "type": "deal",
           "settings": {
             "product": "",
-            "title": "HALLOWEEN GIFT PACKAGE",
+            "title": "mysterious  HALLOWEEN GIFT",
             "subtitle": "Surprise your family with the perfect gilf",
             "badge": "Halloween offer",
             "button_label": "Get My Halloween Gift",
