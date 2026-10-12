@@ -1,9 +1,9 @@
 {%- comment -%}
-  Site-wide Halloween effect (falling pumpkins + walking spider).
+  Homepage-only Halloween effect (falling pumpkins + walking spider).
   Turn it off in Theme settings > Halloween effects, or delete the
   {% render 'halloween-effects' %} line in layout/theme.liquid.
 {%- endcomment -%}
-{%- if settings.halloween_fx_enabled -%}
+{%- if settings.halloween_fx_enabled and request.page_type == 'index' -%}
   {%- assign hfx_z = settings.halloween_fx_z_index -%}
   {%- assign hfx_spider_size = settings.halloween_fx_spider_size -%}
   <style>

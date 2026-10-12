@@ -4797,7 +4797,7 @@
     "settings": [
       {
         "type": "header",
-        "content": "Falling pumpkins and walking spider on every page"
+        "content": "Falling pumpkins and walking spider (homepage only)"
       },
       {
         "type": "checkbox",
