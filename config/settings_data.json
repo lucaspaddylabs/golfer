@@ -352,6 +352,7 @@
     "enable_breadcrumb": false,
     "background_width_breadcrumb": "fullwidth",
     "breadcrumbs_background": "rgba(0,0,0,0)",
+    "halloween_fx_enabled": false,
     "button_background": "gradient",
     "button_border": "gradient",
     "color_button_border_gradient": "linear-gradient(136deg, rgba(10, 234, 237, 1) 11%, rgba(250, 13, 253, 1) 84%)",
@@ -422,16 +423,6 @@
       },
       "9241046253743163954": {
         "type": "shopify://apps/sticky-add-to-cart-bar/blocks/app-embed/e98261d9-7a53-483b-8aaa-054afd5be639",
-        "disabled": true,
-        "settings": {}
-      },
-      "8357713148731975133": {
-        "type": "shopify://apps/halloween-day-celebration/blocks/halloween-embedded/4282f646-1628-4ad8-af96-dc9bb1554758",
-        "disabled": false,
-        "settings": {}
-      },
-      "409951731435663064": {
-        "type": "shopify://apps/dakaas-store-effects/blocks/app-embed/bf1c5ad9-e345-428b-a2e7-cfde42309a53",
         "disabled": true,
         "settings": {}
       }
