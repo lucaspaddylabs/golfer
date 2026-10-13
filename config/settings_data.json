@@ -353,6 +353,7 @@
     "background_width_breadcrumb": "fullwidth",
     "breadcrumbs_background": "rgba(0,0,0,0)",
     "halloween_fx_enabled": false,
+    "halloween_fx_spider": false,
     "button_background": "gradient",
     "button_border": "gradient",
     "color_button_border_gradient": "linear-gradient(136deg, rgba(10, 234, 237, 1) 11%, rgba(250, 13, 253, 1) 84%)",
