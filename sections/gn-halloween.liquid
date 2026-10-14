@@ -37,31 +37,76 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-  }
-  #shopify-section-{{ section.id }} .gn-halloween__timer--sale {
-    font-weight: 700;
-    background: {{ section.settings.accent_color }}22;
-    border-color: {{ section.settings.accent_color }};
+    gap: 34px;
   }
   #shopify-section-{{ section.id }} .gn-halloween__timer {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 6px 12px;
-    margin: 0 auto;
-    padding: 10px 22px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    font-size: 1.05rem;
+    --tile-a: {{ section.settings.accent_color }};
+    --tile-b: #ff3d00;
+    text-align: center;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__clock {
+  #shopify-section-{{ section.id }} .gn-halloween__timer--sale {
+    --tile-a: #ff2d55;
+    --tile-b: #c4001d;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__timer-label {
+    margin: 0 0 14px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: #fff;
+    text-shadow: 0 0 18px var(--tile-a);
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__timer-after {
+    margin: 14px 0 0;
+    font-size: 1.1rem;
     font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__units {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__unit {
+    min-width: 96px;
+    padding: 16px 8px 12px;
+    border-radius: 14px;
+    background: linear-gradient(160deg, var(--tile-a), var(--tile-b));
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25), 0 0 26px var(--tile-a), 0 10px 24px rgba(0, 0, 0, 0.45);
+    animation: gn-halloween-glow 1.6s ease-in-out infinite alternate;
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__num {
+    display: block;
+    font-size: 3.4rem;
+    font-weight: 900;
+    line-height: 1;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-    color: {{ section.settings.accent_color }};
+    color: #fff;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__cap {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  #shopify-section-{{ section.id }} .gn-halloween__unit--sec .gn-halloween__num {
+    animation: gn-halloween-tick 1s ease-in-out infinite;
+  }
+  @keyframes gn-halloween-glow {
+    from { box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 16px var(--tile-a), 0 10px 24px rgba(0,0,0,0.45); }
+    to   { box-shadow: 0 0 0 2px rgba(255,255,255,0.45), 0 0 34px var(--tile-a), 0 10px 24px rgba(0,0,0,0.45); }
+  }
+  @keyframes gn-halloween-tick {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
   #shopify-section-{{ section.id }} .gn-halloween__fall {
     position: absolute;
@@ -178,7 +223,13 @@
     #shopify-section-{{ section.id }} .gn-halloween { padding-left: 16px; padding-right: 16px; }
     #shopify-section-{{ section.id }} .gn-halloween__heading { font-size: 2rem; }
     #shopify-section-{{ section.id }} .gn-halloween__text { font-size: 1rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__timer { font-size: 0.95rem; padding: 10px 16px; }
+    #shopify-section-{{ section.id }} .gn-halloween__timers { gap: 28px; }
+    #shopify-section-{{ section.id }} .gn-halloween__timer-label { font-size: 1.05rem; }
+    #shopify-section-{{ section.id }} .gn-halloween__timer-after { font-size: 0.95rem; }
+    #shopify-section-{{ section.id }} .gn-halloween__units { gap: 8px; }
+    #shopify-section-{{ section.id }} .gn-halloween__unit { min-width: 0; flex: 1 1 0; max-width: 84px; padding: 12px 4px 9px; border-radius: 12px; }
+    #shopify-section-{{ section.id }} .gn-halloween__num { font-size: 2.1rem; }
+    #shopify-section-{{ section.id }} .gn-halloween__cap { font-size: 0.62rem; letter-spacing: 0.1em; }
     #shopify-section-{{ section.id }} .gn-halloween__deals { gap: 34px; margin-top: 40px; }
     #shopify-section-{{ section.id }} .gn-halloween__deal { flex: 1 1 100%; max-width: none; padding: 30px 18px 22px; }
     #shopify-section-{{ section.id }} .gn-halloween__deal-img { height: {{ section.settings.image_height_mobile }}px; }
@@ -187,6 +238,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     #shopify-section-{{ section.id }} .gn-halloween__item { animation: none; top: 10%; }
+    #shopify-section-{{ section.id }} .gn-halloween__unit,
+    #shopify-section-{{ section.id }} .gn-halloween__unit--sec .gn-halloween__num { animation: none; }
   }
 </style>
 
@@ -214,19 +267,29 @@
     {%- if section.settings.text != blank -%}
       <p class="gn-halloween__text">{{ section.settings.text }}</p>
     {%- endif -%}
-    {%- if section.settings.deadline != blank or section.settings.sale_deadline != blank -%}
+    {%- if section.settings.deadline != blank or section.settings.deadline_weekly or section.settings.sale_deadline != blank or section.settings.sale_weekly -%}
       <div class="gn-halloween__timers">
-        {%- if section.settings.deadline != blank -%}
-          <div class="gn-halloween__timer" data-gn-halloween-timer data-deadline="{{ section.settings.deadline | escape }}" data-ended="{{ section.settings.ended_text | escape }}">
-            <span>{{ section.settings.timer_label }}</span>
-            <span class="gn-halloween__clock" role="timer" aria-live="off" data-clock>--d --h --m --s</span>
+        {%- if section.settings.deadline != blank or section.settings.deadline_weekly -%}
+          <div class="gn-halloween__timer" data-gn-halloween-timer data-deadline="{{ section.settings.deadline | escape }}"{% if section.settings.deadline_weekly %} data-weekly="true" data-offset="{{ section.settings.weekly_timezone | escape }}"{% endif %} data-ended="{{ section.settings.ended_text | escape }}">
+            <p class="gn-halloween__timer-label">{{ section.settings.timer_label }}</p>
+            <div class="gn-halloween__units" role="timer" aria-live="off">
+              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-d>00</span><span class="gn-halloween__cap">Days</span></div>
+              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-h>00</span><span class="gn-halloween__cap">Hours</span></div>
+              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-m>00</span><span class="gn-halloween__cap">Mins</span></div>
+              <div class="gn-halloween__unit gn-halloween__unit--sec"><span class="gn-halloween__num" data-s>00</span><span class="gn-halloween__cap">Secs</span></div>
+            </div>
           </div>
         {%- endif -%}
-        {%- if section.settings.sale_deadline != blank -%}
-          <div class="gn-halloween__timer gn-halloween__timer--sale" data-gn-halloween-timer data-deadline="{{ section.settings.sale_deadline | escape }}" data-ended="{{ section.settings.sale_ended_text | escape }}">
-            <span>{{ section.settings.sale_label_before }}</span>
-            <span class="gn-halloween__clock" role="timer" aria-live="off" data-clock>--d --h --m --s</span>
-            {%- if section.settings.sale_label_after != blank -%}<span>{{ section.settings.sale_label_after }}</span>{%- endif -%}
+        {%- if section.settings.sale_deadline != blank or section.settings.sale_weekly -%}
+          <div class="gn-halloween__timer gn-halloween__timer--sale" data-gn-halloween-timer data-deadline="{{ section.settings.sale_deadline | escape }}"{% if section.settings.sale_weekly %} data-weekly="true" data-offset="{{ section.settings.weekly_timezone | escape }}"{% endif %} data-ended="{{ section.settings.sale_ended_text | escape }}">
+            <p class="gn-halloween__timer-label">{{ section.settings.sale_label_before }}</p>
+            <div class="gn-halloween__units" role="timer" aria-live="off">
+              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-d>00</span><span class="gn-halloween__cap">Days</span></div>
+              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-h>00</span><span class="gn-halloween__cap">Hours</span></div>
+              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-m>00</span><span class="gn-halloween__cap">Mins</span></div>
+              <div class="gn-halloween__unit gn-halloween__unit--sec"><span class="gn-halloween__num" data-s>00</span><span class="gn-halloween__cap">Secs</span></div>
+            </div>
+            {%- if section.settings.sale_label_after != blank -%}<p class="gn-halloween__timer-after">{{ section.settings.sale_label_after }}</p>{%- endif -%}
           </div>
         {%- endif -%}
       </div>
@@ -276,25 +339,36 @@
   {%- endif -%}
 </div>
 
-{%- if section.settings.deadline != blank or section.settings.sale_deadline != blank -%}
+{%- if section.settings.deadline != blank or section.settings.deadline_weekly or section.settings.sale_deadline != blank or section.settings.sale_weekly -%}
   <script>
     (function () {
       document.querySelectorAll('#shopify-section-{{ section.id }} [data-gn-halloween-timer]').forEach(function (root) {
-      var end = new Date(root.getAttribute('data-deadline')).getTime();
-      var clock = root.querySelector('[data-clock]');
+      var weekly = root.getAttribute('data-weekly') === 'true';
+      var offMatch = /^([+-])(d{2}):?(d{2})$/.exec(root.getAttribute('data-offset') || '+00:00') || [0, '+', '00', '00'];
+      var offMin = (offMatch[1] === '-' ? -1 : 1) * (parseInt(offMatch[2], 10) * 60 + parseInt(offMatch[3], 10));
+      function nextSaturday() {
+        var shifted = new Date(Date.now() + offMin * 60000);
+        var add = (6 - shifted.getUTCDay() + 7) % 7;
+        return Date.UTC(shifted.getUTCFullYear(), shifted.getUTCMonth(), shifted.getUTCDate() + add, 23, 59, 59) - offMin * 60000;
+      }
+      var end = weekly ? nextSaturday() : new Date(root.getAttribute('data-deadline')).getTime();
+      var el = { d: root.querySelector('[data-d]'), h: root.querySelector('[data-h]'), m: root.querySelector('[data-m]'), s: root.querySelector('[data-s]') };
       if (isNaN(end)) { root.hidden = true; return; }
       var timer;
+      var p = function (n) { return n < 10 ? '0' + n : String(n); };
       function tick() {
+        if (weekly && end <= Date.now()) end = nextSaturday();
         var left = Math.floor((end - Date.now()) / 1000);
         if (left <= 0) {
           clearInterval(timer);
-          root.textContent = root.getAttribute('data-ended') || '';
-          if (!root.textContent) root.hidden = true;
+          var msg = root.getAttribute('data-ended') || '';
+          if (msg) { root.innerHTML = ''; var q = document.createElement('p'); q.className = 'gn-halloween__timer-label'; q.textContent = msg; root.appendChild(q); } else { root.hidden = true; }
           return;
         }
-        var d = Math.floor(left / 86400), h = Math.floor(left / 3600) % 24, m = Math.floor(left / 60) % 60, s = left % 60;
-        var p = function (n) { return n < 10 ? '0' + n : n; };
-        clock.textContent = d + 'd ' + p(h) + 'h ' + p(m) + 'm ' + p(s) + 's';
+        el.d.textContent = p(Math.floor(left / 86400));
+        el.h.textContent = p(Math.floor(left / 3600) % 24);
+        el.m.textContent = p(Math.floor(left / 60) % 60);
+        el.s.textContent = p(left % 60);
       }
       tick();
       timer = setInterval(tick, 1000);
@@ -314,11 +388,14 @@
     { "type": "header", "content": "Offer countdown" },
     { "type": "text", "id": "timer_label", "label": "Timer text", "default": "Halloween offer ends in" },
     { "type": "text", "id": "deadline", "label": "Offer deadline", "info": "Real end date and time with timezone, e.g. 2026-10-31T23:59:00+00:00. It is a fixed date, so the timer never restarts. Leave empty to hide the timer." },
+    { "type": "checkbox", "id": "deadline_weekly", "label": "Count down to Saturday 23:59, repeating every week", "default": false, "info": "Overrides the date above. Only use this if the offer really renews every week." },
     { "type": "text", "id": "ended_text", "label": "Text when the offer ends", "default": "This offer has ended." },
     { "type": "header", "content": "Early-bird sale countdown" },
     { "type": "text", "id": "sale_label_before", "label": "Text before timer", "default": "30% Off Early-Bird Sale ends in" },
     { "type": "text", "id": "sale_label_after", "label": "Text after timer", "default": "— prices go up after!" },
     { "type": "text", "id": "sale_deadline", "label": "Early-bird deadline", "info": "Real end date and time with timezone, e.g. 2026-11-15T23:59:00+00:00. Fixed date, never restarts. Leave empty to hide this timer." },
+    { "type": "checkbox", "id": "sale_weekly", "label": "Count down to Saturday 23:59, repeating every week", "default": true, "info": "Overrides the date above. Only use this if the offer really renews every week and prices really go up." },
+    { "type": "text", "id": "weekly_timezone", "label": "Weekly timezone offset", "default": "+00:00", "info": "Saturday 23:59 in this timezone, e.g. +00:00 (Ireland/UK winter), +01:00, -05:00 (US Eastern winter)." },
     { "type": "text", "id": "sale_ended_text", "label": "Text when the sale ends", "default": "The early-bird sale has ended." },
     { "type": "header", "content": "Falling decorations" },
     { "type": "checkbox", "id": "show_falling", "label": "Show falling decorations", "default": true },

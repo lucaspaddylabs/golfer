@@ -4804,7 +4804,7 @@
         "id": "halloween_fx_enabled",
         "label": "Enable Halloween effects",
         "default": true,
-        "info": "Untick and Save to turn the effect off site-wide."
+        "info": "Untick and Save to turn the effect off."
       },
       {
         "type": "range",
