@@ -66,7 +66,7 @@
             "image": "shopify://shop_images/hf_20261012_085207_26d7ac69-ccf0-4690-a4d6-c17e97b07ca8.png",
             "link": "shopify://collections/the-system",
             "sale_price": "150.08$",
-            "savings_amount": "50"
+            "savings_amount": ""
           }
         }
       },
@@ -80,6 +80,7 @@
         "eyebrow": "Halloween Sale",
         "heading": "Your Halloween Golf Upgrade",
         "text": "Choose your bundle. See your savings. Start practising.",
+        "timer_note": "Save 50 versus buying separately",
         "timer_label": "Halloween offer ends in",
         "deadline": "2026-10-31T23:59:00+00:00",
         "deadline_weekly": true,
