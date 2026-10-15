@@ -326,7 +326,9 @@
             {%- if price != blank -%}
               <span class="gn-halloween__deal-price">Bundle price: {{ price }}</span>
             {%- endif -%}
-            {%- if price != blank and saving != blank -%}
+            {%- if block.settings.note != blank -%}
+              <span class="gn-halloween__deal-save">{{ block.settings.note }}</span>
+            {%- elsif price != blank and saving != blank -%}
               <span class="gn-halloween__deal-save">Save {{ saving }} versus buying separately</span>
             {%- endif -%}
             {%- if link != blank and block.settings.button_label != blank -%}
@@ -421,6 +423,7 @@
         { "type": "product", "id": "product", "label": "Bundle product", "info": "Link, image and Bundle price come from this product. Savings = compare-at price minus price, so set the compare-at price to the total of buying separately." },
         { "type": "text", "id": "title", "label": "Title override" },
         { "type": "text", "id": "subtitle", "label": "Subtitle" },
+        { "type": "text", "id": "note", "label": "Orange note", "info": "Replaces the 'Save ... versus buying separately' line when filled." },
         { "type": "text", "id": "badge", "label": "Badge", "default": "Halloween offer" },
         { "type": "text", "id": "button_label", "label": "Button text", "default": "Get my bundle" },
         { "type": "image_picker", "id": "image", "label": "Image override" },
