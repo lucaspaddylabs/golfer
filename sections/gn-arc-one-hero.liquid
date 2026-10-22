@@ -1078,6 +1078,8 @@
   id="gn-arc-hero-{{ section.id }}"
   data-gn-arc-hero
   data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-variant-id="{{ current_variant.id }}"
   data-money-format="{{ shop.money_format | escape }}"
   data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
 >
@@ -1163,9 +1165,9 @@
       {%- endif -%}
 
       <div id="ProductForm-{{ section.id }}" data-gn-form-wrap>
-        <div class="gn-arc-hero__price-row">
-          <span class="gn-arc-hero__price" data-gn-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-          <span class="gn-arc-hero__compare" data-gn-compare{% unless show_sale_badge %} hidden{% endunless %}>
+        <div class="gn-arc-hero__price-row" data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}" data-gn-price-row>
+          <span class="gn-arc-hero__price" data-gn-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+          <span class="gn-arc-hero__compare" data-gn-compare data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}"{% unless show_sale_badge %} hidden{% endunless %}>
             {{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
           </span>
           <span class="gn-arc-hero__sale" data-gn-sale-badge{% unless show_sale_badge %} hidden{% endunless %}>
@@ -1246,9 +1248,9 @@
                       </span>
                       <p class="gn-arc-hero__bundle-label">Buy {{ bundle_qty }}</p>
                       <p class="gn-arc-hero__bundle-desc">{{ bundle_qty }} x {{ product.title }}</p>
-                      <div class="gn-arc-hero__bundle-price-row">
-                        <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
-                        <span class="gn-arc-hero__bundle-was" data-gn-bundle-was{% if bundle_total_save_cents <= 0 %} hidden{% endif %}>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                      <div class="gn-arc-hero__bundle-price-row" data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">
+                        <p class="gn-arc-hero__bundle-price" data-gn-bundle-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
+                        <span class="gn-arc-hero__bundle-was" data-gn-bundle-was data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}"{% if bundle_total_save_cents <= 0 %} hidden{% endif %}>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                       </div>
                       <span class="gn-arc-hero__bundle-save" data-gn-bundle-save{% if bundle_total_save_cents <= 0 %} hidden{% endif %}>SAVE {{ bundle_total_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                     </div>
@@ -1428,9 +1430,9 @@
         {% if current_variant.available %}
           ADD TO CART –
           {% if show_sale_badge %}
-            <s data-gn-sticky-compare>{{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+            <s data-gn-sticky-compare data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
           {% endif %}
-          <span data-gn-sticky-sale-price>{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+          <span data-gn-sticky-sale-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
         {% else %}
           {{ section.settings.sold_out_text }}
         {% endif %}
@@ -1594,10 +1596,21 @@
       }, { passive: true });
     }
 
+    const syncIgPriceIds = (variantId) => {
+      section.setAttribute('data-variant-id', String(variantId));
+      section.querySelectorAll('[data-product-id][data-variant-id], [data-gn-price], [data-gn-compare], [data-gn-bundle-price], [data-gn-bundle-was], [data-gn-sticky-sale-price], [data-gn-sticky-compare], [data-gn-price-row]').forEach((el) => {
+        el.setAttribute('data-variant-id', String(variantId));
+        if (!el.hasAttribute('data-product-id')) {
+          el.setAttribute('data-product-id', String({{ product.id }}));
+        }
+      });
+    };
+
     const updateVariant = () => {
       const variant = findVariant();
       if (!variant) return;
       if (variantInput) variantInput.value = variant.id;
+      syncIgPriceIds(variant.id);
       if (priceNode) priceNode.textContent = formatMoney(variant.price);
       if (stickyPrice) stickyPrice.textContent = formatMoney(variant.price);
       const hasCompare = variant.compare_at_price && variant.compare_at_price > variant.price;

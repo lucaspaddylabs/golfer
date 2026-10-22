@@ -108,7 +108,7 @@
               <div class="cart-item__details__items body3 mt--first-child-0">
                 <a href="{{ item.url }}" class="mt10 h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
-                <div class="mt10">{{ item.original_price | money }}</div>
+                <div class="mt10">{{ item.final_price | money }}</div>
                 {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
                 <dl class="mt3">
                   {%- if item.product.has_only_default_variant == false -%}
@@ -222,13 +222,13 @@
                     {%- if cart_item_pay == 0 -%}
                       Free
                     {%- else -%}
-                      {{ cart_item_pay | money }}
+                      {{ item.final_line_price | money }}
                     {%- endif -%}
                   </div>
                 </div>
                 {%- else -%}
                 <span class="h5 price__main">
-                  {{ item.original_line_price | money }}
+                  {{ item.final_line_price | money }}
                 </span>
                 {%- endif -%}
 
