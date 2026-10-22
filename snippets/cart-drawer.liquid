@@ -313,6 +313,12 @@ component-swiper-slider.css
                   {%- endfor -%}
 
                 </div>
+
+                {%- if settings.cart_drawer_upsell_enable != false -%}
+                  <div class="gn-cart-upsell-slot">
+                    {%- render 'gn-cart-upsell' -%}
+                  </div>
+                {%- endif -%}
                 {%- endif -%}
           
                 <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
@@ -323,53 +329,7 @@ component-swiper-slider.css
           </cart-drawer-items>
         </div>
         <div class="drawer__footer-footer">
-          <div class="gn-cart-gift-pin">
-            {%- if cart != empty and settings.cart_drawer_upsell_enable != false -%}
-              {%- render 'gn-cart-upsell' -%}
-            {%- endif -%}
-
-            {%- comment -%} Order Special Instructions hidden to keep room for accessory upsell. {%- endcomment -%}
-            {%- if false and settings.show_cart_note -%}
-            <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
-              <details class="chm-toggle">
-                <summary>
-                  <div class="chm-toggle__button">
-                    <h6 class="mt0 mb0">{{ "general.cart.drawer_note_heading" | t }}</h6>
-                    <div class="plusminus"></div>
-                  </div>
-                </summary>
-                <div class="chm-toggle__content section__richtext__editor">
-                  <cart-note class="field field--text-area">
-                    <textarea class="text-area field__input"
-                              id="CartDrawer-Note"
-                              name="note"
-                              placeholder="{{ 'sections.cart.note' | t }}"
-                              >{{ cart.note }}</textarea>
-                    <label class="field__label" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
-                  </cart-note>
-                </div>
-              </details>
-            </toggle-component>
-            {%- endif -%}
-
-            {% comment %} Discount code UI temporarily hidden — reinstate by removing `false and` when codes are ready {% endcomment %}
-            {%- if false and settings.show_add_discount_code -%}
-            {%- capture html -%}
-            {%- render "cart-discount", section_id:section.id -%}
-            {%- endcapture -%}
-            <toggle-component class="cart-drawer__toggle chm-toggle--accordion mt40">
-              <details class="chm-toggle{% if html contains 'cart-discount__pill' %} toggle-opening toggle-opening-auto{% endif %}"{% if html contains 'cart-discount__pill' %} open{% endif %}>
-                <summary>
-                  <div class="chm-toggle__button">
-                    <h6 class="mt0 mb0">{{ "general.cart.drawer_discount_heading" | t }}</h6>
-                    <div class="plusminus"></div>
-                  </div>
-                </summary>
-                <div class="chm-toggle__content section__richtext__editor">{{- html -}}</div>
-              </details>
-            </toggle-component>
-            {%- endif -%}
-          </div>
+          {%- comment -%} Sticky footer: totals + checkout only. Upsell scrolls with cart lines. {%- endcomment -%}
 
           {%- liquid
             assign free_ship_threshold_cents = settings.free_delivery_price | times: 100

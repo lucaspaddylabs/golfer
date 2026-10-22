@@ -1,6 +1,5 @@
 {%- comment -%}
-  Cart drawer "Frequently Bought With" accessory strip.
-  Horizontal product cards (image + Add + title + price), matching the cart-drawer upsell pattern.
+  Cart drawer "Frequently Bought With" strip — compact horizontal cards in the scrollable cart area.
   Uses settings.cart_drawer_upsell_enable + cart_drawer_upsell_1/2/3.
 {%- endcomment -%}
 {%- unless settings.cart_drawer_upsell_enable == false -%}
@@ -60,19 +59,19 @@
             <a class="gn-cart-upsell__media" href="{{ product.url }}" tabindex="-1">
               {%- if product.featured_media -%}
                 <img
-                  src="{{ product.featured_media | image_url: width: 280 }}"
-                  srcset="{{ product.featured_media | image_url: width: 200 }} 200w, {{ product.featured_media | image_url: width: 280 }} 280w"
-                  sizes="140px"
+                  src="{{ product.featured_media | image_url: width: 240 }}"
+                  srcset="{{ product.featured_media | image_url: width: 160 }} 160w, {{ product.featured_media | image_url: width: 240 }} 240w"
+                  sizes="120px"
                   alt="{{ product.featured_media.alt | default: product.title | escape }}"
-                  width="140"
-                  height="140"
+                  width="120"
+                  height="120"
                   loading="lazy"
                 >
               {%- endif -%}
             </a>
             <button
               type="button"
-              class="btn gn-cart-upsell__add"
+              class="gn-cart-upsell__add"
               data-upsell-add
               data-variant-id="{{ selected_variant.id }}"
               aria-label="Add {{ product.title | escape }} to cart"
