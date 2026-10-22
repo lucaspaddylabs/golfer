@@ -349,40 +349,26 @@ component-swiper-slider.css
           -%}
           <div class="cart__footer__information gn-cart-checkout-sticky">
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
-              <div class="totals gn-cart-totals">
-                <div class="gn-cart-totals__row">
-                  <span class="gn-cart-totals__label">Subtotal</span>
-                  {%- if cart.original_total_price > cart.total_price -%}
-                    <span class="gn-cart-totals__value">
-                      <span class="totals__price">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                      <s class="totals__compare">{{ cart.original_total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
-                    </span>
-                  {%- else -%}
-                    <span class="gn-cart-totals__value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                  {%- endif -%}
-                </div>
-                <div class="gn-cart-totals__row gn-cart-totals__row--shipping{% if qualifies_free_shipping %} is-free{% endif %}">
-                  <span class="gn-cart-totals__label">Shipping</span>
+              <div class="totals gn-cart-totals{% if qualifies_free_shipping %} is-free-shipping{% endif %}">
+                <div class="gn-cart-totals__row gn-cart-totals__row--order">
+                  <span class="gn-cart-totals__label">Total</span>
                   <span class="gn-cart-totals__value">
                     {%- if qualifies_free_shipping -%}
-                      Free
+                      {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                      <span class="gn-cart-totals__ship-tag">Free shipping</span>
                     {%- else -%}
-                      +{{ estimated_shipping_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                      {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                      <span class="gn-cart-totals__ship-add">+ {{ estimated_shipping_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }} shipping</span>
                     {%- endif -%}
                   </span>
-                </div>
-                <div class="gn-cart-totals__divider" aria-hidden="true"></div>
-                <div class="gn-cart-totals__row gn-cart-totals__row--order">
-                  <span class="gn-cart-totals__label">Order total</span>
-                  <span class="gn-cart-totals__value">{{ order_total_with_shipping | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                 </div>
               </div>
 
               {% if settings.show_installments %}
-                <span class="cart__summary-item cart__installments display-block body2 mt10">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
+                <span class="cart__summary-item cart__installments display-block body2 mt8">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
               {% endif %}
               {%- if cart.cart_level_discount_applications.size > 0 -%}
-              <div class="mt8">
+              <div class="mt6">
                 <ul class="discounts unstyle-ul body3" role="list" aria-label="{{ 'customer.order.discount' | t }}">
                   {%- for discount in cart.cart_level_discount_applications -%}
                   <li class="discounts__discount cart-item-message__content">
@@ -393,14 +379,6 @@ component-swiper-slider.css
                 </ul>
               </div>
               {%- endif -%}
-
-              <p class="gn-cart-totals__note">
-                {%- if qualifies_free_shipping -%}
-                  Free shipping unlocked. Taxes calculated at checkout.
-                {%- else -%}
-                  Shipping estimate. Taxes calculated at checkout.
-                {%- endif -%}
-              </p>
             </div>
 
             {%- if settings.terms_and_condition_checkbox -%}
