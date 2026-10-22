@@ -109,7 +109,88 @@
     </script>
     {%- comment -%} No async/defer on Intelligems — their docs say that causes price flicker. {%- endcomment -%}
     <script type="module" blocking="render" fetchpriority="high" src="https://cdn.intelligems.io/esm/5b9770039a80/bundle.js" data-em-disable></script>
-    <script src="{{ 'ig-collection-prices.js' | asset_url }}"></script>
+    {%- comment -%} Inline so collection prices update even if the asset CDN lags behind GitHub sync. {%- endcomment -%}
+    <script>
+      (() => {
+        const READY_CLASS = 'ig-prices-ready';
+        const MAX_WAIT_MS = 3000;
+        const dollarsToCents = (value) => {
+          if (value == null || value === '') return null;
+          const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]/g, ''));
+          if (!Number.isFinite(num)) return null;
+          return Math.round(num * 100);
+        };
+        const formatMoney = (cents) => {
+          let result = '$' + (Math.abs(cents) / 100).toFixed(2);
+          if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+            try { result = window.Shopify.formatMoney(cents); } catch (e) {}
+          }
+          return String(result).replace(/US\$/g, '$').replace(/US \$/g, '$');
+        };
+        const syncSaveBadges = (priceApi) => {
+          document.querySelectorAll('[data-ig-save-badge][data-variant-id]').forEach((el) => {
+            const variantId = el.getAttribute('data-variant-id');
+            const priceCents = dollarsToCents(priceApi.getPriceByVariantId(variantId));
+            let compareCents = dollarsToCents(priceApi.getComparePriceByVariantId?.(variantId));
+            if (compareCents == null) {
+              const fallback = Number(el.getAttribute('data-compare-cents'));
+              compareCents = Number.isFinite(fallback) && fallback > 0 ? fallback : null;
+            }
+            if (priceCents == null || compareCents == null || compareCents <= priceCents) {
+              el.hidden = true;
+              return;
+            }
+            el.hidden = false;
+            el.textContent = 'SAVE ' + formatMoney(compareCents - priceCents);
+          });
+        };
+        const applyCollectionPrices = () => {
+          const priceApi = window.igData && window.igData.price;
+          if (!priceApi || !priceApi.getPriceByVariantId) return false;
+          document.querySelectorAll('.price__sale[data-variant-id], .price__main[data-variant-id]').forEach((el) => {
+            const priceCents = dollarsToCents(priceApi.getPriceByVariantId(el.getAttribute('data-variant-id')));
+            if (priceCents == null) return;
+            el.textContent = formatMoney(priceCents);
+          });
+          document.querySelectorAll('.price__regular[data-variant-id]').forEach((el) => {
+            const variantId = el.getAttribute('data-variant-id');
+            const priceCents = dollarsToCents(priceApi.getPriceByVariantId(variantId));
+            const compareCents = dollarsToCents(priceApi.getComparePriceByVariantId && priceApi.getComparePriceByVariantId(variantId));
+            if (priceCents == null || compareCents == null || compareCents <= priceCents) {
+              el.hidden = true;
+              return;
+            }
+            el.hidden = false;
+            el.textContent = formatMoney(compareCents);
+          });
+          syncSaveBadges(priceApi);
+          return true;
+        };
+        let revealed = false;
+        const reveal = () => {
+          if (revealed) return;
+          revealed = true;
+          document.documentElement.classList.add(READY_CLASS);
+        };
+        const run = () => {
+          if (applyCollectionPrices()) {
+            reveal();
+            return true;
+          }
+          return false;
+        };
+        const start = () => {
+          if (run()) return;
+          const onReady = () => run();
+          window.addEventListener('ig:ready', onReady, { once: true });
+          if (Array.isArray(window.onIgReady)) window.onIgReady.push(onReady);
+          else if (typeof window.onIgReady === 'function') window.onIgReady = [window.onIgReady, onReady];
+          else window.onIgReady = onReady;
+          window.setTimeout(() => { run(); reveal(); }, MAX_WAIT_MS);
+        };
+        start();
+      })();
+    </script>
 
     {%- render "head-styles" -%}
     {%- render "style-grid" -%}
