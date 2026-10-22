@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
+    {%- comment -%} Earliest possible hide so catalog prices never paint before Intelligems rewrites them. {%- endcomment -%}
+    <style id="ig-anti-flicker">
+      html:not(.ig-prices-ready) .price__container[data-variant-id],
+      html:not(.ig-prices-ready) .price__sale[data-variant-id],
+      html:not(.ig-prices-ready) .price__main[data-variant-id],
+      html:not(.ig-prices-ready) .price__regular[data-variant-id],
+      html:not(.ig-prices-ready) [data-ig-save-badge],
+      html:not(.ig-prices-ready) [data-gn-price],
+      html:not(.ig-prices-ready) [data-gn-compare],
+      html:not(.ig-prices-ready) [data-gn-bundle-price],
+      html:not(.ig-prices-ready) [data-gn-bundle-was],
+      html:not(.ig-prices-ready) [data-gn-sticky-sale-price],
+      html:not(.ig-prices-ready) [data-gn-sticky-compare] {
+        visibility: hidden !important;
+        opacity: 0 !important;
+      }
+    </style>
 
     <!-- Start VWO Async SmartCode -->
     <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com"/>
@@ -90,21 +107,9 @@
         return data;
       })();
     </script>
-    <script type="module" blocking="render" fetchpriority="high" src="https://cdn.intelligems.io/esm/5b9770039a80/bundle.js" data-em-disable async></script>
-    {%- comment -%} Hide tagged prices until Intelligems rewrites them (avoids catalog→test price blink). {%- endcomment -%}
-    <style id="ig-anti-flicker">
-      html:not(.ig-prices-ready) .price__container[data-variant-id],
-      html:not(.ig-prices-ready) [data-ig-save-badge],
-      html:not(.ig-prices-ready) [data-gn-price],
-      html:not(.ig-prices-ready) [data-gn-compare],
-      html:not(.ig-prices-ready) [data-gn-bundle-price],
-      html:not(.ig-prices-ready) [data-gn-bundle-was],
-      html:not(.ig-prices-ready) [data-gn-sticky-sale-price],
-      html:not(.ig-prices-ready) [data-gn-sticky-compare] {
-        visibility: hidden !important;
-      }
-    </style>
-    <script src="{{ 'ig-collection-prices.js' | asset_url }}" defer></script>
+    {%- comment -%} No async/defer on Intelligems — their docs say that causes price flicker. {%- endcomment -%}
+    <script type="module" blocking="render" fetchpriority="high" src="https://cdn.intelligems.io/esm/5b9770039a80/bundle.js" data-em-disable></script>
+    <script src="{{ 'ig-collection-prices.js' | asset_url }}"></script>
 
     {%- render "head-styles" -%}
     {%- render "style-grid" -%}
