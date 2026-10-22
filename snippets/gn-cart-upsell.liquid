@@ -1,12 +1,25 @@
 {%- comment -%}
-  Cart drawer "Frequently Bought With" strip — compact horizontal cards in the scrollable cart area.
-  Uses settings.cart_drawer_upsell_enable + cart_drawer_upsell_1/2/3.
+  Cart drawer "Frequently Bought With" strip.
+  Catalogue of accessories + system tools. On product pages, the viewed product is omitted
+  so shoppers see complementary items (e.g. mat page → stick, belt, tutor, accessories).
+  Items stay visible after adding to cart.
 {%- endcomment -%}
 {%- unless settings.cart_drawer_upsell_enable == false -%}
   {%- liquid
+    # Omit the product currently being viewed (product pages only)
+    assign exclude_product_id = blank
+    if template.name == 'product' and product != blank
+      assign exclude_product_id = product.id
+    endif
+
     assign upsell_1 = settings.cart_drawer_upsell_1
     assign upsell_2 = settings.cart_drawer_upsell_2
     assign upsell_3 = settings.cart_drawer_upsell_3
+    assign upsell_4 = settings.cart_drawer_upsell_4
+    assign upsell_5 = settings.cart_drawer_upsell_5
+    assign upsell_6 = settings.cart_drawer_upsell_6
+    assign upsell_7 = settings.cart_drawer_upsell_7
+
     if upsell_1 == blank
       assign upsell_1 = all_products['magnetic-golf-towel']
     endif
@@ -16,53 +29,66 @@
     if upsell_3 == blank
       assign upsell_3 = all_products['golf-club-brush-groove-sharpener-tool']
     endif
+    if upsell_4 == blank
+      assign upsell_4 = all_products['pro-swing-click-trainer']
+    endif
+    if upsell_5 == blank
+      assign upsell_5 = all_products['golf-training-belt']
+    endif
+    if upsell_6 == blank
+      assign upsell_6 = all_products['swing-detection-training-mat']
+    endif
+    if upsell_7 == blank
+      assign upsell_7 = all_products['golf-putting-tutor']
+    endif
   -%}
 
   {%- assign upsell_slide_count = 0 -%}
   {%- capture upsell_slides -%}
-    {%- for i in (1..3) -%}
+    {%- for i in (1..7) -%}
       {%- liquid
         case i
           when 1
-            assign product = upsell_1
+            assign upsell_product = upsell_1
           when 2
-            assign product = upsell_2
+            assign upsell_product = upsell_2
           when 3
-            assign product = upsell_3
+            assign upsell_product = upsell_3
+          when 4
+            assign upsell_product = upsell_4
+          when 5
+            assign upsell_product = upsell_5
+          when 6
+            assign upsell_product = upsell_6
+          when 7
+            assign upsell_product = upsell_7
         endcase
 
-        if product == blank or product.id == blank
+        if upsell_product == blank or upsell_product.id == blank
           continue
         endif
 
-        assign already_in_cart = false
-        for item in cart.items
-          if item.product_id == product.id
-            assign already_in_cart = true
-            break
-          endif
-        endfor
-        if already_in_cart
+        if exclude_product_id != blank and upsell_product.id == exclude_product_id
           continue
         endif
 
-        unless product.available
+        unless upsell_product.available
           continue
         endunless
 
-        assign selected_variant = product.selected_or_first_available_variant
+        assign selected_variant = upsell_product.selected_or_first_available_variant
         assign upsell_slide_count = upsell_slide_count | plus: 1
       -%}
       <div class="gn-cart-upsell__slide" data-upsell-slide>
         <div class="gn-cart-upsell__card">
           <div class="gn-cart-upsell__media-wrap">
-            <a class="gn-cart-upsell__media" href="{{ product.url }}" tabindex="-1">
-              {%- if product.featured_media -%}
+            <a class="gn-cart-upsell__media" href="{{ upsell_product.url }}" tabindex="-1">
+              {%- if upsell_product.featured_media -%}
                 <img
-                  src="{{ product.featured_media | image_url: width: 144 }}"
-                  srcset="{{ product.featured_media | image_url: width: 96 }} 96w, {{ product.featured_media | image_url: width: 144 }} 144w"
+                  src="{{ upsell_product.featured_media | image_url: width: 144 }}"
+                  srcset="{{ upsell_product.featured_media | image_url: width: 96 }} 96w, {{ upsell_product.featured_media | image_url: width: 144 }} 144w"
                   sizes="72px"
-                  alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                  alt="{{ upsell_product.featured_media.alt | default: upsell_product.title | escape }}"
                   width="72"
                   height="72"
                   loading="lazy"
@@ -74,22 +100,22 @@
               class="gn-cart-upsell__add"
               data-upsell-add
               data-variant-id="{{ selected_variant.id }}"
-              aria-label="Add {{ product.title | escape }} to cart"
+              aria-label="Add {{ upsell_product.title | escape }} to cart"
               {% unless selected_variant.available %}disabled{% endunless %}
             >
               <span>Add</span>
             </button>
           </div>
-          <a class="gn-cart-upsell__title" href="{{ product.url }}">{{ product.title | escape }}</a>
+          <a class="gn-cart-upsell__title" href="{{ upsell_product.url }}">{{ upsell_product.title | escape }}</a>
           <div class="gn-cart-upsell__price">
             <span class="gn-cart-upsell__price-current">{{ selected_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
             {%- if selected_variant.compare_at_price > selected_variant.price -%}
               <s class="gn-cart-upsell__price-compare">{{ selected_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
             {%- endif -%}
           </div>
-          {%- if product.has_only_default_variant == false -%}
+          {%- if upsell_product.has_only_default_variant == false -%}
             <div class="gn-cart-upsell__swatches" role="radiogroup" aria-label="Color">
-              {%- for variant in product.variants -%}
+              {%- for variant in upsell_product.variants -%}
                 {%- liquid
                   assign swatch_color = variant.option1 | handle
                   case swatch_color
@@ -132,7 +158,11 @@
   {%- endcapture -%}
 
   {%- if upsell_slide_count > 0 -%}
-    <cart-drawer-upsell class="gn-cart-upsell" data-remaining="{{ upsell_slide_count }}">
+    <cart-drawer-upsell
+      class="gn-cart-upsell"
+      data-remaining="{{ upsell_slide_count }}"
+      {% if exclude_product_id != blank %}data-exclude-product-id="{{ exclude_product_id }}"{% endif %}
+    >
       <div class="gn-cart-upsell__header text-center">
         <h6 class="gn-cart-upsell__heading mt0 mb0 text-center">Frequently Bought With</h6>
       </div>

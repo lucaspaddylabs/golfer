@@ -4258,25 +4258,49 @@
         "id": "cart_drawer_upsell_enable",
         "label": "Show Frequently Bought With in cart drawer",
         "default": true,
-        "info": "Horizontal accessory cards in the cart drawer. Products already in the cart are hidden."
+        "info": "Horizontal product cards in the cart drawer. On a product page, that product is omitted from the list. Items stay visible after they are added to the cart."
       },
       {
         "type": "product",
         "id": "cart_drawer_upsell_1",
-        "label": "Accessory 1",
+        "label": "Upsell 1",
         "info": "Defaults to Magnetic Golf Towel if left blank."
       },
       {
         "type": "product",
         "id": "cart_drawer_upsell_2",
-        "label": "Accessory 2",
+        "label": "Upsell 2",
         "info": "Defaults to Golf Ball Marker Fork if left blank."
       },
       {
         "type": "product",
         "id": "cart_drawer_upsell_3",
-        "label": "Accessory 3",
+        "label": "Upsell 3",
         "info": "Defaults to Golf Club Brush & Groove Sharpener Tool if left blank."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_4",
+        "label": "Upsell 4",
+        "info": "Defaults to Pro Swing Click Trainer (ARC ONE) if left blank."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_5",
+        "label": "Upsell 5",
+        "info": "Defaults to Golf Training Belt (LINK ONE) if left blank."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_6",
+        "label": "Upsell 6",
+        "info": "Defaults to Swing Detection Training Mat (TRACE ONE) if left blank."
+      },
+      {
+        "type": "product",
+        "id": "cart_drawer_upsell_7",
+        "label": "Upsell 7",
+        "info": "Defaults to Golf Putting Tutor (LINE ONE) if left blank."
       },
       {
         "type": "text",
