@@ -135,13 +135,8 @@ component-swiper-slider.css
                       assign cart_item_save = item.line_level_total_discount
                     endif
                     assign cart_item_alloc = 0
-                    assign cart_item_volume_save = 0
                     for allocation in item.discount_allocations
                       assign cart_item_alloc = cart_item_alloc | plus: allocation.amount
-                      assign disc_title = allocation.discount_application.title | default: '' | downcase
-                      if disc_title contains 'arc one - 2' or disc_title contains 'arc one - 3' or disc_title contains 'link one -' or disc_title contains 'trace one -' or disc_title contains 'line one -'
-                        assign cart_item_volume_save = cart_item_volume_save | plus: allocation.amount
-                      endif
                     endfor
                     if cart_item_alloc > cart_item_save
                       assign cart_item_save = cart_item_alloc
@@ -150,11 +145,8 @@ component-swiper-slider.css
                     if cart_item_pay < 0
                       assign cart_item_pay = 0
                     endif
-                    # Keep per-unit at Intelligems/group price when volume autos ($15/$30) cut the line total.
-                    assign cart_item_unit_display = item.final_line_price | plus: cart_item_volume_save | divided_by: item.quantity
-                    if cart_item_unit_display <= 0
-                      assign cart_item_unit_display = item.final_price
-                    endif
+                    # Always show the product unit price; volume autos only change the line total.
+                    assign cart_item_unit_display = item.original_price
                   -%}
                   <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
                     <div class="drawer__cart-item__content">
