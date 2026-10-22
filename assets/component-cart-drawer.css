@@ -887,8 +887,11 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 .gn-cart-upsell__track {
   display: flex;
   align-items: stretch;
+  justify-content: center;
   gap: 6px;
   width: max-content;
+  min-width: 100%;
+  box-sizing: border-box;
 }
 .gn-cart-upsell__slide {
   flex: 0 0 72px;
