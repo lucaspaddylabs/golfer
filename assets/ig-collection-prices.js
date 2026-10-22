@@ -1,25 +1,27 @@
 (() => {
   const READY_CLASS = 'ig-prices-ready';
   const MAX_WAIT_MS = 3000;
-  const POLL_MS = 32;
 
   const dollarsToCents = (value) => {
     if (value == null || value === '') return null;
     const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]/g, ''));
     if (!Number.isFinite(num)) return null;
-    // igData returns dollars; DOM money strings do too.
     return Math.round(num * 100);
   };
 
   const formatMoney = (cents) => {
-    const amount = (Math.abs(cents) / 100).toFixed(2);
-    return `$${amount}`;
+    let result = `$${(Math.abs(cents) / 100).toFixed(2)}`;
+    if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+      try {
+        result = window.Shopify.formatMoney(cents);
+      } catch (error) {
+        // keep fallback
+      }
+    }
+    return String(result).replace(/US\$/g, '$').replace(/US \$/g, '$');
   };
 
-  const syncSaveBadges = () => {
-    const priceApi = window.igData?.price;
-    if (!priceApi?.getPriceByVariantId) return;
-
+  const syncSaveBadges = (priceApi) => {
     document.querySelectorAll('[data-ig-save-badge][data-variant-id]').forEach((el) => {
       const variantId = el.getAttribute('data-variant-id');
       const priceCents = dollarsToCents(priceApi.getPriceByVariantId(variantId));
@@ -35,33 +37,36 @@
       }
 
       el.hidden = false;
-      el.textContent = `Save ${formatMoney(compareCents - priceCents)}`;
+      el.textContent = `SAVE ${formatMoney(compareCents - priceCents)}`;
     });
   };
 
-  const saleNodes = () =>
-    document.querySelectorAll(
-      '.price__sale[data-variant-id], .price__main[data-variant-id], [data-gn-price][data-variant-id]'
-    );
-
-  const pricesMatchIg = () => {
+  // Intelligems often leaves collection Liquid prices alone — write them from igData ourselves.
+  const applyCollectionPrices = () => {
     const priceApi = window.igData?.price;
     if (!priceApi?.getPriceByVariantId) return false;
 
-    const nodes = saleNodes();
-    if (!nodes.length) return true;
+    document
+      .querySelectorAll('.price__sale[data-variant-id], .price__main[data-variant-id]')
+      .forEach((el) => {
+        const priceCents = dollarsToCents(priceApi.getPriceByVariantId(el.getAttribute('data-variant-id')));
+        if (priceCents == null) return;
+        el.textContent = formatMoney(priceCents);
+      });
 
-    let checked = 0;
-    for (const el of nodes) {
+    document.querySelectorAll('.price__regular[data-variant-id]').forEach((el) => {
       const variantId = el.getAttribute('data-variant-id');
-      const expected = dollarsToCents(priceApi.getPriceByVariantId(variantId));
-      if (expected == null) continue;
-      checked += 1;
-      const actual = dollarsToCents(el.textContent);
-      if (actual !== expected) return false;
-    }
+      const priceCents = dollarsToCents(priceApi.getPriceByVariantId(variantId));
+      const compareCents = dollarsToCents(priceApi.getComparePriceByVariantId?.(variantId));
+      if (priceCents == null || compareCents == null || compareCents <= priceCents) {
+        el.hidden = true;
+        return;
+      }
+      el.hidden = false;
+      el.textContent = formatMoney(compareCents);
+    });
 
-    // If nothing on the page is in the price test, ig:ready is enough.
+    syncSaveBadges(priceApi);
     return true;
   };
 
@@ -69,31 +74,21 @@
   const reveal = () => {
     if (revealed) return;
     revealed = true;
-    syncSaveBadges();
     document.documentElement.classList.add(READY_CLASS);
   };
 
-  const started = Date.now();
-  const tick = () => {
-    if (pricesMatchIg()) {
-      syncSaveBadges();
+  const run = () => {
+    if (applyCollectionPrices()) {
       reveal();
-      return;
+      return true;
     }
-    if (Date.now() - started >= MAX_WAIT_MS) {
-      reveal();
-      return;
-    }
-    window.setTimeout(tick, POLL_MS);
+    return false;
   };
 
   const start = () => {
-    if (window.igData?.price?.getPriceByVariantId) {
-      tick();
-      return;
-    }
+    if (run()) return;
 
-    const onReady = () => tick();
+    const onReady = () => run();
     window.addEventListener('ig:ready', onReady, { once: true });
 
     if (Array.isArray(window.onIgReady)) {
@@ -105,7 +100,10 @@
       window.onIgReady = onReady;
     }
 
-    window.setTimeout(tick, MAX_WAIT_MS);
+    window.setTimeout(() => {
+      run();
+      reveal();
+    }, MAX_WAIT_MS);
   };
 
   start();
