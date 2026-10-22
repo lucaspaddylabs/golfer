@@ -313,12 +313,6 @@ component-swiper-slider.css
                   {%- endfor -%}
 
                 </div>
-
-                {%- if settings.cart_drawer_upsell_enable != false -%}
-                  <div class="gn-cart-upsell-slot">
-                    {%- render 'gn-cart-upsell' -%}
-                  </div>
-                {%- endif -%}
                 {%- endif -%}
           
                 <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
@@ -329,7 +323,16 @@ component-swiper-slider.css
           </cart-drawer-items>
         </div>
         <div class="drawer__footer-footer">
-          {%- comment -%} Sticky footer: totals + checkout only. Upsell scrolls with cart lines. {%- endcomment -%}
+          {%- if cart != empty and settings.cart_drawer_upsell_enable != false -%}
+            {%- capture gn_cart_upsell_html -%}
+              {%- render 'gn-cart-upsell' -%}
+            {%- endcapture -%}
+            {%- if gn_cart_upsell_html != blank -%}
+              <div class="gn-cart-upsell-pin">
+                {{ gn_cart_upsell_html }}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
 
           {%- liquid
             assign free_ship_threshold_cents = settings.free_delivery_price | times: 100
