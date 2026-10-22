@@ -1531,6 +1531,41 @@
       return stripCurrencyPrefix(result);
     };
 
+    const dollarsToCents = (value) => {
+      if (value == null || value === '') return null;
+      const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]/g, ''));
+      if (!Number.isFinite(num)) return null;
+      return Math.round(num * 100);
+    };
+
+    // Intelligems price API for custom PDP/bundle JS — see docs.intelligems.io price object.
+    const getIgPriceCents = (variantId) => {
+      try {
+        const raw = window.igData?.price?.getPriceByVariantId?.(variantId);
+        return dollarsToCents(raw);
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const getIgCompareCents = (variantId) => {
+      try {
+        const raw = window.igData?.price?.getComparePriceByVariantId?.(variantId);
+        return dollarsToCents(raw);
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const getVariantDisplayPrices = (variant) => {
+      const igPrice = getIgPriceCents(variant.id);
+      const igCompare = getIgCompareCents(variant.id);
+      const price = igPrice != null ? igPrice : variant.price;
+      let compareAt = igCompare != null ? igCompare : variant.compare_at_price;
+      if (!compareAt || compareAt <= price) compareAt = null;
+      return { price, compareAt };
+    };
+
     const findVariant = () => {
       if (!optionInputs.length) return variants.find((variant) => variant.id === Number(variantInput?.value)) || variants[0];
       const selected = [];
@@ -1611,16 +1646,17 @@
       if (!variant) return;
       if (variantInput) variantInput.value = variant.id;
       syncIgPriceIds(variant.id);
-      if (priceNode) priceNode.textContent = formatMoney(variant.price);
-      if (stickyPrice) stickyPrice.textContent = formatMoney(variant.price);
-      const hasCompare = variant.compare_at_price && variant.compare_at_price > variant.price;
+      const { price, compareAt } = getVariantDisplayPrices(variant);
+      if (priceNode) priceNode.textContent = formatMoney(price);
+      if (stickyPrice) stickyPrice.textContent = formatMoney(price);
+      const hasCompare = compareAt && compareAt > price;
       if (compareNode) {
         compareNode.hidden = !hasCompare;
-        compareNode.textContent = hasCompare ? formatMoney(variant.compare_at_price) : '';
+        compareNode.textContent = hasCompare ? formatMoney(compareAt) : '';
       }
       if (saleBadge) {
         saleBadge.hidden = !hasCompare;
-        if (hasCompare) saleBadge.textContent = 'SAVE ' + formatMoney(variant.compare_at_price - variant.price);
+        if (hasCompare) saleBadge.textContent = 'SAVE ' + formatMoney(compareAt - price);
       }
       if (submitButton) {
         submitButton.disabled = !variant.available;
@@ -1630,10 +1666,10 @@
       if (paymentButton) paymentButton.hidden = !variant.available;
       if (stickyButton) {
         stickyButton.disabled = !variant.available;
-        if (stickySalePrice) stickySalePrice.textContent = variant.available ? formatMoney(variant.price) : '';
+        if (stickySalePrice) stickySalePrice.textContent = variant.available ? formatMoney(price) : '';
         if (stickyCompare) {
           stickyCompare.hidden = !hasCompare || !variant.available;
-          if (hasCompare) stickyCompare.textContent = formatMoney(variant.compare_at_price);
+          if (hasCompare) stickyCompare.textContent = formatMoney(compareAt);
         }
       }
       if (variant.featured_media && variant.featured_media.id) showMedia(variant.featured_media.id);
@@ -1645,16 +1681,10 @@
     const bundleCards = [...section.querySelectorAll('[data-gn-bundle]')];
     const qtyInput = section.querySelector('#Quantity-{{ section.id }}');
 
-    const getBundleUnitCompare = (variant) => {
-      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-        return variant.compare_at_price;
-      }
-      return variant.price;
-    };
-
     const getBundleTotals = (variant, qty, volumeSaveCents) => {
-      const unitCompare = getBundleUnitCompare(variant);
-      const bundleTotal = variant.price * qty - volumeSaveCents;
+      const { price, compareAt } = getVariantDisplayPrices(variant);
+      const unitCompare = compareAt && compareAt > price ? compareAt : price;
+      const bundleTotal = price * qty - volumeSaveCents;
       const bundleWas = unitCompare * qty;
       const totalSave = Math.max(0, bundleWas - bundleTotal);
       return { bundleTotal, bundleWas, totalSave };
@@ -1831,14 +1861,31 @@
       });
     }
 
-    updateVariant();
-    refreshBundleCards();
-    const selectedBundle = section.querySelector('[data-gn-bundle].is-selected');
-    if (selectedBundle) {
-      applyBundlePricing(
-        Number(selectedBundle.dataset.bundleQty) || 1,
-        Number(selectedBundle.dataset.bundleSave) || 0
-      );
+    const syncSelectedPricing = () => {
+      updateVariant();
+      refreshBundleCards();
+      const selectedBundle = section.querySelector('[data-gn-bundle].is-selected');
+      if (selectedBundle) {
+        applyBundlePricing(
+          Number(selectedBundle.dataset.bundleQty) || 1,
+          Number(selectedBundle.dataset.bundleSave) || 0
+        );
+      }
+    };
+
+    syncSelectedPricing();
+
+    const onIgReady = () => syncSelectedPricing();
+    window.addEventListener('ig:ready', onIgReady);
+    if (window.igData?.price) {
+      syncSelectedPricing();
+    } else if (Array.isArray(window.onIgReady)) {
+      window.onIgReady.push(onIgReady);
+    } else if (typeof window.onIgReady === 'function') {
+      const prev = window.onIgReady;
+      window.onIgReady = [prev, onIgReady];
+    } else {
+      window.onIgReady = onIgReady;
     }
   })();
 </script>
