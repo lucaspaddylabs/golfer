@@ -213,14 +213,44 @@ class CartDrawerUpsell extends HTMLElement {
     this.prevBtn = this.querySelector('[data-upsell-prev]');
     this.nextBtn = this.querySelector('[data-upsell-next]');
 
-    this.prevBtn?.addEventListener('click', () => this.scrollBy(-1));
-    this.nextBtn?.addEventListener('click', () => this.scrollBy(1));
-    this.scroller?.addEventListener('scroll', () => this.updateNav(), { passive: true });
-    window.addEventListener('resize', this._onResize = () => this.updateNav());
+    this._onPrev = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.scrollCarousel(-1);
+    };
+    this._onNext = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.scrollCarousel(1);
+    };
+    this._onScroll = () => this.updateNav();
+    this._onResize = () => this.updateNav();
 
-    // Start flush left so the first card isn't clipped
+    this.prevBtn?.addEventListener('click', this._onPrev);
+    this.nextBtn?.addEventListener('click', this._onNext);
+    this.scroller?.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onResize);
+
+    if (this.scroller && typeof ResizeObserver !== 'undefined') {
+      this._resizeObserver = new ResizeObserver(() => this.updateNav());
+      this._resizeObserver.observe(this.scroller);
+    }
+
+    // Start flush left; refresh nav after layout (drawer may open later)
     if (this.scroller) this.scroller.scrollLeft = 0;
-    this.updateNav();
+    requestAnimationFrame(() => this.updateNav());
+    window.setTimeout(() => this.updateNav(), 100);
+
+    const drawer = this.closest('cart-drawer');
+    if (drawer) {
+      this._drawerObserver = new MutationObserver(() => {
+        if (drawer.classList.contains('active') || drawer.classList.contains('animate')) {
+          if (this.scroller && this.scroller.scrollLeft < 0) this.scroller.scrollLeft = 0;
+          this.updateNav();
+        }
+      });
+      this._drawerObserver.observe(drawer, { attributes: true, attributeFilter: ['class'] });
+    }
 
     this.querySelectorAll('[data-upsell-variant]').forEach((swatch) => {
       swatch.addEventListener('click', () => {
@@ -240,33 +270,53 @@ class CartDrawerUpsell extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.prevBtn?.removeEventListener('click', this._onPrev);
+    this.nextBtn?.removeEventListener('click', this._onNext);
+    this.scroller?.removeEventListener('scroll', this._onScroll);
     if (this._onResize) window.removeEventListener('resize', this._onResize);
+    this._resizeObserver?.disconnect();
+    this._drawerObserver?.disconnect();
   }
 
-  scrollBy(direction) {
-    if (!this.scroller) return;
+  scrollCarousel(direction) {
+    const scroller = this.scroller || this.querySelector('[data-upsell-viewport]');
+    if (!scroller) return;
+
     const slide = this.querySelector('[data-upsell-slide]');
-    const step = slide ? slide.getBoundingClientRect().width + 6 : this.scroller.clientWidth * 0.7;
-    this.scroller.scrollBy({ left: direction * step * 2, behavior: 'smooth' });
-    window.setTimeout(() => this.updateNav(), 320);
+    const gap = 6;
+    const cardWidth = slide ? slide.offsetWidth + gap : 78;
+    const delta = direction * cardWidth * 2;
+    const maxScroll = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+    const nextLeft = Math.max(0, Math.min(maxScroll, scroller.scrollLeft + delta));
+
+    if (typeof scroller.scrollTo === 'function') {
+      scroller.scrollTo({ left: nextLeft, behavior: 'smooth' });
+    } else {
+      scroller.scrollLeft = nextLeft;
+    }
+    window.setTimeout(() => this.updateNav(), 350);
   }
 
   updateNav() {
-    if (!this.scroller) return;
-    const maxScroll = this.scroller.scrollWidth - this.scroller.clientWidth;
-    const atStart = this.scroller.scrollLeft <= 2;
-    const atEnd = this.scroller.scrollLeft >= maxScroll - 2;
+    const scroller = this.scroller || this.querySelector('[data-upsell-viewport]');
+    const prevBtn = this.prevBtn || this.querySelector('[data-upsell-prev]');
+    const nextBtn = this.nextBtn || this.querySelector('[data-upsell-next]');
+    if (!scroller) return;
+
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+    const atStart = scroller.scrollLeft <= 2;
+    const atEnd = scroller.scrollLeft >= maxScroll - 2;
     const canScroll = maxScroll > 4;
 
-    if (this.prevBtn) {
-      this.prevBtn.disabled = !canScroll || atStart;
-      this.prevBtn.setAttribute('aria-disabled', String(!canScroll || atStart));
-      this.prevBtn.hidden = !canScroll;
+    if (prevBtn) {
+      prevBtn.disabled = !canScroll || atStart;
+      prevBtn.setAttribute('aria-disabled', String(!canScroll || atStart));
+      prevBtn.toggleAttribute('hidden', !canScroll);
     }
-    if (this.nextBtn) {
-      this.nextBtn.disabled = !canScroll || atEnd;
-      this.nextBtn.setAttribute('aria-disabled', String(!canScroll || atEnd));
-      this.nextBtn.hidden = !canScroll;
+    if (nextBtn) {
+      nextBtn.disabled = !canScroll || atEnd;
+      nextBtn.setAttribute('aria-disabled', String(!canScroll || atEnd));
+      nextBtn.toggleAttribute('hidden', !canScroll);
     }
   }
 

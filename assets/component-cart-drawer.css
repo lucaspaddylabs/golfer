@@ -920,8 +920,15 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 .gn-cart-upsell-pin .gn-cart-upsell__nav[disabled],
 .gn-cart-upsell-pin .gn-cart-upsell__nav[aria-disabled="true"] {
   opacity: 0.25;
-  pointer-events: none;
   cursor: default;
+}
+#CartDrawer .gn-cart-upsell__nav[hidden],
+.gn-cart-upsell-pin .gn-cart-upsell__nav[hidden] {
+  display: none !important;
+}
+#CartDrawer .gn-cart-upsell__nav svg,
+.gn-cart-upsell-pin .gn-cart-upsell__nav svg {
+  pointer-events: none;
 }
 #CartDrawer .gn-cart-upsell__scroller,
 .gn-cart-upsell-pin .gn-cart-upsell__scroller {
