@@ -180,7 +180,11 @@ component-swiper-slider.css
                         <div class="drawer__cart-item__details__items body3 mt--first-child-0">
                           <a href="{{ item.url }}" class="h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
-                          <div class="cart-item__unit-price">{{ item.final_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
+                          {%- comment -%}
+                            Show the pre-discount unit price so Intelligems group price stays stable when
+                            Buy More Save More automatic discounts ($15 / $30) apply on the line total.
+                          {%- endcomment -%}
+                          <div class="cart-item__unit-price">{{ item.original_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
                           {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
                           <dl class="mt3">
                             {%- if item.product.has_only_default_variant == false -%}
