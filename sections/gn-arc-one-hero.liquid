@@ -1028,6 +1028,10 @@
     text-decoration: line-through;
     font-size: 0.65rem;
   }
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-was[hidden],
+  #shopify-section-{{ section.id }} .gn-arc-hero__bundle-save[hidden] {
+    display: none !important;
+  }
   #shopify-section-{{ section.id }} .gn-arc-hero__bundle-save {
     position: absolute;
     left: 50%;
@@ -1210,16 +1214,26 @@
                 <p class="gn-arc-hero__bundles-heading">Buy more, save more</p>
                 <div class="gn-arc-hero__bundle-grid">
                   {%- for block in bundle_blocks -%}
-                    {%- assign bundle_qty = block.settings.quantity -%}
-                    {%- assign bundle_unit_price = current_variant.price -%}
-                    {%- assign bundle_save_cents = block.settings.save_amount | times: 100 -%}
-                    {%- assign bundle_total = bundle_unit_price | times: bundle_qty | minus: bundle_save_cents -%}
-                    {%- assign bundle_was = bundle_unit_price | times: bundle_qty -%}
+                    {%- liquid
+                      assign bundle_qty = block.settings.quantity
+                      assign bundle_unit_price = current_variant.price
+                      assign bundle_unit_compare = current_variant.compare_at_price
+                      if bundle_unit_compare == blank or bundle_unit_compare <= bundle_unit_price
+                        assign bundle_unit_compare = bundle_unit_price
+                      endif
+                      assign bundle_volume_save_cents = block.settings.save_amount | times: 100
+                      assign bundle_total = bundle_unit_price | times: bundle_qty | minus: bundle_volume_save_cents
+                      assign bundle_was = bundle_unit_compare | times: bundle_qty
+                      assign bundle_total_save_cents = bundle_was | minus: bundle_total
+                      if bundle_total_save_cents < 0
+                        assign bundle_total_save_cents = 0
+                      endif
+                    -%}
                     <div
                       class="gn-arc-hero__bundle-card{% if block.settings.popular %} is-popular{% endif %}{% if block.settings.best_value %} is-best-value{% endif %}{% if bundle_qty == 1 %} is-selected{% endif %}"
                       data-gn-bundle
                       data-bundle-qty="{{ bundle_qty }}"
-                      data-bundle-save="{{ bundle_save_cents }}"
+                      data-bundle-save="{{ bundle_volume_save_cents }}"
                       {{ block.shopify_attributes }}
                     >
                       <span class="gn-arc-hero__bundle-check{% if block.settings.popular %} gn-arc-hero__bundle-check--popular{% endif %}{% if block.settings.best_value %} gn-arc-hero__bundle-check--best-value{% endif %}" aria-hidden="true">
@@ -1234,13 +1248,9 @@
                       <p class="gn-arc-hero__bundle-desc">{{ bundle_qty }} x {{ product.title }}</p>
                       <div class="gn-arc-hero__bundle-price-row">
                         <p class="gn-arc-hero__bundle-price" data-gn-bundle-price>{{ bundle_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
-                        {%- if bundle_save_cents > 0 -%}
-                          <span class="gn-arc-hero__bundle-was" data-gn-bundle-was>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                        {%- endif -%}
+                        <span class="gn-arc-hero__bundle-was" data-gn-bundle-was{% if bundle_total_save_cents <= 0 %} hidden{% endif %}>{{ bundle_was | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                       </div>
-                      {%- if bundle_save_cents > 0 -%}
-                        <span class="gn-arc-hero__bundle-save">SAVE {{ bundle_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                      {%- endif -%}
+                      <span class="gn-arc-hero__bundle-save" data-gn-bundle-save{% if bundle_total_save_cents <= 0 %} hidden{% endif %}>SAVE {{ bundle_total_save_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                     </div>
                   {%- endfor -%}
                 </div>
@@ -1622,40 +1632,71 @@
     const bundleCards = [...section.querySelectorAll('[data-gn-bundle]')];
     const qtyInput = section.querySelector('#Quantity-{{ section.id }}');
 
-    const applyBundlePricing = (qty, saveAmountCents) => {
+    const getBundleUnitCompare = (variant) => {
+      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+        return variant.compare_at_price;
+      }
+      return variant.price;
+    };
+
+    const getBundleTotals = (variant, qty, volumeSaveCents) => {
+      const unitCompare = getBundleUnitCompare(variant);
+      const bundleTotal = variant.price * qty - volumeSaveCents;
+      const bundleWas = unitCompare * qty;
+      const totalSave = Math.max(0, bundleWas - bundleTotal);
+      return { bundleTotal, bundleWas, totalSave };
+    };
+
+    const refreshBundleCards = () => {
       const variant = findVariant();
       if (!variant) return;
-      const bundleTotal = variant.price * qty - saveAmountCents;
-      const bundleWas = variant.price * qty;
-      const hasBundleDiscount = saveAmountCents > 0;
-      const hasVariantSale = variant.compare_at_price && variant.compare_at_price > variant.price;
+      bundleCards.forEach((card) => {
+        const qty = Number(card.dataset.bundleQty) || 1;
+        const volumeSaveCents = Number(card.dataset.bundleSave) || 0;
+        const { bundleTotal, bundleWas, totalSave } = getBundleTotals(variant, qty, volumeSaveCents);
+        const priceEl = card.querySelector('[data-gn-bundle-price]');
+        const wasEl = card.querySelector('[data-gn-bundle-was]');
+        const saveEl = card.querySelector('[data-gn-bundle-save]');
+        if (priceEl) priceEl.textContent = formatMoney(bundleTotal);
+        if (wasEl) {
+          wasEl.hidden = totalSave <= 0;
+          wasEl.textContent = formatMoney(bundleWas);
+        }
+        if (saveEl) {
+          saveEl.hidden = totalSave <= 0;
+          saveEl.textContent = 'SAVE ' + formatMoney(totalSave);
+        }
+      });
+    };
+
+    const applyBundlePricing = (qty, volumeSaveCents) => {
+      const variant = findVariant();
+      if (!variant) return;
+      const { bundleTotal, bundleWas, totalSave } = getBundleTotals(variant, qty, volumeSaveCents);
+      const hasSavings = totalSave > 0;
 
       if (priceNode) priceNode.textContent = formatMoney(bundleTotal);
 
-      if (hasBundleDiscount) {
-        if (compareNode) { compareNode.hidden = false; compareNode.textContent = formatMoney(bundleWas); }
-        if (saleBadge) { saleBadge.hidden = false; saleBadge.textContent = 'SAVE ' + formatMoney(saveAmountCents); }
-      } else {
-        if (compareNode) {
-          compareNode.hidden = !hasVariantSale;
-          compareNode.textContent = hasVariantSale ? formatMoney(variant.compare_at_price) : '';
-        }
-        if (saleBadge) {
-          saleBadge.hidden = !hasVariantSale;
-          if (hasVariantSale) saleBadge.textContent = 'SAVE ' + formatMoney(variant.compare_at_price - variant.price);
-        }
+      if (compareNode) {
+        compareNode.hidden = !hasSavings;
+        compareNode.textContent = hasSavings ? formatMoney(bundleWas) : '';
+      }
+      if (saleBadge) {
+        saleBadge.hidden = !hasSavings;
+        if (hasSavings) saleBadge.textContent = 'SAVE ' + formatMoney(totalSave);
       }
 
       if (stickyPrice) stickyPrice.textContent = formatMoney(bundleTotal);
       if (stickySalePrice) stickySalePrice.textContent = formatMoney(bundleTotal);
       if (stickyCompare) {
-        stickyCompare.hidden = !hasBundleDiscount;
-        if (hasBundleDiscount) stickyCompare.textContent = formatMoney(bundleWas);
+        stickyCompare.hidden = !hasSavings;
+        if (hasSavings) stickyCompare.textContent = formatMoney(bundleWas);
       }
     };
 
     optionInputs.forEach((input) => input.addEventListener('change', () => {
       updateVariant();
+      refreshBundleCards();
       const selected = section.querySelector('[data-gn-bundle].is-selected');
       if (selected) {
         const qty = Number(selected.dataset.bundleQty) || 1;
@@ -1778,6 +1819,14 @@
     }
 
     updateVariant();
+    refreshBundleCards();
+    const selectedBundle = section.querySelector('[data-gn-bundle].is-selected');
+    if (selectedBundle) {
+      applyBundlePricing(
+        Number(selectedBundle.dataset.bundleQty) || 1,
+        Number(selectedBundle.dataset.bundleSave) || 0
+      );
+    }
   })();
 </script>
 
@@ -1897,7 +1946,7 @@
       "limit": 4,
       "settings": [
         { "type": "number", "id": "quantity", "label": "Quantity", "default": 1 },
-        { "type": "number", "id": "save_amount", "label": "Save amount ($)", "default": 0, "info": "Discount in dollars off the total for this tier." },
+        { "type": "number", "id": "save_amount", "label": "Volume save amount ($)", "default": 0, "info": "Extra dollars off this tier on top of sale pricing. Compare-at and SAVE badges use (compare-at × qty) − offer price." },
         { "type": "checkbox", "id": "popular", "label": "Show 'Most Popular' badge", "default": false },
         { "type": "checkbox", "id": "best_value", "label": "Show 'Best Value' badge", "default": false }
       ]
