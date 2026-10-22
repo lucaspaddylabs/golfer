@@ -318,10 +318,10 @@
     "show_vendor": true,
     "cart_drawer_collection": "accessories",
     "cart_drawer_image_ratio": "auto",
+    "cart_estimated_shipping": "4.99",
     "continue_shopping_link": "shopify://collections/all",
     "show_free_delivery": true,
     "free_delivery_price": "50",
-    "cart_estimated_shipping": "4.99",
     "color_free_delivery_bar": "#1d3d2a",
     "color_free_delivery_bar_full": "#1d3d2a",
     "color_free_delivery_bar_text": "rgba(0,0,0,0)",
@@ -426,6 +426,11 @@
       "9241046253743163954": {
         "type": "shopify://apps/sticky-add-to-cart-bar/blocks/app-embed/e98261d9-7a53-483b-8aaa-054afd5be639",
         "disabled": true,
+        "settings": {}
+      },
+      "1877152918344802950": {
+        "type": "shopify://apps/intelligems-a-b-testing/blocks/intelligems-script/fa83b64c-0c77-4c0c-b4b2-b94b42f5ef19",
+        "disabled": false,
         "settings": {}
       }
     }
