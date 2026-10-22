@@ -166,10 +166,18 @@
       <div class="gn-cart-upsell__header text-center">
         <h6 class="gn-cart-upsell__heading mt0 mb0 text-center">Frequently Bought With</h6>
       </div>
-      <div class="gn-cart-upsell__scroller" data-upsell-viewport>
-        <div class="gn-cart-upsell__track" data-upsell-track>
-          {{ upsell_slides }}
+      <div class="gn-cart-upsell__row">
+        <button type="button" class="gn-cart-upsell__nav gn-cart-upsell__nav--prev" data-upsell-prev aria-label="Previous products">
+          {%- render 'icon-arrow-left' -%}
+        </button>
+        <div class="gn-cart-upsell__scroller" data-upsell-viewport>
+          <div class="gn-cart-upsell__track" data-upsell-track>
+            {{ upsell_slides }}
+          </div>
         </div>
+        <button type="button" class="gn-cart-upsell__nav gn-cart-upsell__nav--next" data-upsell-next aria-label="Next products">
+          {%- render 'icon-arrow-right' -%}
+        </button>
       </div>
     </cart-drawer-upsell>
   {%- endif -%}

@@ -209,6 +209,18 @@ customElements.define('cart-drawer-items', CartDrawerItems);
 class CartDrawerUpsell extends HTMLElement {
   connectedCallback() {
     this.adding = false;
+    this.scroller = this.querySelector('[data-upsell-viewport]');
+    this.prevBtn = this.querySelector('[data-upsell-prev]');
+    this.nextBtn = this.querySelector('[data-upsell-next]');
+
+    this.prevBtn?.addEventListener('click', () => this.scrollBy(-1));
+    this.nextBtn?.addEventListener('click', () => this.scrollBy(1));
+    this.scroller?.addEventListener('scroll', () => this.updateNav(), { passive: true });
+    window.addEventListener('resize', this._onResize = () => this.updateNav());
+
+    // Start flush left so the first card isn't clipped
+    if (this.scroller) this.scroller.scrollLeft = 0;
+    this.updateNav();
 
     this.querySelectorAll('[data-upsell-variant]').forEach((swatch) => {
       swatch.addEventListener('click', () => {
@@ -225,6 +237,37 @@ class CartDrawerUpsell extends HTMLElement {
     this.querySelectorAll('[data-upsell-add]').forEach((button) => {
       button.addEventListener('click', (event) => this.add(event.currentTarget));
     });
+  }
+
+  disconnectedCallback() {
+    if (this._onResize) window.removeEventListener('resize', this._onResize);
+  }
+
+  scrollBy(direction) {
+    if (!this.scroller) return;
+    const slide = this.querySelector('[data-upsell-slide]');
+    const step = slide ? slide.getBoundingClientRect().width + 6 : this.scroller.clientWidth * 0.7;
+    this.scroller.scrollBy({ left: direction * step * 2, behavior: 'smooth' });
+    window.setTimeout(() => this.updateNav(), 320);
+  }
+
+  updateNav() {
+    if (!this.scroller) return;
+    const maxScroll = this.scroller.scrollWidth - this.scroller.clientWidth;
+    const atStart = this.scroller.scrollLeft <= 2;
+    const atEnd = this.scroller.scrollLeft >= maxScroll - 2;
+    const canScroll = maxScroll > 4;
+
+    if (this.prevBtn) {
+      this.prevBtn.disabled = !canScroll || atStart;
+      this.prevBtn.setAttribute('aria-disabled', String(!canScroll || atStart));
+      this.prevBtn.hidden = !canScroll;
+    }
+    if (this.nextBtn) {
+      this.nextBtn.disabled = !canScroll || atEnd;
+      this.nextBtn.setAttribute('aria-disabled', String(!canScroll || atEnd));
+      this.nextBtn.hidden = !canScroll;
+    }
   }
 
   add(button) {

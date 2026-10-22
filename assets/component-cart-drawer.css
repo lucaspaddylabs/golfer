@@ -852,7 +852,7 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   color: var(--gn-ink);
 }
 
-/* Frequently Bought With — compact pinned strip, centered when short */
+/* Frequently Bought With — compact pinned strip, left-aligned with scroll arrows */
 #CartDrawer .gn-cart-upsell,
 .gn-cart-upsell-pin .gn-cart-upsell {
   display: block;
@@ -879,14 +879,59 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   text-align: center !important;
   color: var(--gn-ink);
 }
+#CartDrawer .gn-cart-upsell__row,
+.gn-cart-upsell-pin .gn-cart-upsell__row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+#CartDrawer .gn-cart-upsell__nav,
+.gn-cart-upsell-pin .gn-cart-upsell__nav {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gn-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.75;
+}
+#CartDrawer .gn-cart-upsell__nav:hover,
+.gn-cart-upsell-pin .gn-cart-upsell__nav:hover {
+  opacity: 1;
+  color: var(--gn-accent);
+}
+#CartDrawer .gn-cart-upsell__nav svg,
+.gn-cart-upsell-pin .gn-cart-upsell__nav svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+#CartDrawer .gn-cart-upsell__nav svg path,
+.gn-cart-upsell-pin .gn-cart-upsell__nav svg path {
+  fill: currentColor;
+}
+#CartDrawer .gn-cart-upsell__nav[disabled],
+#CartDrawer .gn-cart-upsell__nav[aria-disabled="true"],
+.gn-cart-upsell-pin .gn-cart-upsell__nav[disabled],
+.gn-cart-upsell-pin .gn-cart-upsell__nav[aria-disabled="true"] {
+  opacity: 0.25;
+  pointer-events: none;
+  cursor: default;
+}
 #CartDrawer .gn-cart-upsell__scroller,
 .gn-cart-upsell-pin .gn-cart-upsell__scroller {
-  display: flex;
-  justify-content: center;
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   padding: 0;
   overflow-x: auto;
   overflow-y: hidden;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -901,11 +946,10 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 .gn-cart-upsell-pin .gn-cart-upsell__track {
   display: flex;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 6px;
   width: max-content;
-  min-width: 100%;
-  margin: 0 auto;
+  margin: 0;
   box-sizing: border-box;
 }
 .gn-cart-upsell__slide {
