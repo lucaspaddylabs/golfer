@@ -22,20 +22,23 @@
   else
   assign size_value = "h5"
   endif
+
+  assign ig_product_id = product.id
+  assign ig_variant_id = product.selected_or_first_available_variant.id
 -%}
-<div class="price__container">
+<div class="price__container" data-product-id="{{ ig_product_id }}" data-variant-id="{{ ig_variant_id }}">
   <div class="price">
     {%- if compare_at_price == blank or compare_at_price <= price -%}
-    <div class="{{ size_value }} price__main">{{ money_price }}</div>
+    <div class="{{ size_value }} price__main" data-product-id="{{ ig_product_id }}" data-variant-id="{{ ig_variant_id }}">{{ money_price }}</div>
     {%- else -%}
-    <div class="price__regular body3">
+    <div class="price__regular body3" data-product-id="{{ ig_product_id }}" data-variant-id="{{ ig_variant_id }}">
       {% if settings.currency_code_enabled %}
       {{ compare_at_price | money_with_currency }}
       {% else %}
       {{ compare_at_price | money }}
       {% endif %}
     </div>
-    <div class="price__sale {{ size_value }} mt3">{{ money_price }}</div>
+    <div class="price__sale {{ size_value }} mt3" data-product-id="{{ ig_product_id }}" data-variant-id="{{ ig_variant_id }}">{{ money_price }}</div>
     {%- endif -%}
   </div>
   <div class="unit-price body3{% if product.selected_or_first_available_variant.unit_price_measurement == nil %} hide{% endif %}">

@@ -87,7 +87,13 @@
 {%- if target.compare_at_price > target.price -%}
 {%- if template.name == 'collection' -%}
 {%- capture save_amount -%}{%- render 'badge-sale-amount', target: target -%}{%- endcapture -%}
-<span class="badges-item__medium badges-item__sale badges-item__sale__counter">Save {{ save_amount }}</span>
+<span
+  class="badges-item__medium badges-item__sale badges-item__sale__counter"
+  data-ig-save-badge
+  data-product-id="{{ product_card_product.id }}"
+  data-variant-id="{{ target.id }}"
+  data-compare-cents="{{ target.compare_at_price }}"
+>Save {{ save_amount }}</span>
 {%- else -%}
 {%- capture percent -%}{%- render 'badge-sale-percent', target:target -%}{%- endcapture -%}
 {%- if settings.badge_sale_type == "text" -%}
