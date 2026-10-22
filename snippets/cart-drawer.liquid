@@ -135,8 +135,13 @@ component-swiper-slider.css
                       assign cart_item_save = item.line_level_total_discount
                     endif
                     assign cart_item_alloc = 0
+                    assign cart_item_volume_save = 0
                     for allocation in item.discount_allocations
                       assign cart_item_alloc = cart_item_alloc | plus: allocation.amount
+                      assign disc_title = allocation.discount_application.title | default: '' | downcase
+                      if disc_title contains 'arc one - 2' or disc_title contains 'arc one - 3' or disc_title contains 'link one -' or disc_title contains 'trace one -' or disc_title contains 'line one -'
+                        assign cart_item_volume_save = cart_item_volume_save | plus: allocation.amount
+                      endif
                     endfor
                     if cart_item_alloc > cart_item_save
                       assign cart_item_save = cart_item_alloc
@@ -144,6 +149,11 @@ component-swiper-slider.css
                     assign cart_item_pay = item.original_line_price | minus: cart_item_save
                     if cart_item_pay < 0
                       assign cart_item_pay = 0
+                    endif
+                    # Keep per-unit at Intelligems/group price when volume autos ($15/$30) cut the line total.
+                    assign cart_item_unit_display = item.final_line_price | plus: cart_item_volume_save | divided_by: item.quantity
+                    if cart_item_unit_display <= 0
+                      assign cart_item_unit_display = item.final_price
                     endif
                   -%}
                   <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
@@ -180,11 +190,7 @@ component-swiper-slider.css
                         <div class="drawer__cart-item__details__items body3 mt--first-child-0">
                           <a href="{{ item.url }}" class="h6 cart-item__heading animation-underline">{{ item.product.title | escape }}</a>
 
-                          {%- comment -%}
-                            Show the pre-discount unit price so Intelligems group price stays stable when
-                            Buy More Save More automatic discounts ($15 / $30) apply on the line total.
-                          {%- endcomment -%}
-                          <div class="cart-item__unit-price">{{ item.original_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
+                          <div class="cart-item__unit-price">{{ cart_item_unit_display | money | replace: 'US$', '$' | replace: 'US $', '$' }}</div>
                           {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
                           <dl class="mt3">
                             {%- if item.product.has_only_default_variant == false -%}
