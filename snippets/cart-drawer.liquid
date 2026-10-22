@@ -348,9 +348,9 @@ component-swiper-slider.css
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
               <div class="totals gn-cart-totals">
                 <div class="gn-cart-totals__row">
-                  <span class="gn-cart-totals__label">{{ 'sections.cart.subtotal' | t | remove: ':' | strip }}</span>
+                  <span class="gn-cart-totals__label">Subtotal</span>
                   {%- if cart.original_total_price > cart.total_price -%}
-                    <span class="gn-cart-totals__value totals__subtotal-value--sale">
+                    <span class="gn-cart-totals__value">
                       <span class="totals__price">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                       <s class="totals__compare">{{ cart.original_total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                     </span>
@@ -364,21 +364,22 @@ component-swiper-slider.css
                     {%- if qualifies_free_shipping -%}
                       Free
                     {%- else -%}
-                      {{ estimated_shipping_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                      +{{ estimated_shipping_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
                     {%- endif -%}
                   </span>
                 </div>
+                <div class="gn-cart-totals__divider" aria-hidden="true"></div>
                 <div class="gn-cart-totals__row gn-cart-totals__row--order">
                   <span class="gn-cart-totals__label">Order total</span>
                   <span class="gn-cart-totals__value">{{ order_total_with_shipping | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                 </div>
               </div>
-  
+
               {% if settings.show_installments %}
                 <span class="cart__summary-item cart__installments display-block body2 mt10">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
               {% endif %}
               {%- if cart.cart_level_discount_applications.size > 0 -%}
-              <div class="mt10">
+              <div class="mt8">
                 <ul class="discounts unstyle-ul body3" role="list" aria-label="{{ 'customer.order.discount' | t }}">
                   {%- for discount in cart.cart_level_discount_applications -%}
                   <li class="discounts__discount cart-item-message__content">
@@ -390,17 +391,17 @@ component-swiper-slider.css
               </div>
               {%- endif -%}
 
-              <div class="tax-note mt10">
+              <p class="gn-cart-totals__note">
                 {%- if qualifies_free_shipping -%}
                   Free shipping unlocked. Taxes calculated at checkout.
                 {%- else -%}
-                  Shipping estimate. Final shipping &amp; taxes calculated at checkout.
+                  Shipping estimate. Taxes calculated at checkout.
                 {%- endif -%}
-              </div>
+              </p>
             </div>
-  
+
             {%- if settings.terms_and_condition_checkbox -%}
-            <terms_and_condition-checkbox class="mt20 display-block">
+            <terms_and_condition-checkbox class="mt12 display-block">
               <label for="product-terms_and_condition_checkbox-{{ section.id }}" class="checkbox-input body2">
                 <input id="product-terms_and_condition_checkbox-{{ section.id }}"
                        type="checkbox">
@@ -416,14 +417,8 @@ component-swiper-slider.css
               </label>
             </terms_and_condition-checkbox>
             {%- endif -%}
-            <div class="drawer__inner__links gn-cart-continue">
-              <button class="link link--medium link-hover-span strong{% if settings.buttons_uppercase %} text-uppercase{% endif %}" type="button" onclick="this.closest('.popup-modal').close()" aria-label="{{ 'accessibility.close' | t }}">
-                {%- render "icon-arrow-left-2" -%}
-                <span>{{ 'general.continue_shopping' | t }}</span>
-              </button>
-            </div>
             {%- if settings.show_checkout_button -%}
-            <div class="mt8">
+            <div class="gn-cart-checkout-action">
               <button type="submit"
                       id="CartDrawer-Checkout"
                       class="btn btn--checkout w-full"
@@ -433,12 +428,18 @@ component-swiper-slider.css
                 <span>
                   Checkout
                   {%- if order_total_with_shipping > 0 -%}
-                    &nbsp;– {{ order_total_with_shipping | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                    &nbsp;— {{ order_total_with_shipping | money | replace: 'US$', '$' | replace: 'US $', '$' }}
                   {%- endif -%}
                 </span>
               </button>
             </div>
             {%- endif -%}
+            <div class="drawer__inner__links gn-cart-continue">
+              <button class="link link--medium link-hover-span{% if settings.buttons_uppercase %} text-uppercase{% endif %}" type="button" onclick="this.closest('.popup-modal').close()" aria-label="{{ 'accessibility.close' | t }}">
+                {%- render "icon-arrow-left-2" -%}
+                <span>{{ 'general.continue_shopping' | t }}</span>
+              </button>
+            </div>
             {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
             <div class="cart__dynamic-checkout-buttons additional-checkout-buttons additional-checkout-buttons--vertical mt10">{{ content_for_additional_checkout_buttons }}</div>
             {% endif %}

@@ -59,12 +59,12 @@
             <a class="gn-cart-upsell__media" href="{{ product.url }}" tabindex="-1">
               {%- if product.featured_media -%}
                 <img
-                  src="{{ product.featured_media | image_url: width: 240 }}"
-                  srcset="{{ product.featured_media | image_url: width: 160 }} 160w, {{ product.featured_media | image_url: width: 240 }} 240w"
-                  sizes="120px"
+                  src="{{ product.featured_media | image_url: width: 176 }}"
+                  srcset="{{ product.featured_media | image_url: width: 120 }} 120w, {{ product.featured_media | image_url: width: 176 }} 176w"
+                  sizes="88px"
                   alt="{{ product.featured_media.alt | default: product.title | escape }}"
-                  width="120"
-                  height="120"
+                  width="88"
+                  height="88"
                   loading="lazy"
                 >
               {%- endif -%}
