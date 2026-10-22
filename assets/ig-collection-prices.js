@@ -1,4 +1,8 @@
 (() => {
+  const READY_CLASS = 'ig-prices-ready';
+  const MAX_WAIT_MS = 2500;
+  const SETTLE_MS = 50;
+
   const dollarsToCents = (value) => {
     if (value == null || value === '') return null;
     const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]/g, ''));
@@ -36,18 +40,32 @@
     return true;
   };
 
-  const start = () => {
-    if (syncSaveBadges()) return;
-    let tries = 0;
-    const timer = setInterval(() => {
-      tries += 1;
-      if (syncSaveBadges() || tries > 50) clearInterval(timer);
-    }, 100);
+  let revealed = false;
+  const reveal = () => {
+    if (revealed) return;
+    revealed = true;
+    syncSaveBadges();
+    document.documentElement.classList.add(READY_CLASS);
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start, { once: true });
+  const revealAfterSettle = () => {
+    window.setTimeout(reveal, SETTLE_MS);
+  };
+
+  window.addEventListener('ig:ready', revealAfterSettle, { once: true });
+
+  if (Array.isArray(window.onIgReady)) {
+    window.onIgReady.push(revealAfterSettle);
+  } else if (typeof window.onIgReady === 'function') {
+    const prev = window.onIgReady;
+    window.onIgReady = [prev, revealAfterSettle];
   } else {
-    start();
+    window.onIgReady = revealAfterSettle;
   }
+
+  if (window.igData?.price?.getPriceByVariantId) {
+    revealAfterSettle();
+  }
+
+  window.setTimeout(reveal, MAX_WAIT_MS);
 })();

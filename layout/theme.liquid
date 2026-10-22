@@ -91,6 +91,19 @@
       })();
     </script>
     <script type="module" blocking="render" fetchpriority="high" src="https://cdn.intelligems.io/esm/5b9770039a80/bundle.js" data-em-disable async></script>
+    {%- comment -%} Hide tagged prices until Intelligems rewrites them (avoids catalog→test price blink). {%- endcomment -%}
+    <style id="ig-anti-flicker">
+      html:not(.ig-prices-ready) .price__container[data-variant-id],
+      html:not(.ig-prices-ready) [data-ig-save-badge],
+      html:not(.ig-prices-ready) [data-gn-price],
+      html:not(.ig-prices-ready) [data-gn-compare],
+      html:not(.ig-prices-ready) [data-gn-bundle-price],
+      html:not(.ig-prices-ready) [data-gn-bundle-was],
+      html:not(.ig-prices-ready) [data-gn-sticky-sale-price],
+      html:not(.ig-prices-ready) [data-gn-sticky-compare] {
+        visibility: hidden !important;
+      }
+    </style>
     <script src="{{ 'ig-collection-prices.js' | asset_url }}" defer></script>
 
     {%- render "head-styles" -%}
