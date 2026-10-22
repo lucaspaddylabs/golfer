@@ -54,6 +54,8 @@
 
     {{ content_for_header }}
 
+    {%- render 'intelligems' -%}
+
     {%- render "head-styles" -%}
     {%- render "style-grid" -%}
     {{ 'base.css' | asset_url | stylesheet_tag }}
