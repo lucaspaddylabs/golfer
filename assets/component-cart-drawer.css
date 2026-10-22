@@ -861,7 +861,7 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 }
 .gn-cart-upsell__header {
   margin-bottom: 5px;
-  text-align: left;
+  text-align: center;
 }
 .gn-cart-upsell__heading {
   font-size: 0.7rem;
