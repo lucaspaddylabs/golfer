@@ -371,18 +371,47 @@ component-swiper-slider.css
             {%- endif -%}
           </div>
 
+          {%- liquid
+            assign free_ship_threshold_cents = settings.free_delivery_price | times: 100
+            assign estimated_shipping_raw = settings.cart_estimated_shipping | default: '4.99'
+            assign estimated_shipping_cents = estimated_shipping_raw | times: 100
+            assign qualifies_free_shipping = false
+            if free_ship_threshold_cents > 0 and cart.total_price >= free_ship_threshold_cents
+              assign qualifies_free_shipping = true
+            endif
+            if qualifies_free_shipping
+              assign estimated_shipping_cents = 0
+            endif
+            assign order_total_with_shipping = cart.total_price | plus: estimated_shipping_cents
+          -%}
           <div class="cart__footer__information gn-cart-checkout-sticky">
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
-              <div class="totals">
-                <h4 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h4>
-                {%- if cart.original_total_price > cart.total_price -%}
-                  <p class="mt0 mb0 totals__subtotal-value totals__subtotal-value--sale">
-                    <span class="totals__price">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                    <s class="totals__compare">{{ cart.original_total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
-                  </p>
-                {%- else -%}
-                  <p class="mt0 mb0 totals__subtotal-value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</p>
-                {%- endif -%}
+              <div class="totals gn-cart-totals">
+                <div class="gn-cart-totals__row">
+                  <span class="gn-cart-totals__label">{{ 'sections.cart.subtotal' | t | remove: ':' | strip }}</span>
+                  {%- if cart.original_total_price > cart.total_price -%}
+                    <span class="gn-cart-totals__value totals__subtotal-value--sale">
+                      <span class="totals__price">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                      <s class="totals__compare">{{ cart.original_total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+                    </span>
+                  {%- else -%}
+                    <span class="gn-cart-totals__value">{{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                  {%- endif -%}
+                </div>
+                <div class="gn-cart-totals__row gn-cart-totals__row--shipping{% if qualifies_free_shipping %} is-free{% endif %}">
+                  <span class="gn-cart-totals__label">Shipping</span>
+                  <span class="gn-cart-totals__value">
+                    {%- if qualifies_free_shipping -%}
+                      Free
+                    {%- else -%}
+                      {{ estimated_shipping_cents | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                    {%- endif -%}
+                  </span>
+                </div>
+                <div class="gn-cart-totals__row gn-cart-totals__row--order">
+                  <span class="gn-cart-totals__label">Order total</span>
+                  <span class="gn-cart-totals__value">{{ order_total_with_shipping | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                </div>
               </div>
   
               {% if settings.show_installments %}
@@ -401,20 +430,13 @@ component-swiper-slider.css
               </div>
               {%- endif -%}
 
-              {%- capture _content -%}
-              {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
-              {{ 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
-              {%- elsif cart.taxes_included -%}
-              {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
-              {%- elsif shop.shipping_policy.body != blank -%}
-              {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
-              {%- else -%}
-              {{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}
-              {%- endif -%}
-              {%- endcapture -%}
-              {%- if _content != blank -%}
-              <div class="tax-note mt10">{{ _content }}</div>
-              {%- endif -%}
+              <div class="tax-note mt10">
+                {%- if qualifies_free_shipping -%}
+                  Free shipping unlocked. Taxes calculated at checkout.
+                {%- else -%}
+                  Shipping estimate. Final shipping &amp; taxes calculated at checkout.
+                {%- endif -%}
+              </div>
             </div>
   
             {%- if settings.terms_and_condition_checkbox -%}
@@ -450,8 +472,8 @@ component-swiper-slider.css
                       >
                 <span>
                   Checkout
-                  {%- if cart.total_price > 0 -%}
-                    &nbsp;– {{ cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                  {%- if order_total_with_shipping > 0 -%}
+                    &nbsp;– {{ order_total_with_shipping | money | replace: 'US$', '$' | replace: 'US $', '$' }}
                   {%- endif -%}
                 </span>
               </button>

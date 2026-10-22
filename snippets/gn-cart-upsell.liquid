@@ -1,6 +1,6 @@
 {%- comment -%}
-  Cart drawer accessory carousel (Buy 3 / get lowest free pairing).
-  Always cycles all three accessories. Progress bar tracks units toward free gift.
+  Cart drawer "Frequently Bought With" accessory strip.
+  Horizontal product cards (image + Add + title + price), matching the cart-drawer upsell pattern.
   Uses settings.cart_drawer_upsell_enable + cart_drawer_upsell_1/2/3.
 {%- endcomment -%}
 {%- unless settings.cart_drawer_upsell_enable == false -%}
@@ -17,22 +17,6 @@
     if upsell_3 == blank
       assign upsell_3 = all_products['golf-club-brush-groove-sharpener-tool']
     endif
-
-    assign gift_units = 0
-    for item in cart.items
-      if item.product_id == upsell_1.id or item.product_id == upsell_2.id or item.product_id == upsell_3.id
-        assign gift_units = gift_units | plus: item.quantity
-      endif
-    endfor
-    if gift_units >= 3
-      assign gift_state = 3
-    elsif gift_units == 2
-      assign gift_state = 2
-    elsif gift_units == 1
-      assign gift_state = 1
-    else
-      assign gift_state = 0
-    endif
   -%}
 
   {%- assign upsell_slide_count = 0 -%}
@@ -47,143 +31,116 @@
           when 3
             assign product = upsell_3
         endcase
+
+        if product == blank or product.id == blank
+          continue
+        endif
+
+        assign already_in_cart = false
+        for item in cart.items
+          if item.product_id == product.id
+            assign already_in_cart = true
+            break
+          endif
+        endfor
+        if already_in_cart
+          continue
+        endif
+
+        unless product.available
+          continue
+        endunless
+
+        assign selected_variant = product.selected_or_first_available_variant
+        assign upsell_slide_count = upsell_slide_count | plus: 1
       -%}
-      {%- if product != blank -%}
-        {%- assign selected_variant = product.selected_or_first_available_variant -%}
-        {%- assign upsell_slide_count = upsell_slide_count | plus: 1 -%}
-        <div class="gn-cart-upsell__slide" data-upsell-slide>
-          <div class="gn-cart-upsell__card">
-            <a class="gn-cart-upsell__media" href="{{ product.url }}">
+      <div class="gn-cart-upsell__slide" data-upsell-slide>
+        <div class="gn-cart-upsell__card">
+          <div class="gn-cart-upsell__media-wrap">
+            <a class="gn-cart-upsell__media" href="{{ product.url }}" tabindex="-1">
               {%- if product.featured_media -%}
                 <img
-                  src="{{ product.featured_media | image_url: width: 160 }}"
+                  src="{{ product.featured_media | image_url: width: 280 }}"
+                  srcset="{{ product.featured_media | image_url: width: 200 }} 200w, {{ product.featured_media | image_url: width: 280 }} 280w"
+                  sizes="140px"
                   alt="{{ product.featured_media.alt | default: product.title | escape }}"
-                  width="56"
-                  height="56"
+                  width="140"
+                  height="140"
                   loading="lazy"
                 >
               {%- endif -%}
             </a>
-            <div class="gn-cart-upsell__details">
-              <div class="gn-cart-upsell__top">
-                <a class="gn-cart-upsell__title" href="{{ product.url }}">{{ product.title }}</a>
-                <div class="gn-cart-upsell__price">
-                  <span class="gn-cart-upsell__price-current">{{ selected_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                  {%- if selected_variant.compare_at_price > selected_variant.price -%}
-                    <s class="gn-cart-upsell__price-compare">{{ selected_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
-                  {%- endif -%}
-                </div>
-              </div>
-              <div class="gn-cart-upsell__row">
-                <div class="gn-cart-upsell__swatches">
-                  {%- if product.has_only_default_variant == false -%}
-                    {%- for variant in product.variants -%}
-                      {%- liquid
-                        assign swatch_color = variant.option1 | handle
-                        case swatch_color
-                          when 'green'
-                            assign swatch_hex = '#1d3d2a'
-                          when 'black'
-                            assign swatch_hex = '#111111'
-                          when 'blue'
-                            assign swatch_hex = '#2a5f9e'
-                          when 'gray'
-                            assign swatch_hex = '#9a9a9a'
-                          when 'grey'
-                            assign swatch_hex = '#9a9a9a'
-                          when 'white'
-                            assign swatch_hex = '#f4f4f4'
-                          when 'dark-gray'
-                            assign swatch_hex = '#555555'
-                          when 'silver'
-                            assign swatch_hex = '#c0c0c0'
-                          else
-                            assign swatch_hex = '#d8d3c4'
-                        endcase
-                      -%}
-                      <button
-                        type="button"
-                        class="gn-cart-upsell__swatch{% if variant.id == selected_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
-                        style="--swatch: {{ swatch_hex }};"
-                        data-upsell-variant
-                        data-variant-id="{{ variant.id }}"
-                        aria-label="{{ variant.title | escape }}"
-                        aria-pressed="{% if variant.id == selected_variant.id %}true{% else %}false{% endif %}"
-                        {% unless variant.available %}disabled{% endunless %}
-                      ></button>
-                    {%- endfor -%}
-                  {%- endif -%}
-                </div>
+            <button
+              type="button"
+              class="btn gn-cart-upsell__add"
+              data-upsell-add
+              data-variant-id="{{ selected_variant.id }}"
+              aria-label="Add {{ product.title | escape }} to cart"
+              {% unless selected_variant.available %}disabled{% endunless %}
+            >
+              <span>Add</span>
+            </button>
+          </div>
+          <a class="gn-cart-upsell__title" href="{{ product.url }}">{{ product.title | escape }}</a>
+          <div class="gn-cart-upsell__price">
+            <span class="gn-cart-upsell__price-current">{{ selected_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+            {%- if selected_variant.compare_at_price > selected_variant.price -%}
+              <s class="gn-cart-upsell__price-compare">{{ selected_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+            {%- endif -%}
+          </div>
+          {%- if product.has_only_default_variant == false -%}
+            <div class="gn-cart-upsell__swatches" role="radiogroup" aria-label="Color">
+              {%- for variant in product.variants -%}
+                {%- liquid
+                  assign swatch_color = variant.option1 | handle
+                  case swatch_color
+                    when 'green'
+                      assign swatch_hex = '#1d3d2a'
+                    when 'black'
+                      assign swatch_hex = '#111111'
+                    when 'blue'
+                      assign swatch_hex = '#2a5f9e'
+                    when 'gray'
+                      assign swatch_hex = '#9a9a9a'
+                    when 'grey'
+                      assign swatch_hex = '#9a9a9a'
+                    when 'white'
+                      assign swatch_hex = '#f4f4f4'
+                    when 'dark-gray'
+                      assign swatch_hex = '#555555'
+                    when 'silver'
+                      assign swatch_hex = '#c0c0c0'
+                    else
+                      assign swatch_hex = '#d8d3c4'
+                  endcase
+                -%}
                 <button
                   type="button"
-                  class="btn gn-cart-upsell__add"
-                  data-upsell-add
-                  data-variant-id="{{ selected_variant.id }}"
-                  aria-label="Add {{ product.title | escape }} to cart"
-                  {% unless selected_variant.available %}disabled{% endunless %}
-                >
-                  <span>Add</span>
-                </button>
-              </div>
+                  class="gn-cart-upsell__swatch{% if variant.id == selected_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                  style="--swatch: {{ swatch_hex }};"
+                  data-upsell-variant
+                  data-variant-id="{{ variant.id }}"
+                  aria-label="{{ variant.title | escape }}"
+                  aria-pressed="{% if variant.id == selected_variant.id %}true{% else %}false{% endif %}"
+                  {% unless variant.available %}disabled{% endunless %}
+                ></button>
+              {%- endfor -%}
             </div>
-          </div>
+          {%- endif -%}
         </div>
-      {%- endif -%}
+      </div>
     {%- endfor -%}
   {%- endcapture -%}
 
   {%- if upsell_slide_count > 0 -%}
-    <cart-drawer-upsell
-      class="gn-cart-upsell"
-      data-gift-state="{{ gift_state }}"
-      data-gift-units="{{ gift_units }}"
-    >
+    <cart-drawer-upsell class="gn-cart-upsell" data-remaining="{{ upsell_slide_count }}">
       <div class="gn-cart-upsell__header">
-        <div class="gn-cart-upsell__heading">FREE GIFT</div>
-        <div class="gn-cart-upsell__sub">Select 2 accessories, choose a 3rd FREE!</div>
-        <div class="gn-gift-progress" aria-hidden="true">
-          <div class="gn-gift-progress__track">
-            <div class="gn-gift-progress__fill is-{{ gift_state }}"></div>
-          </div>
-          <div class="gn-gift-progress__steps">
-            <div class="gn-gift-step{% if gift_state >= 1 %} is-complete{% endif %}">
-              <div class="gn-gift-step__dot">{% if gift_state >= 1 %}✓{% else %}1{% endif %}</div>
-              <div class="gn-gift-step__label">1st accessory</div>
-            </div>
-            <div class="gn-gift-step{% if gift_state >= 2 %} is-complete{% endif %}">
-              <div class="gn-gift-step__dot">{% if gift_state >= 2 %}✓{% else %}2{% endif %}</div>
-              <div class="gn-gift-step__label">2nd accessory</div>
-            </div>
-            <div class="gn-gift-step{% if gift_state >= 3 %} is-done{% elsif gift_state == 2 %} is-amber{% endif %}">
-              <div class="gn-gift-step__dot">
-                {%- if gift_state >= 3 -%}🎁
-                {%- else -%}🔒
-                {%- endif -%}
-              </div>
-              <div class="gn-gift-step__label">
-                {%- if gift_state >= 3 -%}Gift added
-                {%- elsif gift_state == 2 -%}Nearly there
-                {%- else -%}FREE gift
-                {%- endif -%}
-              </div>
-            </div>
-          </div>
-        </div>
+        <h6 class="gn-cart-upsell__heading mt0 mb0">Frequently Bought With</h6>
       </div>
-      <div class="gn-cart-upsell__carousel">
-        <button type="button" class="gn-cart-upsell__nav" data-upsell-prev aria-label="Previous accessory"{% if upsell_slide_count < 2 %} aria-hidden="true"{% endif %}>
-          {%- render 'icon-arrow-left' -%}
-        </button>
-        <div class="gn-cart-upsell__main">
-          <div class="gn-cart-upsell__viewport">
-            <div class="gn-cart-upsell__track" data-upsell-track>
-              {{ upsell_slides }}
-            </div>
-          </div>
+      <div class="gn-cart-upsell__scroller" data-upsell-viewport>
+        <div class="gn-cart-upsell__track" data-upsell-track>
+          {{ upsell_slides }}
         </div>
-        <button type="button" class="gn-cart-upsell__nav" data-upsell-next aria-label="Next accessory"{% if upsell_slide_count < 2 %} aria-hidden="true"{% endif %}>
-          {%- render 'icon-arrow-right' -%}
-        </button>
       </div>
     </cart-drawer-upsell>
   {%- endif -%}
