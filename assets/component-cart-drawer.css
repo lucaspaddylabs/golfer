@@ -910,6 +910,7 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   width: 14px;
   height: 14px;
   display: block;
+  pointer-events: none;
 }
 #CartDrawer .gn-cart-upsell__nav svg path,
 .gn-cart-upsell-pin .gn-cart-upsell__nav svg path {
@@ -925,10 +926,6 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 #CartDrawer .gn-cart-upsell__nav[hidden],
 .gn-cart-upsell-pin .gn-cart-upsell__nav[hidden] {
   display: none !important;
-}
-#CartDrawer .gn-cart-upsell__nav svg,
-.gn-cart-upsell-pin .gn-cart-upsell__nav svg {
-  pointer-events: none;
 }
 #CartDrawer .gn-cart-upsell__scroller,
 .gn-cart-upsell-pin .gn-cart-upsell__scroller {
