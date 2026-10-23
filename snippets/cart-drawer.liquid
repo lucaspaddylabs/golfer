@@ -130,22 +130,17 @@ component-swiper-slider.css
                 <div class="drawer__cart-items-wrapper">
                   {%- for item in cart.items -%}
                   {%- liquid
-                    assign cart_item_save = item.original_line_price | minus: item.final_line_price
-                    if item.line_level_total_discount > cart_item_save
-                      assign cart_item_save = item.line_level_total_discount
+                    # Match PDP Buy More Save More: was = compare-at × qty, SAVE = was − final pay.
+                    assign cart_item_pay = item.final_line_price
+                    assign cart_item_compare_unit = item.variant.compare_at_price
+                    if cart_item_compare_unit == blank or cart_item_compare_unit <= item.original_price
+                      assign cart_item_compare_unit = item.original_price
                     endif
-                    assign cart_item_alloc = 0
-                    for allocation in item.discount_allocations
-                      assign cart_item_alloc = cart_item_alloc | plus: allocation.amount
-                    endfor
-                    if cart_item_alloc > cart_item_save
-                      assign cart_item_save = cart_item_alloc
+                    assign cart_item_compare_line = cart_item_compare_unit | times: item.quantity
+                    assign cart_item_save = cart_item_compare_line | minus: cart_item_pay
+                    if cart_item_save < 0
+                      assign cart_item_save = 0
                     endif
-                    assign cart_item_pay = item.original_line_price | minus: cart_item_save
-                    if cart_item_pay < 0
-                      assign cart_item_pay = 0
-                    endif
-                    # Always show the product unit price; volume autos only change the line total.
                     assign cart_item_unit_display = item.original_price
                   -%}
                   <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
@@ -284,14 +279,14 @@ component-swiper-slider.css
                                 {%- if cart_item_pay == 0 -%}
                                   Free
                                 {%- else -%}
-                                  {{ item.final_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                                  {{ cart_item_pay | money | replace: 'US$', '$' | replace: 'US $', '$' }}
                                 {%- endif -%}
                               </span>
-                              <s class="price__regular">{{ item.original_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+                              <s class="price__regular">{{ cart_item_compare_line | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
                             </div>
                           {%- else -%}
                             <span class="price__main">
-                              {{ item.final_line_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+                              {{ cart_item_pay | money | replace: 'US$', '$' | replace: 'US $', '$' }}
                             </span>
                           {%- endif -%}
         

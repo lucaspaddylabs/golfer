@@ -58,20 +58,15 @@
         <div class="main-cart-items__wrapper">
           {%- for item in cart.items -%}
           {%- liquid
-            assign cart_item_save = item.original_line_price | minus: item.final_line_price
-            if item.line_level_total_discount > cart_item_save
-              assign cart_item_save = item.line_level_total_discount
+            assign cart_item_pay = item.final_line_price
+            assign cart_item_compare_unit = item.variant.compare_at_price
+            if cart_item_compare_unit == blank or cart_item_compare_unit <= item.original_price
+              assign cart_item_compare_unit = item.original_price
             endif
-            assign cart_item_alloc = 0
-            for allocation in item.discount_allocations
-              assign cart_item_alloc = cart_item_alloc | plus: allocation.amount
-            endfor
-            if cart_item_alloc > cart_item_save
-              assign cart_item_save = cart_item_alloc
-            endif
-            assign cart_item_pay = item.original_line_price | minus: cart_item_save
-            if cart_item_pay < 0
-              assign cart_item_pay = 0
+            assign cart_item_compare_line = cart_item_compare_unit | times: item.quantity
+            assign cart_item_save = cart_item_compare_line | minus: cart_item_pay
+            if cart_item_save < 0
+              assign cart_item_save = 0
             endif
             assign cart_item_unit_display = item.original_price
           -%}
@@ -213,7 +208,7 @@
                   </div>
                   <div>                     
                     <div class="price__regular body3">
-                      {{ item.original_line_price | money }}
+                      {{ cart_item_compare_line | money }}
                     </div>
                   </div>
                   <div class="visually-hidden">
@@ -223,13 +218,13 @@
                     {%- if cart_item_pay == 0 -%}
                       Free
                     {%- else -%}
-                      {{ item.final_line_price | money }}
+                      {{ cart_item_pay | money }}
                     {%- endif -%}
                   </div>
                 </div>
                 {%- else -%}
                 <span class="h5 price__main">
-                  {{ item.final_line_price | money }}
+                  {{ cart_item_pay | money }}
                 </span>
                 {%- endif -%}
 
