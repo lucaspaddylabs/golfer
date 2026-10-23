@@ -45,7 +45,7 @@
           "type": "bundle",
           "settings": {
             "quantity": 2,
-            "save_amount": 15,
+            "save_amount": 16,
             "popular": true
           }
         },
@@ -53,7 +53,7 @@
           "type": "bundle",
           "settings": {
             "quantity": 3,
-            "save_amount": 30,
+            "save_amount": 29,
             "popular": false,
             "best_value": true
           }
