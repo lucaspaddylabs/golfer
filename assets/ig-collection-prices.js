@@ -55,7 +55,9 @@
       const variantId = el.getAttribute('data-variant-id');
       const priceCents = dollarsToCents(priceApi.getPriceByVariantId(variantId));
       const compareCents = dollarsToCents(priceApi.getComparePriceByVariantId?.(variantId));
-      if (priceCents == null || compareCents == null || compareCents <= priceCents) {
+      // No Intelligems compare means the test is off — keep the Shopify strikethrough.
+      if (compareCents == null || priceCents == null) return;
+      if (compareCents <= priceCents) {
         el.hidden = true;
         return;
       }
