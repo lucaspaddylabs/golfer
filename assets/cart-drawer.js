@@ -7,21 +7,18 @@ class CartDrawer extends HTMLElement {
   }
 
   /**
-   * Policy A — header cart intercept:
-   * - Icons keep href="{{ routes.cart_url }}" (/cart) so no-JS (and pre-JS) clicks reach the cart page.
-   * - When this drawer is present and JS has loaded, intercept those clicks and open the drawer instead.
-   * - Uses capture-phase document delegation so re-rendered icon markup still opens the drawer.
+   * Cart icons are buttons. A click opens this drawer and never navigates to /cart.
+   * Capture-phase document delegation keeps working after the icon markup is re-rendered.
    */
   setHeaderCartIconAccessibility() {
     const markIcon = (cartLink) => {
-      cartLink.setAttribute('role', 'button');
       cartLink.setAttribute('aria-haspopup', 'dialog');
       if (!cartLink.getAttribute('aria-controls')) {
         cartLink.setAttribute('aria-controls', 'CartDrawer');
       }
     };
 
-    document.querySelectorAll('a[id^="cart-icon-bubble"]').forEach(markIcon);
+    document.querySelectorAll('[id^="cart-icon-bubble"]').forEach(markIcon);
 
     if (CartDrawer.headerCartInterceptBound) return;
     CartDrawer.headerCartInterceptBound = true;
@@ -29,14 +26,13 @@ class CartDrawer extends HTMLElement {
     const cartIconFromEvent = (event) => {
       const target = event.target;
       if (!target || typeof target.closest !== 'function') return null;
-      return target.closest('a[id^="cart-icon-bubble"]');
+      return target.closest('[id^="cart-icon-bubble"]');
     };
 
     const openDrawerForIcon = (event, cartLink) => {
-      const drawer = document.querySelector('cart-drawer');
-      // No drawer on /cart template (or if cart_type != drawer) → allow native /cart navigation.
-      if (!drawer) return;
       event.preventDefault();
+      const drawer = document.querySelector('cart-drawer');
+      if (!drawer) return;
       markIcon(cartLink);
       drawer.open(cartLink);
     };

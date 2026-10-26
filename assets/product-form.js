@@ -57,9 +57,6 @@ if (!customElements.get('product-form')) {
               soldOutMessage.classList.remove('hidden');
               this.error = true;
               return;
-            } else if (!this.cart) {
-              window.location = window.routes.cart_url;
-              return;
             }
 
             if (!this.error)
@@ -69,7 +66,7 @@ if (!customElements.get('product-form')) {
                 cartData: response,
               });
             this.error = false;
-            this.cart.renderContents(response);
+            if (this.cart) this.cart.renderContents(response);
           })
           .catch((e) => {
             console.error(e);

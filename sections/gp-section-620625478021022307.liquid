@@ -170,11 +170,11 @@
     <gp-product-button
       
       gp-data-wrapper="true"
-      gp-href="{{ request.origin }}{{ routes.root_url | split: '/' | join: '/' }}/cart"
+      gp-href=""
       class="gp-product-button"
       gp-label-out-of-stock="{{ section.settings.ggxFjegxP84_outOfStockLabel }}"
       gp-label-unavailable="{{ section.settings.ggxFjegxP84_unavailableLabel }}"
-      gp-data='{"styles":{"errorTypo":{"type":"paragraph-2","attrs":{"color":"error"}},"successTypo":{"type":"paragraph-2","attrs":{"color":"success"}}},"setting":{"errorType":"built-in","actionEffect":"open-cart-drawer","enableMessage":true,"label":"Get the Click Trainer","outOfStockLabel":"Out of stock","customURL":{"link":"/cart","target":"_self"}},"variantID":"{{variant.id}}","disabled":"{{variant.available}}","totalVariant":"{{total_combinations}}"}'
+      gp-data='{"styles":{"errorTypo":{"type":"paragraph-2","attrs":{"color":"error"}},"successTypo":{"type":"paragraph-2","attrs":{"color":"success"}}},"setting":{"errorType":"built-in","actionEffect":"open-cart-drawer","enableMessage":true,"label":"Get the Click Trainer","outOfStockLabel":"Out of stock","customURL":{"link":"","target":"_self"}},"variantID":"{{variant.id}}","disabled":"{{variant.available}}","totalVariant":"{{total_combinations}}"}'
       data-variant-selection-required-message="{{ section.settings.ggxFjegxP84_variantSelectionRequiredMessage| escape  }}"
       gp-enable-third-partycart="{{shop.metafields.GEMPAGES.enableThirdPartyCart}}"
       gp-error-message="{{ section.settings.ggxFjegxP84_errorMessage| escape  }}"

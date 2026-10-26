@@ -137,6 +137,11 @@
   align-items: center;
   text-decoration: none;
   gap:8px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
   color: var(--color-text-link-block, var(--color-base-section, var(--color-base)));
 }
 .header__button:hover{

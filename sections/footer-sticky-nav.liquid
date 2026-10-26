@@ -48,6 +48,10 @@
                 align-items:center;
                 padding:15px 0;
                 background:transparent;
+                border:0;
+                font:inherit;
+                color:inherit;
+                cursor:pointer;
                 min-width:40px;
             }
             .footer-sticky-nav__item__icon{
@@ -147,12 +151,9 @@
         {%- endif -%}
 
         {%- if settings.cart_type != "catalog_mode" and section.settings.enable_cart -%}
-        {%- comment -%}
-          Policy A: href stays /cart for no-JS fallback. cart-drawer.js intercepts when drawer JS works.
-        {%- endcomment -%}
-        <a href="{{ routes.cart_url }}" class="footer-sticky-nav__item clear-underline" id="cart-icon-bubble--footer" aria-controls="CartDrawer">
+        <button type="button" class="footer-sticky-nav__item clear-underline" id="cart-icon-bubble--footer" aria-controls="CartDrawer" aria-haspopup="dialog">
             {%- render "cart-icon-bubble--footer" -%}
-        </a>
+        </button>
         {%- endif -%}
     </div>
 </footersticky-nav>

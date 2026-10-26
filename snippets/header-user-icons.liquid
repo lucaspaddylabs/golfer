@@ -91,17 +91,14 @@
     </a>
     {%- endif -%}
     {%- if settings.cart_type != "catalog_mode" -%}
-    {%- comment -%}
-      Policy A: href stays /cart for no-JS fallback. cart-drawer.js intercepts when drawer JS works.
-    {%- endcomment -%}
-    <a href="{{ routes.cart_url }}" class="header__button move-icon-up global__tooltip--hover" id="cart-icon-bubble" aria-controls="CartDrawer">
+    <button type="button" class="header__button move-icon-up global__tooltip--hover" id="cart-icon-bubble" aria-controls="CartDrawer" aria-haspopup="dialog">
       {%- render 'cart-icon-bubble' -%}
       {%- if section.settings.icons_text == 'tooltip' -%}
       <global-tooltip class="global__tooltip global__tooltip__static">
         <div class="global__tooltip__content">{{ 'sections.header.icon_cart' | t }}</div>
       </global-tooltip>
       {%- endif -%}
-    </a>
+    </button>
     {%- endif -%}
   </div>
 </div>

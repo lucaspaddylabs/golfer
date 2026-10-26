@@ -527,11 +527,11 @@
     <gp-product-button
       
       gp-data-wrapper="true"
-      gp-href="{{ request.origin }}{{ routes.root_url | split: '/' | join: '/' }}/cart"
+      gp-href=""
       class="gp-product-button"
       gp-label-out-of-stock="{{ section.settings.ggeBmqtcm4A_outOfStockLabel }}"
       gp-label-unavailable="{{ section.settings.ggeBmqtcm4A_unavailableLabel }}"
-      gp-data='{"styles":{"errorTypo":{"attrs":{"color":"error"},"type":"paragraph-2"},"successTypo":{"attrs":{"color":"success"},"type":"paragraph-2"}},"setting":{"errorType":"built-in","actionEffect":"open-cart-drawer","enableMessage":true,"label":"Add to cart","errorMessage":"{{ section.settings.ggeBmqtcm4A_errorMessage | escape }}","successMessage":"{{ section.settings.ggeBmqtcm4A_successMessage | escape }}","outOfStockLabel":"Out of stock","customURL":{"link":"/cart","target":"_self"}},"variantID":"{{variant.id}}","disabled":"{{variant.available}}","totalVariant":"{{total_combinations}}"}'
+      gp-data='{"styles":{"errorTypo":{"attrs":{"color":"error"},"type":"paragraph-2"},"successTypo":{"attrs":{"color":"success"},"type":"paragraph-2"}},"setting":{"errorType":"built-in","actionEffect":"open-cart-drawer","enableMessage":true,"label":"Add to cart","errorMessage":"{{ section.settings.ggeBmqtcm4A_errorMessage | escape }}","successMessage":"{{ section.settings.ggeBmqtcm4A_successMessage | escape }}","outOfStockLabel":"Out of stock","customURL":{"link":"","target":"_self"}},"variantID":"{{variant.id}}","disabled":"{{variant.available}}","totalVariant":"{{total_combinations}}"}'
       data-variant-selection-required-message=""
       gp-enable-third-partycart="{{shop.metafields.GEMPAGES.enableThirdPartyCart}}"
     >
