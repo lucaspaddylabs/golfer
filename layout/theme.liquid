@@ -6,24 +6,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
-    {%- comment -%} Earliest possible hide so catalog prices never paint before Intelligems rewrites them. {%- endcomment -%}
-    <style id="ig-anti-flicker">
-      html:not(.ig-prices-ready) .price__container[data-variant-id],
-      html:not(.ig-prices-ready) .price__sale[data-variant-id],
-      html:not(.ig-prices-ready) .price__main[data-variant-id],
-      html:not(.ig-prices-ready) .price__regular[data-variant-id],
-      html:not(.ig-prices-ready) [data-ig-save-badge],
-      html:not(.ig-prices-ready) [data-gn-price],
-      html:not(.ig-prices-ready) [data-gn-compare],
-      html:not(.ig-prices-ready) [data-gn-bundle-price],
-      html:not(.ig-prices-ready) [data-gn-bundle-was],
-      html:not(.ig-prices-ready) [data-gn-sticky-sale-price],
-      html:not(.ig-prices-ready) [data-gn-sticky-compare] {
-        visibility: hidden !important;
-        opacity: 0 !important;
-      }
-    </style>
-
     <!-- Start VWO Async SmartCode -->
     <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com"/>
     <script type='text/javascript' id="vwoCode">
@@ -112,8 +94,6 @@
     {%- comment -%} Inline so collection prices update even if the asset CDN lags behind GitHub sync. {%- endcomment -%}
     <script>
       (() => {
-        const READY_CLASS = 'ig-prices-ready';
-        const MAX_WAIT_MS = 3000;
         const dollarsToCents = (value) => {
           if (value == null || value === '') return null;
           const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]/g, ''));
@@ -166,27 +146,13 @@
           syncSaveBadges(priceApi);
           return true;
         };
-        let revealed = false;
-        const reveal = () => {
-          if (revealed) return;
-          revealed = true;
-          document.documentElement.classList.add(READY_CLASS);
-        };
-        const run = () => {
-          if (applyCollectionPrices()) {
-            reveal();
-            return true;
-          }
-          return false;
-        };
         const start = () => {
-          if (run()) return;
-          const onReady = () => run();
+          if (applyCollectionPrices()) return;
+          const onReady = () => { applyCollectionPrices(); };
           window.addEventListener('ig:ready', onReady, { once: true });
           if (Array.isArray(window.onIgReady)) window.onIgReady.push(onReady);
           else if (typeof window.onIgReady === 'function') window.onIgReady = [window.onIgReady, onReady];
           else window.onIgReady = onReady;
-          window.setTimeout(() => { run(); reveal(); }, MAX_WAIT_MS);
         };
         start();
       })();

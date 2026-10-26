@@ -1,7 +1,4 @@
 (() => {
-  const READY_CLASS = 'ig-prices-ready';
-  const MAX_WAIT_MS = 3000;
-
   const dollarsToCents = (value) => {
     if (value == null || value === '') return null;
     const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]/g, ''));
@@ -70,25 +67,12 @@
     return true;
   };
 
-  let revealed = false;
-  const reveal = () => {
-    if (revealed) return;
-    revealed = true;
-    document.documentElement.classList.add(READY_CLASS);
-  };
-
-  const run = () => {
-    if (applyCollectionPrices()) {
-      reveal();
-      return true;
-    }
-    return false;
-  };
-
   const start = () => {
-    if (run()) return;
+    if (applyCollectionPrices()) return;
 
-    const onReady = () => run();
+    const onReady = () => {
+      applyCollectionPrices();
+    };
     window.addEventListener('ig:ready', onReady, { once: true });
 
     if (Array.isArray(window.onIgReady)) {
@@ -99,11 +83,6 @@
     } else {
       window.onIgReady = onReady;
     }
-
-    window.setTimeout(() => {
-      run();
-      reveal();
-    }, MAX_WAIT_MS);
   };
 
   start();
