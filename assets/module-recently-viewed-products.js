@@ -32,12 +32,22 @@ class recordRecentlyViewedProducts extends HTMLElement {
     }
     return [];
   }
+  getProductHandle() {
+    var el = document.querySelector('[data-product-handle]');
+    if (el) {
+      var fromAttr = el.getAttribute('data-product-handle');
+      if (fromAttr) return fromAttr;
+    }
+    var match = window.location.pathname.match(/\/products\/([^\/\?]+)/);
+    return match ? match[1] : null;
+  }
   recordRecentlyViewed(){ 
     var config = this.config(),
         recentlyViewed = this.getCookie(this.name);
     if (window.location.pathname.indexOf('/products/') !== -1) {
-      var productHandle = document.querySelector('[data-product-handle]').getAttribute('data-product-handle'),
+      var productHandle = this.getProductHandle(),
           position = -1;
+      if (!productHandle) return;
       if(recentlyViewed){
         position = recentlyViewed.indexOf(productHandle);
       }
@@ -67,8 +77,8 @@ class recentlyViewedProducts extends recordRecentlyViewedProducts {
     }
 
     if (window.location.pathname.indexOf('/products/') !== -1) {
-      var productHandle = document.querySelector('[data-product-handle]').getAttribute('data-product-handle'),
-          index = currentproducts.indexOf(productHandle);
+      var productHandle = this.getProductHandle(),
+          index = productHandle ? currentproducts.indexOf(productHandle) : -1;
       if (index !== -1) currentproducts.splice(index, 1);
     }
     currentproducts = currentproducts.join('||');
