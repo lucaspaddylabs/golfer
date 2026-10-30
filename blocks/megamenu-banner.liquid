@@ -99,14 +99,7 @@
       assign placeholder_icon = 'hero-apparel-1'
       assign load_priority_low = 'false'
   -%}
-  {%- render "component-banner-item",
-      section:section,
-      block:block,
-      image_ratio_value: block.settings.image_ratio,
-      image_ratio_mobile_value: block..settings.image_ratio_mobile,
-      placeholder_icon: placeholder_icon,
-      load_priority_low: load_priority_low
-  -%}
+  {%- render "component-banner-item", section: section, block: block, image_ratio_value: block.settings.image_ratio, image_ratio_mobile_value: block.settings.image_ratio_mobile, placeholder_icon: placeholder_icon, load_priority_low: load_priority_low -%}
 </div>
 
 {% schema %}
@@ -610,4 +603,23 @@
       }
     ]
   }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render "component-banner-item",
+          section:section,
+          block:block,
+          image_ratio_value: block.settings.image_ratio,
+          image_ratio_mobile_value: block..settings.image_ratio_mobile,
+          placeholder_icon: placeholder_icon,
+          load_priority_low: load_priority_low
+      -%}
+  to: '{%- render "component-banner-item", section: section, block: block, image_ratio_value:
+    block.settings.image_ratio, image_ratio_mobile_value: block.settings.image_ratio_mobile,
+    placeholder_icon: placeholder_icon, load_priority_low: load_priority_low -%}'
+  position: 6686..6938
+{%- endcomment -%}

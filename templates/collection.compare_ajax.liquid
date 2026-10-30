@@ -158,7 +158,7 @@
             if variant.featured_media != blank
             assign image = variant.featured_media
             else
-            assign image = product.featured_media != blank
+            assign image = product.featured_media
             endif
         -%}
         <a href="{{ variant.url }}" class="product-card__image__url {% if image_hover == "default" %}{{ settings.image_hover }}{% else %}{{ image_hover }}{% endif %}">
@@ -336,3 +336,13 @@
 
 
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "            assign image = product.featured_media != blank"
+  to: "            assign image = product.featured_media"
+  position: 5387..5436
+{% endcomment %}
