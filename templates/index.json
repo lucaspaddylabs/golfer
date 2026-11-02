@@ -32,6 +32,7 @@
             "product": "",
             "title": "THE SWING SYSTEM",
             "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
+            "note": "",
             "badge": "Halloween offer",
             "button_label": "Claim My Swing System",
             "image": "shopify://shop_images/hf_20261012_085332_1c4800ef-5930-416d-b7b0-c4b6cacef649.png",
@@ -61,6 +62,7 @@
             "product": "",
             "title": "THE COMPLETE SYSTEM",
             "subtitle": "Get the full Swing System. Take control of your putting, too.",
+            "note": "",
             "badge": "Halloween offer",
             "button_label": "Claim My Complete System",
             "image": "shopify://shop_images/hf_20261012_085207_26d7ac69-ccf0-4690-a4d6-c17e97b07ca8.png",
@@ -467,8 +469,8 @@
         "hotspot_link1": {
           "type": "hotspot",
           "settings": {
-            "label": "Shop LINK ONE",
-            "link": "shopify://products/golf-training-belt",
+            "label": "Shop ARC ONE",
+            "link": "shopify://products/pro-swing-click-trainer",
             "left": 0,
             "top": 0,
             "width": 25,
@@ -478,8 +480,8 @@
         "hotspot_arc1": {
           "type": "hotspot",
           "settings": {
-            "label": "Shop ARC ONE",
-            "link": "shopify://products/pro-swing-click-trainer",
+            "label": "Shop LINE ONE",
+            "link": "shopify://products/golf-putting-tutor",
             "left": 25,
             "top": 0,
             "width": 25,
@@ -500,8 +502,8 @@
         "hotspot_line1": {
           "type": "hotspot",
           "settings": {
-            "label": "Shop LINE ONE",
-            "link": "shopify://products/golf-putting-tutor",
+            "label": "Shop LINK ONE",
+            "link": "shopify://products/golf-training-belt",
             "left": 75,
             "top": 0,
             "width": 25,
