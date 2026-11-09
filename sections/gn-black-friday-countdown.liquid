@@ -24,8 +24,8 @@
     padding: 18px 0;
   }
   #shopify-section-{{ section.id }} .gn-hcd__icon {
-    width: 38px;
-    height: auto;
+    font-size: 1.6rem;
+    line-height: 1;
   }
   #shopify-section-{{ section.id }} .gn-hcd__units {
     display: flex;
@@ -68,7 +68,7 @@
 <div class="gn-hcd" data-gn-hcd data-target="{{ section.settings.target_date }}" data-done="{{ section.settings.done_text | escape }}">
   <div class="gn-hcd__bar">
     <div class="gn-hcd__label">
-      <img class="gn-hcd__icon" src="{{ 'halloween-pumpkin.png' | asset_url }}" alt="" width="38" height="35">
+      <span class="gn-hcd__icon" aria-hidden="true">🏷️</span>
       <span>{{ section.settings.text_before }}</span>
     </div>
     <div class="gn-hcd__units" role="timer" aria-live="off">
@@ -90,8 +90,13 @@
     var now = new Date();
     var target = root.dataset.target ? new Date(root.dataset.target) : null;
     if (!target || isNaN(target)) {
-      target = new Date(now.getFullYear(), 9, 31, 0, 0, 0);
-      if (now > target) target = new Date(now.getFullYear() + 1, 9, 31, 0, 0, 0);
+      function nextBlackFriday(year) {
+        var d = new Date(year, 10, 1);
+        var firstFriday = 1 + ((5 - d.getDay() + 7) % 7);
+        return new Date(year, 10, firstFriday + 21, 23, 59, 0);
+      }
+      target = nextBlackFriday(now.getFullYear());
+      if (now > target) target = nextBlackFriday(now.getFullYear() + 1);
     }
     var els = { d: root.querySelector('[data-d]'), h: root.querySelector('[data-h]'), m: root.querySelector('[data-m]'), s: root.querySelector('[data-s]') };
     var pad = function (n) { return n < 10 ? '0' + n : String(n); };
@@ -114,24 +119,24 @@
 
 {% schema %}
 {
-  "name": "Halloween countdown",
+  "name": "Black Friday countdown",
   "tag": "section",
   "settings": [
     { "type": "text", "id": "text_before", "label": "Text before", "default": "Only" },
-    { "type": "text", "id": "text_after", "label": "Text after", "default": "until HALLOWEEN" },
-    { "type": "text", "id": "target_date", "label": "Target date/time", "info": "Format: 2026-10-31T00:00:00. Leave empty to count down to the next Oct 31.", "default": "" },
-    { "type": "text", "id": "done_text", "label": "Text when finished", "default": "Happy Halloween! 🎃" },
+    { "type": "text", "id": "text_after", "label": "Text after", "default": "until BLACK FRIDAY" },
+    { "type": "text", "id": "target_date", "label": "Target date/time", "info": "Format: 2026-11-27T23:59:00. Leave empty to count down to the next Black Friday (last Friday in November).", "default": "" },
+    { "type": "text", "id": "done_text", "label": "Text when finished", "default": "Black Friday deals are live!" },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "bar_color", "label": "Bar color", "default": "#d4d4d4" },
-    { "type": "color", "id": "tile_color", "label": "Tile color", "default": "#9b2315" },
-    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "bar_color", "label": "Bar color", "default": "#0a0a0a" },
+    { "type": "color", "id": "tile_color", "label": "Tile color", "default": "#ec7901" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
     { "type": "color", "id": "page_background", "label": "Section background", "default": "#ffffff" },
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Top padding", "default": 0 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Bottom padding", "default": 30 }
   ],
   "presets": [
-    { "name": "Halloween countdown" }
+    { "name": "Black Friday countdown" }
   ]
 }
 {% endschema %}

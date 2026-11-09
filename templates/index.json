@@ -23,8 +23,8 @@
         "min_height_mobile": 560
       }
     },
-    "gn_halloween_gn": {
-      "type": "gn-halloween",
+    "gn_black_friday_gn": {
+      "type": "gn-black-friday",
       "blocks": {
         "deal_swing_system": {
           "type": "deal",
@@ -33,7 +33,7 @@
             "title": "THE SWING SYSTEM",
             "subtitle": "LINK ONE + ARC ONE + TRACE ONE",
             "note": "",
-            "badge": "Halloween offer",
+            "badge": "Black Friday offer",
             "button_label": "Claim My Swing System",
             "image": "shopify://shop_images/hf_20261012_085332_1c4800ef-5930-416d-b7b0-c4b6cacef649.png",
             "link": "shopify://collections/the-system",
@@ -41,15 +41,15 @@
             "savings_amount": ""
           }
         },
-        "deal_halloween_gift": {
+        "deal_black_friday_gift": {
           "type": "deal",
           "settings": {
             "product": "",
-            "title": "TRICK OR TREAT: GOLF EDITION",
-            "subtitle": "A Halloween surprise for the golfer who’s always working on their game.",
-            "note": "Keep them guessing until the unboxing.",
-            "badge": "Halloween offer",
-            "button_label": "Claim My Halloween Gift",
+            "title": "BLACK FRIDAY: GOLF EDITION",
+            "subtitle": "A Black Friday deal for the golfer who’s always working on their game.",
+            "note": "Limited-time pricing — while stocks last.",
+            "badge": "Black Friday offer",
+            "button_label": "Claim My Black Friday Gift",
             "image": "shopify://shop_images/hf_20261014_101044_61ddd272-4c5d-460b-91c4-3379aeb606b0.png",
             "link": "shopify://products/pro-swing-click-trainer",
             "sale_price": "100$",
@@ -63,7 +63,7 @@
             "title": "THE COMPLETE SYSTEM",
             "subtitle": "Get the full Swing System. Take control of your putting, too.",
             "note": "",
-            "badge": "Halloween offer",
+            "badge": "Black Friday offer",
             "button_label": "Claim My Complete System",
             "image": "shopify://shop_images/hf_20261012_085207_26d7ac69-ccf0-4690-a4d6-c17e97b07ca8.png",
             "link": "shopify://collections/the-system",
@@ -74,17 +74,17 @@
       },
       "block_order": [
         "deal_swing_system",
-        "deal_halloween_gift",
+        "deal_black_friday_gift",
         "deal_complete_system"
       ],
       "disabled": true,
       "settings": {
-        "eyebrow": "Halloween Sale",
-        "heading": "Your Halloween Golf Upgrade",
+        "eyebrow": "Black Friday",
+        "heading": "Your Black Friday Golf Upgrade",
         "text": "Choose your bundle. See your savings. Start practising.",
         "timer_note": "Save 50 versus buying separately",
-        "timer_label": "Halloween offer ends in",
-        "deadline": "2026-10-31T23:59:00+00:00",
+        "timer_label": "Black Friday offer ends in",
+        "deadline": "2026-11-27T23:59:00+00:00",
         "deadline_weekly": true,
         "ended_text": "This offer has ended.",
         "sale_label_before": "",
@@ -94,11 +94,11 @@
         "weekly_timezone": "+00:00",
         "sale_ended_text": "The early-bird sale has ended.",
         "show_falling": true,
-        "icons": "🎃,🦇,👻,🕸️",
+        "icons": "🏷️,🛍️,🔥,💥",
         "item_count": 6,
-        "background_color": "#1b1230",
+        "background_color": "#0a0a0a",
         "heading_color": "#ffffff",
-        "text_color": "#e6dff2",
+        "text_color": "#e8e8e8",
         "accent_color": "#ec7901",
         "button_text_color": "#ffffff",
         "image_height": 240,
@@ -970,7 +970,7 @@
   },
   "order": [
     "slider_playbetter_gn",
-    "gn_halloween_gn",
+    "gn_black_friday_gn",
     "slider_HMRLGp",
     "text_icons1_gn",
     "gn_method_steps_yrATw8",

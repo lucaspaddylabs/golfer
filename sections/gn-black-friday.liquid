@@ -1,5 +1,5 @@
 <style>
-  #shopify-section-{{ section.id }} .gn-halloween {
+  #shopify-section-{{ section.id }} .gn-bf {
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -7,13 +7,13 @@
     color: {{ section.settings.text_color }};
     padding: {{ section.settings.padding_top }}px 24px {{ section.settings.padding_bottom }}px;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__inner {
+  #shopify-section-{{ section.id }} .gn-bf__inner {
     position: relative;
     z-index: 1;
     max-width: 760px;
     margin: 0 auto;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__eyebrow {
+  #shopify-section-{{ section.id }} .gn-bf__eyebrow {
     margin: 0 0 8px;
     font-size: 0.85rem;
     font-weight: 700;
@@ -21,34 +21,34 @@
     text-transform: uppercase;
     color: {{ section.settings.accent_color }};
   }
-  #shopify-section-{{ section.id }} .gn-halloween__heading {
+  #shopify-section-{{ section.id }} .gn-bf__heading {
     margin: 0 0 12px;
     font-family: var(--font-body-family);
     font-size: 2.8rem;
     line-height: 1.15;
     color: {{ section.settings.heading_color }};
   }
-  #shopify-section-{{ section.id }} .gn-halloween__text {
+  #shopify-section-{{ section.id }} .gn-bf__text {
     margin: 0 auto 24px;
     font-size: 1.15rem;
     line-height: 1.5;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__timers {
+  #shopify-section-{{ section.id }} .gn-bf__timers {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 34px;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__timer {
+  #shopify-section-{{ section.id }} .gn-bf__timer {
     --tile-a: {{ section.settings.accent_color }};
     --tile-b: #ff3d00;
     text-align: center;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__timer--sale {
+  #shopify-section-{{ section.id }} .gn-bf__timer--sale {
     --tile-a: #ff2d55;
     --tile-b: #c4001d;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__timer-label {
+  #shopify-section-{{ section.id }} .gn-bf__timer-label {
     margin: 0 0 14px;
     font-size: 1.35rem;
     font-weight: 900;
@@ -58,7 +58,7 @@
     color: #fff;
     text-shadow: 0 0 18px var(--tile-a);
   }
-  #shopify-section-{{ section.id }} .gn-halloween__timer-after {
+  #shopify-section-{{ section.id }} .gn-bf__timer-after {
     margin: 14px 0 0;
     font-size: 1.1rem;
     font-weight: 800;
@@ -66,20 +66,20 @@
     text-transform: uppercase;
     color: #fff;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__units {
+  #shopify-section-{{ section.id }} .gn-bf__units {
     display: flex;
     justify-content: center;
     gap: 14px;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__unit {
+  #shopify-section-{{ section.id }} .gn-bf__unit {
     min-width: 96px;
     padding: 16px 8px 12px;
     border-radius: 14px;
     background: linear-gradient(160deg, var(--tile-a), var(--tile-b));
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25), 0 0 26px var(--tile-a), 0 10px 24px rgba(0, 0, 0, 0.45);
-    animation: gn-halloween-glow 1.6s ease-in-out infinite alternate;
+    animation: gn-bf-glow 1.6s ease-in-out infinite alternate;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__num {
+  #shopify-section-{{ section.id }} .gn-bf__num {
     display: block;
     font-size: 3.4rem;
     font-weight: 900;
@@ -88,7 +88,7 @@
     color: #fff;
     text-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
   }
-  #shopify-section-{{ section.id }} .gn-halloween__cap {
+  #shopify-section-{{ section.id }} .gn-bf__cap {
     display: block;
     margin-top: 8px;
     font-size: 0.75rem;
@@ -97,31 +97,31 @@
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
   }
-  #shopify-section-{{ section.id }} .gn-halloween__unit--sec .gn-halloween__num {
-    animation: gn-halloween-tick 1s ease-in-out infinite;
+  #shopify-section-{{ section.id }} .gn-bf__unit--sec .gn-bf__num {
+    animation: gn-bf-tick 1s ease-in-out infinite;
   }
-  @keyframes gn-halloween-glow {
+  @keyframes gn-bf-glow {
     from { box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 16px var(--tile-a), 0 10px 24px rgba(0,0,0,0.45); }
     to   { box-shadow: 0 0 0 2px rgba(255,255,255,0.45), 0 0 34px var(--tile-a), 0 10px 24px rgba(0,0,0,0.45); }
   }
-  @keyframes gn-halloween-tick {
+  @keyframes gn-bf-tick {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
   }
-  #shopify-section-{{ section.id }} .gn-halloween__fall {
+  #shopify-section-{{ section.id }} .gn-bf__fall {
     position: absolute;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__item {
+  #shopify-section-{{ section.id }} .gn-bf__item {
     position: absolute;
     top: -12%;
     line-height: 1;
     opacity: 0.9;
-    animation: gn-halloween-fall linear infinite;
+    animation: gn-bf-fall linear infinite;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deals {
+  #shopify-section-{{ section.id }} .gn-bf__deals {
     position: relative;
     z-index: 1;
     display: flex;
@@ -131,7 +131,7 @@
     max-width: 1200px;
     margin: 48px auto 0;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal {
+  #shopify-section-{{ section.id }} .gn-bf__deal {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -143,7 +143,7 @@
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
-  #shopify-section-{{ section.id }} .gn-halloween__badge {
+  #shopify-section-{{ section.id }} .gn-bf__badge {
     position: absolute;
     top: -13px;
     padding: 5px 16px;
@@ -155,30 +155,30 @@
     background: {{ section.settings.accent_color }};
     color: {{ section.settings.button_text_color }};
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-imglink {
+  #shopify-section-{{ section.id }} .gn-bf__deal-imglink {
     display: block;
     width: 100%;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-img {
+  #shopify-section-{{ section.id }} .gn-bf__deal-img {
     display: block;
     width: 100%;
     height: {{ section.settings.image_height }}px;
     object-fit: contain;
     margin-bottom: 18px;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-title {
+  #shopify-section-{{ section.id }} .gn-bf__deal-title {
     font-weight: 800;
     font-size: 1.3rem;
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: {{ section.settings.heading_color }};
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-sub {
+  #shopify-section-{{ section.id }} .gn-bf__deal-sub {
     margin-top: 4px;
     font-size: 0.95rem;
     opacity: 0.9;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-offer {
+  #shopify-section-{{ section.id }} .gn-bf__deal-offer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -187,27 +187,27 @@
     margin-top: 16px;
     flex: 1;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-offer .gn-halloween__cta { margin-top: auto; }
+  #shopify-section-{{ section.id }} .gn-bf__deal-offer .gn-bf__cta { margin-top: auto; }
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .gn-halloween__deal-sub { min-height: 2.8em; text-align: center; }
+    #shopify-section-{{ section.id }} .gn-bf__deal-sub { min-height: 2.8em; text-align: center; }
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-price {
+  #shopify-section-{{ section.id }} .gn-bf__deal-price {
     font-size: 1.7rem;
     font-weight: 800;
     color: {{ section.settings.heading_color }};
   }
-  #shopify-section-{{ section.id }} .gn-halloween__deal-save {
+  #shopify-section-{{ section.id }} .gn-bf__deal-save {
     font-size: 1rem;
     font-weight: 700;
     color: {{ section.settings.accent_color }};
   }
-  #shopify-section-{{ section.id }} .gn-halloween__inner .gn-halloween__timer-note {
+  #shopify-section-{{ section.id }} .gn-bf__inner .gn-bf__timer-note {
     margin: -14px 0 26px;
     font-size: 1rem;
     font-weight: 700;
     color: {{ section.settings.accent_color }} !important;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__cta {
+  #shopify-section-{{ section.id }} .gn-bf__cta {
     display: block;
     width: 100%;
     margin-top: 8px;
@@ -222,88 +222,88 @@
     box-shadow: 0 6px 18px rgba(236, 121, 1, 0.35);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  #shopify-section-{{ section.id }} .gn-halloween__cta:hover {
+  #shopify-section-{{ section.id }} .gn-bf__cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 24px rgba(236, 121, 1, 0.45);
   }
-  @keyframes gn-halloween-fall {
+  @keyframes gn-bf-fall {
     0%   { transform: translateY(0) rotate(0deg); }
     100% { transform: translateY(calc(100% + 140px)) rotate(360deg); }
   }
   @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .gn-halloween { padding-left: 16px; padding-right: 16px; }
-    #shopify-section-{{ section.id }} .gn-halloween__heading { font-size: 2rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__text { font-size: 1rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__timers { gap: 28px; }
-    #shopify-section-{{ section.id }} .gn-halloween__timer-label { font-size: 1.05rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__timer-after { font-size: 0.95rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__units { gap: 8px; }
-    #shopify-section-{{ section.id }} .gn-halloween__unit { min-width: 0; flex: 1 1 0; max-width: 84px; padding: 12px 4px 9px; border-radius: 12px; }
-    #shopify-section-{{ section.id }} .gn-halloween__num { font-size: 2.1rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__cap { font-size: 0.62rem; letter-spacing: 0.1em; }
-    #shopify-section-{{ section.id }} .gn-halloween__deals { gap: 34px; margin-top: 40px; }
-    #shopify-section-{{ section.id }} .gn-halloween__deal { flex: 1 1 100%; max-width: none; padding: 30px 18px 22px; }
-    #shopify-section-{{ section.id }} .gn-halloween__deal-img { height: {{ section.settings.image_height_mobile }}px; }
-    #shopify-section-{{ section.id }} .gn-halloween__deal-price { font-size: 1.5rem; }
-    #shopify-section-{{ section.id }} .gn-halloween__cta { padding: 17px 16px; font-size: 1.05rem; }
+    #shopify-section-{{ section.id }} .gn-bf { padding-left: 16px; padding-right: 16px; }
+    #shopify-section-{{ section.id }} .gn-bf__heading { font-size: 2rem; }
+    #shopify-section-{{ section.id }} .gn-bf__text { font-size: 1rem; }
+    #shopify-section-{{ section.id }} .gn-bf__timers { gap: 28px; }
+    #shopify-section-{{ section.id }} .gn-bf__timer-label { font-size: 1.05rem; }
+    #shopify-section-{{ section.id }} .gn-bf__timer-after { font-size: 0.95rem; }
+    #shopify-section-{{ section.id }} .gn-bf__units { gap: 8px; }
+    #shopify-section-{{ section.id }} .gn-bf__unit { min-width: 0; flex: 1 1 0; max-width: 84px; padding: 12px 4px 9px; border-radius: 12px; }
+    #shopify-section-{{ section.id }} .gn-bf__num { font-size: 2.1rem; }
+    #shopify-section-{{ section.id }} .gn-bf__cap { font-size: 0.62rem; letter-spacing: 0.1em; }
+    #shopify-section-{{ section.id }} .gn-bf__deals { gap: 34px; margin-top: 40px; }
+    #shopify-section-{{ section.id }} .gn-bf__deal { flex: 1 1 100%; max-width: none; padding: 30px 18px 22px; }
+    #shopify-section-{{ section.id }} .gn-bf__deal-img { height: {{ section.settings.image_height_mobile }}px; }
+    #shopify-section-{{ section.id }} .gn-bf__deal-price { font-size: 1.5rem; }
+    #shopify-section-{{ section.id }} .gn-bf__cta { padding: 17px 16px; font-size: 1.05rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    #shopify-section-{{ section.id }} .gn-halloween__item { animation: none; top: 10%; }
-    #shopify-section-{{ section.id }} .gn-halloween__unit,
-    #shopify-section-{{ section.id }} .gn-halloween__unit--sec .gn-halloween__num { animation: none; }
+    #shopify-section-{{ section.id }} .gn-bf__item { animation: none; top: 10%; }
+    #shopify-section-{{ section.id }} .gn-bf__unit,
+    #shopify-section-{{ section.id }} .gn-bf__unit--sec .gn-bf__num { animation: none; }
   }
 </style>
 
-<div class="gn-halloween">
+<div class="gn-bf">
   {%- if section.settings.show_falling -%}
     {%- assign icons = section.settings.icons | split: ',' -%}
-    <div class="gn-halloween__fall" aria-hidden="true">
+    <div class="gn-bf__fall" aria-hidden="true">
       {%- for i in (1..section.settings.item_count) -%}
         {%- assign idx = forloop.index0 | modulo: icons.size -%}
         <span
-          class="gn-halloween__item"
+          class="gn-bf__item"
           style="left: {{ forloop.index0 | times: 37 | modulo: 100 }}%; font-size: {{ forloop.index0 | modulo: 4 | times: 6 | plus: 20 }}px; animation-duration: {{ forloop.index0 | modulo: 5 | times: 2 | plus: 9 }}s; animation-delay: -{{ forloop.index0 | times: 1.7 }}s;"
         >{{ icons[idx] | strip }}</span>
       {%- endfor -%}
     </div>
   {%- endif -%}
 
-  <div class="gn-halloween__inner">
+  <div class="gn-bf__inner">
     {%- if section.settings.eyebrow != blank -%}
-      <p class="gn-halloween__eyebrow">{{ section.settings.eyebrow }}</p>
+      <p class="gn-bf__eyebrow">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
     {%- if section.settings.heading != blank -%}
-      <h2 class="gn-halloween__heading">{{ section.settings.heading }}</h2>
+      <h2 class="gn-bf__heading">{{ section.settings.heading }}</h2>
     {%- endif -%}
     {%- if section.settings.text != blank -%}
-      <p class="gn-halloween__text">{{ section.settings.text }}</p>
+      <p class="gn-bf__text">{{ section.settings.text }}</p>
     {%- endif -%}
     {%- if section.settings.timer_note != blank -%}
-      <p class="gn-halloween__timer-note">{{ section.settings.timer_note }}</p>
+      <p class="gn-bf__timer-note">{{ section.settings.timer_note }}</p>
     {%- endif -%}
     {%- if section.settings.deadline != blank or section.settings.deadline_weekly or section.settings.sale_deadline != blank or section.settings.sale_weekly -%}
-      <div class="gn-halloween__timers">
+      <div class="gn-bf__timers">
         {%- if section.settings.deadline != blank or section.settings.deadline_weekly -%}
-          <div class="gn-halloween__timer" data-gn-halloween-timer data-deadline="{{ section.settings.deadline | escape }}"{% if section.settings.deadline_weekly %} data-weekly="true" data-offset="{{ section.settings.weekly_timezone | escape }}"{% endif %} data-ended="{{ section.settings.ended_text | escape }}">
-            <p class="gn-halloween__timer-label">{{ section.settings.timer_label }}</p>
-            <div class="gn-halloween__units" role="timer" aria-live="off">
-              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-d>00</span><span class="gn-halloween__cap">Days</span></div>
-              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-h>00</span><span class="gn-halloween__cap">Hours</span></div>
-              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-m>00</span><span class="gn-halloween__cap">Mins</span></div>
-              <div class="gn-halloween__unit gn-halloween__unit--sec"><span class="gn-halloween__num" data-s>00</span><span class="gn-halloween__cap">Secs</span></div>
+          <div class="gn-bf__timer" data-gn-bf-timer data-deadline="{{ section.settings.deadline | escape }}"{% if section.settings.deadline_weekly %} data-weekly="true" data-offset="{{ section.settings.weekly_timezone | escape }}"{% endif %} data-ended="{{ section.settings.ended_text | escape }}">
+            <p class="gn-bf__timer-label">{{ section.settings.timer_label }}</p>
+            <div class="gn-bf__units" role="timer" aria-live="off">
+              <div class="gn-bf__unit"><span class="gn-bf__num" data-d>00</span><span class="gn-bf__cap">Days</span></div>
+              <div class="gn-bf__unit"><span class="gn-bf__num" data-h>00</span><span class="gn-bf__cap">Hours</span></div>
+              <div class="gn-bf__unit"><span class="gn-bf__num" data-m>00</span><span class="gn-bf__cap">Mins</span></div>
+              <div class="gn-bf__unit gn-bf__unit--sec"><span class="gn-bf__num" data-s>00</span><span class="gn-bf__cap">Secs</span></div>
             </div>
           </div>
         {%- endif -%}
         {%- if section.settings.sale_deadline != blank or section.settings.sale_weekly -%}
-          <div class="gn-halloween__timer gn-halloween__timer--sale" data-gn-halloween-timer data-deadline="{{ section.settings.sale_deadline | escape }}"{% if section.settings.sale_weekly %} data-weekly="true" data-offset="{{ section.settings.weekly_timezone | escape }}"{% endif %} data-ended="{{ section.settings.sale_ended_text | escape }}">
-            <p class="gn-halloween__timer-label">{{ section.settings.sale_label_before }}</p>
-            <div class="gn-halloween__units" role="timer" aria-live="off">
-              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-d>00</span><span class="gn-halloween__cap">Days</span></div>
-              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-h>00</span><span class="gn-halloween__cap">Hours</span></div>
-              <div class="gn-halloween__unit"><span class="gn-halloween__num" data-m>00</span><span class="gn-halloween__cap">Mins</span></div>
-              <div class="gn-halloween__unit gn-halloween__unit--sec"><span class="gn-halloween__num" data-s>00</span><span class="gn-halloween__cap">Secs</span></div>
+          <div class="gn-bf__timer gn-bf__timer--sale" data-gn-bf-timer data-deadline="{{ section.settings.sale_deadline | escape }}"{% if section.settings.sale_weekly %} data-weekly="true" data-offset="{{ section.settings.weekly_timezone | escape }}"{% endif %} data-ended="{{ section.settings.sale_ended_text | escape }}">
+            <p class="gn-bf__timer-label">{{ section.settings.sale_label_before }}</p>
+            <div class="gn-bf__units" role="timer" aria-live="off">
+              <div class="gn-bf__unit"><span class="gn-bf__num" data-d>00</span><span class="gn-bf__cap">Days</span></div>
+              <div class="gn-bf__unit"><span class="gn-bf__num" data-h>00</span><span class="gn-bf__cap">Hours</span></div>
+              <div class="gn-bf__unit"><span class="gn-bf__num" data-m>00</span><span class="gn-bf__cap">Mins</span></div>
+              <div class="gn-bf__unit gn-bf__unit--sec"><span class="gn-bf__num" data-s>00</span><span class="gn-bf__cap">Secs</span></div>
             </div>
-            {%- if section.settings.sale_label_after != blank -%}<p class="gn-halloween__timer-after">{{ section.settings.sale_label_after }}</p>{%- endif -%}
+            {%- if section.settings.sale_label_after != blank -%}<p class="gn-bf__timer-after">{{ section.settings.sale_label_after }}</p>{%- endif -%}
           </div>
         {%- endif -%}
       </div>
@@ -311,7 +311,7 @@
   </div>
 
   {%- if section.blocks.size > 0 -%}
-    <div class="gn-halloween__deals">
+    <div class="gn-bf__deals">
       {%- for block in section.blocks -%}
         {%- assign p = block.settings.product -%}
         {%- assign title = block.settings.title | default: p.title -%}
@@ -325,28 +325,28 @@
             {%- assign saving = p.compare_at_price | minus: p.price | money -%}
           {%- endif -%}
         {%- endif -%}
-        <div class="gn-halloween__deal" {{ block.shopify_attributes }}>
-          {%- if block.settings.badge != blank -%}<span class="gn-halloween__badge">{{ block.settings.badge }}</span>{%- endif -%}
+        <div class="gn-bf__deal" {{ block.shopify_attributes }}>
+          {%- if block.settings.badge != blank -%}<span class="gn-bf__badge">{{ block.settings.badge }}</span>{%- endif -%}
           {%- if img != blank -%}
-            {%- if link != blank -%}<a class="gn-halloween__deal-imglink" href="{{ link }}" tabindex="-1" aria-hidden="true">{%- else -%}<div class="gn-halloween__deal-imglink">{%- endif -%}
-              {{ img | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 750px) 440px, 90vw', class: 'gn-halloween__deal-img', alt: title }}
+            {%- if link != blank -%}<a class="gn-bf__deal-imglink" href="{{ link }}" tabindex="-1" aria-hidden="true">{%- else -%}<div class="gn-bf__deal-imglink">{%- endif -%}
+              {{ img | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 750px) 440px, 90vw', class: 'gn-bf__deal-img', alt: title }}
             {%- if link != blank -%}</a>{%- else -%}</div>{%- endif -%}
           {%- endif -%}
-          <span class="gn-halloween__deal-title">{{ title }}</span>
+          <span class="gn-bf__deal-title">{{ title }}</span>
           {%- if block.settings.subtitle != blank -%}
-            <span class="gn-halloween__deal-sub">{{ block.settings.subtitle }}</span>
+            <span class="gn-bf__deal-sub">{{ block.settings.subtitle }}</span>
           {%- endif -%}
-          <div class="gn-halloween__deal-offer">
+          <div class="gn-bf__deal-offer">
             {%- if price != blank -%}
-              <span class="gn-halloween__deal-price">Bundle price: {{ price }}</span>
+              <span class="gn-bf__deal-price">Bundle price: {{ price }}</span>
             {%- endif -%}
             {%- if block.settings.note != blank -%}
-              <span class="gn-halloween__deal-save">{{ block.settings.note }}</span>
+              <span class="gn-bf__deal-save">{{ block.settings.note }}</span>
             {%- elsif price != blank and saving != blank -%}
-              <span class="gn-halloween__deal-save">Save {{ saving }} versus buying separately</span>
+              <span class="gn-bf__deal-save">Save {{ saving }} versus buying separately</span>
             {%- endif -%}
             {%- if link != blank and block.settings.button_label != blank -%}
-              <a class="gn-halloween__cta" href="{{ link }}">{{ block.settings.button_label }}</a>
+              <a class="gn-bf__cta" href="{{ link }}">{{ block.settings.button_label }}</a>
             {%- endif -%}
           </div>
         </div>
@@ -358,7 +358,7 @@
 {%- if section.settings.deadline != blank or section.settings.deadline_weekly or section.settings.sale_deadline != blank or section.settings.sale_weekly -%}
   <script>
     (function () {
-      document.querySelectorAll('#shopify-section-{{ section.id }} [data-gn-halloween-timer]').forEach(function (root) {
+      document.querySelectorAll('#shopify-section-{{ section.id }} [data-gn-bf-timer]').forEach(function (root) {
       var weekly = root.getAttribute('data-weekly') === 'true';
       var offMatch = /^([+-])(d{2}):?(d{2})$/.exec(root.getAttribute('data-offset') || '+00:00') || [0, '+', '00', '00'];
       var offMin = (offMatch[1] === '-' ? -1 : 1) * (parseInt(offMatch[2], 10) * 60 + parseInt(offMatch[3], 10));
@@ -378,7 +378,7 @@
         if (left <= 0) {
           clearInterval(timer);
           var msg = root.getAttribute('data-ended') || '';
-          if (msg) { root.innerHTML = ''; var q = document.createElement('p'); q.className = 'gn-halloween__timer-label'; q.textContent = msg; root.appendChild(q); } else { root.hidden = true; }
+          if (msg) { root.innerHTML = ''; var q = document.createElement('p'); q.className = 'gn-bf__timer-label'; q.textContent = msg; root.appendChild(q); } else { root.hidden = true; }
           return;
         }
         el.d.textContent = p(Math.floor(left / 86400));
@@ -395,33 +395,33 @@
 
 {% schema %}
 {
-  "name": "Halloween celebration",
+  "name": "Black Friday sale",
   "tag": "section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Halloween Sale" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Halloween Golf Upgrade" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Black Friday" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Black Friday Golf Upgrade" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Choose your bundle. See your savings. Start practising." },
     { "type": "text", "id": "timer_note", "label": "Orange note above timer" },
     { "type": "header", "content": "Offer countdown" },
-    { "type": "text", "id": "timer_label", "label": "Timer text", "default": "Halloween offer ends in" },
-    { "type": "text", "id": "deadline", "label": "Offer deadline", "info": "Real end date and time with timezone, e.g. 2026-10-31T23:59:00+00:00. It is a fixed date, so the timer never restarts. Leave empty to hide the timer." },
+    { "type": "text", "id": "timer_label", "label": "Timer text", "default": "Black Friday offer ends in" },
+    { "type": "text", "id": "deadline", "label": "Offer deadline", "info": "Real end date and time with timezone, e.g. 2026-11-27T23:59:00+00:00. It is a fixed date, so the timer never restarts. Leave empty to hide the timer." },
     { "type": "checkbox", "id": "deadline_weekly", "label": "Count down to Saturday 23:59, repeating every week", "default": false, "info": "Overrides the date above. Only use this if the offer really renews every week." },
     { "type": "text", "id": "ended_text", "label": "Text when the offer ends", "default": "This offer has ended." },
     { "type": "header", "content": "Early-bird sale countdown" },
     { "type": "text", "id": "sale_label_before", "label": "Text before timer", "default": "30% Off Early-Bird Sale ends in" },
-    { "type": "text", "id": "sale_label_after", "label": "Text after timer", "default": "— prices go up after!" },
+    { "type": "text", "id": "sale_label_after", "label": "Text after timer", "default": "? prices go up after!" },
     { "type": "text", "id": "sale_deadline", "label": "Early-bird deadline", "info": "Real end date and time with timezone, e.g. 2026-11-15T23:59:00+00:00. Fixed date, never restarts. Leave empty to hide this timer." },
     { "type": "checkbox", "id": "sale_weekly", "label": "Count down to Saturday 23:59, repeating every week", "default": true, "info": "Overrides the date above. Only use this if the offer really renews every week and prices really go up." },
     { "type": "text", "id": "weekly_timezone", "label": "Weekly timezone offset", "default": "+00:00", "info": "Saturday 23:59 in this timezone, e.g. +00:00 (Ireland/UK winter), +01:00, -05:00 (US Eastern winter)." },
     { "type": "text", "id": "sale_ended_text", "label": "Text when the sale ends", "default": "The early-bird sale has ended." },
     { "type": "header", "content": "Falling decorations" },
     { "type": "checkbox", "id": "show_falling", "label": "Show falling decorations", "default": true },
-    { "type": "text", "id": "icons", "label": "Decorations (comma separated emoji)", "default": "🎃,🦇,👻,🕸️" },
+    { "type": "text", "id": "icons", "label": "Decorations (comma separated emoji)", "default": "???,???,??,??" },
     { "type": "range", "id": "item_count", "min": 4, "max": 30, "step": 1, "label": "Number of decorations", "default": 14 },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "background_color", "label": "Background color", "default": "#1b1230" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#0a0a0a" },
     { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#ffffff" },
-    { "type": "color", "id": "text_color", "label": "Text color", "default": "#e6dff2" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#e8e8e8" },
     { "type": "color", "id": "accent_color", "label": "Accent / button color", "default": "#ec7901" },
     { "type": "color", "id": "button_text_color", "label": "Button text color", "default": "#ffffff" },
     { "type": "header", "content": "Layout" },
@@ -439,7 +439,7 @@
         { "type": "text", "id": "title", "label": "Title override" },
         { "type": "text", "id": "subtitle", "label": "Subtitle" },
         { "type": "text", "id": "note", "label": "Orange note", "info": "Replaces the 'Save ... versus buying separately' line when filled." },
-        { "type": "text", "id": "badge", "label": "Badge", "default": "Halloween offer" },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Black Friday offer" },
         { "type": "text", "id": "button_label", "label": "Button text", "default": "Get my bundle" },
         { "type": "image_picker", "id": "image", "label": "Image override" },
         { "type": "url", "id": "link", "label": "Link override" },
@@ -450,7 +450,7 @@
     }
   ],
   "presets": [
-    { "name": "Halloween celebration" }
+    { "name": "Black Friday sale" }
   ]
 }
 {% endschema %}

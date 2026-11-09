@@ -102,7 +102,7 @@
         "msg_presidents": {
           "type": "message",
           "settings": {
-            "text": "Halloween Sale",
+            "text": "Black Friday",
             "link": "",
             "show_icon": true,
             "icon": "sparkle"
@@ -135,8 +135,8 @@
       "name": "Gradient Marquee Bar",
       "settings": {
         "gradient_style": "custom",
-        "gradient_color_1": "#1B1230",
-        "gradient_color_2": "#1B1230",
+        "gradient_color_1": "#0a0a0a",
+        "gradient_color_2": "#0a0a0a",
         "gradient_color_3": "#244a34",
         "speed": 50,
         "direction": "left",
