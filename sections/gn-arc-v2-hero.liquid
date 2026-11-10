@@ -52,7 +52,7 @@
     assign hero_heading = hero_heading | replace: hero_brand, hero_brand_html
   endif
 
-  assign theme_gallery = 'gn-arc-v2-gallery-01.png,gn-arc-v2-gallery-02.png,gn-arc-v2-gallery-03.png,gn-arc-v2-gallery-04.png,gn-arc-v2-gallery-05.png,gn-arc-v2-gallery-06.png' | split: ','
+  assign theme_gallery = 'gn-arc-v2-gallery-01.jpg,gn-arc-v2-gallery-02.jpg,gn-arc-v2-gallery-03.jpg,gn-arc-v2-gallery-04.jpg,gn-arc-v2-gallery-05.jpg,gn-arc-v2-gallery-06.jpg' | split: ','
   assign use_figma_gallery = section.settings.use_figma_gallery
   if use_figma_gallery == nil
     assign use_figma_gallery = true
