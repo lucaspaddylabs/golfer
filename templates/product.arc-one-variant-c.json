@@ -128,71 +128,63 @@
         "review_1": {
           "type": "review",
           "settings": {
+            "asset_fallback": "gn-arc-review-01.png",
+            "stars": 5,
             "quote": "It works! I'm hitting my drives 20-30 yards further. My partner in my scramble league is very happy. We won our league this year. The long par 4s are reachable again!",
-            "attribution": "Verified buyer",
-            "featured": true
+            "name": "Dave Ridge",
+            "hcp": "HCP 18 → 14",
+            "verified": true
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
-            "quote": "It helps my timing when I swing.",
-            "attribution": "Verified buyer",
-            "featured": false
+            "asset_fallback": "gn-arc-review-02.png",
+            "stars": 5,
+            "quote": "The perfect size for indoor practice. It has completely transformed my swing tempo!",
+            "name": "Marcus G",
+            "hcp": "HCP 24",
+            "verified": true
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
-            "quote": "I use it in my right hand for about 6 swings. Then I do in in the left hand about 6 swings, then both hands with the normal grip. it is like a quick tune up.",
-            "attribution": "Verified buyer",
-            "featured": false
-          }
-        },
-        "review_4": {
-          "type": "review",
-          "settings": {
+            "asset_fallback": "gn-arc-review-03.png",
+            "stars": 4,
             "quote": "Using the swing trainer is an easy way to evaluate your swing without going to the driving range.",
-            "attribution": "Verified buyer",
-            "featured": false
-          }
-        },
-        "review_5": {
-          "type": "review",
-          "settings": {
-            "quote": "Has really helped improve my contact. Very noticeable the first time I went to the range after using it every day for less than a week",
-            "attribution": "Verified buyer",
-            "featured": false
-          }
-        },
-        "review_6": {
-          "type": "review",
-          "settings": {
-            "quote": "I purchased 2 of them. I use them and they help me groove my swing. I'm a satisfied person",
-            "attribution": "Verified buyer",
-            "featured": false
+            "name": "First name L.",
+            "hcp": "HCP 9",
+            "verified": true
           }
         }
       },
       "block_order": [
         "review_1",
         "review_2",
-        "review_3",
-        "review_4",
-        "review_5",
-        "review_6"
+        "review_3"
       ],
       "settings": {
         "eyebrow": "REVIEWS",
-        "heading": "What golfers say after using it.",
+        "heading": "Golfers who heard the difference.",
         "show_score": true,
         "rating": "4.8",
+        "review_count": "",
         "score_text": "Based on verified reviews",
+        "bar_5": 84,
+        "bar_4": 11,
+        "bar_3": 3,
+        "bar_2": 1,
+        "bar_1": 1,
+        "button_label": "Read all reviews",
+        "verified_text": "Verified buyer",
         "background_color": "#F5F1E8",
         "card_color": "#FFFFFF",
-        "feature_color": "#173122",
         "ink_color": "#0B1C12",
         "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "highlight_color": "#3A8A5B",
+        "pale_color": "#DDEFE3",
         "gold_color": "#C9A249",
         "border_color": "#E8E2D4",
         "padding_top": 56,
@@ -265,10 +257,14 @@
         "eyebrow": "THE GOLFER NOW SYSTEM",
         "heading": "One system. Four jobs.",
         "copy": "Each tool trains one part of the game. ARC ONE covers release. Pair it with the others to cover more of your practice.",
+        "show_card_price": true,
         "banner_title": "All four tools. Every part of your game.",
         "banner_text": "LINK + ARC + TRACE + LINE · Free shipping",
+        "banner_price": "$129.95",
+        "banner_compare": "$150.80",
+        "banner_save": "Save $20.85",
         "banner_button": "Get the Complete System",
-        "background_color": "#FFFFFF",
+        "background_color": "#F5F1E8",
         "card_color": "#FFFFFF",
         "ink_color": "#0B1C12",
         "muted_color": "#4B5A50",
@@ -288,22 +284,16 @@
         "marker_1": {
           "type": "marker",
           "settings": {
-            "when": "",
             "title": "Early click",
             "text": "You're letting go near the top. The clubhead passes your hands before impact — weak, high, and short.",
-            "fix_label": "Fix",
-            "fix": "",
             "tone": "early"
           }
         },
         "marker_2": {
           "type": "marker",
           "settings": {
-            "when": "",
             "title": "Click through the ball",
             "text": "You've held your lag into the downswing. That's where compression and distance come from.",
-            "fix_label": "Keep",
-            "fix": "",
             "tone": "target"
           }
         }
@@ -316,12 +306,22 @@
         "eyebrow": "WHAT THE CLICK MEANS",
         "heading": "The click is your coach.",
         "copy": "Inside the shaft, a weighted piece releases when your wrists do. You hear where your release happened — no video to watch, no number to read.",
-        "footer_text": "",
-        "background_color": "#0B1C12",
-        "panel_color": "#173122",
+        "label_1": "TOP",
+        "label_2": "DOWNSWING",
+        "label_3": "IMPACT",
+        "label_4": "FINISH",
+        "ball_label": "BALL",
+        "early_tag": "Early click",
+        "through_tag": "Click through",
+        "early_position": 25,
+        "through_position": 75,
+        "background_color": "#173122",
+        "panel_color": "#0F2418",
+        "sub_color": "#1D3D2A",
         "text_color": "#F5F1E8",
         "muted_color": "#9CCFB0",
         "mint_color": "#9CCFB0",
+        "early_color": "#E8863A",
         "gold_color": "#C9A249",
         "padding_top": 80,
         "padding_bottom": 80
@@ -395,16 +395,18 @@
       "settings": {
         "eyebrow": "HOW TO USE IT",
         "heading": "Five minutes. Anywhere.",
+        "highlight_text": "Five minutes.",
         "copy": "",
         "background_color": "#F5F1E8",
         "card_color": "#FFFFFF",
         "ink_color": "#0B1C12",
         "muted_color": "#4B5A50",
         "accent_color": "#1D3D2A",
-        "dark_color": "#173122",
+        "dark_color": "#1D3D2A",
         "highlight_color": "#3A8A5B",
         "mint_color": "#9CCFB0",
         "pale_color": "#DDEFE3",
+        "mark_color": "#DDEFE3",
         "border_color": "#E8E2D4",
         "padding_top": 64,
         "padding_bottom": 64
@@ -462,18 +464,20 @@
         "eyebrow": "THE PROBLEM IT SOLVES",
         "heading": "Most amateurs release too early. Few can feel it.",
         "copy": "There's rarely time for a coach and rarely space for a net. ARC ONE gives you a signal you can use on the next swing.",
-        "before_tag": "Before",
+        "before_tag": "BEFORE",
         "before_title": "Guessing on every swing",
-        "after_tag": "With ARC ONE",
+        "after_tag": "WITH ARC ONE",
         "after_title": "Knowing on every swing",
         "bottom_text": "",
         "background_color": "#FFFFFF",
-        "card_color": "#F5F1E8",
-        "dark_color": "#173122",
+        "card_color": "#FFFFFF",
+        "after_color": "#DDEFE3",
         "ink_color": "#0B1C12",
         "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
         "highlight_color": "#3A8A5B",
-        "mint_color": "#9CCFB0",
+        "before_color": "#D9772B",
+        "terracotta_color": "#C4553A",
         "border_color": "#E8E2D4",
         "padding_top": 64,
         "padding_bottom": 64
@@ -486,7 +490,7 @@
           "type": "faq_item",
           "settings": {
             "question": "What does ARC ONE actually do?",
-            "answer": "<p>It clicks inside the shaft the moment your wrists release. You hear when you let go, then work to move the click later in the swing.</p>"
+            "answer": "<p>A weighted piece inside the shaft clicks the moment your wrists release. Hear it early and you're giving away distance. Hear it through the ball and you've held your lag. No app, net, or camera needed.</p>"
           }
         },
         "faq_2": {
@@ -554,7 +558,7 @@
         "point_2": {
           "type": "point",
           "settings": {
-            "text": "30-day returns"
+            "text": "Black Friday price until 30 Nov"
           }
         }
       },
@@ -563,19 +567,22 @@
         "point_2"
       ],
       "settings": {
+        "overlay_opacity": 80,
+        "alignment": "left",
         "eyebrow": "30 DAYS, RISK-FREE",
         "heading": "Hear your first clean release this week.",
         "copy": "Try ARC ONE for 30 days. If your swing doesn't feel more consistent, send it back for a full refund.",
         "show_price": true,
-        "price_label": "From",
         "button_text": "Add ARC ONE",
         "background_color": "#0B1C12",
-        "panel_color": "#173122",
-        "text_color": "#F5F1E8",
+        "overlay_color": "#0B1C12",
+        "text_color": "#FFFFFF",
         "mint_color": "#9CCFB0",
         "gold_color": "#C9A249",
-        "padding_top": 64,
-        "padding_bottom": 80
+        "button_color": "#FFFFFF",
+        "button_text_color": "#0B1C12",
+        "padding_top": 96,
+        "padding_bottom": 96
       }
     }
   },

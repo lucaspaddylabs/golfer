@@ -55,7 +55,7 @@
 
 <style>
   .gn-v2h {
-    --gn-bg: #F5F1E8;
+    --gn-bg: #FFFFFF;
     --gn-card: #ffffff;
     --gn-ink: #0B1C12;
     --gn-muted: #4b5a50;
@@ -84,7 +84,10 @@
     align-items: start;
   }
   /* Gallery */
-  .gn-v2h__gallery { position: sticky; top: 24px; min-width: 0; }
+  .gn-v2h__gallery { position: sticky; top: 24px; min-width: 0; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .gn-v2h__gallery:not(:has(.gn-v2h__thumbs)) { grid-template-columns: minmax(0, 1fr); }
+  .gn-v2h__gallery .gn-v2h__stage { grid-column: 2; grid-row: 1; }
+  .gn-v2h__gallery:not(:has(.gn-v2h__thumbs)) .gn-v2h__stage { grid-column: 1; }
   .gn-v2h__stage {
     position: relative;
     background: var(--gn-card);
@@ -117,14 +120,14 @@
   .gn-v2h__arrow:hover { background: #fff; border-color: var(--gn-green); }
   .gn-v2h__arrow--prev { left: 12px; }
   .gn-v2h__arrow--next { right: 12px; }
-  .gn-v2h__thumbs { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; }
+  .gn-v2h__thumbs { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 10px; margin: 0; overflow-y: auto; max-height: 560px; padding: 2px; }
   .gn-v2h__thumb {
     flex: 0 0 auto; width: 72px; height: 72px; padding: 0;
     border: 2px solid var(--gn-border); border-radius: 12px; background: var(--gn-card);
     overflow: hidden; cursor: pointer;
   }
   .gn-v2h__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .gn-v2h__thumb[aria-current="true"] { border-color: var(--gn-green); }
+  .gn-v2h__thumb[aria-current="true"] { border-color: var(--gn-forest); box-shadow: 0 0 0 1px var(--gn-forest); }
   .gn-v2h__dots { display: none; }
 
   /* Buy box */
@@ -171,7 +174,7 @@
     display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 20px;
     border-radius: 9px; font-weight: 700; font-size: 0.92rem; color: var(--gn-muted); transition: background 0.15s ease, color 0.15s ease;
   }
-  .gn-v2h__hand input:checked + span { background: var(--gn-green); color: var(--gn-bg); }
+  .gn-v2h__hand input:checked + span { background: #fff; color: var(--gn-ink); box-shadow: 0 1px 3px rgba(11, 28, 18, 0.16), 0 0 0 1px var(--gn-border); }
   .gn-v2h__hand input:focus-visible + span, .gn-v2h__pill input:focus-visible + span { outline: 2px solid var(--gn-mid); outline-offset: 2px; }
   .gn-v2h__pills { display: flex; flex-wrap: wrap; gap: 8px; }
   .gn-v2h__pill span {
@@ -210,7 +213,7 @@
   }
   .gn-v2h__setup-badge {
     position: absolute; top: -10px; right: 14px; z-index: 2;
-    padding: 5px 10px; border-radius: 999px; background: var(--gn-gold); color: var(--gn-ink);
+    padding: 5px 10px; border-radius: 999px; background: var(--gn-forest); color: #fff;
     font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
   }
 
@@ -252,7 +255,7 @@
   .gn-v2h__sticky { display: none; }
   @media (max-width: 989px) {
     .gn-v2h__inner { grid-template-columns: 1fr; gap: 20px; padding: 0 16px; }
-    .gn-v2h__gallery { position: static; }
+    .gn-v2h__gallery { position: static; display: block; }
     .gn-v2h__thumbs { display: none; }
     .gn-v2h__dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
     .gn-v2h__dot { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; background: #cfc9b8; cursor: pointer; }
@@ -310,7 +313,7 @@
         {%- if section.settings.gallery_badge != blank -%}
           <span class="gn-v2h__badge">{{ section.settings.gallery_badge }}</span>
         {%- endif -%}
-        {%- if product.media.size > 1 -%}
+        {%- if product.media.size > 1 or product.media.size == 0 and section.settings.fallback_image == blank -%}
           <button class="gn-v2h__arrow gn-v2h__arrow--prev" type="button" data-gn-prev aria-label="Previous image">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
@@ -341,9 +344,25 @@
             </div>
           {%- endfor -%}
         {%- elsif section.settings.fallback_image != blank -%}
-          <div class="gn-v2h__panel is-active">
+          <div class="gn-v2h__panel is-active" data-gn-panel data-media-id="fallback">
             {{ section.settings.fallback_image | image_url: width: 1200 | image_tag: alt: product.title, loading: 'eager' }}
           </div>
+        {%- else -%}
+          {%- comment -%} Figma Variant C gallery assets when the product has no media yet {%- endcomment -%}
+          {%- assign theme_gallery = 'gn-arc-v2-gallery-01.png,gn-arc-v2-gallery-02.png,gn-arc-v2-gallery-03.png,gn-arc-v2-gallery-04.png,gn-arc-v2-gallery-05.png,gn-arc-v2-gallery-06.png' | split: ',' -%}
+          {%- for asset_name in theme_gallery -%}
+            <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
+              <img
+                src="{{ asset_name | asset_url }}"
+                alt="{{ product.title | escape }}"
+                width="1120"
+                height="1400"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                {% if forloop.first %}fetchpriority="high"{% endif %}
+                style="object-fit: cover; padding: 0;"
+              >
+            </div>
+          {%- endfor -%}
         {%- endif -%}
       </div>
       {%- if product.media.size > 1 -%}
@@ -357,6 +376,20 @@
         <div class="gn-v2h__dots" aria-hidden="true">
           {%- for media in product.media -%}
             <button class="gn-v2h__dot{% if forloop.first %} is-active{% endif %}" type="button" data-gn-dot data-media-id="{{ media.id }}" tabindex="-1"></button>
+          {%- endfor -%}
+        </div>
+      {%- elsif product.media.size == 0 and section.settings.fallback_image == blank -%}
+        {%- assign theme_gallery = 'gn-arc-v2-gallery-01.png,gn-arc-v2-gallery-02.png,gn-arc-v2-gallery-03.png,gn-arc-v2-gallery-04.png,gn-arc-v2-gallery-05.png,gn-arc-v2-gallery-06.png' | split: ',' -%}
+        <div class="gn-v2h__thumbs" aria-label="Choose product image">
+          {%- for asset_name in theme_gallery -%}
+            <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="theme-{{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
+              <img src="{{ asset_name | asset_url }}" alt="" width="160" height="160" loading="lazy" style="object-fit: cover;">
+            </button>
+          {%- endfor -%}
+        </div>
+        <div class="gn-v2h__dots" aria-hidden="true">
+          {%- for asset_name in theme_gallery -%}
+            <button class="gn-v2h__dot{% if forloop.first %} is-active{% endif %}" type="button" data-gn-dot data-media-id="theme-{{ forloop.index }}" tabindex="-1"></button>
           {%- endfor -%}
         </div>
       {%- endif -%}
@@ -587,7 +620,7 @@
             <button type="button" data-gn-qty-plus aria-label="Increase quantity">+</button>
           </div>
           <button class="gn-v2h__cta" type="submit" name="add" data-gn-submit{% unless current_variant.available %} disabled aria-disabled="true"{% endunless %}>
-            <span data-gn-submit-label>{% if current_variant.available %}{{ section.settings.add_to_cart_text }}{% else %}{{ sold_label }}{% endif %}</span>
+            <span data-gn-submit-label>{% if current_variant.available %}{{ section.settings.add_to_cart_text }} &mdash; {{ arc_price | money }}{% else %}{{ sold_label }}{% endif %}</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
             <span class="gn-v2h__spinner" data-gn-spinner hidden aria-hidden="true"></span>
           </button>
@@ -811,7 +844,8 @@
       }
       if (stickyName) stickyName.textContent = active ? active.dataset.label : {{ product.title | json }};
       const label = busy ? labels.adding : (canBuy ? labels.add : labels.sold);
-      submitLabel.textContent = label;
+      const priceLabel = (canBuy && !busy && totals) ? labels.add + ' \u2014 ' + formatMoney(totals.price * qty) : label;
+      submitLabel.textContent = priceLabel;
       if (stickyLabel) stickyLabel.textContent = label;
       submit.disabled = !canBuy;
       submit.setAttribute('aria-disabled', String(!canBuy || busy));

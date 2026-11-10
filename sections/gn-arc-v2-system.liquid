@@ -31,32 +31,36 @@
     color: inherit; text-decoration: none; transition: transform 0.15s ease, border-color 0.15s ease;
   }
   a.gn-v2s__card:hover { transform: translateY(-3px); border-color: var(--gn-mid); }
-  .gn-v2s__card.is-current { background: var(--gn-forest); border-color: var(--gn-forest); color: #F5F1E8; }
-  .gn-v2s__media { aspect-ratio: 1 / 1; background: #fff; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--gn-border); }
-  .gn-v2s__card.is-current .gn-v2s__media { background: var(--gn-green); border-color: var(--gn-green); }
-  .gn-v2s__media img { width: 100%; height: 100%; object-fit: contain; padding: 14px; display: block; }
-  .gn-v2s__num { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 9px; border-radius: 999px; background: var(--gn-bg); color: var(--gn-green); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; line-height: 1; }
-  .gn-v2s__card.is-current .gn-v2s__num { background: var(--gn-gold); color: var(--gn-ink); }
+  .gn-v2s__card.is-current { border: 2px solid var(--gn-forest); }
+  .gn-v2s__media { aspect-ratio: 1 / 1; background: var(--gn-bg); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--gn-border); }
+  .gn-v2s__media img { width: 100%; height: 100%; object-fit: contain; padding: 18px; display: block; }
+  .gn-v2s__num { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 9px; border-radius: 999px; background: var(--gn-card); color: var(--gn-green); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; line-height: 1; }
+  .gn-v2s__card.is-current .gn-v2s__num { background: var(--gn-forest); color: #fff; }
   .gn-v2s__body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
   .gn-v2s__name { margin: 0; font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
   .gn-v2s__covers { margin: 0; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gn-mid); }
-  .gn-v2s__card.is-current .gn-v2s__covers { color: var(--gn-mint); }
   .gn-v2s__text { margin: 0; font-size: 0.92rem; line-height: 1.45; color: var(--gn-muted); }
-  .gn-v2s__card.is-current .gn-v2s__text { color: rgba(245, 241, 232, 0.82); }
+  .gn-v2s__price { margin: 2px 0 0; font-size: 1rem; font-weight: 800; line-height: 1.2; color: var(--gn-ink); }
   .gn-v2s__foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 800; }
   .gn-v2s__foot-link { color: var(--gn-green); }
-  .gn-v2s__card.is-current .gn-v2s__foot-link { color: var(--gn-mint); }
+  .gn-v2s__here { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--gn-forest); color: #fff; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.04em; line-height: 1; }
+  .gn-v2s__here svg { width: 12px; height: 12px; display: block; }
   .gn-v2s__banner {
     margin-top: 20px; padding: 28px 32px; border-radius: 16px; background: var(--gn-forest); color: #F5F1E8;
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px;
   }
   .gn-v2s__banner-title { margin: 0 0 4px; font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.01em; }
   .gn-v2s__banner-text { margin: 0; max-width: 56ch; font-size: 0.98rem; line-height: 1.45; color: var(--gn-mint); }
+  .gn-v2s__banner-side { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+  .gn-v2s__banner-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+  .gn-v2s__banner-now { font-size: 2rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .gn-v2s__banner-was { font-size: 1.05rem; color: var(--gn-mint); text-decoration: line-through; }
+  .gn-v2s__banner-save { padding: 5px 10px; border-radius: 999px; background: var(--gn-gold); color: var(--gn-ink); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; }
   .gn-v2s__banner-btn {
     display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 12px;
-    background: var(--gn-gold); color: var(--gn-ink); font-size: 0.9rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+    background: #fff; color: var(--gn-ink); font-size: 0.9rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
   }
-  .gn-v2s__banner-btn:hover { filter: brightness(1.06); }
+  .gn-v2s__banner-btn:hover { filter: brightness(0.96); }
   @media (max-width: 989px) {
     .gn-v2s__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .gn-v2s__head { display: block; }
@@ -68,6 +72,7 @@
     .gn-v2s__grid { gap: 12px; }
     .gn-v2s__body { padding: 14px 14px 16px; }
     .gn-v2s__banner { padding: 22px 20px; }
+    .gn-v2s__banner-side { width: 100%; }
     .gn-v2s__banner-btn { width: 100%; }
   }
 </style>
@@ -108,10 +113,35 @@
           if card_product == blank and block.settings.handle != blank
             assign card_product = all_products[block.settings.handle]
           endif
+          assign card_handle = card_product.handle | default: block.settings.handle
+
+          assign card_price_product = card_product
+          if card_price_product.title == blank and block.settings.current
+            assign card_price_product = product
+          endif
+          assign card_price = null
+          if card_price_product.title != blank
+            assign card_price = card_price_product.selected_or_first_available_variant.price
+          endif
+
           assign card_image = block.settings.image
           if card_image == blank and card_product.featured_image
             assign card_image = card_product.featured_image
           endif
+          assign card_fallback = null
+          if card_image == blank
+            case card_handle
+              when 'golf-training-belt'
+                assign card_fallback = 'gn-link-one-product.png'
+              when 'pro-swing-click-trainer'
+                assign card_fallback = 'gn-arc-one-product.png'
+              when 'swing-detection-training-mat'
+                assign card_fallback = 'gn-trace-one-product.png'
+              when 'golf-putting-tutor'
+                assign card_fallback = 'gn-line-one-product.png'
+            endcase
+          endif
+
           assign card_url = null
           if block.settings.current
             assign card_url = null
@@ -130,6 +160,8 @@
           <span class="gn-v2s__media">
             {%- if card_image != blank -%}
               {{ card_image | image_url: width: 600 | image_tag: alt: block.settings.name, loading: 'lazy', widths: '240, 360, 480, 600', sizes: '(min-width: 990px) 280px, 50vw' }}
+            {%- elsif card_fallback != blank -%}
+              <img src="{{ card_fallback | asset_url }}" alt="{{ block.settings.name | escape }}" width="600" height="600" loading="lazy">
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}
@@ -138,9 +170,12 @@
             <span class="gn-v2s__covers">{{ block.settings.covers }}</span>
             <span class="gn-v2s__name" style="display:block">{{ block.settings.name }}</span>
             <span class="gn-v2s__text" style="display:block">{{ block.settings.text }}</span>
+            {%- if card_price != blank and section.settings.show_card_price -%}
+              <span class="gn-v2s__price" style="display:block">{{ card_price | money }}</span>
+            {%- endif -%}
             <span class="gn-v2s__foot">
               {%- if block.settings.current -%}
-                <span class="gn-v2s__foot-link">{{ block.settings.current_label }}</span>
+                <span class="gn-v2s__here"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>{{ block.settings.current_label }}</span>
               {%- elsif card_url != blank -%}
                 <span class="gn-v2s__foot-link">{{ block.settings.link_label }}</span>
                 <span class="gn-v2s__foot-link" aria-hidden="true">&rarr;</span>
@@ -163,9 +198,22 @@
             <p class="gn-v2s__banner-text">{{ section.settings.banner_text }}</p>
           {%- endif -%}
         </div>
-        {%- if section.settings.banner_button != blank -%}
-          <a class="gn-v2s__banner-btn" href="{{ section.settings.banner_url | default: '#gn-v2-buybox' }}">{{ section.settings.banner_button }}</a>
-        {%- endif -%}
+        <div class="gn-v2s__banner-side">
+          {%- if section.settings.banner_price != blank -%}
+            <div class="gn-v2s__banner-price">
+              <span class="gn-v2s__banner-now">{{ section.settings.banner_price }}</span>
+              {%- if section.settings.banner_compare != blank -%}
+                <span class="gn-v2s__banner-was">{{ section.settings.banner_compare }}</span>
+              {%- endif -%}
+              {%- if section.settings.banner_save != blank -%}
+                <span class="gn-v2s__banner-save">{{ section.settings.banner_save }}</span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.banner_button != blank -%}
+            <a class="gn-v2s__banner-btn" href="{{ section.settings.banner_url | default: '#gn-v2-buybox' }}">{{ section.settings.banner_button }}</a>
+          {%- endif -%}
+        </div>
       </div>
     {%- endif -%}
   </div>
@@ -181,18 +229,22 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Golfer Now system" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Four tools. One job each." },
     { "type": "textarea", "id": "copy", "label": "Intro", "default": "ARC ONE Swing Trainer fixes your release. The rest cover connection, strike, and roll. Use one or use all four." },
+    { "type": "checkbox", "id": "show_card_price", "label": "Show price on tool cards", "default": true },
     { "type": "header", "content": "Complete banner" },
     { "type": "text", "id": "banner_title", "label": "Banner title", "default": "Want the whole setup?" },
     { "type": "textarea", "id": "banner_text", "label": "Banner text", "default": "Grab ARC ONE Swing Trainer with LINK ONE Training Belt and LINE ONE Putting Tutor in one order. Pick your setup up top." },
+    { "type": "text", "id": "banner_price", "label": "Banner price", "info": "Example: $129.95. Leave blank to hide the price block." },
+    { "type": "text", "id": "banner_compare", "label": "Banner compare-at price", "info": "Example: $150.80. Shown struck through." },
+    { "type": "text", "id": "banner_save", "label": "Banner save badge", "info": "Example: Save $20.85." },
     { "type": "text", "id": "banner_button", "label": "Banner button", "default": "Pick your setup" },
     { "type": "url", "id": "banner_url", "label": "Banner button link", "info": "Leave blank to scroll back to the buy box." },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#F5F1E8" },
+    { "type": "color", "id": "background_color", "label": "Background / image area", "default": "#F5F1E8" },
     { "type": "color", "id": "card_color", "label": "Card", "default": "#FFFFFF" },
     { "type": "color", "id": "ink_color", "label": "Ink", "default": "#0B1C12" },
     { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#4B5A50" },
     { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1D3D2A" },
-    { "type": "color", "id": "dark_color", "label": "Dark card / banner", "default": "#173122" },
+    { "type": "color", "id": "dark_color", "label": "Current pill / banner", "default": "#173122" },
     { "type": "color", "id": "highlight_color", "label": "Highlight green", "default": "#3A8A5B" },
     { "type": "color", "id": "mint_color", "label": "Mint", "default": "#9CCFB0" },
     { "type": "color", "id": "gold_color", "label": "Gold", "default": "#C9A249" },
@@ -213,9 +265,9 @@
         { "type": "textarea", "id": "text", "label": "Text", "default": "Keeps your arms and body working together." },
         { "type": "product", "id": "product", "label": "Product", "info": "Optional. Falls back to the handle below." },
         { "type": "text", "id": "handle", "label": "Handle fallback", "default": "golf-training-belt" },
-        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Optional. Defaults to the product image." },
+        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Optional. Defaults to the product image, then a theme asset by handle." },
         { "type": "checkbox", "id": "current", "label": "This is the product on this page", "default": false },
-        { "type": "text", "id": "current_label", "label": "Label when current", "default": "You are here" },
+        { "type": "text", "id": "current_label", "label": "Label when current", "default": "You're here" },
         { "type": "text", "id": "link_label", "label": "Link label", "default": "See it" }
       ]
     }
