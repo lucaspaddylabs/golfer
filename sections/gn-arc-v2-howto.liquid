@@ -1,0 +1,187 @@
+<style>
+  .gn-v2w {
+    --gn-bg: #FFFFFF;
+    --gn-card: #F5F1E8;
+    --gn-ink: #0B1C12;
+    --gn-muted: #4B5A50;
+    --gn-green: #1D3D2A;
+    --gn-forest: #173122;
+    --gn-mid: #3A8A5B;
+    --gn-mint: #9CCFB0;
+    --gn-pale: #DDEFE3;
+    --gn-gold: #C9A249;
+    --gn-border: #E8E2D4;
+    background: var(--gn-bg);
+    color: var(--gn-ink);
+    font-family: var(--font-body-family), sans-serif;
+  }
+  .gn-v2w *, .gn-v2w *::before, .gn-v2w *::after { box-sizing: border-box; }
+  .gn-v2w__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .gn-v2w__head { max-width: 640px; margin: 0 auto 36px; text-align: center; }
+  .gn-v2w__chip { display: inline-block; margin: 14px 0 0; padding: 6px 12px; border-radius: 999px; background: var(--gn-pale); color: var(--gn-green); font-size: 0.8rem; font-weight: 700; line-height: 1.2; }
+  .gn-v2w__eyebrow { margin: 0 0 8px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gn-mid); }
+  .gn-v2w__heading { margin: 0 0 12px; font-family: var(--font-heading-family, var(--font-body-family)), sans-serif; font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.025em; }
+  .gn-v2w__copy { margin: 0; font-size: 1.05rem; line-height: 1.5; color: var(--gn-muted); }
+  .gn-v2w__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; list-style: none; margin: 0; padding: 0; }
+  .gn-v2w__step { position: relative; display: flex; flex-direction: column; background: var(--gn-card); border: 1px solid var(--gn-border); border-radius: 16px; overflow: hidden; }
+  .gn-v2w__media { aspect-ratio: 4 / 3; background: var(--gn-pale); display: flex; align-items: center; justify-content: center; }
+  .gn-v2w__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gn-v2w__media--empty svg { width: 64px; height: 64px; color: var(--gn-green); opacity: 0.7; }
+  .gn-v2w__body { padding: 24px; }
+  .gn-v2w__num { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; margin: 0 0 14px; border-radius: 50%; background: var(--gn-green); color: #F5F1E8; font-size: 1rem; font-weight: 800; }
+  .gn-v2w__title { margin: 0 0 8px; font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
+  .gn-v2w__text { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--gn-muted); }
+  .gn-v2w__specs { margin: 24px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-radius: 16px; background: var(--gn-forest); color: #F5F1E8; overflow: hidden; }
+  .gn-v2w__spec { padding: 22px 24px; border-left: 1px solid rgba(156, 207, 176, 0.2); }
+  .gn-v2w__spec:first-child { border-left: 0; }
+  .gn-v2w__spec-label { display: block; margin: 0 0 6px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gn-mint); }
+  .gn-v2w__spec-value { display: block; font-size: 1rem; font-weight: 700; line-height: 1.35; }
+  @media (max-width: 989px) {
+    .gn-v2w__steps { grid-template-columns: 1fr; }
+    .gn-v2w__step { flex-direction: row; }
+    .gn-v2w__media { flex: 0 0 38%; aspect-ratio: auto; min-height: 180px; }
+    .gn-v2w__specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gn-v2w__spec:nth-child(3) { border-left: 0; }
+    .gn-v2w__spec:nth-child(n+3) { border-top: 1px solid rgba(156, 207, 176, 0.2); }
+  }
+  @media (max-width: 560px) {
+    .gn-v2w__inner { padding: 0 16px; }
+    .gn-v2w__step { flex-direction: column; }
+    .gn-v2w__media { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
+    .gn-v2w__body { padding: 20px; }
+    .gn-v2w__specs { grid-template-columns: 1fr; }
+    .gn-v2w__spec { border-left: 0; border-top: 1px solid rgba(156, 207, 176, 0.2); padding: 16px 20px; }
+    .gn-v2w__spec:first-child { border-top: 0; }
+  }
+</style>
+
+{%- assign step_blocks = section.blocks | where: 'type', 'step' -%}
+{%- assign spec_blocks = section.blocks | where: 'type', 'spec' -%}
+
+<section
+  class="gn-v2w"
+  style="
+    --gn-bg: {{ section.settings.background_color }};
+    --gn-card: {{ section.settings.card_color }};
+    --gn-ink: {{ section.settings.ink_color }};
+    --gn-muted: {{ section.settings.muted_color }};
+    --gn-green: {{ section.settings.accent_color }};
+    --gn-forest: {{ section.settings.dark_color }};
+    --gn-mid: {{ section.settings.highlight_color }};
+    --gn-mint: {{ section.settings.mint_color }};
+    --gn-pale: {{ section.settings.pale_color }};
+    --gn-border: {{ section.settings.border_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="gn-v2w__inner">
+    <div class="gn-v2w__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="gn-v2w__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="gn-v2w__heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.copy != blank -%}
+        <p class="gn-v2w__copy">{{ section.settings.copy }}</p>
+      {%- endif -%}
+    </div>
+
+    <ol class="gn-v2w__steps">
+      {%- for block in step_blocks -%}
+        <li class="gn-v2w__step" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="gn-v2w__media">
+              {{ block.settings.image | image_url: width: 800 | image_tag: alt: block.settings.title, loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 990px) 380px, 100vw' }}
+            </div>
+          {%- else -%}
+            <div class="gn-v2w__media gn-v2w__media--empty" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </div>
+          {%- endif -%}
+          <div class="gn-v2w__body">
+            <span class="gn-v2w__num">{{ forloop.index }}</span>
+            <h3 class="gn-v2w__title">{{ block.settings.title }}</h3>
+            <p class="gn-v2w__text">{{ block.settings.text }}</p>
+            {%- if block.settings.chip != blank -%}
+              <span class="gn-v2w__chip">{{ block.settings.chip }}</span>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if spec_blocks.size > 0 -%}
+      <ul class="gn-v2w__specs">
+        {%- for block in spec_blocks -%}
+          <li class="gn-v2w__spec" {{ block.shopify_attributes }}>
+            <span class="gn-v2w__spec-label">{{ block.settings.label }}</span>
+            <span class="gn-v2w__spec-value">{{ block.settings.value }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ARC v2 How to",
+  "tag": "section",
+  "class": "gn-arc-v2-section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Three steps. Five minutes." },
+    { "type": "textarea", "id": "copy", "label": "Intro", "default": "No ball, no net, no app. Grab it, swing it, listen." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_color", "label": "Card", "default": "#F5F1E8" },
+    { "type": "color", "id": "ink_color", "label": "Ink", "default": "#0B1C12" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#4B5A50" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1D3D2A" },
+    { "type": "color", "id": "dark_color", "label": "Spec strip", "default": "#173122" },
+    { "type": "color", "id": "highlight_color", "label": "Highlight green", "default": "#3A8A5B" },
+    { "type": "color", "id": "mint_color", "label": "Mint", "default": "#9CCFB0" },
+    { "type": "color", "id": "pale_color", "label": "Pale green", "default": "#DDEFE3" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#E8E2D4" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Grip it" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Hold it like your driver. Stand where you have room to swing." },
+        { "type": "text", "id": "chip", "label": "Chip text", "info": "Optional. Shown as a small pill under the step text." },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "spec",
+      "name": "Spec",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Use" },
+        { "type": "text", "id": "value", "label": "Value", "default": "No ball, net, or app needed" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC v2 How to",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Grip it", "text": "Hold it like your driver. Stand where you have room to swing." } },
+        { "type": "step", "settings": { "title": "Swing and listen", "text": "Take an easy swing. The click tells you when you let go." } },
+        { "type": "step", "settings": { "title": "Move the click later", "text": "Take five to ten swings. Some golfers do six with just the right hand, six with just the left, then both hands. Then go play." } },
+        { "type": "spec", "settings": { "label": "Use", "value": "No ball, net, or app needed" } },
+        { "type": "spec", "settings": { "label": "Size", "value": "15.3\" collapsed, 26.5\" extended" } },
+        { "type": "spec", "settings": { "label": "Build", "value": "Stainless steel shaft, resin head, rubber grip" } },
+        { "type": "spec", "settings": { "label": "Where", "value": "Living room, garage, range, or warm-up" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

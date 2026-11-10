@@ -1,0 +1,1171 @@
+{%- comment -%}
+  ARC ONE Variant C (Test B) hero: gallery + buy box.
+  - Hand toggle (maps to a "Hand" product option if one exists, otherwise adds a line item property)
+  - 3 setup bundle radio cards (ARC / ARC + LINE / LINK + ARC + LINE)
+  - Multi-product add to cart through /cart/add.js with an items array
+  - Mobile sticky add to cart
+{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'gn-v2h-form-' | append: section.id
+
+  assign hand_pos = 0
+  assign hand_option = null
+  for option in product.options_with_values
+    assign option_name_down = option.name | downcase
+    if option_name_down contains 'hand' or option_name_down contains 'orientation'
+      assign hand_pos = option.position
+      assign hand_option = option
+    endif
+  endfor
+
+  assign link_p = section.settings.link_product
+  if link_p == blank
+    assign link_p = all_products[section.settings.link_handle]
+  endif
+  assign line_p = section.settings.line_product
+  if line_p == blank
+    assign line_p = all_products[section.settings.line_handle]
+  endif
+  assign link_ok = false
+  if link_p.title != blank
+    assign link_ok = true
+    assign link_v = link_p.selected_or_first_available_variant
+  endif
+  assign line_ok = false
+  if line_p.title != blank
+    assign line_ok = true
+    assign line_v = line_p.selected_or_first_available_variant
+  endif
+
+  assign arc_price = current_variant.price
+  assign arc_compare = current_variant.compare_at_price | at_least: arc_price
+  assign setup_blocks = section.blocks | where: 'type', 'setup'
+  assign trust_blocks = section.blocks | where: 'type', 'trust'
+  assign default_index = section.settings.default_setup | plus: 0
+  assign sold_label = section.settings.sold_out_text
+
+  assign hero_heading = section.settings.heading | default: product.title | escape
+  assign hero_brand = 'ARC ONE'
+  if hero_heading contains hero_brand
+    assign hero_brand_html = '<span class="gn-v2h__brand">ARC ONE</span>'
+    assign hero_heading = hero_heading | replace: hero_brand, hero_brand_html
+  endif
+-%}
+
+<style>
+  .gn-v2h {
+    --gn-bg: #F5F1E8;
+    --gn-card: #ffffff;
+    --gn-ink: #0B1C12;
+    --gn-muted: #4b5a50;
+    --gn-forest: #173122;
+    --gn-green: #1D3D2A;
+    --gn-mid: #3A8A5B;
+    --gn-mint: #9CCFB0;
+    --gn-pale: #DDEFE3;
+    --gn-soft: #F5F1E8;
+    --gn-gold: #C9A249;
+    --gn-border: #E8E2D4;
+    --gn-radius: 16px;
+    background: var(--gn-bg);
+    color: var(--gn-ink);
+    font-family: var(--font-body-family), sans-serif;
+    box-sizing: border-box;
+  }
+  .gn-v2h *, .gn-v2h *::before, .gn-v2h *::after { box-sizing: border-box; }
+  .gn-v2h__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 48px;
+    align-items: start;
+  }
+  /* Gallery */
+  .gn-v2h__gallery { position: sticky; top: 24px; min-width: 0; }
+  .gn-v2h__stage {
+    position: relative;
+    background: var(--gn-card);
+    border: 1px solid var(--gn-border);
+    border-radius: var(--gn-radius);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gn-v2h__panel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
+  .gn-v2h__panel.is-active { opacity: 1; pointer-events: auto; }
+  .gn-v2h__panel img, .gn-v2h__panel video, .gn-v2h__panel iframe, .gn-v2h__panel model-viewer {
+    width: 100%; height: 100%; object-fit: contain; display: block;
+  }
+  .gn-v2h__panel img { padding: 20px; }
+  .gn-v2h__badge {
+    position: absolute; top: 16px; left: 16px; z-index: 3;
+    padding: 7px 12px; border-radius: 999px;
+    background: var(--gn-forest); color: var(--gn-pale);
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1;
+  }
+  .gn-v2h__arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--gn-border); background: rgba(255,255,255,0.9); color: var(--gn-ink);
+    display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+  }
+  .gn-v2h__arrow:hover { background: #fff; border-color: var(--gn-green); }
+  .gn-v2h__arrow--prev { left: 12px; }
+  .gn-v2h__arrow--next { right: 12px; }
+  .gn-v2h__thumbs { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; }
+  .gn-v2h__thumb {
+    flex: 0 0 auto; width: 72px; height: 72px; padding: 0;
+    border: 2px solid var(--gn-border); border-radius: 12px; background: var(--gn-card);
+    overflow: hidden; cursor: pointer;
+  }
+  .gn-v2h__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gn-v2h__thumb[aria-current="true"] { border-color: var(--gn-green); }
+  .gn-v2h__dots { display: none; }
+
+  /* Buy box */
+  .gn-v2h__buy {
+    min-width: 0;
+    background: var(--gn-card);
+    border: 1px solid var(--gn-border);
+    border-radius: var(--gn-radius);
+    padding: 32px;
+  }
+  .gn-v2h__strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 14px; text-decoration: none; color: inherit; }
+  .gn-v2h__brand { color: var(--gn-mid); }
+  .gn-v2h__legend.gn-v2h__legend--row { display: flex; width: 100%; align-items: baseline; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; float: none; }
+  .gn-v2h__aside { font-size: 0.8rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--gn-muted); }
+  .gn-v2h__stars { display: inline-flex; gap: 2px; }
+  .gn-v2h__stars svg { width: 17px; height: 17px; display: block; fill: var(--gn-gold); }
+  .gn-v2h__rating { font-weight: 800; font-size: 0.95rem; }
+  .gn-v2h__sold { font-size: 0.88rem; font-weight: 600; color: var(--gn-muted); }
+  .gn-v2h__strip:hover .gn-v2h__sold { text-decoration: underline; }
+  .gn-v2h__eyebrow { margin: 0 0 6px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gn-mid); }
+  .gn-v2h__title {
+    margin: 0 0 10px;
+    font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
+    font-size: clamp(1.9rem, 3.2vw, 2.5rem);
+    line-height: 1.02; font-weight: 800; letter-spacing: -0.025em; color: var(--gn-ink);
+  }
+  .gn-v2h__sub { margin: 0 0 16px; font-size: 1.05rem; line-height: 1.45; color: var(--gn-muted); }
+  .gn-v2h__benefits { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 9px; }
+  .gn-v2h__benefit { display: flex; gap: 10px; align-items: flex-start; font-size: 0.98rem; font-weight: 600; line-height: 1.35; }
+  .gn-v2h__check {
+    flex: 0 0 auto; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%;
+    background: var(--gn-pale); color: var(--gn-mid); display: flex; align-items: center; justify-content: center;
+  }
+  .gn-v2h__check svg { width: 11px; height: 11px; display: block; }
+  .gn-v2h__fieldset { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
+  .gn-v2h__legend, .gn-v2h__label {
+    display: block; padding: 0; margin: 0 0 8px;
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gn-ink);
+  }
+  .gn-v2h__hand { display: inline-flex; padding: 4px; gap: 4px; border: 1px solid var(--gn-border); border-radius: 12px; background: var(--gn-soft); max-width: 100%; flex-wrap: wrap; }
+  .gn-v2h__hand label, .gn-v2h__pill { position: relative; display: inline-flex; }
+  .gn-v2h__hand input, .gn-v2h__pill input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .gn-v2h__hand span {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 20px;
+    border-radius: 9px; font-weight: 700; font-size: 0.92rem; color: var(--gn-muted); transition: background 0.15s ease, color 0.15s ease;
+  }
+  .gn-v2h__hand input:checked + span { background: var(--gn-green); color: var(--gn-bg); }
+  .gn-v2h__hand input:focus-visible + span, .gn-v2h__pill input:focus-visible + span { outline: 2px solid var(--gn-mid); outline-offset: 2px; }
+  .gn-v2h__pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .gn-v2h__pill span {
+    min-height: 42px; display: inline-flex; align-items: center; padding: 0 16px;
+    border: 1px solid var(--gn-border); border-radius: 10px; font-weight: 700; font-size: 0.9rem; background: #fff;
+  }
+  .gn-v2h__pill input:checked + span { border-color: var(--gn-green); box-shadow: inset 0 0 0 1px var(--gn-green); background: var(--gn-pale); }
+
+  /* Setup cards */
+  .gn-v2h__setups { display: grid; gap: 10px; margin: 0 0 22px; }
+  .gn-v2h__setup {
+    position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 8px; align-items: center;
+    padding: 16px 16px 14px; border: 1.5px solid var(--gn-border); border-radius: var(--gn-radius); background: #fff; cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .gn-v2h__setup:hover { border-color: var(--gn-mid); }
+  .gn-v2h__setup.is-selected { border-color: var(--gn-green); background: var(--gn-pale); box-shadow: 0 0 0 1px var(--gn-green); }
+  .gn-v2h__setup.is-disabled { opacity: 0.5; cursor: not-allowed; }
+  .gn-v2h__setup input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .gn-v2h__setup:has(input:focus-visible) { outline: 2px solid var(--gn-mid); outline-offset: 2px; }
+  .gn-v2h__radio { width: 22px; height: 22px; border: 2px solid #b9b3a3; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+  .gn-v2h__setup.is-selected .gn-v2h__radio { border-color: var(--gn-green); }
+  .gn-v2h__setup.is-selected .gn-v2h__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gn-green); }
+  .gn-v2h__setup-body { min-width: 0; }
+  .gn-v2h__setup-label { margin: 0; font-size: 1rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
+  .gn-v2h__setup-desc { margin: 3px 0 0; font-size: 0.8rem; line-height: 1.35; color: var(--gn-muted); }
+  .gn-v2h__setup-note { margin: 4px 0 0; font-size: 0.82rem; font-weight: 600; line-height: 1.35; color: var(--gn-green); }
+  .gn-v2h__setup-price { text-align: right; white-space: nowrap; }
+  .gn-v2h__setup-now { display: block; font-size: 1.05rem; font-weight: 800; line-height: 1.1; }
+  .gn-v2h__setup-was { display: block; font-size: 0.78rem; color: var(--gn-muted); text-decoration: line-through; margin-top: 2px; }
+  .gn-v2h__setup-was[hidden], .gn-v2h__total-was[hidden], .gn-v2h__total-save[hidden] { display: none; }
+  .gn-v2h__setup-thumbs { grid-column: 2 / -1; display: flex; align-items: center; }
+  .gn-v2h__setup-thumbs img {
+    width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #fff;
+    border: 2px solid #fff; box-shadow: 0 0 0 1px var(--gn-border); margin-right: -8px; display: block;
+  }
+  .gn-v2h__setup-badge {
+    position: absolute; top: -10px; right: 14px; z-index: 2;
+    padding: 5px 10px; border-radius: 999px; background: var(--gn-gold); color: var(--gn-ink);
+    font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+  }
+
+  /* Totals + ATC */
+  .gn-v2h__total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin: 0 0 14px; }
+  .gn-v2h__total-label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  .gn-v2h__total-now { font-size: 1.9rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .gn-v2h__total-was { font-size: 1.1rem; color: var(--gn-muted); text-decoration: line-through; font-weight: 600; }
+  .gn-v2h__total-save { padding: 4px 9px; border-radius: 999px; background: var(--gn-gold); color: var(--gn-ink); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+  .gn-v2h__row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: end; }
+  .gn-v2h__qty { display: flex; align-items: center; border: 1px solid var(--gn-border); border-radius: 12px; min-height: 56px; background: #fff; }
+  .gn-v2h__qty button { width: 34px; height: 54px; border: 0; background: transparent; font-size: 1.2rem; font-weight: 700; color: var(--gn-ink); cursor: pointer; padding: 0; }
+  .gn-v2h__qty input { width: 100%; min-width: 0; border: 0; text-align: center; font-weight: 800; font-size: 1rem; background: transparent; color: var(--gn-ink); -moz-appearance: textfield; padding: 0; }
+  .gn-v2h__qty input::-webkit-outer-spin-button, .gn-v2h__qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .gn-v2h__cta {
+    min-height: 56px; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    border: 0; border-radius: 12px; padding: 14px 22px; cursor: pointer;
+    background: var(--gn-green); color: var(--gn-bg);
+    font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; transition: background 0.15s ease;
+  }
+  .gn-v2h__cta:hover { background: var(--gn-forest); }
+  .gn-v2h__cta[disabled], .gn-v2h__cta[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+  .gn-v2h__cta svg { width: 16px; height: 16px; flex: 0 0 auto; }
+  .gn-v2h__spinner { width: 16px; height: 16px; border: 2px solid rgba(245,241,232,0.35); border-top-color: var(--gn-bg); border-radius: 50%; animation: gn-v2h-spin 700ms linear infinite; }
+  .gn-v2h__spinner[hidden] { display: none; }
+  @keyframes gn-v2h-spin { to { transform: rotate(360deg); } }
+  .gn-v2h__error { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: #fff4f2; color: #8a2a1f; font-size: 0.88rem; }
+  .gn-v2h__error[hidden] { display: none; }
+  .gn-v2h__delivery { display: flex; gap: 10px; align-items: center; margin: 14px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--gn-soft); font-size: 0.9rem; font-weight: 600; }
+  .gn-v2h__delivery svg { width: 22px; height: 22px; flex: 0 0 auto; color: var(--gn-mid); }
+  .gn-v2h__delivery strong { font-weight: 800; }
+  .gn-v2h__trust { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; padding-top: 18px; border-top: 1px solid var(--gn-border); }
+  .gn-v2h__trust-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; font-size: 0.78rem; font-weight: 700; line-height: 1.3; }
+  .gn-v2h__trust-item .gn-trust-icon { width: 28px; height: 28px; color: var(--gn-green); display: flex; }
+  .gn-v2h__trust-item .gn-trust-icon svg { width: 100%; height: 100%; }
+  .gn-v2h__hint { margin: 0 0 8px; font-size: 0.85rem; color: #8a2a1f; }
+
+  /* Sticky ATC (mobile) */
+  .gn-v2h__sticky { display: none; }
+  @media (max-width: 989px) {
+    .gn-v2h__inner { grid-template-columns: 1fr; gap: 20px; padding: 0 16px; }
+    .gn-v2h__gallery { position: static; }
+    .gn-v2h__thumbs { display: none; }
+    .gn-v2h__dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+    .gn-v2h__dot { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; background: #cfc9b8; cursor: pointer; }
+    .gn-v2h__dot.is-active { background: var(--gn-green); transform: scale(1.25); }
+    .gn-v2h__buy { padding: 22px 18px; }
+    .gn-v2h__sticky {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+      display: flex; gap: 12px; align-items: center; justify-content: space-between;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: var(--gn-card); border-top: 1px solid var(--gn-border);
+      transform: translateY(110%); transition: transform 0.2s ease;
+    }
+    .gn-v2h__sticky.is-visible { transform: translateY(0); }
+    body.overflow-hidden .gn-v2h__sticky { display: none; }
+    .gn-v2h__sticky-price { display: block; font-size: 1.15rem; font-weight: 800; line-height: 1.1; }
+    .gn-v2h__sticky-name { display: block; font-size: 0.74rem; font-weight: 600; color: var(--gn-muted); }
+    .gn-v2h__sticky .gn-v2h__cta { width: auto; flex: 1 1 auto; max-width: 220px; min-height: 48px; }
+  }
+  @media (max-width: 480px) {
+    .gn-v2h__setup { grid-template-columns: 22px minmax(0, 1fr); }
+    .gn-v2h__setup-price { grid-column: 2; text-align: left; display: flex; gap: 8px; align-items: baseline; }
+    .gn-v2h__setup-thumbs { grid-column: 2; }
+    .gn-v2h__row { grid-template-columns: 100px minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gn-v2h__panel, .gn-v2h__sticky { transition: none; }
+  }
+</style>
+
+<section
+  id="gn-v2h-{{ section.id }}"
+  class="gn-v2h"
+  data-section-id="{{ section.id }}"
+  data-money-format="{{ shop.money_format | escape }}"
+  data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+  style="
+    --gn-bg: {{ section.settings.background_color }};
+    --gn-card: {{ section.settings.card_color }};
+    --gn-ink: {{ section.settings.ink_color }};
+    --gn-muted: {{ section.settings.muted_color }};
+    --gn-green: {{ section.settings.accent_color }};
+    --gn-forest: {{ section.settings.accent_dark_color }};
+    --gn-mid: {{ section.settings.highlight_color }};
+    --gn-pale: {{ section.settings.pale_color }};
+    --gn-soft: {{ section.settings.soft_color | default: '#F5F1E8' }};
+    --gn-gold: {{ section.settings.gold_color }};
+    --gn-border: {{ section.settings.border_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="gn-v2h__inner">
+
+    <div class="gn-v2h__gallery" data-gn-gallery>
+      <div class="gn-v2h__stage">
+        {%- if section.settings.gallery_badge != blank -%}
+          <span class="gn-v2h__badge">{{ section.settings.gallery_badge }}</span>
+        {%- endif -%}
+        {%- if product.media.size > 1 -%}
+          <button class="gn-v2h__arrow gn-v2h__arrow--prev" type="button" data-gn-prev aria-label="Previous image">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="gn-v2h__arrow gn-v2h__arrow--next" type="button" data-gn-next aria-label="Next image">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endif -%}
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media -%}
+            <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="{{ media.id }}">
+              {%- assign media_alt = media.alt | default: product.title -%}
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  {%- if forloop.first -%}
+                    {{ media.preview_image | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 560px, 100vw' }}
+                  {%- else -%}
+                    {{ media.preview_image | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'lazy', widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 560px, 100vw' }}
+                  {%- endif -%}
+                {%- when 'video' -%}
+                  {{ media | video_tag: controls: true, image_size: '1200x' }}
+                {%- when 'external_video' -%}
+                  {{ media | external_video_tag }}
+                {%- when 'model' -%}
+                  {{ media | model_viewer_tag: image_size: '1200x' }}
+                {%- else -%}
+                  {{ media.preview_image | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'lazy' }}
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        {%- elsif section.settings.fallback_image != blank -%}
+          <div class="gn-v2h__panel is-active">
+            {{ section.settings.fallback_image | image_url: width: 1200 | image_tag: alt: product.title, loading: 'eager' }}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <div class="gn-v2h__thumbs" aria-label="Choose product image">
+          {%- for media in product.media -%}
+            <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="{{ media.id }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
+              {{ media.preview_image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' }}
+            </button>
+          {%- endfor -%}
+        </div>
+        <div class="gn-v2h__dots" aria-hidden="true">
+          {%- for media in product.media -%}
+            <button class="gn-v2h__dot{% if forloop.first %} is-active{% endif %}" type="button" data-gn-dot data-media-id="{{ media.id }}" tabindex="-1"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="gn-v2h__buy" id="gn-v2-buybox">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="gn-v2h__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="gn-v2h__title">{{ hero_heading }}</h1>
+      {%- if section.settings.show_rating -%}
+        <a class="gn-v2h__strip" href="#gn-v2-reviews" aria-label="{{ section.settings.rating }} out of 5. {{ section.settings.sold_text | escape }}.">
+          <span class="gn-v2h__stars" aria-hidden="true">
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 20 20"><path d="M10 1.5l2.35 4.76 5.25.76-3.8 3.7.9 5.22L10 13.77l-4.7 2.47.9-5.22-3.8-3.7 5.25-.76L10 1.5z"/></svg>
+            {%- endfor -%}
+          </span>
+          <span class="gn-v2h__rating">{{ section.settings.rating }}</span>
+          {%- if section.settings.sold_text != blank -%}
+            <span class="gn-v2h__sold">{{ section.settings.sold_text }}</span>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="gn-v2h__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.benefit_1 != blank or section.settings.benefit_2 != blank or section.settings.benefit_3 != blank -%}
+        <ul class="gn-v2h__benefits">
+          {%- for i in (1..3) -%}
+            {%- assign benefit_key = 'benefit_' | append: i -%}
+            {%- assign benefit_text = section.settings[benefit_key] -%}
+            {%- if benefit_text != blank -%}
+              <li class="gn-v2h__benefit">
+                <span class="gn-v2h__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                <span>{{ benefit_text }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <div class="gn-v2h__error" role="alert" data-gn-error hidden></div>
+
+      {%- form 'product', product, id: form_id, class: 'gn-v2h__form', novalidate: 'novalidate', data-gn-form: 'true' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-gn-variant-input>
+
+        {%- if section.settings.show_hand_toggle -%}
+          <fieldset class="gn-v2h__fieldset">
+            <legend class="gn-v2h__legend gn-v2h__legend--row">
+              <span>{{ section.settings.hand_label }}</span>
+              {%- if section.settings.hand_hint != blank -%}
+                <span class="gn-v2h__aside">{{ section.settings.hand_hint }}</span>
+              {%- endif -%}
+            </legend>
+            <div class="gn-v2h__hand" role="radiogroup">
+              {%- if hand_pos > 0 -%}
+                {%- for value in hand_option.values -%}
+                  <label>
+                    <input type="radio" name="gn-opt-{{ section.id }}-{{ hand_pos }}" value="{{ value | escape }}" data-gn-opt data-pos="{{ hand_pos }}"{% if hand_option.selected_value == value %} checked{% endif %}>
+                    <span>{{ value }}</span>
+                  </label>
+                {%- endfor -%}
+              {%- else -%}
+                <label>
+                  <input type="radio" name="gn-hand-{{ section.id }}" value="{{ section.settings.hand_right_label | escape }}" data-gn-hand checked>
+                  <span>{{ section.settings.hand_right_label }}</span>
+                </label>
+                <label>
+                  <input type="radio" name="gn-hand-{{ section.id }}" value="{{ section.settings.hand_left_label | escape }}" data-gn-hand>
+                  <span>{{ section.settings.hand_left_label }}</span>
+                </label>
+              {%- endif -%}
+            </div>
+          </fieldset>
+        {%- endif -%}
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            {%- unless option.position == hand_pos and section.settings.show_hand_toggle -%}
+              <fieldset class="gn-v2h__fieldset">
+                <legend class="gn-v2h__legend">{{ option.name }}</legend>
+                <div class="gn-v2h__pills">
+                  {%- for value in option.values -%}
+                    <label class="gn-v2h__pill">
+                      <input type="radio" name="gn-opt-{{ section.id }}-{{ option.position }}" value="{{ value | escape }}" data-gn-opt data-pos="{{ option.position }}"{% if option.selected_value == value %} checked{% endif %}>
+                      <span>{{ value }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endunless -%}
+
+        {%- if setup_blocks.size > 0 -%}
+          <fieldset class="gn-v2h__fieldset">
+            <legend class="gn-v2h__legend gn-v2h__legend--row">
+              <span>{{ section.settings.setup_heading }}</span>
+              {%- if section.settings.setup_aside != blank -%}
+                <span class="gn-v2h__aside">{{ section.settings.setup_aside }}</span>
+              {%- endif -%}
+            </legend>
+            <div class="gn-v2h__setups" role="radiogroup" data-gn-setups>
+              {%- for block in setup_blocks -%}
+                {%- liquid
+                  assign inc_link = block.settings.include_link
+                  assign inc_line = block.settings.include_line
+                  assign card_ok = true
+                  assign card_missing = false
+                  if inc_link
+                    unless link_ok
+                      assign card_missing = true
+                    endunless
+                    if link_ok and link_v.available == false
+                      assign card_ok = false
+                    endif
+                  endif
+                  if inc_line
+                    unless line_ok
+                      assign card_missing = true
+                    endunless
+                    if line_ok and line_v.available == false
+                      assign card_ok = false
+                    endif
+                  endif
+                  if current_variant.available == false
+                    assign card_ok = false
+                  endif
+
+                  assign save_major = block.settings.save_amount | default: 0
+                  if save_major < 0
+                    assign save_major = 0
+                  endif
+                  assign save_cents = save_major | times: 100
+                  assign card_price = arc_price
+                  assign card_compare = arc_compare
+                  if inc_link and link_ok
+                    assign card_price = card_price | plus: link_v.price
+                    assign link_cmp = link_v.compare_at_price | at_least: link_v.price
+                    assign card_compare = card_compare | plus: link_cmp
+                  endif
+                  if inc_line and line_ok
+                    assign card_price = card_price | plus: line_v.price
+                    assign line_cmp = line_v.compare_at_price | at_least: line_v.price
+                    assign card_compare = card_compare | plus: line_cmp
+                  endif
+                  assign card_price = card_price | minus: save_cents
+                  if card_price < 0
+                    assign card_price = 0
+                  endif
+                  assign card_save = card_compare | minus: card_price
+                  if card_save < 0
+                    assign card_save = 0
+                  endif
+
+                  assign is_default = false
+                  if forloop.index == default_index
+                    assign is_default = true
+                  endif
+
+                -%}
+                {%- if card_missing -%}
+                  {%- if request.design_mode -%}
+                    <p class="gn-v2h__hint" {{ block.shopify_attributes }}>Setup "{{ block.settings.label }}" is hidden: pick the LINK / LINE products in the hero section settings or check the handles.</p>
+                  {%- endif -%}
+                {%- else -%}
+                  <label
+                    class="gn-v2h__setup{% if is_default and card_ok %} is-selected{% endif %}{% unless card_ok %} is-disabled{% endunless %}"
+                    data-gn-setup
+                    data-link="{{ inc_link }}"
+                    data-line="{{ inc_line }}"
+                    data-save-cents="{{ save_cents }}"
+                    data-discount-code="{{ block.settings.discount_code | escape }}"
+                    data-label="{{ block.settings.label | escape }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <input type="radio" name="gn-setup-{{ section.id }}" value="{{ block.id }}"{% if is_default and card_ok %} checked{% endif %}{% unless card_ok %} disabled{% endunless %}>
+                    {%- if block.settings.badge != blank -%}
+                      <span class="gn-v2h__setup-badge">{{ block.settings.badge }}</span>
+                    {%- endif -%}
+                    <span class="gn-v2h__radio" aria-hidden="true"></span>
+                    <span class="gn-v2h__setup-body">
+                      <span class="gn-v2h__setup-label" style="display:block">{{ block.settings.label }}</span>
+                      {%- if block.settings.description != blank -%}
+                        <span class="gn-v2h__setup-desc" style="display:block">{{ block.settings.description }}</span>
+                      {%- endif -%}
+                      {%- if block.settings.note != blank -%}
+                        <span class="gn-v2h__setup-note" data-gn-setup-note data-custom="true">{{ block.settings.note }}</span>
+                      {%- elsif card_save > 0 and inc_link or card_save > 0 and inc_line -%}
+                        <span class="gn-v2h__setup-note" data-gn-setup-note>Save {{ card_save | money }} · Free shipping</span>
+                      {%- else -%}
+                        <span class="gn-v2h__setup-note" data-gn-setup-note hidden></span>
+                      {%- endif -%}
+                    </span>
+                    <span class="gn-v2h__setup-price">
+                      <span class="gn-v2h__setup-now" data-gn-setup-now>{{ card_price | money }}</span>
+                      <span class="gn-v2h__setup-was" data-gn-setup-was{% unless card_save > 0 %} hidden{% endunless %}>{{ card_compare | money }}</span>
+                    </span>
+                    <span class="gn-v2h__setup-thumbs" aria-hidden="true">
+                      {%- if inc_link and link_ok and link_p.featured_image -%}
+                        {{ link_p.featured_image | image_url: width: 96 | image_tag: width: 38, height: 38, alt: '', loading: 'lazy' }}
+                      {%- endif -%}
+                      {%- if product.featured_image -%}
+                        {{ product.featured_image | image_url: width: 96 | image_tag: width: 38, height: 38, alt: '', loading: 'lazy' }}
+                      {%- endif -%}
+                      {%- if inc_line and line_ok and line_p.featured_image -%}
+                        {{ line_p.featured_image | image_url: width: 96 | image_tag: width: 38, height: 38, alt: '', loading: 'lazy' }}
+                      {%- endif -%}
+                    </span>
+                  </label>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endif -%}
+
+        <div class="gn-v2h__total" aria-live="polite">
+          <span class="gn-v2h__total-label">{{ section.settings.total_label }}</span>
+          <span class="gn-v2h__total-now" data-gn-total>{{ arc_price | money }}</span>
+          <span class="gn-v2h__total-was" data-gn-total-was hidden></span>
+          <span class="gn-v2h__total-save" data-gn-total-save hidden></span>
+        </div>
+
+        <div class="gn-v2h__row">
+          <div class="gn-v2h__qty">
+            <button type="button" data-gn-qty-minus aria-label="Decrease quantity">&minus;</button>
+            <input id="gn-v2h-qty-{{ section.id }}" type="number" name="quantity" value="1" min="1" max="20" inputmode="numeric" aria-label="{{ section.settings.quantity_label }}" data-gn-qty>
+            <button type="button" data-gn-qty-plus aria-label="Increase quantity">+</button>
+          </div>
+          <button class="gn-v2h__cta" type="submit" name="add" data-gn-submit{% unless current_variant.available %} disabled aria-disabled="true"{% endunless %}>
+            <span data-gn-submit-label>{% if current_variant.available %}{{ section.settings.add_to_cart_text }}{% else %}{{ sold_label }}{% endif %}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            <span class="gn-v2h__spinner" data-gn-spinner hidden aria-hidden="true"></span>
+          </button>
+        </div>
+      {%- endform -%}
+
+      {%- if section.settings.show_delivery -%}
+        <p
+          class="gn-v2h__delivery"
+          data-gn-delivery
+          data-template="{{ section.settings.delivery_text | escape }}"
+          data-ship-min="{{ section.settings.ship_days_min }}"
+          data-ship-max="{{ section.settings.ship_days_max }}"
+          data-transit-min="{{ section.settings.transit_days_min }}"
+          data-transit-max="{{ section.settings.transit_days_max }}"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+          <span data-gn-delivery-text>{{ section.settings.delivery_fallback }}</span>
+        </p>
+      {%- endif -%}
+
+      {%- if trust_blocks.size > 0 -%}
+        <div class="gn-v2h__trust">
+          {%- for block in trust_blocks -%}
+            <span class="gn-v2h__trust-item" {{ block.shopify_attributes }}>
+              {% render 'gn-trust-icons', icon: block.settings.icon, text: block.settings.text %}
+              <span>{{ block.settings.text }}</span>
+            </span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_sticky_atc -%}
+    <div class="gn-v2h__sticky" data-gn-sticky aria-hidden="true">
+      <div>
+        <span class="gn-v2h__sticky-price" data-gn-sticky-price>{{ arc_price | money }}</span>
+        <span class="gn-v2h__sticky-name" data-gn-sticky-name>{{ product.title }}</span>
+      </div>
+      <button class="gn-v2h__cta" type="button" data-gn-sticky-button tabindex="-1">
+        <span data-gn-sticky-label>{{ section.settings.add_to_cart_text }}</span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  <script type="application/json" data-gn-data>
+    {
+      "variants": {{ product.variants | json }},
+      "link": {% if link_ok %}{ "id": {{ link_v.id | json }}, "price": {{ link_v.price | json }}, "compare": {{ link_v.compare_at_price | at_least: link_v.price | json }}, "available": {{ link_v.available | json }}, "title": {{ link_p.title | json }} }{% else %}null{% endif %},
+      "line": {% if line_ok %}{ "id": {{ line_v.id | json }}, "price": {{ line_v.price | json }}, "compare": {{ line_v.compare_at_price | at_least: line_v.price | json }}, "available": {{ line_v.available | json }}, "title": {{ line_p.title | json }} }{% else %}null{% endif %},
+      "handPosition": {{ hand_pos | json }},
+      "labels": {
+        "add": {{ section.settings.add_to_cart_text | json }},
+        "sold": {{ sold_label | json }},
+        "adding": {{ section.settings.adding_text | json }},
+        "error": {{ section.settings.error_text | json }}
+      }
+    }
+  </script>
+</section>
+
+<script>
+  (() => {
+    const root = document.getElementById('gn-v2h-{{ section.id }}');
+    if (!root || root.dataset.gnReady === 'true') return;
+    root.dataset.gnReady = 'true';
+
+    const data = JSON.parse(root.querySelector('[data-gn-data]').textContent);
+    const variants = data.variants;
+    const labels = data.labels;
+    const form = root.querySelector('form');
+    const variantInput = root.querySelector('[data-gn-variant-input]');
+    const optInputs = [...root.querySelectorAll('[data-gn-opt]')];
+    const handInputs = [...root.querySelectorAll('[data-gn-hand]')];
+    const cards = [...root.querySelectorAll('[data-gn-setup]')];
+    const qtyInput = root.querySelector('[data-gn-qty]');
+    const submit = root.querySelector('[data-gn-submit]');
+    const submitLabel = root.querySelector('[data-gn-submit-label]');
+    const spinner = root.querySelector('[data-gn-spinner]');
+    const errorBox = root.querySelector('[data-gn-error]');
+    const totalEl = root.querySelector('[data-gn-total]');
+    const totalWas = root.querySelector('[data-gn-total-was]');
+    const totalSave = root.querySelector('[data-gn-total-save]');
+    const sticky = root.querySelector('[data-gn-sticky]');
+    const stickyBtn = root.querySelector('[data-gn-sticky-button]');
+    const stickyLabel = root.querySelector('[data-gn-sticky-label]');
+    const stickyPrice = root.querySelector('[data-gn-sticky-price]');
+    const stickyName = root.querySelector('[data-gn-sticky-name]');
+    const moneyFormat = root.dataset.moneyFormat || '';
+    const currency = root.dataset.currency || 'USD';
+    let busy = false;
+
+    const formatMoney = (cents) => {
+      let out;
+      try {
+        if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+          out = window.Shopify.formatMoney(cents, moneyFormat);
+        } else {
+          out = new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(cents / 100);
+        }
+      } catch (e) {
+        out = '$' + (cents / 100).toFixed(2);
+      }
+      return out.replace(/US\s?\$/, '$');
+    };
+
+    /* ---------- Gallery ---------- */
+    const panels = [...root.querySelectorAll('[data-gn-panel]')];
+    const thumbs = [...root.querySelectorAll('[data-gn-thumb]')];
+    const dots = [...root.querySelectorAll('[data-gn-dot]')];
+    let activeIndex = 0;
+    const showIndex = (i) => {
+      if (!panels.length) return;
+      activeIndex = (i + panels.length) % panels.length;
+      panels.forEach((p, idx) => p.classList.toggle('is-active', idx === activeIndex));
+      thumbs.forEach((t, idx) => t.setAttribute('aria-current', String(idx === activeIndex)));
+      dots.forEach((d, idx) => d.classList.toggle('is-active', idx === activeIndex));
+    };
+    const showMedia = (id) => {
+      const idx = panels.findIndex((p) => p.dataset.mediaId === String(id));
+      if (idx >= 0) showIndex(idx);
+    };
+    thumbs.forEach((t) => t.addEventListener('click', () => showMedia(t.dataset.mediaId)));
+    dots.forEach((d) => d.addEventListener('click', () => showMedia(d.dataset.mediaId)));
+    root.querySelector('[data-gn-prev]')?.addEventListener('click', () => showIndex(activeIndex - 1));
+    root.querySelector('[data-gn-next]')?.addEventListener('click', () => showIndex(activeIndex + 1));
+    const stage = root.querySelector('.gn-v2h__stage');
+    if (stage && panels.length > 1) {
+      let sx = 0;
+      let sy = 0;
+      stage.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      stage.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) < 30 || Math.abs(dx) < Math.abs(dy)) return;
+        showIndex(activeIndex + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+    }
+
+    /* ---------- Pricing + variant ---------- */
+    const findVariant = () => {
+      if (!optInputs.length) return variants.find((v) => String(v.id) === String(variantInput.value)) || variants[0];
+      const picked = [];
+      optInputs.forEach((i) => { if (i.checked) picked[Number(i.dataset.pos) - 1] = i.value; });
+      return variants.find((v) => v.options.every((o, idx) => o === picked[idx]));
+    };
+
+    const cardTotals = (card, variant) => {
+      let price = variant.price;
+      let compare = Math.max(variant.compare_at_price || 0, variant.price);
+      if (card.dataset.link === 'true' && data.link) { price += data.link.price; compare += Math.max(data.link.compare, data.link.price); }
+      if (card.dataset.line === 'true' && data.line) { price += data.line.price; compare += Math.max(data.line.compare, data.line.price); }
+      const saveCents = Math.max(0, Number(card.dataset.saveCents) || 0);
+      price = Math.max(0, price - saveCents);
+      return { price, compare, save: Math.max(0, compare - price), saveCents };
+    };
+
+    const selectedCard = () => cards.find((c) => c.querySelector('input').checked && !c.classList.contains('is-disabled'));
+    const getQty = () => Math.max(1, Math.min(20, parseInt(qtyInput.value, 10) || 1));
+
+    let lastVariantId = null;
+    const refresh = () => {
+      const variant = findVariant();
+      if (variant) {
+        variantInput.value = variant.id;
+        if (lastVariantId !== null && lastVariantId !== variant.id && variant.featured_media && variant.featured_media.id) {
+          showMedia(variant.featured_media.id);
+        }
+        lastVariantId = variant.id;
+      }
+      const arcAvailable = !!(variant && variant.available);
+
+      cards.forEach((card) => {
+        const needsLink = card.dataset.link === 'true';
+        const needsLine = card.dataset.line === 'true';
+        const ok = arcAvailable && (!needsLink || (data.link && data.link.available)) && (!needsLine || (data.line && data.line.available));
+        card.classList.toggle('is-disabled', !ok);
+        card.querySelector('input').disabled = !ok;
+        if (variant) {
+          const t = cardTotals(card, variant);
+          card.querySelector('[data-gn-setup-now]').textContent = formatMoney(t.price);
+          const was = card.querySelector('[data-gn-setup-was]');
+          was.hidden = t.save <= 0;
+          was.textContent = t.save > 0 ? formatMoney(t.compare) : '';
+          const note = card.querySelector('[data-gn-setup-note]');
+          if (note && note.dataset.custom !== 'true') {
+            const isBundle = card.dataset.link === 'true' || card.dataset.line === 'true';
+            if (isBundle && t.save > 0) {
+              note.hidden = false;
+              note.textContent = 'Save ' + formatMoney(t.save) + ' · Free shipping';
+            } else {
+              note.hidden = true;
+              note.textContent = '';
+            }
+          }
+        }
+      });
+
+      let active = selectedCard();
+      if (cards.length && !active) {
+        active = cards.find((c) => !c.classList.contains('is-disabled'));
+        if (active) active.querySelector('input').checked = true;
+      }
+      cards.forEach((c) => c.classList.toggle('is-selected', c === active));
+
+      let totals = null;
+      if (variant) {
+        totals = active ? cardTotals(active, variant) : { price: variant.price, compare: Math.max(variant.compare_at_price || 0, variant.price), save: 0 };
+        if (!active) totals.save = Math.max(0, totals.compare - totals.price);
+      }
+      const qty = getQty();
+      const canBuy = !!(variant && arcAvailable && (cards.length === 0 || active));
+      if (totals) {
+        totalEl.textContent = formatMoney(totals.price * qty);
+        totalWas.hidden = totals.save <= 0;
+        totalWas.textContent = totals.save > 0 ? formatMoney(totals.compare * qty) : '';
+        totalSave.hidden = totals.save <= 0;
+        totalSave.textContent = totals.save > 0 ? 'Save ' + formatMoney(totals.save * qty) : '';
+        if (stickyPrice) stickyPrice.textContent = formatMoney(totals.price * qty);
+      }
+      if (stickyName) stickyName.textContent = active ? active.dataset.label : {{ product.title | json }};
+      const label = busy ? labels.adding : (canBuy ? labels.add : labels.sold);
+      submitLabel.textContent = label;
+      if (stickyLabel) stickyLabel.textContent = label;
+      submit.disabled = !canBuy;
+      submit.setAttribute('aria-disabled', String(!canBuy || busy));
+      if (stickyBtn) stickyBtn.disabled = !canBuy;
+    };
+
+    optInputs.forEach((i) => i.addEventListener('change', refresh));
+    handInputs.forEach((i) => i.addEventListener('change', refresh));
+    cards.forEach((card) => card.querySelector('input').addEventListener('change', refresh));
+    qtyInput.addEventListener('input', refresh);
+    qtyInput.addEventListener('change', () => { qtyInput.value = getQty(); refresh(); });
+    root.querySelector('[data-gn-qty-minus]').addEventListener('click', () => { qtyInput.value = Math.max(1, getQty() - 1); refresh(); });
+    root.querySelector('[data-gn-qty-plus]').addEventListener('click', () => { qtyInput.value = Math.min(20, getQty() + 1); refresh(); });
+
+    /* ---------- Delivery estimate ---------- */
+    (() => {
+      const box = root.querySelector('[data-gn-delivery]');
+      if (!box) return;
+      const addBusinessDays = (start, days) => {
+        const d = new Date(start.getTime());
+        let left = days;
+        while (left > 0) {
+          d.setDate(d.getDate() + 1);
+          const day = d.getDay();
+          if (day !== 0 && day !== 6) left -= 1;
+        }
+        return d;
+      };
+      const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const now = new Date();
+      const early = addBusinessDays(now, (Number(box.dataset.shipMin) || 0) + (Number(box.dataset.transitMin) || 0));
+      const late = addBusinessDays(now, (Number(box.dataset.shipMax) || 0) + (Number(box.dataset.transitMax) || 0));
+      const range = fmt(early) === fmt(late) ? fmt(early) : fmt(early) + ' to ' + fmt(late);
+      const tpl = box.dataset.template || '';
+      if (tpl) box.querySelector('[data-gn-delivery-text]').innerHTML = tpl.replace(/\{range\}/g, '<strong>' + range + '</strong>');
+    })();
+
+    /* ---------- Add to cart (multi-product) ---------- */
+    const showError = (msg) => {
+      errorBox.textContent = msg || '';
+      errorBox.hidden = !msg;
+    };
+
+    const buildItems = () => {
+      const variant = findVariant();
+      const active = selectedCard();
+      const qty = getQty();
+      const items = [];
+      const saveCents = active ? Math.max(0, Number(active.dataset.saveCents) || 0) : 0;
+      const bundleLabel = active ? active.dataset.label : '';
+      const arcItem = { id: variant.id, quantity: qty };
+      const props = {};
+      if (!optInputs.some((i) => Number(i.dataset.pos) === data.handPosition) || data.handPosition === 0) {
+        const hand = handInputs.find((i) => i.checked);
+        if (hand) props.Hand = hand.value;
+      }
+      if (bundleLabel) props._gn_bundle = bundleLabel;
+      if (saveCents > 0) props._gn_bundle_save = String(saveCents);
+      if (Object.keys(props).length) arcItem.properties = props;
+      if (active && active.dataset.link === 'true' && data.link) {
+        items.push({
+          id: data.link.id,
+          quantity: qty,
+          properties: bundleLabel ? { _gn_bundle: bundleLabel } : undefined
+        });
+      }
+      items.push(arcItem);
+      if (active && active.dataset.line === 'true' && data.line) {
+        items.push({
+          id: data.line.id,
+          quantity: qty,
+          properties: bundleLabel ? { _gn_bundle: bundleLabel } : undefined
+        });
+      }
+      return items;
+    };
+
+    const applyBundleDiscount = async (code, cart) => {
+      if (!code) return null;
+      const cartUrl = (window.routes && window.routes.cart_url) || '/cart';
+      const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
+      const current = await fetch(cartUrl.replace(/\/$/, '') + '.js', { headers: { Accept: 'application/json' } }).then((r) => r.json());
+      const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
+      if (existing.map((c) => c.toLowerCase()).includes(code.toLowerCase())) {
+        return current;
+      }
+      const payload = { discount: existing.concat([code]).join(',') };
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        payload.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
+        payload.sections_url = window.location.pathname;
+      }
+      const res = await fetch(updateUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify(payload)
+      });
+      return res.json();
+    };
+
+    const addToCart = async () => {
+      if (busy || submit.disabled) return;
+      busy = true;
+      showError('');
+      spinner.hidden = false;
+      refresh();
+
+      const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+      const active = selectedCard();
+      const discountCode = active && active.dataset.discountCode ? active.dataset.discountCode.trim() : '';
+      const body = { items: buildItems() };
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        body.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
+        body.sections_url = window.location.pathname;
+      }
+      const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
+      const url = base.replace(/\.js$/, '') + '.js';
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+          body: JSON.stringify(body)
+        });
+        let json = await res.json();
+        if (!res.ok || json.status) {
+          showError(json.description || json.message || labels.error);
+          return;
+        }
+
+        if (discountCode) {
+          try {
+            const discounted = await applyBundleDiscount(discountCode, cart);
+            if (discounted && !discounted.status) {
+              const codes = discounted.discount_codes || [];
+              const applied = codes.find((d) => String(d.code).toLowerCase() === discountCode.toLowerCase());
+              if (!applied || applied.applicable !== false) {
+                json = discounted;
+              }
+            }
+          } catch (discountErr) {
+            console.warn('Bundle discount could not be applied', discountErr);
+          }
+        }
+
+        const first = Array.isArray(json.items) && json.items.length ? json.items[0] : {};
+        const state = Object.assign({}, json, { key: first.key, id: first.id });
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-hero', productVariantId: first.id, cartData: state });
+        }
+        if (cart && typeof cart.renderContents === 'function') {
+          if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
+          if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+          cart.renderContents(state);
+        } else {
+          window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+        }
+      } catch (err) {
+        console.error(err);
+        showError(labels.error);
+      } finally {
+        busy = false;
+        spinner.hidden = true;
+        refresh();
+      }
+    };
+
+    form.addEventListener('submit', (e) => { e.preventDefault(); addToCart(); });
+    if (stickyBtn) stickyBtn.addEventListener('click', addToCart);
+
+    /* ---------- Sticky bar: show once the main button leaves the viewport ---------- */
+    if (sticky && 'IntersectionObserver' in window) {
+      const setSticky = (visible) => {
+        sticky.classList.toggle('is-visible', visible);
+        sticky.setAttribute('aria-hidden', String(!visible));
+        stickyBtn.tabIndex = visible ? 0 : -1;
+      };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const above = entry.boundingClientRect.top < 0;
+          setSticky(!entry.isIntersecting && above);
+        });
+      }, { threshold: 0 });
+      io.observe(submit);
+    }
+
+    refresh();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "ARC v2 Hero",
+  "tag": "section",
+  "class": "gn-arc-v2-section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Golfer Now Swing Trainer" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "ARC ONE Swing Trainer", "info": "Leave blank to use the product title." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Swing it. Hear the click. Fix your release without a range, a net, or a coach." },
+    { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Hear exactly when you let go of the club" },
+    { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Train your grip and timing in your living room" },
+    { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "No ball, net, or app needed" },
+    { "type": "text", "id": "gallery_badge", "label": "Gallery badge", "default": "Hear the click" },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image", "info": "Only used when the product has no media." },
+
+    { "type": "header", "content": "Rating strip" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating strip", "default": true },
+    { "type": "text", "id": "rating", "label": "Rating", "default": "4.8" },
+    { "type": "text", "id": "sold_text", "label": "Rating link text", "default": "Read the reviews", "info": "Link text shown after the stars. Jumps to the reviews section." },
+
+    { "type": "header", "content": "Hand toggle" },
+    { "type": "checkbox", "id": "show_hand_toggle", "label": "Show hand toggle", "default": true, "info": "If the product has an option named Hand (or Orientation) it picks the variant. Otherwise it adds a Hand line item property." },
+    { "type": "text", "id": "hand_label", "label": "Label", "default": "Hand" },
+    { "type": "text", "id": "hand_hint", "label": "Hint beside label", "default": "Left-handed? Same price.", "info": "Optional. Leave blank to hide." },
+    { "type": "text", "id": "hand_right_label", "label": "Right label (no Hand option)", "default": "Right-handed" },
+    { "type": "text", "id": "hand_left_label", "label": "Left label (no Hand option)", "default": "Left-handed" },
+
+    { "type": "header", "content": "Setup bundles" },
+    { "type": "text", "id": "setup_heading", "label": "Heading", "default": "Choose your setup" },
+    { "type": "text", "id": "setup_aside", "label": "Aside beside heading", "default": "Bundles ship free", "info": "Optional. Leave blank to hide." },
+    { "type": "product", "id": "link_product", "label": "LINK ONE product", "info": "Optional. Falls back to the handle below." },
+    { "type": "text", "id": "link_handle", "label": "LINK handle fallback", "default": "golf-training-belt" },
+    { "type": "product", "id": "line_product", "label": "LINE ONE product", "info": "Optional. Falls back to the handle below." },
+    { "type": "text", "id": "line_handle", "label": "LINE handle fallback", "default": "golf-putting-tutor" },
+    {
+      "type": "select",
+      "id": "default_setup",
+      "label": "Preselected setup",
+      "options": [
+        { "value": "1", "label": "First card" },
+        { "value": "2", "label": "Second card" },
+        { "value": "3", "label": "Third card" }
+      ],
+      "default": "2"
+    },
+
+    { "type": "header", "content": "Form" },
+    { "type": "text", "id": "total_label", "label": "Total label", "default": "Total" },
+    { "type": "text", "id": "quantity_label", "label": "Quantity label", "default": "Quantity" },
+    { "type": "text", "id": "add_to_cart_text", "label": "Add to cart text", "default": "Add to cart" },
+    { "type": "text", "id": "adding_text", "label": "Adding text", "default": "Adding..." },
+    { "type": "text", "id": "sold_out_text", "label": "Sold out text", "default": "Sold out" },
+    { "type": "text", "id": "error_text", "label": "Generic error text", "default": "Could not add to cart. Try again." },
+    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to cart on mobile", "default": true },
+
+    { "type": "header", "content": "Delivery estimate" },
+    { "type": "checkbox", "id": "show_delivery", "label": "Show delivery estimate", "default": true },
+    { "type": "text", "id": "delivery_text", "label": "Text", "default": "Order today. Get it {range}.", "info": "{range} is replaced with the estimated delivery dates." },
+    { "type": "text", "id": "delivery_fallback", "label": "Fallback text (before JS runs)", "default": "Ships in 1 to 2 business days." },
+    { "type": "range", "id": "ship_days_min", "min": 0, "max": 10, "step": 1, "label": "Handling days (min)", "default": 1 },
+    { "type": "range", "id": "ship_days_max", "min": 0, "max": 10, "step": 1, "label": "Handling days (max)", "default": 2 },
+    { "type": "range", "id": "transit_days_min", "min": 0, "max": 20, "step": 1, "label": "Transit days (min)", "default": 3 },
+    { "type": "range", "id": "transit_days_max", "min": 0, "max": 20, "step": 1, "label": "Transit days (max)", "default": 6 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_color", "label": "Card", "default": "#FFFFFF" },
+    { "type": "color", "id": "soft_color", "label": "Soft panel (hand toggle, delivery)", "default": "#F5F1E8" },
+    { "type": "color", "id": "ink_color", "label": "Ink", "default": "#0B1C12" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#4B5A50" },
+    { "type": "color", "id": "accent_color", "label": "Button / selected", "default": "#1D3D2A" },
+    { "type": "color", "id": "accent_dark_color", "label": "Button hover / dark", "default": "#173122" },
+    { "type": "color", "id": "highlight_color", "label": "Highlight green", "default": "#3A8A5B" },
+    { "type": "color", "id": "pale_color", "label": "Pale green", "default": "#DDEFE3" },
+    { "type": "color", "id": "gold_color", "label": "Gold", "default": "#C9A249" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#E8E2D4" },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 56 }
+  ],
+  "blocks": [
+    {
+      "type": "setup",
+      "name": "Setup bundle",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "ARC" },
+        { "type": "text", "id": "description", "label": "Product names", "default": "ARC ONE Swing Trainer" },
+        { "type": "text", "id": "note", "label": "One-liner", "info": "Leave blank to auto-show Save amount · Free shipping on bundles." },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "Example: Recommended" },
+        { "type": "checkbox", "id": "include_link", "label": "Include LINK ONE", "default": false },
+        { "type": "checkbox", "id": "include_line", "label": "Include LINE ONE", "default": false },
+        { "type": "number", "id": "save_amount", "label": "Bundle save amount", "default": 0, "info": "Extra currency units off this setup on top of compare-at sale pricing. Example: 15 for ARC + LINE, 20 for LINK + ARC + LINE." },
+        { "type": "text", "id": "discount_code", "label": "Discount code to apply", "info": "Applied after add to cart so the cart total matches. Create a matching amount-off code/automatic discount in Shopify Admin." }
+      ]
+    },
+    {
+      "type": "trust",
+      "name": "Trust line",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "lock", "label": "Secure checkout" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "truck", "label": "Shipping" },
+            { "value": "card", "label": "Money-back" },
+            { "value": "globe", "label": "Worldwide" },
+            { "value": "shield", "label": "Guarantee" },
+            { "value": "chat", "label": "Support" }
+          ],
+          "default": "returns"
+        },
+        { "type": "text", "id": "text", "label": "Text", "default": "30-day returns" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC v2 Hero",
+      "blocks": [
+        {
+          "type": "setup",
+          "settings": {
+            "label": "ARC ONE",
+            "description": "Release timing",
+            "include_link": false,
+            "include_line": false,
+            "save_amount": 0
+          }
+        },
+        {
+          "type": "setup",
+          "settings": {
+            "label": "ARC + LINE",
+            "description": "Swing + putting",
+            "badge": "RECOMMENDED",
+            "include_link": false,
+            "include_line": true,
+            "save_amount": 15,
+            "discount_code": "ARC-LINE-15"
+          }
+        },
+        {
+          "type": "setup",
+          "settings": {
+            "label": "Swing System",
+            "description": "LINK + ARC + LINE",
+            "include_link": true,
+            "include_line": true,
+            "save_amount": 20,
+            "discount_code": "SWING-SYSTEM-20"
+          }
+        },
+        { "type": "trust", "settings": { "icon": "returns", "text": "30-day returns" } },
+        { "type": "trust", "settings": { "icon": "truck", "text": "Free shipping $50+" } },
+        { "type": "trust", "settings": { "icon": "globe", "text": "Worldwide shipping" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

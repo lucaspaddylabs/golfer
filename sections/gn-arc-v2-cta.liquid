@@ -1,0 +1,155 @@
+{%- liquid
+  assign cta_variant = product.selected_or_first_available_variant
+  assign cta_url = section.settings.button_url
+  if cta_url == blank
+    assign cta_url = '#gn-v2-buybox'
+  endif
+-%}
+<style>
+  .gn-v2x {
+    --gn-bg: #0B1C12;
+    --gn-ink: #F5F1E8;
+    --gn-mint: #9CCFB0;
+    --gn-gold: #C9A249;
+    --gn-panel: #173122;
+    --gn-border: rgba(156, 207, 176, 0.25);
+    background: var(--gn-bg);
+    color: var(--gn-ink);
+    font-family: var(--font-body-family), sans-serif;
+  }
+  .gn-v2x *, .gn-v2x *::before, .gn-v2x *::after { box-sizing: border-box; }
+  .gn-v2x__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .gn-v2x__card {
+    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 32px; align-items: center;
+    padding: 48px; border-radius: 16px; border: 1px solid var(--gn-border); background: var(--gn-panel);
+  }
+  .gn-v2x__eyebrow { margin: 0 0 10px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gn-gold); }
+  .gn-v2x__heading { margin: 0 0 12px; font-family: var(--font-heading-family, var(--font-body-family)), sans-serif; font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1.02; font-weight: 800; letter-spacing: -0.03em; }
+  .gn-v2x__copy { margin: 0; max-width: 46ch; font-size: 1.08rem; line-height: 1.5; color: var(--gn-mint); }
+  .gn-v2x__side { display: grid; gap: 14px; justify-items: stretch; }
+  .gn-v2x__price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .gn-v2x__price-now { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+  .gn-v2x__price-was { font-size: 1.1rem; text-decoration: line-through; color: var(--gn-mint); }
+  .gn-v2x__price-label { font-size: 0.85rem; font-weight: 600; color: var(--gn-mint); }
+  .gn-v2x__btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 0 28px; border-radius: 12px;
+    background: var(--gn-gold); color: #0B1C12; text-decoration: none; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+    transition: filter 0.15s ease;
+  }
+  .gn-v2x__btn:hover { filter: brightness(1.07); }
+  .gn-v2x__points { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.86rem; font-weight: 600; color: var(--gn-ink); }
+  .gn-v2x__points li { display: inline-flex; align-items: center; gap: 6px; }
+  .gn-v2x__points svg { width: 14px; height: 14px; color: var(--gn-mint); flex: 0 0 auto; }
+  @media (max-width: 860px) {
+    .gn-v2x__inner { padding: 0 16px; }
+    .gn-v2x__card { grid-template-columns: 1fr; padding: 32px 22px; gap: 24px; }
+  }
+</style>
+
+<section
+  class="gn-v2x"
+  style="
+    --gn-bg: {{ section.settings.background_color }};
+    --gn-ink: {{ section.settings.text_color }};
+    --gn-mint: {{ section.settings.mint_color }};
+    --gn-gold: {{ section.settings.gold_color }};
+    --gn-panel: {{ section.settings.panel_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="gn-v2x__inner">
+    <div class="gn-v2x__card">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="gn-v2x__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="gn-v2x__heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.copy != blank -%}
+          <p class="gn-v2x__copy">{{ section.settings.copy }}</p>
+        {%- endif -%}
+      </div>
+      <div class="gn-v2x__side">
+        {%- if section.settings.show_price -%}
+          <div class="gn-v2x__price">
+            <span class="gn-v2x__price-label">{{ section.settings.price_label }}</span>
+            <span class="gn-v2x__price-now">{{ cta_variant.price | money }}</span>
+            {%- if cta_variant.compare_at_price > cta_variant.price -%}
+              <span class="gn-v2x__price-was">{{ cta_variant.compare_at_price | money }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <a class="gn-v2x__btn" href="{{ cta_url }}" data-gn-v2-scroll>{{ section.settings.button_text }}</a>
+        <ul class="gn-v2x__points">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+              {{ block.settings.text }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    document.querySelectorAll('#shopify-section-{{ section.id }} [data-gn-v2-scroll]').forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      if (href.charAt(0) !== '#') return;
+      link.addEventListener('click', (event) => {
+        const target = document.querySelector(href);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "ARC v2 Final CTA",
+  "tag": "section",
+  "class": "gn-arc-v2-section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ready when you are" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Hear your release. Fix it this week." },
+    { "type": "textarea", "id": "copy", "label": "Copy", "default": "ARC ONE Swing Trainer takes five minutes a day. No ball, no net, no app. If it does not help, send it back." },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": true },
+    { "type": "text", "id": "price_label", "label": "Price label", "default": "From" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Get ARC ONE Swing Trainer" },
+    { "type": "url", "id": "button_url", "label": "Button link", "info": "Leave blank to scroll back to the buy box." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#0B1C12" },
+    { "type": "color", "id": "panel_color", "label": "Panel", "default": "#173122" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1E8" },
+    { "type": "color", "id": "mint_color", "label": "Mint", "default": "#9CCFB0" },
+    { "type": "color", "id": "gold_color", "label": "Button", "default": "#C9A249" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 140, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 140, "step": 4, "unit": "px", "label": "Bottom padding", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "30-day returns" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC v2 Final CTA",
+      "blocks": [
+        { "type": "point", "settings": { "text": "30-day returns" } },
+        { "type": "point", "settings": { "text": "Free shipping $50+" } },
+        { "type": "point", "settings": { "text": "Ships worldwide" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

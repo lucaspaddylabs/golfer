@@ -1,0 +1,592 @@
+{
+  "sections": {
+    "hero": {
+      "type": "gn-arc-v2-hero",
+      "blocks": {
+        "setup_1": {
+          "type": "setup",
+          "settings": {
+            "label": "ARC ONE",
+            "description": "Release timing",
+            "note": "",
+            "badge": "",
+            "include_link": false,
+            "include_line": false,
+            "save_amount": 0,
+            "discount_code": ""
+          }
+        },
+        "setup_2": {
+          "type": "setup",
+          "settings": {
+            "label": "ARC + LINE",
+            "description": "Swing + putting",
+            "note": "",
+            "badge": "RECOMMENDED",
+            "include_link": false,
+            "include_line": true,
+            "save_amount": 15,
+            "discount_code": "ARC-LINE-15"
+          }
+        },
+        "setup_3": {
+          "type": "setup",
+          "settings": {
+            "label": "Swing System",
+            "description": "LINK + ARC + LINE",
+            "note": "",
+            "badge": "",
+            "include_link": true,
+            "include_line": true,
+            "save_amount": 20,
+            "discount_code": "SWING-SYSTEM-20"
+          }
+        },
+        "trust_1": {
+          "type": "trust",
+          "settings": {
+            "icon": "returns",
+            "text": "30-day risk-free returns"
+          }
+        },
+        "trust_2": {
+          "type": "trust",
+          "settings": {
+            "icon": "lock",
+            "text": "Secure checkout"
+          }
+        },
+        "trust_3": {
+          "type": "trust",
+          "settings": {
+            "icon": "globe",
+            "text": "Ships worldwide"
+          }
+        }
+      },
+      "block_order": [
+        "setup_1",
+        "setup_2",
+        "setup_3",
+        "trust_1",
+        "trust_2",
+        "trust_3"
+      ],
+      "settings": {
+        "eyebrow": "THE GOLFER NOW SYSTEM · 02 RELEASE",
+        "heading": "ARC ONE Swing Trainer",
+        "subheading": "A click inside the shaft tells you the moment you release. Hear it early and you're giving away distance. Hear it through the ball and you've held your lag.",
+        "benefit_1": "Stop casting early and get your yards back",
+        "benefit_2": "Instant feedback by sound. No app, net, or camera",
+        "benefit_3": "Five minutes a day, at home or at the range",
+        "gallery_badge": "0:12 · Sound on — hear the click",
+        "show_rating": true,
+        "rating": "4.8",
+        "sold_text": "Read the reviews",
+        "show_hand_toggle": true,
+        "hand_label": "Hand",
+        "hand_hint": "Left-handed? Same price.",
+        "hand_right_label": "Right-handed",
+        "hand_left_label": "Left-handed",
+        "setup_heading": "Choose your setup",
+        "setup_aside": "Bundles ship free",
+        "link_handle": "golf-training-belt",
+        "line_handle": "golf-putting-tutor",
+        "default_setup": "2",
+        "total_label": "Total",
+        "quantity_label": "Quantity",
+        "add_to_cart_text": "Add to cart",
+        "adding_text": "Adding...",
+        "sold_out_text": "Sold out",
+        "error_text": "Could not add to cart. Try again.",
+        "show_sticky_atc": true,
+        "show_delivery": true,
+        "delivery_text": "Order today. Get it {range}.",
+        "delivery_fallback": "Ships in 1 to 2 business days.",
+        "ship_days_min": 1,
+        "ship_days_max": 2,
+        "transit_days_min": 3,
+        "transit_days_max": 6,
+        "background_color": "#FFFFFF",
+        "card_color": "#FFFFFF",
+        "soft_color": "#F5F1E8",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "accent_dark_color": "#173122",
+        "highlight_color": "#3A8A5B",
+        "pale_color": "#DDEFE3",
+        "gold_color": "#C9A249",
+        "border_color": "#E8E2D4",
+        "padding_top": 32,
+        "padding_bottom": 56
+      }
+    },
+    "reviews": {
+      "type": "gn-arc-v2-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "It works! I'm hitting my drives 20-30 yards further. My partner in my scramble league is very happy. We won our league this year. The long par 4s are reachable again!",
+            "attribution": "Verified buyer",
+            "featured": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "It helps my timing when I swing.",
+            "attribution": "Verified buyer",
+            "featured": false
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "I use it in my right hand for about 6 swings. Then I do in in the left hand about 6 swings, then both hands with the normal grip. it is like a quick tune up.",
+            "attribution": "Verified buyer",
+            "featured": false
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "quote": "Using the swing trainer is an easy way to evaluate your swing without going to the driving range.",
+            "attribution": "Verified buyer",
+            "featured": false
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "quote": "Has really helped improve my contact. Very noticeable the first time I went to the range after using it every day for less than a week",
+            "attribution": "Verified buyer",
+            "featured": false
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "quote": "I purchased 2 of them. I use them and they help me groove my swing. I'm a satisfied person",
+            "attribution": "Verified buyer",
+            "featured": false
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6"
+      ],
+      "settings": {
+        "eyebrow": "REVIEWS",
+        "heading": "What golfers say after using it.",
+        "show_score": true,
+        "rating": "4.8",
+        "score_text": "Based on verified reviews",
+        "background_color": "#F5F1E8",
+        "card_color": "#FFFFFF",
+        "feature_color": "#173122",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "gold_color": "#C9A249",
+        "border_color": "#E8E2D4",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "system": {
+      "type": "gn-arc-v2-system",
+      "blocks": {
+        "tool_1": {
+          "type": "tool",
+          "settings": {
+            "number": "01",
+            "name": "LINK ONE",
+            "covers": "CONNECTION",
+            "text": "Training belt",
+            "handle": "golf-training-belt",
+            "current": false,
+            "current_label": "You're here",
+            "link_label": "See it"
+          }
+        },
+        "tool_2": {
+          "type": "tool",
+          "settings": {
+            "number": "02",
+            "name": "ARC ONE",
+            "covers": "RELEASE",
+            "text": "Swing trainer",
+            "handle": "pro-swing-click-trainer",
+            "current": true,
+            "current_label": "You're here",
+            "link_label": "See it"
+          }
+        },
+        "tool_3": {
+          "type": "tool",
+          "settings": {
+            "number": "03",
+            "name": "TRACE ONE",
+            "covers": "STRIKE",
+            "text": "Swing detection mat",
+            "handle": "swing-detection-training-mat",
+            "current": false,
+            "current_label": "You're here",
+            "link_label": "See it"
+          }
+        },
+        "tool_4": {
+          "type": "tool",
+          "settings": {
+            "number": "04",
+            "name": "LINE ONE",
+            "covers": "PUTTING",
+            "text": "Putting tutor",
+            "handle": "golf-putting-tutor",
+            "current": false,
+            "current_label": "You're here",
+            "link_label": "See it"
+          }
+        }
+      },
+      "block_order": [
+        "tool_1",
+        "tool_2",
+        "tool_3",
+        "tool_4"
+      ],
+      "settings": {
+        "eyebrow": "THE GOLFER NOW SYSTEM",
+        "heading": "One system. Four jobs.",
+        "copy": "Each tool trains one part of the game. ARC ONE covers release. Pair it with the others to cover more of your practice.",
+        "banner_title": "All four tools. Every part of your game.",
+        "banner_text": "LINK + ARC + TRACE + LINE · Free shipping",
+        "banner_button": "Get the Complete System",
+        "background_color": "#FFFFFF",
+        "card_color": "#FFFFFF",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "dark_color": "#173122",
+        "highlight_color": "#3A8A5B",
+        "mint_color": "#9CCFB0",
+        "gold_color": "#C9A249",
+        "border_color": "#E8E2D4",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "click": {
+      "type": "gn-arc-v2-click",
+      "blocks": {
+        "marker_1": {
+          "type": "marker",
+          "settings": {
+            "when": "",
+            "title": "Early click",
+            "text": "You're letting go near the top. The clubhead passes your hands before impact — weak, high, and short.",
+            "fix_label": "Fix",
+            "fix": "",
+            "tone": "early"
+          }
+        },
+        "marker_2": {
+          "type": "marker",
+          "settings": {
+            "when": "",
+            "title": "Click through the ball",
+            "text": "You've held your lag into the downswing. That's where compression and distance come from.",
+            "fix_label": "Keep",
+            "fix": "",
+            "tone": "target"
+          }
+        }
+      },
+      "block_order": [
+        "marker_1",
+        "marker_2"
+      ],
+      "settings": {
+        "eyebrow": "WHAT THE CLICK MEANS",
+        "heading": "The click is your coach.",
+        "copy": "Inside the shaft, a weighted piece releases when your wrists do. You hear where your release happened — no video to watch, no number to read.",
+        "footer_text": "",
+        "background_color": "#0B1C12",
+        "panel_color": "#173122",
+        "text_color": "#F5F1E8",
+        "muted_color": "#9CCFB0",
+        "mint_color": "#9CCFB0",
+        "gold_color": "#C9A249",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "howto": {
+      "type": "gn-arc-v2-howto",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Set your grip",
+            "text": "Hold the moulded grip. It places your hands in a neutral position every time.",
+            "chip": "No ball needed"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Swing and listen",
+            "text": "Take slow swings. Move the click later, from the top toward the ball.",
+            "chip": "10 swings · 3 min"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Take it to the course",
+            "text": "Five swings before your round, then hit your first tee shot with the same feel.",
+            "chip": "Fits in your bag"
+          }
+        },
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "label": "Use",
+            "value": "No ball, net, or app needed"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "label": "Size",
+            "value": "15.3\" collapsed, 26.5\" extended"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "label": "Build",
+            "value": "Stainless steel shaft, resin head, rubber grip"
+          }
+        },
+        "spec_4": {
+          "type": "spec",
+          "settings": {
+            "label": "Where",
+            "value": "Living room, garage, range, or warm-up"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4"
+      ],
+      "settings": {
+        "eyebrow": "HOW TO USE IT",
+        "heading": "Five minutes. Anywhere.",
+        "copy": "",
+        "background_color": "#F5F1E8",
+        "card_color": "#FFFFFF",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "dark_color": "#173122",
+        "highlight_color": "#3A8A5B",
+        "mint_color": "#9CCFB0",
+        "pale_color": "#DDEFE3",
+        "border_color": "#E8E2D4",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "problem": {
+      "type": "gn-arc-v2-problem",
+      "blocks": {
+        "before_1": {
+          "type": "before",
+          "settings": {
+            "text": "Grip keeps changing"
+          }
+        },
+        "before_2": {
+          "type": "before",
+          "settings": {
+            "text": "Thin and fat contact"
+          }
+        },
+        "before_3": {
+          "type": "before",
+          "settings": {
+            "text": "Weak, high ball flight"
+          }
+        },
+        "after_1": {
+          "type": "after",
+          "settings": {
+            "text": "Grip locked in"
+          }
+        },
+        "after_2": {
+          "type": "after",
+          "settings": {
+            "text": "Consistent contact"
+          }
+        },
+        "after_3": {
+          "type": "after",
+          "settings": {
+            "text": "Lag you can hear"
+          }
+        }
+      },
+      "block_order": [
+        "before_1",
+        "before_2",
+        "before_3",
+        "after_1",
+        "after_2",
+        "after_3"
+      ],
+      "settings": {
+        "eyebrow": "THE PROBLEM IT SOLVES",
+        "heading": "Most amateurs release too early. Few can feel it.",
+        "copy": "There's rarely time for a coach and rarely space for a net. ARC ONE gives you a signal you can use on the next swing.",
+        "before_tag": "Before",
+        "before_title": "Guessing on every swing",
+        "after_tag": "With ARC ONE",
+        "after_title": "Knowing on every swing",
+        "bottom_text": "",
+        "background_color": "#FFFFFF",
+        "card_color": "#F5F1E8",
+        "dark_color": "#173122",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "highlight_color": "#3A8A5B",
+        "mint_color": "#9CCFB0",
+        "border_color": "#E8E2D4",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "faq": {
+      "type": "gn-arc-v2-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What does ARC ONE actually do?",
+            "answer": "<p>It clicks inside the shaft the moment your wrists release. You hear when you let go, then work to move the click later in the swing.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to hit balls with it?",
+            "answer": "<p>No. It's built for practice swings. No ball, net, or app needed.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I use it indoors?",
+            "answer": "<p>Yes, if you have room to swing safely. Start with half swings.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will it fit in my golf bag?",
+            "answer": "<p>Yes. It collapses to about 15.3 inches and extends to 26.5 inches.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What if it doesn't work for me?",
+            "answer": "<p>Send it back within 30 days for a full refund.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5"
+      ],
+      "settings": {
+        "eyebrow": "COMMON QUESTIONS",
+        "heading": "Before you buy.",
+        "copy": "Still unsure? Our team answers within one working day.",
+        "open_first": true,
+        "contact_label": "Contact us",
+        "background_color": "#F5F1E8",
+        "card_color": "#FFFFFF",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "highlight_color": "#3A8A5B",
+        "border_color": "#E8E2D4",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "cta": {
+      "type": "gn-arc-v2-cta",
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "text": "Free shipping on bundles"
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "text": "30-day returns"
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2"
+      ],
+      "settings": {
+        "eyebrow": "30 DAYS, RISK-FREE",
+        "heading": "Hear your first clean release this week.",
+        "copy": "Try ARC ONE for 30 days. If your swing doesn't feel more consistent, send it back for a full refund.",
+        "show_price": true,
+        "price_label": "From",
+        "button_text": "Add ARC ONE",
+        "background_color": "#0B1C12",
+        "panel_color": "#173122",
+        "text_color": "#F5F1E8",
+        "mint_color": "#9CCFB0",
+        "gold_color": "#C9A249",
+        "padding_top": 64,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "reviews",
+    "system",
+    "click",
+    "howto",
+    "problem",
+    "faq",
+    "cta"
+  ]
+}

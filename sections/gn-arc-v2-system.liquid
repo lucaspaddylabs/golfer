@@ -1,0 +1,235 @@
+<style>
+  .gn-v2s {
+    --gn-bg: #F5F1E8;
+    --gn-card: #FFFFFF;
+    --gn-ink: #0B1C12;
+    --gn-muted: #4B5A50;
+    --gn-green: #1D3D2A;
+    --gn-forest: #173122;
+    --gn-mid: #3A8A5B;
+    --gn-mint: #9CCFB0;
+    --gn-pale: #DDEFE3;
+    --gn-gold: #C9A249;
+    --gn-border: #E8E2D4;
+    background: var(--gn-bg);
+    color: var(--gn-ink);
+    font-family: var(--font-body-family), sans-serif;
+  }
+  .gn-v2s *, .gn-v2s *::before, .gn-v2s *::after { box-sizing: border-box; }
+  .gn-v2s__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .gn-v2s__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 48px; margin: 0 0 36px; }
+  .gn-v2s__head-main { max-width: 640px; }
+  .gn-v2s__head .gn-v2s__copy { max-width: 42ch; text-align: right; }
+  .gn-v2s__head .gn-v2s__heading { margin-bottom: 0; }
+  .gn-v2s__eyebrow { margin: 0 0 8px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gn-mid); }
+  .gn-v2s__heading { margin: 0 0 12px; font-family: var(--font-heading-family, var(--font-body-family)), sans-serif; font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.025em; }
+  .gn-v2s__copy { margin: 0; font-size: 1.05rem; line-height: 1.5; color: var(--gn-muted); }
+  .gn-v2s__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .gn-v2s__card {
+    position: relative; display: flex; flex-direction: column; min-width: 0;
+    background: var(--gn-card); border: 1px solid var(--gn-border); border-radius: 16px; overflow: hidden;
+    color: inherit; text-decoration: none; transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  a.gn-v2s__card:hover { transform: translateY(-3px); border-color: var(--gn-mid); }
+  .gn-v2s__card.is-current { background: var(--gn-forest); border-color: var(--gn-forest); color: #F5F1E8; }
+  .gn-v2s__media { aspect-ratio: 1 / 1; background: #fff; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--gn-border); }
+  .gn-v2s__card.is-current .gn-v2s__media { background: var(--gn-green); border-color: var(--gn-green); }
+  .gn-v2s__media img { width: 100%; height: 100%; object-fit: contain; padding: 14px; display: block; }
+  .gn-v2s__num { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 9px; border-radius: 999px; background: var(--gn-bg); color: var(--gn-green); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; line-height: 1; }
+  .gn-v2s__card.is-current .gn-v2s__num { background: var(--gn-gold); color: var(--gn-ink); }
+  .gn-v2s__body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .gn-v2s__name { margin: 0; font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
+  .gn-v2s__covers { margin: 0; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gn-mid); }
+  .gn-v2s__card.is-current .gn-v2s__covers { color: var(--gn-mint); }
+  .gn-v2s__text { margin: 0; font-size: 0.92rem; line-height: 1.45; color: var(--gn-muted); }
+  .gn-v2s__card.is-current .gn-v2s__text { color: rgba(245, 241, 232, 0.82); }
+  .gn-v2s__foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 800; }
+  .gn-v2s__foot-link { color: var(--gn-green); }
+  .gn-v2s__card.is-current .gn-v2s__foot-link { color: var(--gn-mint); }
+  .gn-v2s__banner {
+    margin-top: 20px; padding: 28px 32px; border-radius: 16px; background: var(--gn-forest); color: #F5F1E8;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px;
+  }
+  .gn-v2s__banner-title { margin: 0 0 4px; font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.01em; }
+  .gn-v2s__banner-text { margin: 0; max-width: 56ch; font-size: 0.98rem; line-height: 1.45; color: var(--gn-mint); }
+  .gn-v2s__banner-btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 12px;
+    background: var(--gn-gold); color: var(--gn-ink); font-size: 0.9rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+  }
+  .gn-v2s__banner-btn:hover { filter: brightness(1.06); }
+  @media (max-width: 989px) {
+    .gn-v2s__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gn-v2s__head { display: block; }
+    .gn-v2s__head .gn-v2s__heading { margin-bottom: 12px; }
+    .gn-v2s__head .gn-v2s__copy { max-width: none; text-align: left; }
+  }
+  @media (max-width: 560px) {
+    .gn-v2s__inner { padding: 0 16px; }
+    .gn-v2s__grid { gap: 12px; }
+    .gn-v2s__body { padding: 14px 14px 16px; }
+    .gn-v2s__banner { padding: 22px 20px; }
+    .gn-v2s__banner-btn { width: 100%; }
+  }
+</style>
+
+<section
+  class="gn-v2s"
+  style="
+    --gn-bg: {{ section.settings.background_color }};
+    --gn-card: {{ section.settings.card_color }};
+    --gn-ink: {{ section.settings.ink_color }};
+    --gn-muted: {{ section.settings.muted_color }};
+    --gn-green: {{ section.settings.accent_color }};
+    --gn-forest: {{ section.settings.dark_color }};
+    --gn-mid: {{ section.settings.highlight_color }};
+    --gn-mint: {{ section.settings.mint_color }};
+    --gn-gold: {{ section.settings.gold_color }};
+    --gn-border: {{ section.settings.border_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="gn-v2s__inner">
+    <div class="gn-v2s__head">
+      <div class="gn-v2s__head-main">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="gn-v2s__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="gn-v2s__heading">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.copy != blank -%}
+        <p class="gn-v2s__copy">{{ section.settings.copy }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="gn-v2s__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign card_product = block.settings.product
+          if card_product == blank and block.settings.handle != blank
+            assign card_product = all_products[block.settings.handle]
+          endif
+          assign card_image = block.settings.image
+          if card_image == blank and card_product.featured_image
+            assign card_image = card_product.featured_image
+          endif
+          assign card_url = null
+          if block.settings.current
+            assign card_url = null
+          elsif card_product.url != blank
+            assign card_url = card_product.url
+          endif
+        -%}
+        {%- if card_url != blank -%}
+          <a class="gn-v2s__card" href="{{ card_url }}" {{ block.shopify_attributes }}>
+        {%- else -%}
+          <div class="gn-v2s__card{% if block.settings.current %} is-current{% endif %}" {{ block.shopify_attributes }}>
+        {%- endif -%}
+          {%- if block.settings.number != blank -%}
+            <span class="gn-v2s__num">{{ block.settings.number }}</span>
+          {%- endif -%}
+          <span class="gn-v2s__media">
+            {%- if card_image != blank -%}
+              {{ card_image | image_url: width: 600 | image_tag: alt: block.settings.name, loading: 'lazy', widths: '240, 360, 480, 600', sizes: '(min-width: 990px) 280px, 50vw' }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </span>
+          <span class="gn-v2s__body">
+            <span class="gn-v2s__covers">{{ block.settings.covers }}</span>
+            <span class="gn-v2s__name" style="display:block">{{ block.settings.name }}</span>
+            <span class="gn-v2s__text" style="display:block">{{ block.settings.text }}</span>
+            <span class="gn-v2s__foot">
+              {%- if block.settings.current -%}
+                <span class="gn-v2s__foot-link">{{ block.settings.current_label }}</span>
+              {%- elsif card_url != blank -%}
+                <span class="gn-v2s__foot-link">{{ block.settings.link_label }}</span>
+                <span class="gn-v2s__foot-link" aria-hidden="true">&rarr;</span>
+              {%- endif -%}
+            </span>
+          </span>
+        {%- if card_url != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.banner_title != blank -%}
+      <div class="gn-v2s__banner">
+        <div>
+          <p class="gn-v2s__banner-title">{{ section.settings.banner_title }}</p>
+          {%- if section.settings.banner_text != blank -%}
+            <p class="gn-v2s__banner-text">{{ section.settings.banner_text }}</p>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.banner_button != blank -%}
+          <a class="gn-v2s__banner-btn" href="{{ section.settings.banner_url | default: '#gn-v2-buybox' }}">{{ section.settings.banner_button }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ARC v2 System",
+  "tag": "section",
+  "class": "gn-arc-v2-section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Golfer Now system" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Four tools. One job each." },
+    { "type": "textarea", "id": "copy", "label": "Intro", "default": "ARC ONE Swing Trainer fixes your release. The rest cover connection, strike, and roll. Use one or use all four." },
+    { "type": "header", "content": "Complete banner" },
+    { "type": "text", "id": "banner_title", "label": "Banner title", "default": "Want the whole setup?" },
+    { "type": "textarea", "id": "banner_text", "label": "Banner text", "default": "Grab ARC ONE Swing Trainer with LINK ONE Training Belt and LINE ONE Putting Tutor in one order. Pick your setup up top." },
+    { "type": "text", "id": "banner_button", "label": "Banner button", "default": "Pick your setup" },
+    { "type": "url", "id": "banner_url", "label": "Banner button link", "info": "Leave blank to scroll back to the buy box." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F5F1E8" },
+    { "type": "color", "id": "card_color", "label": "Card", "default": "#FFFFFF" },
+    { "type": "color", "id": "ink_color", "label": "Ink", "default": "#0B1C12" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#4B5A50" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1D3D2A" },
+    { "type": "color", "id": "dark_color", "label": "Dark card / banner", "default": "#173122" },
+    { "type": "color", "id": "highlight_color", "label": "Highlight green", "default": "#3A8A5B" },
+    { "type": "color", "id": "mint_color", "label": "Mint", "default": "#9CCFB0" },
+    { "type": "color", "id": "gold_color", "label": "Gold", "default": "#C9A249" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#E8E2D4" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "tool",
+      "name": "Tool card",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "text", "id": "name", "label": "Name", "default": "LINK ONE Training Belt" },
+        { "type": "text", "id": "covers", "label": "Covers", "default": "Connection" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Keeps your arms and body working together." },
+        { "type": "product", "id": "product", "label": "Product", "info": "Optional. Falls back to the handle below." },
+        { "type": "text", "id": "handle", "label": "Handle fallback", "default": "golf-training-belt" },
+        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Optional. Defaults to the product image." },
+        { "type": "checkbox", "id": "current", "label": "This is the product on this page", "default": false },
+        { "type": "text", "id": "current_label", "label": "Label when current", "default": "You are here" },
+        { "type": "text", "id": "link_label", "label": "Link label", "default": "See it" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC v2 System",
+      "blocks": [
+        { "type": "tool", "settings": { "number": "01", "name": "LINK ONE Training Belt", "covers": "Connection", "text": "Keeps your arms and body working together.", "handle": "golf-training-belt", "current": false } },
+        { "type": "tool", "settings": { "number": "02", "name": "ARC ONE Swing Trainer", "covers": "Grip and swing", "text": "Clicks when you release. You hear it. You fix it.", "handle": "pro-swing-click-trainer", "current": true } },
+        { "type": "tool", "settings": { "number": "03", "name": "TRACE ONE Detection Mat", "covers": "Strike", "text": "Prints your strike and swing path so you can see them.", "handle": "swing-detection-training-mat", "current": false } },
+        { "type": "tool", "settings": { "number": "04", "name": "LINE ONE Putting Tutor", "covers": "Roll", "text": "Start line first. Pace second.", "handle": "golf-putting-tutor", "current": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,165 @@
+<style>
+  .gn-v2p {
+    --gn-bg: #F5F1E8;
+    --gn-card: #FFFFFF;
+    --gn-ink: #0B1C12;
+    --gn-muted: #4B5A50;
+    --gn-green: #1D3D2A;
+    --gn-forest: #173122;
+    --gn-mid: #3A8A5B;
+    --gn-mint: #9CCFB0;
+    --gn-pale: #DDEFE3;
+    --gn-gold: #C9A249;
+    --gn-border: #E8E2D4;
+    background: var(--gn-bg);
+    color: var(--gn-ink);
+    font-family: var(--font-body-family), sans-serif;
+  }
+  .gn-v2p *, .gn-v2p *::before, .gn-v2p *::after { box-sizing: border-box; }
+  .gn-v2p__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .gn-v2p__head { max-width: 680px; margin: 0 auto 36px; text-align: center; }
+  .gn-v2p__eyebrow { margin: 0 0 8px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gn-mid); }
+  .gn-v2p__heading { margin: 0 0 12px; font-family: var(--font-heading-family, var(--font-body-family)), sans-serif; font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.025em; }
+  .gn-v2p__copy { margin: 0; font-size: 1.05rem; line-height: 1.5; color: var(--gn-muted); }
+  .gn-v2p__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .gn-v2p__col { padding: 32px; border-radius: 16px; border: 1px solid var(--gn-border); background: var(--gn-card); }
+  .gn-v2p__col--after { background: var(--gn-forest); border-color: var(--gn-forest); color: #F5F1E8; }
+  .gn-v2p__tag { display: inline-flex; align-items: center; margin: 0 0 18px; padding: 7px 14px; border-radius: 999px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1; background: #efe9d9; color: #6b5a22; }
+  .gn-v2p__col--after .gn-v2p__tag { background: var(--gn-mint); color: var(--gn-forest); }
+  .gn-v2p__title { margin: 0 0 18px; font-size: 1.45rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; }
+  .gn-v2p__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .gn-v2p__item { display: flex; gap: 12px; align-items: flex-start; font-size: 1.02rem; line-height: 1.4; font-weight: 600; }
+  .gn-v2p__icon { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 1px; background: #f1e3bc; color: #8a6a1a; }
+  .gn-v2p__icon svg { width: 12px; height: 12px; display: block; }
+  .gn-v2p__col--after .gn-v2p__icon { background: var(--gn-mid); color: #fff; }
+  .gn-v2p__bottom { margin: 28px 0 0; text-align: center; font-size: 1.15rem; font-weight: 700; line-height: 1.4; }
+  @media (max-width: 760px) {
+    .gn-v2p__inner { padding: 0 16px; }
+    .gn-v2p__grid { grid-template-columns: 1fr; }
+    .gn-v2p__col { padding: 24px 20px; }
+  }
+</style>
+
+<section
+  class="gn-v2p"
+  style="
+    --gn-bg: {{ section.settings.background_color }};
+    --gn-card: {{ section.settings.card_color }};
+    --gn-ink: {{ section.settings.ink_color }};
+    --gn-muted: {{ section.settings.muted_color }};
+    --gn-forest: {{ section.settings.dark_color }};
+    --gn-mid: {{ section.settings.highlight_color }};
+    --gn-mint: {{ section.settings.mint_color }};
+    --gn-border: {{ section.settings.border_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="gn-v2p__inner">
+    <div class="gn-v2p__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="gn-v2p__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="gn-v2p__heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.copy != blank -%}
+        <p class="gn-v2p__copy">{{ section.settings.copy }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="gn-v2p__grid">
+      <div class="gn-v2p__col gn-v2p__col--before">
+        <span class="gn-v2p__tag">{{ section.settings.before_tag }}</span>
+        <h3 class="gn-v2p__title">{{ section.settings.before_title }}</h3>
+        <ul class="gn-v2p__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'before' -%}
+              <li class="gn-v2p__item" {{ block.shopify_attributes }}>
+                <span class="gn-v2p__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                <span>{{ block.settings.text }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="gn-v2p__col gn-v2p__col--after">
+        <span class="gn-v2p__tag">{{ section.settings.after_tag }}</span>
+        <h3 class="gn-v2p__title">{{ section.settings.after_title }}</h3>
+        <ul class="gn-v2p__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'after' -%}
+              <li class="gn-v2p__item" {{ block.shopify_attributes }}>
+                <span class="gn-v2p__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                <span>{{ block.settings.text }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+
+    {%- if section.settings.bottom_text != blank -%}
+      <p class="gn-v2p__bottom">{{ section.settings.bottom_text }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ARC v2 Problem",
+  "tag": "section",
+  "class": "gn-arc-v2-section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The problem" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "You can't fix what you can't feel." },
+    { "type": "textarea", "id": "copy", "label": "Intro", "default": "Most golfers cast the club and never know it. ARC ONE Swing Trainer makes the release something you can hear." },
+    { "type": "header", "content": "Before column" },
+    { "type": "text", "id": "before_tag", "label": "Tag", "default": "Before" },
+    { "type": "text", "id": "before_title", "label": "Title", "default": "Guessing" },
+    { "type": "header", "content": "After column" },
+    { "type": "text", "id": "after_tag", "label": "Tag", "default": "After" },
+    { "type": "text", "id": "after_title", "label": "Title", "default": "Hearing it" },
+    { "type": "text", "id": "bottom_text", "label": "Bottom line", "default": "Try it for 30 days. If it does not help, send it back." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F5F1E8" },
+    { "type": "color", "id": "card_color", "label": "Before card", "default": "#FFFFFF" },
+    { "type": "color", "id": "dark_color", "label": "After card", "default": "#173122" },
+    { "type": "color", "id": "ink_color", "label": "Ink", "default": "#0B1C12" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#4B5A50" },
+    { "type": "color", "id": "highlight_color", "label": "Highlight green", "default": "#3A8A5B" },
+    { "type": "color", "id": "mint_color", "label": "Mint", "default": "#9CCFB0" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#E8E2D4" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "before",
+      "name": "Before item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Casting from the top and not knowing it" }
+      ]
+    },
+    {
+      "type": "after",
+      "name": "After item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "You hear the release on every swing" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ARC v2 Problem",
+      "blocks": [
+        { "type": "before", "settings": { "text": "Casting from the top and not knowing it" } },
+        { "type": "before", "settings": { "text": "Thin and fat shots with no idea why" } },
+        { "type": "before", "settings": { "text": "Range sessions that teach you nothing" } },
+        { "type": "after", "settings": { "text": "You hear the release on every swing" } },
+        { "type": "after", "settings": { "text": "Cleaner contact the next time you hit balls" } },
+        { "type": "after", "settings": { "text": "A five minute tune-up in your garage" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
