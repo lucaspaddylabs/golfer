@@ -32,19 +32,30 @@
   }
   a.gn-v2s__card:hover { transform: translateY(-3px); border-color: var(--gn-mid); }
   .gn-v2s__card.is-current { border: 2px solid var(--gn-forest); }
-  .gn-v2s__media { aspect-ratio: 1 / 1; background: var(--gn-bg); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--gn-border); }
+  .gn-v2s__media { aspect-ratio: 220 / 200; background: #F5F1E8; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--gn-border); }
   .gn-v2s__media img { width: 100%; height: 100%; object-fit: contain; padding: 18px; display: block; }
   .gn-v2s__num { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 9px; border-radius: 999px; background: var(--gn-card); color: var(--gn-green); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; line-height: 1; }
-  .gn-v2s__card.is-current .gn-v2s__num { background: var(--gn-forest); color: #fff; }
+  .gn-v2s__card.is-current .gn-v2s__num { background: rgba(255,255,255,0.92); color: var(--gn-forest); }
+  .gn-v2s__here-badge {
+    position: absolute; top: 12px; right: 12px; z-index: 2;
+    padding: 7px 12px; border-radius: 999px; background: var(--gn-forest); color: #fff;
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; line-height: 1;
+  }
   .gn-v2s__body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
   .gn-v2s__name { margin: 0; font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
   .gn-v2s__covers { margin: 0; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gn-mid); }
   .gn-v2s__text { margin: 0; font-size: 0.92rem; line-height: 1.45; color: var(--gn-muted); }
   .gn-v2s__price { margin: 2px 0 0; font-size: 1rem; font-weight: 800; line-height: 1.2; color: var(--gn-ink); }
-  .gn-v2s__foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 800; }
-  .gn-v2s__foot-link { color: var(--gn-green); }
-  .gn-v2s__here { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--gn-forest); color: #fff; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.04em; line-height: 1; }
-  .gn-v2s__here svg { width: 12px; height: 12px; display: block; }
+  .gn-v2s__foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: flex-end; align-items: center; font-size: 0.9rem; font-weight: 800; }
+  .gn-v2s__add {
+    width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--gn-border);
+    display: inline-flex; align-items: center; justify-content: center; color: var(--gn-green); font-size: 1.2rem; line-height: 1;
+  }
+  .gn-v2s__here {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--gn-forest); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .gn-v2s__here svg { width: 14px; height: 14px; display: block; }
   .gn-v2s__banner {
     margin-top: 20px; padding: 28px 32px; border-radius: 16px; background: var(--gn-forest); color: #F5F1E8;
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px;
@@ -157,6 +168,9 @@
           {%- if block.settings.number != blank -%}
             <span class="gn-v2s__num">{{ block.settings.number }}</span>
           {%- endif -%}
+          {%- if block.settings.current -%}
+            <span class="gn-v2s__here-badge">{{ block.settings.current_label }}</span>
+          {%- endif -%}
           <span class="gn-v2s__media">
             {%- if card_image != blank -%}
               {{ card_image | image_url: width: 600 | image_tag: alt: block.settings.name, loading: 'lazy', widths: '240, 360, 480, 600', sizes: '(min-width: 990px) 280px, 50vw' }}
@@ -175,10 +189,9 @@
             {%- endif -%}
             <span class="gn-v2s__foot">
               {%- if block.settings.current -%}
-                <span class="gn-v2s__here"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>{{ block.settings.current_label }}</span>
+                <span class="gn-v2s__here" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
               {%- elsif card_url != blank -%}
-                <span class="gn-v2s__foot-link">{{ block.settings.link_label }}</span>
-                <span class="gn-v2s__foot-link" aria-hidden="true">&rarr;</span>
+                <span class="gn-v2s__add" aria-hidden="true">+</span>
               {%- endif -%}
             </span>
           </span>

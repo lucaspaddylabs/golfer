@@ -84,7 +84,7 @@
     align-items: start;
   }
   /* Gallery */
-  .gn-v2h__gallery { position: sticky; top: 24px; min-width: 0; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .gn-v2h__gallery { position: sticky; top: 24px; min-width: 0; display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 14px; align-items: start; }
   .gn-v2h__gallery:not(:has(.gn-v2h__thumbs)) { grid-template-columns: minmax(0, 1fr); }
   .gn-v2h__gallery .gn-v2h__stage { grid-column: 2; grid-row: 1; }
   .gn-v2h__gallery:not(:has(.gn-v2h__thumbs)) .gn-v2h__stage { grid-column: 1; }
@@ -94,7 +94,7 @@
     border: 1px solid var(--gn-border);
     border-radius: var(--gn-radius);
     overflow: hidden;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 560 / 700;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,9 +102,9 @@
   .gn-v2h__panel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
   .gn-v2h__panel.is-active { opacity: 1; pointer-events: auto; }
   .gn-v2h__panel img, .gn-v2h__panel video, .gn-v2h__panel iframe, .gn-v2h__panel model-viewer {
-    width: 100%; height: 100%; object-fit: contain; display: block;
+    width: 100%; height: 100%; object-fit: cover; display: block;
   }
-  .gn-v2h__panel img { padding: 20px; }
+  .gn-v2h__panel img { padding: 0; }
   .gn-v2h__badge {
     position: absolute; top: 16px; left: 16px; z-index: 3;
     padding: 7px 12px; border-radius: 999px;
@@ -120,23 +120,24 @@
   .gn-v2h__arrow:hover { background: #fff; border-color: var(--gn-green); }
   .gn-v2h__arrow--prev { left: 12px; }
   .gn-v2h__arrow--next { right: 12px; }
-  .gn-v2h__thumbs { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 10px; margin: 0; overflow-y: auto; max-height: 560px; padding: 2px; }
+  .gn-v2h__thumbs { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 10px; margin: 0; overflow-y: auto; max-height: 700px; padding: 2px; }
   .gn-v2h__thumb {
-    flex: 0 0 auto; width: 72px; height: 72px; padding: 0;
-    border: 2px solid var(--gn-border); border-radius: 12px; background: var(--gn-card);
+    flex: 0 0 auto; width: 80px; height: 96px; padding: 0;
+    border: 2px solid var(--gn-border); border-radius: 10px; background: var(--gn-card);
     overflow: hidden; cursor: pointer;
   }
   .gn-v2h__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .gn-v2h__thumb[aria-current="true"] { border-color: var(--gn-forest); box-shadow: 0 0 0 1px var(--gn-forest); }
   .gn-v2h__dots { display: none; }
 
-  /* Buy box */
+  /* Buy box — Figma is flush text column, no outer card chrome */
   .gn-v2h__buy {
     min-width: 0;
-    background: var(--gn-card);
-    border: 1px solid var(--gn-border);
-    border-radius: var(--gn-radius);
-    padding: 32px;
+    max-width: 480px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
   }
   .gn-v2h__strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 14px; text-decoration: none; color: inherit; }
   .gn-v2h__brand { color: var(--gn-mid); }
@@ -167,12 +168,12 @@
     display: block; padding: 0; margin: 0 0 8px;
     font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gn-ink);
   }
-  .gn-v2h__hand { display: inline-flex; padding: 4px; gap: 4px; border: 1px solid var(--gn-border); border-radius: 12px; background: var(--gn-soft); max-width: 100%; flex-wrap: wrap; }
-  .gn-v2h__hand label, .gn-v2h__pill { position: relative; display: inline-flex; }
+  .gn-v2h__hand { display: grid; grid-template-columns: 1fr 1fr; width: 100%; padding: 4px; gap: 4px; border: 0; border-radius: 12px; background: var(--gn-soft); }
+  .gn-v2h__hand label, .gn-v2h__pill { position: relative; display: block; min-width: 0; }
   .gn-v2h__hand input, .gn-v2h__pill input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
   .gn-v2h__hand span {
-    display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 20px;
-    border-radius: 9px; font-weight: 700; font-size: 0.92rem; color: var(--gn-muted); transition: background 0.15s ease, color 0.15s ease;
+    display: flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 14px;
+    border-radius: 9px; font-weight: 700; font-size: 0.9rem; color: var(--gn-muted); transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   }
   .gn-v2h__hand input:checked + span { background: #fff; color: var(--gn-ink); box-shadow: 0 1px 3px rgba(11, 28, 18, 0.16), 0 0 0 1px var(--gn-border); }
   .gn-v2h__hand input:focus-visible + span, .gn-v2h__pill input:focus-visible + span { outline: 2px solid var(--gn-mid); outline-offset: 2px; }
@@ -183,11 +184,14 @@
   }
   .gn-v2h__pill input:checked + span { border-color: var(--gn-green); box-shadow: inset 0 0 0 1px var(--gn-green); background: var(--gn-pale); }
 
-  /* Setup cards */
-  .gn-v2h__setups { display: grid; gap: 10px; margin: 0 0 22px; }
+  /* Setup cards — match Figma ~77px compact single-row options */
+  .gn-v2h__setups { display: grid; gap: 8px; margin: 0 0 18px; }
   .gn-v2h__setup {
-    position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 8px; align-items: center;
-    padding: 16px 16px 14px; border: 1.5px solid var(--gn-border); border-radius: var(--gn-radius); background: #fff; cursor: pointer;
+    position: relative; display: grid;
+    grid-template-columns: 20px auto minmax(0, 1fr) auto;
+    column-gap: 10px; row-gap: 0; align-items: center;
+    min-height: 76px; padding: 10px 12px;
+    border: 1.5px solid var(--gn-border); border-radius: 12px; background: #fff; cursor: pointer;
     transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
   }
   .gn-v2h__setup:hover { border-color: var(--gn-mid); }
@@ -195,44 +199,43 @@
   .gn-v2h__setup.is-disabled { opacity: 0.5; cursor: not-allowed; }
   .gn-v2h__setup input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
   .gn-v2h__setup:has(input:focus-visible) { outline: 2px solid var(--gn-mid); outline-offset: 2px; }
-  .gn-v2h__radio { width: 22px; height: 22px; border: 2px solid #b9b3a3; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+  .gn-v2h__radio { width: 20px; height: 20px; border: 2px solid #b9b3a3; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
   .gn-v2h__setup.is-selected .gn-v2h__radio { border-color: var(--gn-green); }
-  .gn-v2h__setup.is-selected .gn-v2h__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gn-green); }
-  .gn-v2h__setup-body { min-width: 0; }
-  .gn-v2h__setup-label { margin: 0; font-size: 1rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
-  .gn-v2h__setup-desc { margin: 3px 0 0; font-size: 0.8rem; line-height: 1.35; color: var(--gn-muted); }
-  .gn-v2h__setup-note { margin: 4px 0 0; font-size: 0.82rem; font-weight: 600; line-height: 1.35; color: var(--gn-green); }
-  .gn-v2h__setup-price { text-align: right; white-space: nowrap; }
-  .gn-v2h__setup-now { display: block; font-size: 1.05rem; font-weight: 800; line-height: 1.1; }
-  .gn-v2h__setup-was { display: block; font-size: 0.78rem; color: var(--gn-muted); text-decoration: line-through; margin-top: 2px; }
-  .gn-v2h__setup-was[hidden], .gn-v2h__total-was[hidden], .gn-v2h__total-save[hidden] { display: none; }
-  .gn-v2h__setup-thumbs { grid-column: 2 / -1; display: flex; align-items: center; }
+  .gn-v2h__setup.is-selected .gn-v2h__radio::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gn-green); }
+  .gn-v2h__setup-thumbs { display: flex; align-items: center; flex: 0 0 auto; }
+  .gn-v2h__setup-thumbs:empty { display: none; }
   .gn-v2h__setup-thumbs img {
-    width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #fff;
+    width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #fff;
     border: 2px solid #fff; box-shadow: 0 0 0 1px var(--gn-border); margin-right: -8px; display: block;
   }
+  .gn-v2h__setup-thumbs img:last-child { margin-right: 0; }
+  .gn-v2h__setup-body { min-width: 0; display: grid; gap: 1px; }
+  .gn-v2h__setup-label { margin: 0; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.15; }
+  .gn-v2h__setup-desc { margin: 0; font-size: 0.78rem; line-height: 1.25; color: var(--gn-muted); }
+  .gn-v2h__setup-note { margin: 0; font-size: 0.72rem; font-weight: 600; line-height: 1.25; color: var(--gn-green); }
+  .gn-v2h__setup-price { text-align: right; white-space: nowrap; justify-self: end; }
+  .gn-v2h__setup-now { display: block; font-size: 1rem; font-weight: 800; line-height: 1.1; }
+  .gn-v2h__setup-was { display: block; font-size: 0.74rem; color: var(--gn-muted); text-decoration: line-through; margin-top: 2px; }
+  .gn-v2h__setup-was[hidden], .gn-v2h__total-was[hidden], .gn-v2h__total-save[hidden] { display: none; }
   .gn-v2h__setup-badge {
-    position: absolute; top: -10px; right: 14px; z-index: 2;
-    padding: 5px 10px; border-radius: 999px; background: var(--gn-forest); color: #fff;
-    font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+    position: absolute; top: -9px; right: 12px; z-index: 2;
+    padding: 4px 9px; border-radius: 999px; background: var(--gn-forest); color: #fff;
+    font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
   }
 
-  /* Totals + ATC */
-  .gn-v2h__total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin: 0 0 14px; }
-  .gn-v2h__total-label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
-  .gn-v2h__total-now { font-size: 1.9rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
-  .gn-v2h__total-was { font-size: 1.1rem; color: var(--gn-muted); text-decoration: line-through; font-weight: 600; }
-  .gn-v2h__total-save { padding: 4px 9px; border-radius: 999px; background: var(--gn-gold); color: var(--gn-ink); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
-  .gn-v2h__row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: end; }
-  .gn-v2h__qty { display: flex; align-items: center; border: 1px solid var(--gn-border); border-radius: 12px; min-height: 56px; background: #fff; }
-  .gn-v2h__qty button { width: 34px; height: 54px; border: 0; background: transparent; font-size: 1.2rem; font-weight: 700; color: var(--gn-ink); cursor: pointer; padding: 0; }
+  /* Totals stay in DOM for JS, but Figma puts price only on the ATC button */
+  .gn-v2h__total { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .gn-v2h__total-label, .gn-v2h__total-now, .gn-v2h__total-was, .gn-v2h__total-save { display: inline; }
+  .gn-v2h__row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; align-items: stretch; }
+  .gn-v2h__qty { display: flex; align-items: center; border: 1.5px solid var(--gn-border); border-radius: 12px; min-height: 60px; background: #fff; }
+  .gn-v2h__qty button { width: 36px; height: 58px; border: 0; background: transparent; font-size: 1.2rem; font-weight: 700; color: var(--gn-ink); cursor: pointer; padding: 0; }
   .gn-v2h__qty input { width: 100%; min-width: 0; border: 0; text-align: center; font-weight: 800; font-size: 1rem; background: transparent; color: var(--gn-ink); -moz-appearance: textfield; padding: 0; }
   .gn-v2h__qty input::-webkit-outer-spin-button, .gn-v2h__qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .gn-v2h__cta {
-    min-height: 56px; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 60px; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     border: 0; border-radius: 12px; padding: 14px 22px; cursor: pointer;
-    background: var(--gn-green); color: var(--gn-bg);
-    font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; transition: background 0.15s ease;
+    background: var(--gn-green); color: #fff;
+    font-size: 0.95rem; font-weight: 800; letter-spacing: 0.02em; text-transform: none; transition: background 0.15s ease;
   }
   .gn-v2h__cta:hover { background: var(--gn-forest); }
   .gn-v2h__cta[disabled], .gn-v2h__cta[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
@@ -260,7 +263,7 @@
     .gn-v2h__dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
     .gn-v2h__dot { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; background: #cfc9b8; cursor: pointer; }
     .gn-v2h__dot.is-active { background: var(--gn-green); transform: scale(1.25); }
-    .gn-v2h__buy { padding: 22px 18px; }
+    .gn-v2h__buy { padding: 0; max-width: none; }
     .gn-v2h__sticky {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
       display: flex; gap: 12px; align-items: center; justify-content: space-between;
@@ -275,9 +278,15 @@
     .gn-v2h__sticky .gn-v2h__cta { width: auto; flex: 1 1 auto; max-width: 220px; min-height: 48px; }
   }
   @media (max-width: 480px) {
-    .gn-v2h__setup { grid-template-columns: 22px minmax(0, 1fr); }
-    .gn-v2h__setup-price { grid-column: 2; text-align: left; display: flex; gap: 8px; align-items: baseline; }
-    .gn-v2h__setup-thumbs { grid-column: 2; }
+    .gn-v2h__setup {
+      grid-template-columns: 18px auto minmax(0, 1fr) auto;
+      column-gap: 8px; min-height: 70px; padding: 8px 10px;
+    }
+    .gn-v2h__setup-thumbs img { width: 30px; height: 30px; }
+    .gn-v2h__setup-label { font-size: 0.88rem; }
+    .gn-v2h__setup-desc,
+    .gn-v2h__setup-note { font-size: 0.7rem; }
+    .gn-v2h__setup-now { font-size: 0.92rem; }
     .gn-v2h__row { grid-template-columns: 100px minmax(0, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -447,9 +456,18 @@
             <div class="gn-v2h__hand" role="radiogroup">
               {%- if hand_pos > 0 -%}
                 {%- for value in hand_option.values -%}
+                  {%- liquid
+                    assign hand_display = value
+                    assign hand_value_down = value | downcase
+                    if hand_value_down == 'right' or hand_value_down == 'rh' or hand_value_down == 'right hand'
+                      assign hand_display = section.settings.hand_right_label | default: value
+                    elsif hand_value_down == 'left' or hand_value_down == 'lh' or hand_value_down == 'left hand'
+                      assign hand_display = section.settings.hand_left_label | default: value
+                    endif
+                  -%}
                   <label>
                     <input type="radio" name="gn-opt-{{ section.id }}-{{ hand_pos }}" value="{{ value | escape }}" data-gn-opt data-pos="{{ hand_pos }}"{% if hand_option.selected_value == value %} checked{% endif %}>
-                    <span>{{ value }}</span>
+                    <span>{{ hand_display }}</span>
                   </label>
                 {%- endfor -%}
               {%- else -%}
@@ -571,10 +589,21 @@
                       <span class="gn-v2h__setup-badge">{{ block.settings.badge }}</span>
                     {%- endif -%}
                     <span class="gn-v2h__radio" aria-hidden="true"></span>
+                    <span class="gn-v2h__setup-thumbs" aria-hidden="true">
+                      {%- if inc_link and link_ok and link_p.featured_image -%}
+                        {{ link_p.featured_image | image_url: width: 96 | image_tag: width: 36, height: 36, alt: '', loading: 'lazy' }}
+                      {%- endif -%}
+                      {%- if product.featured_image -%}
+                        {{ product.featured_image | image_url: width: 96 | image_tag: width: 36, height: 36, alt: '', loading: 'lazy' }}
+                      {%- endif -%}
+                      {%- if inc_line and line_ok and line_p.featured_image -%}
+                        {{ line_p.featured_image | image_url: width: 96 | image_tag: width: 36, height: 36, alt: '', loading: 'lazy' }}
+                      {%- endif -%}
+                    </span>
                     <span class="gn-v2h__setup-body">
-                      <span class="gn-v2h__setup-label" style="display:block">{{ block.settings.label }}</span>
+                      <span class="gn-v2h__setup-label">{{ block.settings.label }}</span>
                       {%- if block.settings.description != blank -%}
-                        <span class="gn-v2h__setup-desc" style="display:block">{{ block.settings.description }}</span>
+                        <span class="gn-v2h__setup-desc">{{ block.settings.description }}</span>
                       {%- endif -%}
                       {%- if block.settings.note != blank -%}
                         <span class="gn-v2h__setup-note" data-gn-setup-note data-custom="true">{{ block.settings.note }}</span>
@@ -587,17 +616,6 @@
                     <span class="gn-v2h__setup-price">
                       <span class="gn-v2h__setup-now" data-gn-setup-now>{{ card_price | money }}</span>
                       <span class="gn-v2h__setup-was" data-gn-setup-was{% unless card_save > 0 %} hidden{% endunless %}>{{ card_compare | money }}</span>
-                    </span>
-                    <span class="gn-v2h__setup-thumbs" aria-hidden="true">
-                      {%- if inc_link and link_ok and link_p.featured_image -%}
-                        {{ link_p.featured_image | image_url: width: 96 | image_tag: width: 38, height: 38, alt: '', loading: 'lazy' }}
-                      {%- endif -%}
-                      {%- if product.featured_image -%}
-                        {{ product.featured_image | image_url: width: 96 | image_tag: width: 38, height: 38, alt: '', loading: 'lazy' }}
-                      {%- endif -%}
-                      {%- if inc_line and line_ok and line_p.featured_image -%}
-                        {{ line_p.featured_image | image_url: width: 96 | image_tag: width: 38, height: 38, alt: '', loading: 'lazy' }}
-                      {%- endif -%}
                     </span>
                   </label>
                 {%- endif -%}
