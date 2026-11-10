@@ -103,7 +103,7 @@
           "type": "message",
           "settings": {
             "badge": "Black Friday",
-            "text": "Save up to $20.85 on system bundles — ends Mon 30 Nov, 23:59",
+            "text": "Save up to $80 on system bundles — ends Mon 30 Nov, 23:59",
             "link": "",
             "show_icon": false,
             "icon": "sparkle"
@@ -138,9 +138,9 @@
       "name": "Gradient Marquee Bar",
       "settings": {
         "gradient_style": "custom",
-        "gradient_color_1": "#0B1C12",
-        "gradient_color_2": "#0B1C12",
-        "gradient_color_3": "#0B1C12",
+        "gradient_color_1": "#0b1c12",
+        "gradient_color_2": "#0b1c12",
+        "gradient_color_3": "#0b1c12",
         "speed": 50,
         "direction": "left",
         "show_glow": false,
