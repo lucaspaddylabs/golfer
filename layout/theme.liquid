@@ -163,17 +163,14 @@
         }
       }
     </script>
-    {%- comment -%} Intelligems must load AFTER importmap or their connection check reports missing. {%- endcomment -%}
+    {%- comment -%} Intelligems official snippet (after importmap). Detection matches this exact block. {%- endcomment -%}
     <script>
       window.Shopify = window.Shopify || {theme: {id: {{ theme.id }}, role: '{{ theme.role }}' } };
       window._template = {
-        directory: "{{ template.directory }}",
-        name: "{{ template.name }}",
-        suffix: "{{ template.suffix }}"
+          directory: "{{ template.directory }}",
+          name: "{{ template.name }}",
+          suffix: "{{ template.suffix }}"
       };
-    </script>
-    <script type="module" fetchpriority="high" src="https://cdn.intelligems.io/esm/5b9770039a80/bundle.js" data-em-disable></script>
-    <script>
       window.__productIdFromTemplate = {{ product.id | json }};
       window.__plpCollectionIdFromTemplate = {{ collection.id | json }};
       window.igProductData = (function() {
@@ -202,6 +199,7 @@
         return data;
       })();
     </script>
+    <script type="module" blocking="render" fetchpriority="high" src="https://cdn.intelligems.io/esm/5b9770039a80/bundle.js" data-em-disable async></script>
     <script>
 (function(){"use strict";var generatedConfig={"api":"https://k5om0lvjid.golfernow.com/sr","PS_STOREID":"98617557338","loadClass":"loadingcheckout","buyNowEnabled":true,"buyNowMode":"variant_only","routingMode":"all","productAllowlist":[],"trackAddToCart":true,"trackCheckoutClick":true,"fallbackPolicy":"native_action","fallbackNativeCheckout":true,"srRetries":2,"srTimeoutMs":5000,"srBaseDelayMs":250,"srMaxDelayMs":2000,"cartRetries":4,"cartTimeoutMs":5000,"maxCartPayloadBytes":262144,"maxCartItems":250,"maxLineProperties":100,"maxFieldLength":2048,"maxLandingPageLength":4096,"maxSrResponseBytes":16384,"firstTouchTtlMs":2592000000,"posthog":{"enabled":true,"apiKey":"phc_qcBVqJSvybaBmjmgeOVVbbr5TdeGV8r95qx8GvJWVRE","host":"https://e.paysight.dev","uiHost":"https://eu.posthog.com","capturePageview":true,"sessionReplay":false,"sessionReplaySampleRate":0.1}};var existingConfig=window.PS_CONFIG&&typeof window.PS_CONFIG==="object"?window.PS_CONFIG:{};window.PS_CONFIG={...generatedConfig,...existingConfig,posthog:{...generatedConfig.posthog,...existingConfig.posthog||{}}};})();
 
