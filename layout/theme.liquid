@@ -53,14 +53,17 @@
 
     {{ content_for_header }}
 
-    {%- comment -%} Intelligems — keep inline in theme.liquid so their connection check can detect the script URL {%- endcomment -%}
+    {%- comment -%} Intelligems template-testing snippet (exact form their Start check looks for) {%- endcomment -%}
     <script>
-      window.Shopify = window.Shopify || {theme: {id: {{ theme.id }}, role: '{{ theme.role }}' } };
       window._template = {
         directory: "{{ template.directory }}",
         name: "{{ template.name }}",
         suffix: "{{ template.suffix }}"
-      };
+      }
+      window.Shopify = window.Shopify || {theme: {id: {{ theme.id }}, role: '{{ theme.role }}' } };
+    </script>
+    {%- comment -%} Intelligems product/collection helpers used by price + PDP scripts {%- endcomment -%}
+    <script>
       window.__productIdFromTemplate = {{ product.id | json }};
       window.__plpCollectionIdFromTemplate = {{ collection.id | json }};
       window.igProductData = (function() {
