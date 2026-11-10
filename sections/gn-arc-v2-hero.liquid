@@ -51,6 +51,12 @@
     assign hero_brand_html = '<span class="gn-v2h__brand">ARC ONE</span>'
     assign hero_heading = hero_heading | replace: hero_brand, hero_brand_html
   endif
+
+  assign theme_gallery = 'gn-arc-v2-gallery-01.png,gn-arc-v2-gallery-02.png,gn-arc-v2-gallery-03.png,gn-arc-v2-gallery-04.png,gn-arc-v2-gallery-05.png,gn-arc-v2-gallery-06.png' | split: ','
+  assign use_figma_gallery = section.settings.use_figma_gallery
+  if use_figma_gallery == nil
+    assign use_figma_gallery = true
+  endif
 -%}
 
 <style>
@@ -306,6 +312,7 @@
   data-section-id="{{ section.id }}"
   data-money-format="{{ shop.money_format | escape }}"
   data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+  {% if use_figma_gallery %}data-figma-gallery="true"{% endif %}
   style="
     --gn-bg: {{ section.settings.background_color }};
     --gn-card: {{ section.settings.card_color }};
@@ -328,7 +335,7 @@
         {%- if section.settings.gallery_badge != blank -%}
           <span class="gn-v2h__badge">{{ section.settings.gallery_badge }}</span>
         {%- endif -%}
-        {%- if product.media.size > 1 or product.media.size == 0 and section.settings.fallback_image == blank -%}
+        {%- if use_figma_gallery or product.media.size > 1 or product.media.size == 0 and section.settings.fallback_image == blank -%}
           <button class="gn-v2h__arrow gn-v2h__arrow--prev" type="button" data-gn-prev aria-label="Previous image">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
@@ -336,7 +343,21 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
-        {%- if product.media.size > 0 -%}
+        {%- if use_figma_gallery -%}
+          {%- for asset_name in theme_gallery -%}
+            <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
+              <img
+                src="{{ asset_name | asset_url }}"
+                alt="{{ product.title | escape }}"
+                width="1120"
+                height="1400"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                {% if forloop.first %}fetchpriority="high"{% endif %}
+                style="object-fit: cover; padding: 0;"
+              >
+            </div>
+          {%- endfor -%}
+        {%- elsif product.media.size > 0 -%}
           {%- for media in product.media -%}
             <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="{{ media.id }}">
               {%- assign media_alt = media.alt | default: product.title -%}
@@ -363,8 +384,6 @@
             {{ section.settings.fallback_image | image_url: width: 1200 | image_tag: alt: product.title, loading: 'eager' }}
           </div>
         {%- else -%}
-          {%- comment -%} Figma Variant C gallery assets when the product has no media yet {%- endcomment -%}
-          {%- assign theme_gallery = 'gn-arc-v2-gallery-01.png,gn-arc-v2-gallery-02.png,gn-arc-v2-gallery-03.png,gn-arc-v2-gallery-04.png,gn-arc-v2-gallery-05.png,gn-arc-v2-gallery-06.png' | split: ',' -%}
           {%- for asset_name in theme_gallery -%}
             <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
               <img
@@ -380,7 +399,20 @@
           {%- endfor -%}
         {%- endif -%}
       </div>
-      {%- if product.media.size > 1 -%}
+      {%- if use_figma_gallery -%}
+        <div class="gn-v2h__thumbs" aria-label="Choose product image">
+          {%- for asset_name in theme_gallery -%}
+            <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="theme-{{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
+              <img src="{{ asset_name | asset_url }}" alt="" width="160" height="160" loading="lazy" style="object-fit: cover;">
+            </button>
+          {%- endfor -%}
+        </div>
+        <div class="gn-v2h__dots" aria-hidden="true">
+          {%- for asset_name in theme_gallery -%}
+            <button class="gn-v2h__dot{% if forloop.first %} is-active{% endif %}" type="button" data-gn-dot data-media-id="theme-{{ forloop.index }}" tabindex="-1"></button>
+          {%- endfor -%}
+        </div>
+      {%- elsif product.media.size > 1 -%}
         <div class="gn-v2h__thumbs" aria-label="Choose product image">
           {%- for media in product.media -%}
             <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="{{ media.id }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
@@ -394,7 +426,6 @@
           {%- endfor -%}
         </div>
       {%- elsif product.media.size == 0 and section.settings.fallback_image == blank -%}
-        {%- assign theme_gallery = 'gn-arc-v2-gallery-01.png,gn-arc-v2-gallery-02.png,gn-arc-v2-gallery-03.png,gn-arc-v2-gallery-04.png,gn-arc-v2-gallery-05.png,gn-arc-v2-gallery-06.png' | split: ',' -%}
         <div class="gn-v2h__thumbs" aria-label="Choose product image">
           {%- for asset_name in theme_gallery -%}
             <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="theme-{{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
@@ -811,7 +842,13 @@
       const variant = findVariant();
       if (variant) {
         variantInput.value = variant.id;
-        if (lastVariantId !== null && lastVariantId !== variant.id && variant.featured_media && variant.featured_media.id) {
+        if (
+          root.dataset.figmaGallery !== 'true' &&
+          lastVariantId !== null &&
+          lastVariantId !== variant.id &&
+          variant.featured_media &&
+          variant.featured_media.id
+        ) {
           showMedia(variant.featured_media.id);
         }
         lastVariantId = variant.id;
@@ -1087,8 +1124,9 @@
     { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Hear exactly when you let go of the club" },
     { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Train your grip and timing in your living room" },
     { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "No ball, net, or app needed" },
-    { "type": "text", "id": "gallery_badge", "label": "Gallery badge", "default": "Hear the click" },
-    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image", "info": "Only used when the product has no media." },
+    { "type": "text", "id": "gallery_badge", "label": "Gallery badge", "default": "Hear the click", "info": "Leave blank if the first Figma image already includes a badge." },
+    { "type": "checkbox", "id": "use_figma_gallery", "label": "Use Figma gallery images", "default": true, "info": "Shows the Variant C Figma product images instead of the Shopify product media." },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image", "info": "Only used when Figma gallery is off and the product has no media." },
 
     { "type": "header", "content": "Rating strip" },
     { "type": "checkbox", "id": "show_rating", "label": "Show rating strip", "default": true },
