@@ -7,7 +7,7 @@
           "type": "setup",
           "settings": {
             "label": "ARC ONE",
-            "description": "Release timing",
+            "description": "Swing trainer",
             "note": "",
             "badge": "",
             "include_link": false,
@@ -73,13 +73,13 @@
         "trust_3"
       ],
       "settings": {
-        "eyebrow": "THE GOLFER NOW SYSTEM · 02 RELEASE",
+        "eyebrow": "THE GOLFER NOW SYSTEM",
         "heading": "ARC ONE Swing Trainer",
-        "subheading": "A click inside the shaft tells you the moment you release. Hear it early and you're giving away distance. Hear it through the ball and you've held your lag.",
-        "benefit_1": "Stop casting early and get your yards back",
-        "benefit_2": "Instant feedback by sound. No app, net, or camera",
+        "subheading": "Swing it and listen. A click in the shaft tells you when your wrists let go, so you can work on timing without a coach standing over you.",
+        "benefit_1": "Hear when your wrists let go — then fix it on the next swing",
+        "benefit_2": "No ball, net, or app needed",
         "benefit_3": "Five minutes a day, at home or at the range",
-        "gallery_badge": "0:12 · Sound on — hear the click",
+        "gallery_badge": "Sound on — hear the click",
         "show_rating": true,
         "rating": "4.8",
         "sold_text": "Read the reviews",
@@ -166,7 +166,7 @@
       ],
       "settings": {
         "eyebrow": "REVIEWS",
-        "heading": "Golfers who heard the difference.",
+        "heading": "What buyers are saying.",
         "show_score": true,
         "rating": "4.8",
         "review_count": "",
@@ -200,7 +200,7 @@
             "number": "01",
             "name": "LINK ONE",
             "covers": "CONNECTION",
-            "text": "Training belt",
+            "text": "Keeps your arms and body working together.",
             "handle": "golf-training-belt",
             "current": false,
             "current_label": "You're here",
@@ -212,8 +212,8 @@
           "settings": {
             "number": "02",
             "name": "ARC ONE",
-            "covers": "RELEASE",
-            "text": "Swing trainer",
+            "covers": "SWING",
+            "text": "Hear when your wrists let go.",
             "handle": "pro-swing-click-trainer",
             "current": true,
             "current_label": "You're here",
@@ -226,7 +226,7 @@
             "number": "03",
             "name": "TRACE ONE",
             "covers": "STRIKE",
-            "text": "Swing detection mat",
+            "text": "See where your club makes contact.",
             "handle": "swing-detection-training-mat",
             "current": false,
             "current_label": "You're here",
@@ -239,7 +239,7 @@
             "number": "04",
             "name": "LINE ONE",
             "covers": "PUTTING",
-            "text": "Putting tutor",
+            "text": "Practice your start line.",
             "handle": "golf-putting-tutor",
             "current": false,
             "current_label": "You're here",
@@ -255,10 +255,10 @@
       ],
       "settings": {
         "eyebrow": "THE GOLFER NOW SYSTEM",
-        "heading": "One system. Four jobs.",
-        "copy": "Each tool trains one part of the game. ARC ONE covers release. Pair it with the others to cover more of your practice.",
+        "heading": "Four tools. Each one has a job.",
+        "copy": "ARC ONE helps you work on swing timing. Add LINK, TRACE, or LINE when you want to cover more of your practice.",
         "show_card_price": true,
-        "banner_title": "All four tools. Every part of your game.",
+        "banner_title": "Get all four tools in one order.",
         "banner_text": "LINK + ARC + TRACE + LINE · Free shipping",
         "banner_add_all": true,
         "banner_save_amount": 30,
@@ -289,16 +289,16 @@
         "marker_1": {
           "type": "marker",
           "settings": {
-            "title": "Early click",
-            "text": "You're letting go near the top. The clubhead passes your hands before impact — weak, high, and short.",
+            "title": "Click comes early",
+            "text": "Your wrists are letting go near the top. The club gets ahead of your hands, and the ball often comes up weak or short.",
             "tone": "early"
           }
         },
         "marker_2": {
           "type": "marker",
           "settings": {
-            "title": "Click through the ball",
-            "text": "You've held your lag into the downswing. That's where compression and distance come from.",
+            "title": "Click near the ball",
+            "text": "Your wrists hold on longer. Contact feels more solid, and you have a clearer target to practice toward.",
             "tone": "target"
           }
         }
@@ -308,9 +308,9 @@
         "marker_2"
       ],
       "settings": {
-        "eyebrow": "WHAT THE CLICK MEANS",
-        "heading": "The click is your coach.",
-        "copy": "Inside the shaft, a weighted piece releases when your wrists do. You hear where your release happened — no video to watch, no number to read.",
+        "eyebrow": "HOW THE CLICK WORKS",
+        "heading": "Listen for the click.",
+        "copy": "There's a weight inside the shaft. When your wrists let go, you hear a click. That tells you when it happened — no video to watch, no number to read.",
         "label_1": "TOP",
         "label_2": "DOWNSWING",
         "label_3": "IMPACT",
@@ -339,7 +339,7 @@
           "type": "step",
           "settings": {
             "title": "Set your grip",
-            "text": "Hold the moulded grip. It places your hands in a neutral position every time.",
+            "text": "Hold the molded grip. It puts your hands in a neutral position every time.",
             "chip": "No ball needed"
           }
         },
@@ -347,7 +347,7 @@
           "type": "step",
           "settings": {
             "title": "Swing and listen",
-            "text": "Take slow swings. Move the click later, from the top toward the ball.",
+            "text": "Take slow swings. Try to move the click later, from the top toward the ball.",
             "chip": "10 swings · 3 min"
           }
         },
@@ -355,7 +355,7 @@
           "type": "step",
           "settings": {
             "title": "Take it to the course",
-            "text": "Five swings before your round, then hit your first tee shot with the same feel.",
+            "text": "Take a few swings before your round, then hit your first tee shot with the same feel.",
             "chip": "Fits in your bag"
           }
         },
@@ -441,19 +441,19 @@
         "after_1": {
           "type": "after",
           "settings": {
-            "text": "Grip locked in"
+            "text": "Grip stays more consistent"
           }
         },
         "after_2": {
           "type": "after",
           "settings": {
-            "text": "Consistent contact"
+            "text": "Contact you can practice toward"
           }
         },
         "after_3": {
           "type": "after",
           "settings": {
-            "text": "Lag you can hear"
+            "text": "Timing you can hear"
           }
         }
       },
@@ -467,12 +467,12 @@
       ],
       "settings": {
         "eyebrow": "THE PROBLEM IT SOLVES",
-        "heading": "Most amateurs release too early. Few can feel it.",
-        "copy": "There's rarely time for a coach and rarely space for a net. ARC ONE gives you a signal you can use on the next swing.",
+        "heading": "It's hard to feel what your swing is doing.",
+        "copy": "You don't always have a coach nearby, and you don't always have room for a net. ARC ONE gives you a sound you can use on the next swing.",
         "before_tag": "BEFORE",
         "before_title": "Guessing on every swing",
         "after_tag": "WITH ARC ONE",
-        "after_title": "Knowing on every swing",
+        "after_title": "A clearer feel on every swing",
         "bottom_text": "",
         "background_color": "#FFFFFF",
         "card_color": "#FFFFFF",
@@ -495,7 +495,7 @@
           "type": "faq_item",
           "settings": {
             "question": "What does ARC ONE actually do?",
-            "answer": "<p>A weighted piece inside the shaft clicks the moment your wrists release. Hear it early and you're giving away distance. Hear it through the ball and you've held your lag. No app, net, or camera needed.</p>"
+            "answer": "<p>A weight inside the shaft clicks when your wrists let go. Hear it early and you know your timing is early. Hear it closer to the ball and you know you're holding on longer. No app, net, or camera needed.</p>"
           }
         },
         "faq_2": {
@@ -575,8 +575,8 @@
         "overlay_opacity": 80,
         "alignment": "left",
         "eyebrow": "30 DAYS, RISK-FREE",
-        "heading": "Hear your first clean release this week.",
-        "copy": "Try ARC ONE for 30 days. If your swing doesn't feel more consistent, send it back for a full refund.",
+        "heading": "Try ARC ONE for 30 days.",
+        "copy": "If your practice doesn't feel more useful, send it back for a full refund.",
         "show_price": true,
         "button_text": "Add ARC ONE",
         "background_color": "#0B1C12",
