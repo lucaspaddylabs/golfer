@@ -68,10 +68,19 @@
   .gn-v2s__banner-was { font-size: 1.05rem; color: var(--gn-mint); text-decoration: line-through; }
   .gn-v2s__banner-save { padding: 5px 10px; border-radius: 999px; background: var(--gn-gold); color: var(--gn-ink); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; }
   .gn-v2s__banner-btn {
-    display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 12px;
-    background: #fff; color: var(--gn-ink); font-size: 0.9rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border: 0; border-radius: 12px;
+    background: #fff; color: var(--gn-ink); font-size: 0.9rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; cursor: pointer;
   }
   .gn-v2s__banner-btn:hover { filter: brightness(0.96); }
+  .gn-v2s__banner-btn[disabled], .gn-v2s__banner-btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+  .gn-v2s__banner-btn .gn-v2s__spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(11, 28, 18, 0.2); border-top-color: var(--gn-ink); border-radius: 50%;
+    animation: gn-v2s-spin 700ms linear infinite;
+  }
+  .gn-v2s__banner-btn .gn-v2s__spinner[hidden] { display: none; }
+  .gn-v2s__banner-error { margin: 12px 0 0; width: 100%; font-size: 0.88rem; font-weight: 600; color: #ffb4a8; }
+  .gn-v2s__banner-error[hidden] { display: none; }
+  @keyframes gn-v2s-spin { to { transform: rotate(360deg); } }
   @media (max-width: 989px) {
     .gn-v2s__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .gn-v2s__head { display: block; }
@@ -203,8 +212,72 @@
       {%- endfor -%}
     </div>
 
+    {%- liquid
+      assign bundle_price = 0
+      assign bundle_compare = 0
+      assign bundle_ok = true
+      assign bundle_count = 0
+      assign bundle_items_json = ''
+      for block in section.blocks
+        assign bp = block.settings.product
+        if bp == blank and block.settings.handle != blank
+          assign bp = all_products[block.settings.handle]
+        endif
+        if bp.title == blank and block.settings.current
+          assign bp = product
+        endif
+        if bp.title == blank
+          assign bundle_ok = false
+        else
+          assign bv = bp.selected_or_first_available_variant
+          unless bv.available
+            assign bundle_ok = false
+          endunless
+          assign bundle_price = bundle_price | plus: bv.price
+          assign bv_cmp = bv.compare_at_price | at_least: bv.price
+          assign bundle_compare = bundle_compare | plus: bv_cmp
+          assign bundle_count = bundle_count | plus: 1
+          if bundle_items_json != blank
+            assign bundle_items_json = bundle_items_json | append: ','
+          endif
+          assign bundle_items_json = bundle_items_json | append: '{"id":' | append: bv.id | append: ',"quantity":1}'
+        endif
+      endfor
+
+      assign save_major = section.settings.banner_save_amount | default: 30
+      if save_major < 0
+        assign save_major = 0
+      endif
+      assign save_cents = save_major | times: 100
+      assign bundle_now = bundle_price | minus: save_cents
+      if bundle_now < 0
+        assign bundle_now = 0
+      endif
+      assign bundle_save = bundle_compare | minus: bundle_now
+      if bundle_save < 0
+        assign bundle_save = 0
+      endif
+
+      assign show_live_price = false
+      if section.settings.banner_use_live_price and bundle_count > 0
+        assign show_live_price = true
+      endif
+
+      assign discount_code = section.settings.banner_discount_code | strip
+      assign use_atc = false
+      if section.settings.banner_add_all and bundle_ok and bundle_count > 0
+        assign use_atc = true
+      endif
+    -%}
+
     {%- if section.settings.banner_title != blank -%}
-      <div class="gn-v2s__banner">
+      <div
+        class="gn-v2s__banner"
+        data-gn-v2s-banner
+        data-discount-code="{{ discount_code | escape }}"
+        data-error="{{ section.settings.banner_error_text | escape }}"
+        {% if use_atc %}data-items='[{{ bundle_items_json }}]'{% endif %}
+      >
         <div>
           <p class="gn-v2s__banner-title">{{ section.settings.banner_title }}</p>
           {%- if section.settings.banner_text != blank -%}
@@ -212,7 +285,17 @@
           {%- endif -%}
         </div>
         <div class="gn-v2s__banner-side">
-          {%- if section.settings.banner_price != blank -%}
+          {%- if show_live_price -%}
+            <div class="gn-v2s__banner-price">
+              <span class="gn-v2s__banner-now">{{ bundle_now | money }}</span>
+              {%- if bundle_compare > bundle_now -%}
+                <span class="gn-v2s__banner-was">{{ bundle_compare | money }}</span>
+              {%- endif -%}
+              {%- if bundle_save > 0 -%}
+                <span class="gn-v2s__banner-save">Save {{ bundle_save | money }}</span>
+              {%- endif -%}
+            </div>
+          {%- elsif section.settings.banner_price != blank -%}
             <div class="gn-v2s__banner-price">
               <span class="gn-v2s__banner-now">{{ section.settings.banner_price }}</span>
               {%- if section.settings.banner_compare != blank -%}
@@ -224,13 +307,125 @@
             </div>
           {%- endif -%}
           {%- if section.settings.banner_button != blank -%}
-            <a class="gn-v2s__banner-btn" href="{{ section.settings.banner_url | default: '#gn-v2-buybox' }}">{{ section.settings.banner_button }}</a>
+            {%- if use_atc -%}
+              <button class="gn-v2s__banner-btn" type="button" data-gn-v2s-atc{% unless bundle_ok %} disabled aria-disabled="true"{% endunless %}>
+                <span data-gn-v2s-label>{{ section.settings.banner_button }}</span>
+                <span class="gn-v2s__spinner" data-gn-v2s-spinner hidden aria-hidden="true"></span>
+              </button>
+            {%- else -%}
+              <a class="gn-v2s__banner-btn" href="{{ section.settings.banner_url | default: '#gn-v2-buybox' }}">{{ section.settings.banner_button }}</a>
+            {%- endif -%}
           {%- endif -%}
         </div>
+        <p class="gn-v2s__banner-error" data-gn-v2s-error hidden></p>
       </div>
     {%- endif -%}
   </div>
 </section>
+
+{%- if use_atc -%}
+<script>
+  (() => {
+    const root = document.querySelector('#shopify-section-{{ section.id }} [data-gn-v2s-banner]') || document.querySelector('[data-gn-v2s-banner][data-items]');
+    if (!root || root.dataset.gnBound) return;
+    root.dataset.gnBound = '1';
+    const btn = root.querySelector('[data-gn-v2s-atc]');
+    const spinner = root.querySelector('[data-gn-v2s-spinner]');
+    const errorBox = root.querySelector('[data-gn-v2s-error]');
+    if (!btn) return;
+    let busy = false;
+    let items = [];
+    try { items = JSON.parse(root.getAttribute('data-items') || '[]'); } catch (e) { items = []; }
+
+    const showError = (msg) => {
+      if (!errorBox) return;
+      errorBox.textContent = msg || '';
+      errorBox.hidden = !msg;
+    };
+
+    const applyDiscount = async (code, cart) => {
+      if (!code) return null;
+      const cartUrl = (window.routes && window.routes.cart_url) || '/cart';
+      const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
+      const current = await fetch(cartUrl.replace(/\/$/, '') + '.js', { headers: { Accept: 'application/json' } }).then((r) => r.json());
+      const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
+      if (existing.map((c) => c.toLowerCase()).includes(code.toLowerCase())) return current;
+      const payload = { discount: existing.concat([code]).join(',') };
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        payload.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
+        payload.sections_url = window.location.pathname;
+      }
+      const res = await fetch(updateUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify(payload)
+      });
+      return res.json();
+    };
+
+    const addAll = async () => {
+      if (busy || btn.disabled || !items.length) return;
+      busy = true;
+      showError('');
+      btn.disabled = true;
+      if (spinner) spinner.hidden = false;
+      const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+      const discountCode = (root.dataset.discountCode || '').trim();
+      const labeled = items.map((item) => Object.assign({}, item, {
+        properties: { _gn_bundle: 'Complete System' }
+      }));
+      const body = { items: labeled };
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        body.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
+        body.sections_url = window.location.pathname;
+      }
+      const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
+      const url = base.replace(/\.js$/, '') + '.js';
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+          body: JSON.stringify(body)
+        });
+        let json = await res.json();
+        if (!res.ok || json.status) {
+          showError(json.description || json.message || root.dataset.error || 'Could not add to cart.');
+          return;
+        }
+        if (discountCode) {
+          try {
+            const discounted = await applyDiscount(discountCode, cart);
+            if (discounted && !discounted.status) json = discounted;
+          } catch (err) {
+            console.warn('Complete system discount could not be applied', err);
+          }
+        }
+        const first = Array.isArray(json.items) && json.items.length ? json.items[0] : {};
+        const state = Object.assign({}, json, { key: first.key, id: first.id });
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-system', productVariantId: first.id, cartData: state });
+        }
+        if (cart && typeof cart.renderContents === 'function') {
+          if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
+          if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+          cart.renderContents(state);
+        } else {
+          window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+        }
+      } catch (err) {
+        console.error(err);
+        showError(root.dataset.error || 'Could not add to cart.');
+      } finally {
+        busy = false;
+        btn.disabled = false;
+        if (spinner) spinner.hidden = true;
+      }
+    };
+
+    btn.addEventListener('click', addAll);
+  })();
+</script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -246,11 +441,16 @@
     { "type": "header", "content": "Complete banner" },
     { "type": "text", "id": "banner_title", "label": "Banner title", "default": "Want the whole setup?" },
     { "type": "textarea", "id": "banner_text", "label": "Banner text", "default": "Grab ARC ONE Swing Trainer with LINK ONE Training Belt and LINE ONE Putting Tutor in one order. Pick your setup up top." },
-    { "type": "text", "id": "banner_price", "label": "Banner price", "info": "Example: $129.95. Leave blank to hide the price block." },
-    { "type": "text", "id": "banner_compare", "label": "Banner compare-at price", "info": "Example: $150.80. Shown struck through." },
-    { "type": "text", "id": "banner_save", "label": "Banner save badge", "info": "Example: Save $20.85." },
-    { "type": "text", "id": "banner_button", "label": "Banner button", "default": "Pick your setup" },
-    { "type": "url", "id": "banner_url", "label": "Banner button link", "info": "Leave blank to scroll back to the buy box." },
+    { "type": "checkbox", "id": "banner_add_all", "label": "Button adds all four tools to cart", "default": true },
+    { "type": "number", "id": "banner_save_amount", "label": "Extra discount amount ($)", "default": 30, "info": "Taken off the live sum of tool prices. Create a matching discount code in Admin." },
+    { "type": "text", "id": "banner_discount_code", "label": "Discount code to apply", "default": "COMPLETE-SYSTEM-30" },
+    { "type": "checkbox", "id": "banner_use_live_price", "label": "Show live price (compare-at total − discount)", "default": true },
+    { "type": "text", "id": "banner_price", "label": "Manual banner price", "info": "Only used when live price is off. Example: $129.95." },
+    { "type": "text", "id": "banner_compare", "label": "Manual compare-at price", "info": "Only used when live price is off." },
+    { "type": "text", "id": "banner_save", "label": "Manual save badge", "info": "Only used when live price is off." },
+    { "type": "text", "id": "banner_button", "label": "Banner button", "default": "Get the Complete System" },
+    { "type": "url", "id": "banner_url", "label": "Banner button link", "info": "Used only when add-all is off. Leave blank to scroll to the buy box." },
+    { "type": "text", "id": "banner_error_text", "label": "Add to cart error", "default": "Could not add the complete system. Try again." },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background / image area", "default": "#F5F1E8" },
     { "type": "color", "id": "card_color", "label": "Card", "default": "#FFFFFF" },
