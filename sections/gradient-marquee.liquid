@@ -8,6 +8,8 @@
     width: 100%;
     overflow: hidden;
     position: relative;
+    min-height: 28px;
+    box-sizing: border-box;
   }
 
   .gradient-marquee-bar.is-sticky {
@@ -102,10 +104,10 @@
   .gradient-marquee-item {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-weight: 400;
+    gap: 0.5rem;
+    font-weight: 500;
     letter-spacing: 0.02em;
-    line-height: 1;
+    line-height: 1.35;
     text-decoration: none;
     color: inherit;
     text-transform: none;
@@ -113,6 +115,22 @@
 
   .gradient-marquee-item:hover {
     opacity: 0.9;
+  }
+
+  .gradient-marquee-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #CBA24B;
+    color: #0B1C12;
+    font-size: 0.72em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 
   .gradient-marquee-icon {
@@ -254,6 +272,9 @@
               {%- else -%}
                 <span class="gradient-marquee-item" {{ block.shopify_attributes }}>
               {%- endif -%}
+                {%- if block.settings.badge != blank -%}
+                  <span class="gradient-marquee-badge">{{ block.settings.badge }}</span>
+                {%- endif -%}
                 {%- if block.settings.show_icon and block.settings.custom_image != blank -%}
                   <span class="gradient-marquee-icon gradient-marquee-icon--image">
                     {{ block.settings.custom_image | image_url: width: 60 | image_tag: loading: 'lazy' }}
@@ -382,6 +403,7 @@
       "type": "message",
       "name": "Message",
       "settings": [
+        { "type": "text", "id": "badge", "label": "Badge pill (optional)", "info": "e.g. BLACK FRIDAY — shown as a gold pill before the text" },
         { "type": "text", "id": "text", "label": "Text", "default": "Special offer message" },
         { "type": "url", "id": "link", "label": "Link (optional)" },
         { "type": "checkbox", "id": "show_icon", "label": "Show Icon", "default": true },

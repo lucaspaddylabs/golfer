@@ -99,45 +99,48 @@
     "gradient_marquee_gn": {
       "type": "gradient-marquee",
       "blocks": {
-        "msg_presidents": {
+        "msg_black_friday": {
           "type": "message",
           "settings": {
-            "text": "Black Friday",
+            "badge": "Black Friday",
+            "text": "Save up to $20.85 on system bundles — ends Mon 30 Nov, 23:59",
             "link": "",
-            "show_icon": true,
+            "show_icon": false,
             "icon": "sparkle"
+          }
+        },
+        "msg_christmas": {
+          "type": "message",
+          "settings": {
+            "badge": "",
+            "text": "Order by Tue 15 Dec for Christmas delivery",
+            "link": "",
+            "show_icon": false,
+            "icon": "gift"
           }
         },
         "msg_shipping": {
           "type": "message",
           "settings": {
-            "text": "Free Shipping $50+",
+            "badge": "",
+            "text": "Free shipping over $50 · 30-day returns",
             "link": "",
-            "show_icon": true,
+            "show_icon": false,
             "icon": "truck"
-          }
-        },
-        "msg_gifts": {
-          "type": "message",
-          "settings": {
-            "text": "Free Gifts",
-            "link": "",
-            "show_icon": true,
-            "icon": "gift"
           }
         }
       },
       "block_order": [
-        "msg_presidents",
-        "msg_shipping",
-        "msg_gifts"
+        "msg_black_friday",
+        "msg_christmas",
+        "msg_shipping"
       ],
       "name": "Gradient Marquee Bar",
       "settings": {
         "gradient_style": "custom",
-        "gradient_color_1": "#0a0a0a",
-        "gradient_color_2": "#0a0a0a",
-        "gradient_color_3": "#244a34",
+        "gradient_color_1": "#0B1C12",
+        "gradient_color_2": "#0B1C12",
+        "gradient_color_3": "#0B1C12",
         "speed": 50,
         "direction": "left",
         "show_glow": false,
@@ -145,7 +148,7 @@
         "is_sticky": false,
         "show_close": false,
         "text_color": "#ffffff",
-        "font_size": 11,
+        "font_size": 12,
         "padding_y": 8
       }
     },
