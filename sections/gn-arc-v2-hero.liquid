@@ -947,20 +947,37 @@
       return items;
     };
 
+    const sectionIdsFor = (cart) => {
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        return cart.getSectionsToRender().map((s) => s.id);
+      }
+      return ['cart-drawer', 'cart-icon-bubble', 'cart-icon-bubble--mobile', 'cart-free-delivery'];
+    };
+
+    const fetchCartWithSections = async (cart) => {
+      const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+      const ids = sectionIdsFor(cart);
+      const [cartJson, sections] = await Promise.all([
+        fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json()),
+        fetch('/?sections=' + ids.join(',')).then((r) => r.json())
+      ]);
+      return Object.assign({}, cartJson, { sections: sections });
+    };
+
     const applyBundleDiscount = async (code, cart) => {
       if (!code) return null;
-      const cartUrl = (window.routes && window.routes.cart_url) || '/cart';
+      const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
       const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
-      const current = await fetch(cartUrl.replace(/\/$/, '') + '.js', { headers: { Accept: 'application/json' } }).then((r) => r.json());
+      const current = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
       const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
       if (existing.map((c) => c.toLowerCase()).includes(code.toLowerCase())) {
-        return current;
+        return null;
       }
-      const payload = { discount: existing.concat([code]).join(',') };
-      if (cart && typeof cart.getSectionsToRender === 'function') {
-        payload.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
-        payload.sections_url = window.location.pathname;
-      }
+      const payload = {
+        discount: existing.concat([code]).join(','),
+        sections: sectionIdsFor(cart),
+        sections_url: window.location.pathname
+      };
       const res = await fetch(updateUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
@@ -979,11 +996,11 @@
       const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
       const active = selectedCard();
       const discountCode = active && active.dataset.discountCode ? active.dataset.discountCode.trim() : '';
-      const body = { items: buildItems() };
-      if (cart && typeof cart.getSectionsToRender === 'function') {
-        body.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
-        body.sections_url = window.location.pathname;
-      }
+      const body = {
+        items: buildItems(),
+        sections: sectionIdsFor(cart),
+        sections_url: window.location.pathname
+      };
       const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
       const url = base.replace(/\.js$/, '') + '.js';
 
@@ -1001,30 +1018,27 @@
 
         if (discountCode) {
           try {
-            const discounted = await applyBundleDiscount(discountCode, cart);
-            if (discounted && !discounted.status) {
-              const codes = discounted.discount_codes || [];
-              const applied = codes.find((d) => String(d.code).toLowerCase() === discountCode.toLowerCase());
-              if (!applied || applied.applicable !== false) {
-                json = discounted;
-              }
-            }
+            await applyBundleDiscount(discountCode, cart);
           } catch (discountErr) {
             console.warn('Bundle discount could not be applied', discountErr);
           }
         }
 
-        const first = Array.isArray(json.items) && json.items.length ? json.items[0] : {};
-        const state = Object.assign({}, json, { key: first.key, id: first.id });
-        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
-          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-hero', productVariantId: first.id, cartData: state });
-        }
+        // Always re-read cart + section HTML so drawer totals match real line items.
+        const state = await fetchCartWithSections(cart);
+        const first = Array.isArray(state.items) && state.items.length ? state.items[0] : {};
+        Object.assign(state, { key: first.key, id: first.id });
+
         if (cart && typeof cart.renderContents === 'function') {
           if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
           if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
           cart.renderContents(state);
         } else {
           window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+          return;
+        }
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-hero', productVariantId: first.id, cartData: state });
         }
       } catch (err) {
         console.error(err);

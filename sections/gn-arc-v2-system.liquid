@@ -343,18 +343,35 @@
       errorBox.hidden = !msg;
     };
 
+    const sectionIdsFor = (cart) => {
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        return cart.getSectionsToRender().map((s) => s.id);
+      }
+      return ['cart-drawer', 'cart-icon-bubble', 'cart-icon-bubble--mobile', 'cart-free-delivery'];
+    };
+
+    const fetchCartWithSections = async (cart) => {
+      const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+      const ids = sectionIdsFor(cart);
+      const [cartJson, sections] = await Promise.all([
+        fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json()),
+        fetch('/?sections=' + ids.join(',')).then((r) => r.json())
+      ]);
+      return Object.assign({}, cartJson, { sections: sections });
+    };
+
     const applyDiscount = async (code, cart) => {
       if (!code) return null;
-      const cartUrl = (window.routes && window.routes.cart_url) || '/cart';
+      const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
       const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
-      const current = await fetch(cartUrl.replace(/\/$/, '') + '.js', { headers: { Accept: 'application/json' } }).then((r) => r.json());
+      const current = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
       const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
-      if (existing.map((c) => c.toLowerCase()).includes(code.toLowerCase())) return current;
-      const payload = { discount: existing.concat([code]).join(',') };
-      if (cart && typeof cart.getSectionsToRender === 'function') {
-        payload.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
-        payload.sections_url = window.location.pathname;
-      }
+      if (existing.map((c) => c.toLowerCase()).includes(code.toLowerCase())) return null;
+      const payload = {
+        discount: existing.concat([code]).join(','),
+        sections: sectionIdsFor(cart),
+        sections_url: window.location.pathname
+      };
       const res = await fetch(updateUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
@@ -374,11 +391,11 @@
       const labeled = items.map((item) => Object.assign({}, item, {
         properties: { _gn_bundle: 'Complete System' }
       }));
-      const body = { items: labeled };
-      if (cart && typeof cart.getSectionsToRender === 'function') {
-        body.sections = cart.getSectionsToRender().map((s) => s.id).join(',');
-        body.sections_url = window.location.pathname;
-      }
+      const body = {
+        items: labeled,
+        sections: sectionIdsFor(cart),
+        sections_url: window.location.pathname
+      };
       const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
       const url = base.replace(/\.js$/, '') + '.js';
       try {
@@ -387,30 +404,31 @@
           headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
           body: JSON.stringify(body)
         });
-        let json = await res.json();
+        const json = await res.json();
         if (!res.ok || json.status) {
           showError(json.description || json.message || root.dataset.error || 'Could not add to cart.');
           return;
         }
         if (discountCode) {
           try {
-            const discounted = await applyDiscount(discountCode, cart);
-            if (discounted && !discounted.status) json = discounted;
+            await applyDiscount(discountCode, cart);
           } catch (err) {
             console.warn('Complete system discount could not be applied', err);
           }
         }
-        const first = Array.isArray(json.items) && json.items.length ? json.items[0] : {};
-        const state = Object.assign({}, json, { key: first.key, id: first.id });
-        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
-          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-system', productVariantId: first.id, cartData: state });
-        }
+        const state = await fetchCartWithSections(cart);
+        const first = Array.isArray(state.items) && state.items.length ? state.items[0] : {};
+        Object.assign(state, { key: first.key, id: first.id });
         if (cart && typeof cart.renderContents === 'function') {
           if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
           if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
           cart.renderContents(state);
         } else {
           window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+          return;
+        }
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-system', productVariantId: first.id, cartData: state });
         }
       } catch (err) {
         console.error(err);

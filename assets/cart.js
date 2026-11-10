@@ -32,6 +32,10 @@ class CartItems extends HTMLElement {
       if (event.source === 'cart-items') {
         return;
       }
+      // Bundle ATC already rendered drawer HTML from sections — don't race a partial refresh.
+      if (event.cartData && event.cartData.sections) {
+        return;
+      }
       this.onCartUpdate();
     });
   }
@@ -79,7 +83,18 @@ class CartItems extends HTMLElement {
         .then((response) => response.text())
         .then((responseText) => {
           const html = new DOMParser().parseFromString(responseText, 'text/html');
-          const selectors = ['cart-drawer-items', '.cart-drawer__footer'];
+          const cartDrawer = document.querySelector('cart-drawer');
+          const currentDrawer = cartDrawer && cartDrawer.querySelector('#CartDrawer');
+          const sourceDrawer = html.querySelector('#CartDrawer');
+          if (currentDrawer && sourceDrawer) {
+            currentDrawer.innerHTML = sourceDrawer.innerHTML;
+            if (cartDrawer) {
+              cartDrawer.classList.toggle('is-empty', html.querySelector('cart-drawer-items.is-empty') != null || !html.querySelector('.drawer__cart-item'));
+            }
+            return;
+          }
+          // Fallback if markup differs: refresh items + sticky totals together.
+          const selectors = ['cart-drawer-items', '.drawer__footer-footer', '.drawer__footer-shipping', '.drawer__header'];
           for (const selector of selectors) {
             const targetElement = document.querySelector(selector);
             const sourceElement = html.querySelector(selector);
