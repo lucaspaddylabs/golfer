@@ -51,12 +51,17 @@
 
   @media (max-width: 860px) {
     .gn-v2c__inner { padding: 0 16px; }
-    .gn-v2c__layout { grid-template-columns: 1fr; gap: 32px; }
+    .gn-v2c__layout { grid-template-columns: 1fr; gap: 24px; }
     .gn-v2c__head { max-width: none; }
     .gn-v2c__card { padding: 22px 14px 18px; }
     .gn-v2c__label { font-size: 0.58rem; letter-spacing: 0.08em; }
     .gn-v2c__marker-tag { font-size: 0.66rem; }
     .gn-v2c__subs { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 749px) {
+    .gn-v2c { padding-top: 40px !important; padding-bottom: 40px !important; }
+    .gn-v2c__heading { font-size: clamp(1.55rem, 7vw, 2.1rem); }
+    .gn-v2c__copy { font-size: 0.95rem; }
   }
 </style>
 

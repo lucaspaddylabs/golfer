@@ -128,8 +128,8 @@
         "pale_color": "#DDEFE3",
         "gold_color": "#C9A249",
         "border_color": "#E8E2D4",
-        "padding_top": 32,
-        "padding_bottom": 56
+        "padding_top": 12,
+        "padding_bottom": 40
       }
     },
     "reviews": {
