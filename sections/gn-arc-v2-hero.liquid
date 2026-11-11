@@ -276,8 +276,25 @@
   .gn-v2h__trust-item .gn-trust-icon svg { width: 100%; height: 100%; }
   .gn-v2h__hint { margin: 0 0 8px; font-size: 0.85rem; color: #8a2a1f; }
 
-  /* Sticky ATC (tablet + mobile) */
-  .gn-v2h__sticky { display: none; }
+  /* Sticky ATC — all breakpoints; slides up once main CTA scrolls out */
+  .gn-v2h__sticky {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+    display: flex; gap: 16px; align-items: center; justify-content: space-between;
+    width: 100%; box-sizing: border-box;
+    padding: 12px max(24px, calc((100% - 1100px) / 2)) calc(12px + env(safe-area-inset-bottom, 0px));
+    background: var(--gn-card); border-top: 1px solid var(--gn-border);
+    box-shadow: 0 -8px 24px rgba(11, 28, 18, 0.08);
+    transform: translateY(110%); transition: transform 0.22s ease;
+    pointer-events: none;
+  }
+  .gn-v2h__sticky.is-visible { transform: translateY(0); pointer-events: auto; }
+  body.overflow-hidden .gn-v2h__sticky { display: none; }
+  .gn-v2h__sticky-meta { min-width: 0; }
+  .gn-v2h__sticky-price { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
+  .gn-v2h__sticky-name { display: block; font-size: 0.78rem; font-weight: 600; color: var(--gn-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gn-v2h__sticky-note { display: block; font-size: 0.72rem; font-weight: 700; color: var(--gn-green); margin-top: 2px; }
+  .gn-v2h__sticky-note[hidden] { display: none; }
+  .gn-v2h__sticky .gn-v2h__cta { width: auto; flex: 0 0 auto; min-width: 180px; max-width: 260px; min-height: 48px; }
 
   /* Tablet: keep 2-col, constrain gallery so buy box stays in view */
   @media (max-width: 1099px) and (min-width: 750px) {
@@ -311,18 +328,10 @@
     .gn-v2h__cta, .gn-v2h__qty { min-height: 52px; }
     .gn-v2h__qty button { height: 50px; }
     .gn-v2h__trust { margin-top: 14px; padding-top: 14px; }
-    .gn-v2h__sticky {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
-      display: flex; gap: 12px; align-items: center; justify-content: space-between;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
-      background: var(--gn-card); border-top: 1px solid var(--gn-border);
-      transform: translateY(110%); transition: transform 0.2s ease;
-    }
-    .gn-v2h__sticky.is-visible { transform: translateY(0); }
-    body.overflow-hidden .gn-v2h__sticky { display: none; }
-    .gn-v2h__sticky-price { display: block; font-size: 1.15rem; font-weight: 800; line-height: 1.1; }
-    .gn-v2h__sticky-name { display: block; font-size: 0.74rem; font-weight: 600; color: var(--gn-muted); }
-    .gn-v2h__sticky .gn-v2h__cta { width: auto; flex: 1 1 auto; max-width: 220px; min-height: 48px; }
+    .gn-v2h__sticky { gap: 12px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
+    .gn-v2h__sticky-price { font-size: 1.15rem; }
+    .gn-v2h__sticky-name { font-size: 0.74rem; }
+    .gn-v2h__sticky .gn-v2h__cta { flex: 1 1 auto; max-width: 220px; min-width: 0; min-height: 48px; }
   }
 
   /* Mobile: Figma ~390×435 gallery, horizontal thumbs, compact buy box */
@@ -428,18 +437,10 @@
     }
     .gn-v2h__trust-item { font-size: 0.7rem; gap: 4px; }
     .gn-v2h__trust-item .gn-trust-icon { width: 22px; height: 22px; }
-    .gn-v2h__sticky {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
-      display: flex; gap: 12px; align-items: center; justify-content: space-between;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
-      background: var(--gn-card); border-top: 1px solid var(--gn-border);
-      transform: translateY(110%); transition: transform 0.2s ease;
-    }
-    .gn-v2h__sticky.is-visible { transform: translateY(0); }
-    body.overflow-hidden .gn-v2h__sticky { display: none; }
-    .gn-v2h__sticky-price { display: block; font-size: 1.1rem; font-weight: 800; line-height: 1.1; }
-    .gn-v2h__sticky-name { display: block; font-size: 0.72rem; font-weight: 600; color: var(--gn-muted); }
-    .gn-v2h__sticky .gn-v2h__cta { width: auto; flex: 1 1 auto; max-width: 200px; min-height: 46px; font-size: 0.88rem; }
+    .gn-v2h__sticky { gap: 12px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
+    .gn-v2h__sticky-price { font-size: 1.1rem; }
+    .gn-v2h__sticky-name { font-size: 0.72rem; }
+    .gn-v2h__sticky .gn-v2h__cta { flex: 1 1 auto; max-width: 200px; min-width: 0; min-height: 46px; font-size: 0.88rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .gn-v2h__panel, .gn-v2h__sticky { transition: none; }
@@ -852,9 +853,10 @@
 
   {%- if section.settings.show_sticky_atc -%}
     <div class="gn-v2h__sticky" data-gn-sticky aria-hidden="true">
-      <div>
+      <div class="gn-v2h__sticky-meta">
         <span class="gn-v2h__sticky-price" data-gn-sticky-price>{{ arc_price | money }}</span>
         <span class="gn-v2h__sticky-name" data-gn-sticky-name>{{ product.title }}</span>
+        <span class="gn-v2h__sticky-note" data-gn-sticky-note hidden>Free shipping</span>
       </div>
       <button class="gn-v2h__cta" type="button" data-gn-sticky-button tabindex="-1">
         <span data-gn-sticky-label>{{ section.settings.add_to_cart_text }}</span>
@@ -905,6 +907,7 @@
     const stickyLabel = root.querySelector('[data-gn-sticky-label]');
     const stickyPrice = root.querySelector('[data-gn-sticky-price]');
     const stickyName = root.querySelector('[data-gn-sticky-name]');
+    const stickyNote = root.querySelector('[data-gn-sticky-note]');
     const moneyFormat = root.dataset.moneyFormat || '';
     const currency = root.dataset.currency || 'USD';
     let busy = false;
@@ -1044,6 +1047,10 @@
         if (stickyPrice) stickyPrice.textContent = formatMoney(totals.price * qty);
       }
       if (stickyName) stickyName.textContent = active ? active.dataset.label : {{ product.title | json }};
+      if (stickyNote) {
+        const shipsFree = !!(active && (active.dataset.link === 'true' || active.dataset.line === 'true'));
+        stickyNote.hidden = !shipsFree;
+      }
       const label = busy ? labels.adding : (canBuy ? labels.add : labels.sold);
       const priceLabel = (canBuy && !busy && totals) ? labels.add + ' \u2014 ' + formatMoney(totals.price * qty) : label;
       submitLabel.textContent = priceLabel;
@@ -1306,7 +1313,7 @@
     { "type": "text", "id": "adding_text", "label": "Adding text", "default": "Adding..." },
     { "type": "text", "id": "sold_out_text", "label": "Sold out text", "default": "Sold out" },
     { "type": "text", "id": "error_text", "label": "Generic error text", "default": "Could not add to cart. Try again." },
-    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to cart on mobile", "default": true },
+    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to cart when main CTA scrolls away", "default": true },
 
     { "type": "header", "content": "Delivery estimate" },
     { "type": "checkbox", "id": "show_delivery", "label": "Show delivery estimate", "default": true },
