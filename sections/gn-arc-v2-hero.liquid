@@ -334,7 +334,7 @@
     .gn-v2h__sticky .gn-v2h__cta { flex: 1 1 auto; max-width: 220px; min-width: 0; min-height: 48px; }
   }
 
-  /* Mobile: Figma ~390×435 gallery, horizontal thumbs, compact buy box */
+  /* Mobile: keep gallery compact so bundles clear the fold */
   @media (max-width: 749px) {
     .gn-v2h {
       padding-top: 0 !important;
@@ -342,7 +342,7 @@
     }
     .gn-v2h__inner {
       grid-template-columns: 1fr;
-      gap: 14px;
+      gap: 10px;
       padding: 0;
     }
     .gn-v2h__gallery {
@@ -350,14 +350,14 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
     }
     .gn-v2h__gallery .gn-v2h__stage { grid-column: auto; grid-row: auto; }
     .gn-v2h__stage {
       width: 100%;
-      aspect-ratio: 390 / 435;
-      max-height: min(62vh, 435px);
+      aspect-ratio: 1 / 1;
+      max-height: min(38vh, 300px);
       border-radius: 0;
       border-left: 0;
       border-right: 0;
@@ -388,36 +388,53 @@
       scroll-snap-type: x proximity;
     }
     .gn-v2h__thumb {
-      flex: 0 0 56px;
-      width: 56px;
+      flex: 0 0 48px;
+      width: 48px;
       aspect-ratio: 1;
       border-radius: 8px;
       scroll-snap-align: start;
     }
     .gn-v2h__dots { display: none; }
     .gn-v2h__buy {
+      display: flex;
+      flex-direction: column;
       padding: 0 16px 8px;
       max-width: none;
     }
-    .gn-v2h__eyebrow { margin-bottom: 4px; font-size: 0.68rem; }
-    .gn-v2h__title {
-      margin-bottom: 8px;
-      font-size: clamp(1.55rem, 7vw, 1.9rem);
-    }
-    .gn-v2h__strip { margin-bottom: 10px; gap: 4px 8px; }
-    .gn-v2h__sub { margin-bottom: 12px; font-size: 0.95rem; line-height: 1.4; }
-    .gn-v2h__benefits { margin-bottom: 14px; gap: 7px; }
+    /* Push benefits below the buy form so bundles clear the fold */
+    .gn-v2h__form { order: 1; }
+    .gn-v2h__delivery { order: 2; }
+    .gn-v2h__trust { order: 3; }
+    .gn-v2h__benefits { order: 4; margin: 14px 0 0; gap: 7px; }
     .gn-v2h__benefit { font-size: 0.9rem; gap: 8px; }
     .gn-v2h__check { width: 18px; height: 18px; }
-    .gn-v2h__fieldset { margin-bottom: 12px; }
-    .gn-v2h__legend, .gn-v2h__label { margin-bottom: 6px; }
-    .gn-v2h__hand span { min-height: 38px; font-size: 0.86rem; }
-    .gn-v2h__setups { gap: 7px; margin-bottom: 12px; }
+    .gn-v2h__error { order: 0; }
+    .gn-v2h__eyebrow { margin-bottom: 2px; font-size: 0.68rem; }
+    .gn-v2h__title {
+      margin-bottom: 6px;
+      font-size: clamp(1.45rem, 6.5vw, 1.75rem);
+      line-height: 1.05;
+    }
+    .gn-v2h__strip { margin-bottom: 8px; gap: 4px 8px; }
+    /* Keep title/rating; clamp long copy so setups stay above the fold */
+    .gn-v2h__sub {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+    .gn-v2h__fieldset { margin-bottom: 10px; }
+    .gn-v2h__legend, .gn-v2h__label { margin-bottom: 5px; }
+    .gn-v2h__hand span { min-height: 36px; font-size: 0.86rem; }
+    .gn-v2h__setups { gap: 6px; margin-bottom: 10px; }
     .gn-v2h__setup {
       grid-template-columns: 18px auto minmax(0, 1fr) auto;
       column-gap: 8px;
-      min-height: 64px;
-      padding: 8px 10px;
+      min-height: 58px;
+      padding: 7px 10px;
     }
     .gn-v2h__setup-thumbs img { width: 28px; height: 28px; }
     .gn-v2h__setup-label { font-size: 0.88rem; }
@@ -425,8 +442,8 @@
     .gn-v2h__setup-note { font-size: 0.7rem; }
     .gn-v2h__setup-now { font-size: 0.92rem; }
     .gn-v2h__row { grid-template-columns: 96px minmax(0, 1fr); gap: 10px; }
-    .gn-v2h__cta, .gn-v2h__qty { min-height: 52px; }
-    .gn-v2h__qty button { width: 32px; height: 50px; }
+    .gn-v2h__cta, .gn-v2h__qty { min-height: 50px; }
+    .gn-v2h__qty button { width: 32px; height: 48px; }
     .gn-v2h__cta { font-size: 0.9rem; padding: 12px 16px; }
     .gn-v2h__delivery { margin-top: 10px; padding: 10px 12px; font-size: 0.84rem; }
     .gn-v2h__trust {
@@ -441,6 +458,12 @@
     .gn-v2h__sticky-price { font-size: 1.1rem; }
     .gn-v2h__sticky-name { font-size: 0.72rem; }
     .gn-v2h__sticky .gn-v2h__cta { flex: 1 1 auto; max-width: 200px; min-width: 0; min-height: 46px; font-size: 0.88rem; }
+  }
+
+  /* Short phones: pull setups further into the first screen */
+  @media (max-width: 749px) and (max-height: 780px) {
+    .gn-v2h__stage { max-height: min(34vh, 260px); }
+    .gn-v2h__sub { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .gn-v2h__panel, .gn-v2h__sticky { transition: none; }
