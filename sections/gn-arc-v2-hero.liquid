@@ -55,11 +55,12 @@
   endif
 
   comment
-    Approved square exports from the carousel review. Intrinsic widths match manifest.json.
-    Files are already 1:1, so the frame uses object-fit: contain and does not crop them.
+    Six approved square gallery images with responsive JPEG derivatives
+    (stem-160 / -480 / -800 / master) for srcset + sizes.
   endcomment
-  assign theme_gallery = 'gn-arc-v2-slide-01.png,gn-arc-v2-slide-02.jpg,gn-arc-v2-slide-03.png,gn-arc-v2-slide-04.png,gn-arc-v2-slide-05.png,gn-arc-v2-slide-06.png,gn-arc-v2-slide-07.png,gn-arc-v2-slide-08.png,gn-arc-v2-slide-09.png,gn-arc-v2-slide-10.png,gn-arc-v2-slide-11.png,gn-arc-v2-slide-12.png,gn-arc-v2-slide-13.png' | split: ','
-  assign gallery_widths = '1600,1600,1600,1200,1120,1035,1035,1200,1200,955,1110,1105,1030' | split: ','
+  assign theme_gallery = 'gn-arc-v2-gallery-01.jpg,gn-arc-v2-gallery-02.jpg,gn-arc-v2-gallery-03.jpg,gn-arc-v2-gallery-04.jpg,gn-arc-v2-gallery-05.jpg,gn-arc-v2-gallery-06.jpg' | split: ','
+  assign gallery_widths = '1024,896,1024,1024,1024,1024' | split: ','
+  assign gallery_alts = 'ARC ONE trains the perfect grip and swing to hit drives further,Grip swing listen: line up the V marker, make a practice swing, notice the click,Same grip every swing — line up your hands with the V marker,ARC ONE fits in your golf bag, telescopic 15.5 to 26 inches,Verified buyer Dave Ridge: hitting drives 20 to 30 yards further,Hear your release — a click tells you when you release' | split: ','
   assign gallery_sizes = '(min-width: 1100px) 520px, (min-width: 750px) 46vw, 100vw'
   assign use_figma_gallery = section.settings.use_figma_gallery
   if use_figma_gallery == nil
@@ -546,19 +547,20 @@
             <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
               {%- liquid
                 assign gw = gallery_widths[forloop.index0] | plus: 0
+                assign slide_alt = gallery_alts[forloop.index0] | default: product.title
                 assign slide_stem = asset_name | split: '.' | first
                 assign src_480 = slide_stem | append: '-480.jpg' | asset_url
                 assign src_800 = slide_stem | append: '-800.jpg' | asset_url
                 assign src_full = asset_name | asset_url
                 assign srcset = src_480 | append: ' 480w, ' | append: src_800 | append: ' 800w'
-                if gw > 1200
+                if gw >= 1200
                   assign src_1200 = slide_stem | append: '-1200.jpg' | asset_url
                   assign srcset = srcset | append: ', ' | append: src_1200 | append: ' 1200w'
                 endif
                 assign srcset = srcset | append: ', ' | append: src_full | append: ' ' | append: gw | append: 'w'
               -%}
               <img
-                alt="{{ product.title | escape }}"
+                alt="{{ slide_alt | escape }}"
                 width="{{ gw }}"
                 height="{{ gw }}"
                 decoding="async"
@@ -617,19 +619,20 @@
             <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
               {%- liquid
                 assign gw = gallery_widths[forloop.index0] | plus: 0
+                assign slide_alt = gallery_alts[forloop.index0] | default: product.title
                 assign slide_stem = asset_name | split: '.' | first
                 assign src_480 = slide_stem | append: '-480.jpg' | asset_url
                 assign src_800 = slide_stem | append: '-800.jpg' | asset_url
                 assign src_full = asset_name | asset_url
                 assign srcset = src_480 | append: ' 480w, ' | append: src_800 | append: ' 800w'
-                if gw > 1200
+                if gw >= 1200
                   assign src_1200 = slide_stem | append: '-1200.jpg' | asset_url
                   assign srcset = srcset | append: ', ' | append: src_1200 | append: ' 1200w'
                 endif
                 assign srcset = srcset | append: ', ' | append: src_full | append: ' ' | append: gw | append: 'w'
               -%}
               <img
-                alt="{{ product.title | escape }}"
+                alt="{{ slide_alt | escape }}"
                 width="{{ gw }}"
                 height="{{ gw }}"
                 decoding="async"
@@ -1497,7 +1500,7 @@
     { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Train your grip and timing in your living room" },
     { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "No ball, net, or app needed" },
     { "type": "text", "id": "gallery_badge", "label": "Gallery badge", "default": "Hear the click", "info": "Leave blank if the first Figma image already includes a badge." },
-    { "type": "checkbox", "id": "use_figma_gallery", "label": "Use Figma gallery images", "default": true, "info": "Shows the Variant C Figma product images instead of the Shopify product media." },
+    { "type": "checkbox", "id": "use_figma_gallery", "label": "Use curated gallery images", "default": true, "info": "Shows the six Variant C gallery images (with responsive srcset) instead of Shopify product media." },
     { "type": "image_picker", "id": "fallback_image", "label": "Fallback image", "info": "Only used when Figma gallery is off and the product has no media." },
 
     { "type": "header", "content": "Rating strip" },
