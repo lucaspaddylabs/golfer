@@ -45,12 +45,17 @@
   .gn-v2s__name { margin: 0; font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
   .gn-v2s__covers { margin: 0; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gn-mid); }
   .gn-v2s__text { margin: 0; font-size: 0.92rem; line-height: 1.45; color: var(--gn-muted); }
-  .gn-v2s__price { margin: 2px 0 0; font-size: 1rem; font-weight: 800; line-height: 1.2; color: var(--gn-ink); }
+  .gn-v2s__price { margin: 2px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: 1rem; font-weight: 800; line-height: 1.2; color: var(--gn-ink); }
+  .gn-v2s__price-was { font-size: 0.85rem; font-weight: 600; color: var(--gn-muted); text-decoration: line-through; }
   .gn-v2s__foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: flex-end; align-items: center; font-size: 0.9rem; font-weight: 800; }
   .gn-v2s__add {
     width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--gn-border);
     display: inline-flex; align-items: center; justify-content: center; color: var(--gn-green); font-size: 1.2rem; line-height: 1;
+    padding: 0; background: #fff; cursor: pointer; font-family: inherit;
   }
+  .gn-v2s__add:hover { border-color: var(--gn-green); background: var(--gn-pale); }
+  .gn-v2s__add[disabled] { opacity: 0.45; cursor: default; }
+  .gn-v2s__add.is-added { background: var(--gn-forest); color: #fff; border-color: var(--gn-forest); }
   .gn-v2s__here {
     width: 32px; height: 32px; border-radius: 50%; background: var(--gn-forest); color: #fff;
     display: inline-flex; align-items: center; justify-content: center;
@@ -160,8 +165,12 @@
             assign card_price_product = product
           endif
           assign card_price = null
+          assign card_compare = 0
+          assign card_variant = null
           if card_price_product.title != blank
-            assign card_price = card_price_product.selected_or_first_available_variant.price
+            assign card_variant = card_price_product.selected_or_first_available_variant
+            assign card_price = card_variant.price
+            assign card_compare = card_variant.compare_at_price | default: 0
           endif
 
           assign card_image = block.settings.image
@@ -182,18 +191,8 @@
             endcase
           endif
 
-          assign card_url = null
-          if block.settings.current
-            assign card_url = null
-          elsif card_product.url != blank
-            assign card_url = card_product.url
-          endif
         -%}
-        {%- if card_url != blank -%}
-          <a class="gn-v2s__card" href="{{ card_url }}" {{ block.shopify_attributes }}>
-        {%- else -%}
-          <div class="gn-v2s__card{% if block.settings.current %} is-current{% endif %}" {{ block.shopify_attributes }}>
-        {%- endif -%}
+        <div class="gn-v2s__card{% if block.settings.current %} is-current{% endif %}" {{ block.shopify_attributes }}>
           {%- if block.settings.number != blank -%}
             <span class="gn-v2s__num">{{ block.settings.number }}</span>
           {%- endif -%}
@@ -214,21 +213,29 @@
             <span class="gn-v2s__name" style="display:block">{{ block.settings.name }}</span>
             <span class="gn-v2s__text" style="display:block">{{ block.settings.text }}</span>
             {%- if card_price != blank and section.settings.show_card_price -%}
-              <span class="gn-v2s__price" style="display:block">{{ card_price | money }}</span>
+              <span class="gn-v2s__price">
+                <span class="gn-v2s__price-now">{{ card_price | money }}</span>
+                {%- if card_compare > card_price -%}
+                  <span class="gn-v2s__price-was">{{ card_compare | money }}</span>
+                {%- endif -%}
+              </span>
             {%- endif -%}
             <span class="gn-v2s__foot">
               {%- if block.settings.current -%}
                 <span class="gn-v2s__here" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
-              {%- elsif card_url != blank -%}
-                <span class="gn-v2s__add" aria-hidden="true">+</span>
+              {%- elsif card_variant -%}
+                <button
+                  class="gn-v2s__add"
+                  type="button"
+                  data-gn-v2s-add
+                  data-variant-id="{{ card_variant.id }}"
+                  aria-label="Add {{ block.settings.name | escape }} to cart"
+                  {% unless card_variant.available %}disabled{% endunless %}
+                >+</button>
               {%- endif -%}
             </span>
           </span>
-        {%- if card_url != blank -%}
-          </a>
-        {%- else -%}
-          </div>
-        {%- endif -%}
+        </div>
       {%- endfor -%}
     </div>
 
@@ -464,6 +471,90 @@
   })();
 </script>
 {%- endif -%}
+
+<script>
+  (() => {
+    const section = document.getElementById('shopify-section-{{ section.id }}');
+    if (!section || section.dataset.gnCardAdd === '1') return;
+    section.dataset.gnCardAdd = '1';
+    const buttons = [...section.querySelectorAll('[data-gn-v2s-add]')];
+    if (!buttons.length) return;
+
+    const sectionIdsFor = (cart) => {
+      if (cart && typeof cart.getSectionsToRender === 'function') {
+        return cart.getSectionsToRender().map((s) => s.id);
+      }
+      return ['cart-drawer', 'cart-icon-bubble', 'cart-icon-bubble--mobile', 'cart-free-delivery'];
+    };
+
+    const fetchCartWithSections = async (cart) => {
+      const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+      const ids = sectionIdsFor(cart);
+      const [cartJson, sections] = await Promise.all([
+        fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json()),
+        fetch('/?sections=' + ids.join(',')).then((r) => r.json())
+      ]);
+      return Object.assign({}, cartJson, { sections: sections });
+    };
+
+    buttons.forEach((button) => {
+      const label = button.getAttribute('aria-label') || 'Add to cart';
+      button.addEventListener('click', async () => {
+        if (button.disabled || button.dataset.busy === '1') return;
+        button.dataset.busy = '1';
+        button.disabled = true;
+        const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+        const body = {
+          items: [{ id: Number(button.dataset.variantId), quantity: 1 }],
+          sections: sectionIdsFor(cart),
+          sections_url: window.location.pathname
+        };
+        const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
+        const url = base.replace(/\.js$/, '') + '.js';
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify(body)
+          });
+          const json = await res.json();
+          if (!res.ok || json.status) {
+            button.setAttribute('aria-label', json.description || json.message || 'Could not add to cart');
+            return;
+          }
+          const state = await fetchCartWithSections(cart);
+          const first = Array.isArray(state.items) && state.items.length ? state.items[state.items.length - 1] : {};
+          Object.assign(state, { key: first.key, id: first.id });
+          if (cart && typeof cart.renderContents === 'function') {
+            if (typeof cart.setActiveElement === 'function') cart.setActiveElement(button);
+            if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+            cart.renderContents(state);
+          } else {
+            window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+            return;
+          }
+          if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+            publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gn-arc-v2-system-card', productVariantId: first.id, cartData: state });
+          }
+          button.classList.add('is-added');
+          button.textContent = '✓';
+          button.setAttribute('aria-label', 'Added to cart');
+          window.setTimeout(() => {
+            button.classList.remove('is-added');
+            button.textContent = '+';
+            button.setAttribute('aria-label', label);
+          }, 1200);
+        } catch (err) {
+          console.error(err);
+          button.setAttribute('aria-label', 'Could not add to cart');
+        } finally {
+          button.disabled = false;
+          button.dataset.busy = '0';
+        }
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {

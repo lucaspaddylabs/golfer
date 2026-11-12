@@ -43,6 +43,8 @@
   assign setup_blocks = section.blocks | where: 'type', 'setup'
   assign trust_blocks = section.blocks | where: 'type', 'trust'
   assign default_index = section.settings.default_setup | plus: 0
+  assign initial_price = arc_price
+  assign initial_label = product.title
   assign sold_label = section.settings.sold_out_text
 
   assign hero_heading = section.settings.heading | default: product.title | escape
@@ -52,7 +54,13 @@
     assign hero_heading = hero_heading | replace: hero_brand, hero_brand_html
   endif
 
-  assign theme_gallery = 'gn-arc-v2-gallery-01.jpg,gn-arc-v2-gallery-02.jpg,gn-arc-v2-gallery-03.jpg,gn-arc-v2-gallery-04.jpg,gn-arc-v2-gallery-05.jpg,gn-arc-v2-gallery-06.jpg' | split: ','
+  comment
+    Approved square exports from the carousel review. Intrinsic widths match manifest.json.
+    Files are already 1:1, so the frame uses object-fit: contain and does not crop them.
+  endcomment
+  assign theme_gallery = 'gn-arc-v2-slide-01.png,gn-arc-v2-slide-02.jpg,gn-arc-v2-slide-03.png,gn-arc-v2-slide-04.png,gn-arc-v2-slide-05.png,gn-arc-v2-slide-06.png,gn-arc-v2-slide-07.png,gn-arc-v2-slide-08.png,gn-arc-v2-slide-09.png,gn-arc-v2-slide-10.png,gn-arc-v2-slide-11.png,gn-arc-v2-slide-12.png,gn-arc-v2-slide-13.png' | split: ','
+  assign gallery_widths = '1600,1600,1600,1200,1120,1035,1035,1200,1200,955,1110,1105,1030' | split: ','
+  assign gallery_sizes = '(min-width: 1100px) 520px, (min-width: 750px) 46vw, 100vw'
   assign use_figma_gallery = section.settings.use_figma_gallery
   if use_figma_gallery == nil
     assign use_figma_gallery = true
@@ -96,10 +104,13 @@
   .gn-v2h__gallery:not(:has(.gn-v2h__thumbs)) .gn-v2h__stage { grid-column: 1; }
   .gn-v2h__stage {
     position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     background: var(--gn-card);
     border: 1px solid var(--gn-border);
     border-radius: var(--gn-radius);
     overflow: hidden;
+    touch-action: pan-y;
   }
   .gn-v2h__panel {
     position: absolute;
@@ -112,15 +123,16 @@
     transition: opacity 200ms ease;
   }
   .gn-v2h__panel.is-active {
-    position: relative;
-    inset: auto;
     opacity: 1;
     pointer-events: auto;
   }
   .gn-v2h__panel img, .gn-v2h__panel video, .gn-v2h__panel iframe, .gn-v2h__panel model-viewer {
-    width: 100%; height: auto; object-fit: contain; display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
   }
-  .gn-v2h__panel img { padding: 0; }
   .gn-v2h__badge {
     position: absolute; top: 16px; left: 16px; z-index: 3;
     padding: 7px 12px; border-radius: 999px;
@@ -148,7 +160,7 @@
     border: 2px solid var(--gn-border); border-radius: 10px; background: var(--gn-card);
     overflow: hidden; cursor: pointer;
   }
-  .gn-v2h__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gn-v2h__thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .gn-v2h__thumb[aria-current="true"] { border-color: var(--gn-forest); box-shadow: 0 0 0 1px var(--gn-forest); }
   .gn-v2h__dots { display: none; }
 
@@ -281,7 +293,11 @@
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
     display: flex; gap: 16px; align-items: center; justify-content: space-between;
     width: 100%; box-sizing: border-box;
-    padding: 12px max(24px, calc((100% - 1100px) / 2)) calc(12px + env(safe-area-inset-bottom, 0px));
+    padding:
+      12px
+      max(24px, env(safe-area-inset-right, 0px), calc((100% - 1100px) / 2))
+      calc(12px + env(safe-area-inset-bottom, 0px))
+      max(24px, env(safe-area-inset-left, 0px), calc((100% - 1100px) / 2));
     background: var(--gn-card); border-top: 1px solid var(--gn-border);
     box-shadow: 0 -8px 24px rgba(11, 28, 18, 0.08);
     transform: translateY(110%); transition: transform 0.22s ease;
@@ -291,10 +307,11 @@
   body.overflow-hidden .gn-v2h__sticky { display: none; }
   .gn-v2h__sticky-meta { min-width: 0; }
   .gn-v2h__sticky-price { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
-  .gn-v2h__sticky-name { display: block; font-size: 0.78rem; font-weight: 600; color: var(--gn-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gn-v2h__sticky-name { display: block; font-size: 0.78rem; font-weight: 600; color: var(--gn-muted); white-space: normal; overflow: visible; }
   .gn-v2h__sticky-note { display: block; font-size: 0.72rem; font-weight: 700; color: var(--gn-green); margin-top: 2px; }
   .gn-v2h__sticky-note[hidden] { display: none; }
   .gn-v2h__sticky .gn-v2h__cta { width: auto; flex: 0 0 auto; min-width: 180px; max-width: 260px; min-height: 48px; }
+  body.gn-v2h-sticky-pad { padding-bottom: var(--gn-v2h-sticky-offset, 0px); }
 
   /* Tablet: keep 2-col, constrain gallery so buy box stays in view */
   @media (max-width: 1099px) and (min-width: 750px) {
@@ -309,14 +326,6 @@
       grid-template-columns: 64px minmax(0, 1fr);
       gap: 10px;
     }
-    .gn-v2h__stage { aspect-ratio: 4 / 5; }
-    .gn-v2h__panel.is-active { position: absolute; inset: 0; }
-    .gn-v2h__panel img,
-    .gn-v2h__panel video,
-    .gn-v2h__panel iframe,
-    .gn-v2h__panel model-viewer {
-      width: 100%; height: 100%; object-fit: cover;
-    }
     .gn-v2h__buy { max-width: none; }
     .gn-v2h__title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); }
     .gn-v2h__sub { font-size: 0.98rem; margin-bottom: 12px; }
@@ -328,13 +337,20 @@
     .gn-v2h__cta, .gn-v2h__qty { min-height: 52px; }
     .gn-v2h__qty button { height: 50px; }
     .gn-v2h__trust { margin-top: 14px; padding-top: 14px; }
-    .gn-v2h__sticky { gap: 12px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
+    .gn-v2h__sticky {
+      gap: 12px;
+      padding:
+        10px
+        max(16px, env(safe-area-inset-right, 0px))
+        calc(10px + env(safe-area-inset-bottom, 0px))
+        max(16px, env(safe-area-inset-left, 0px));
+    }
     .gn-v2h__sticky-price { font-size: 1.15rem; }
     .gn-v2h__sticky-name { font-size: 0.74rem; }
     .gn-v2h__sticky .gn-v2h__cta { flex: 1 1 auto; max-width: 220px; min-width: 0; min-height: 48px; }
   }
 
-  /* Mobile: keep gallery compact so bundles clear the fold */
+  /* Mobile: square gallery, full description, benefits above the buy form */
   @media (max-width: 749px) {
     .gn-v2h {
       padding-top: 0 !important;
@@ -357,17 +373,10 @@
     .gn-v2h__stage {
       width: 100%;
       aspect-ratio: 1 / 1;
-      max-height: min(38vh, 300px);
+      max-height: none;
       border-radius: 0;
       border-left: 0;
       border-right: 0;
-    }
-    .gn-v2h__panel.is-active { position: absolute; inset: 0; }
-    .gn-v2h__panel img,
-    .gn-v2h__panel video,
-    .gn-v2h__panel iframe,
-    .gn-v2h__panel model-viewer {
-      width: 100%; height: 100%; object-fit: cover;
     }
     .gn-v2h__arrow { width: 36px; height: 36px; }
     .gn-v2h__arrow--prev { left: 8px; }
@@ -380,7 +389,7 @@
       align-self: auto;
       gap: 8px;
       margin: 0;
-      padding: 0 16px;
+      padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
       max-height: none;
       overflow-x: auto;
       overflow-y: hidden;
@@ -398,17 +407,12 @@
     .gn-v2h__buy {
       display: flex;
       flex-direction: column;
-      padding: 0 16px 8px;
+      padding: 4px max(16px, env(safe-area-inset-right, 0px)) 8px max(16px, env(safe-area-inset-left, 0px));
       max-width: none;
     }
-    /* Push benefits below the buy form so bundles clear the fold */
-    .gn-v2h__form { order: 1; }
-    .gn-v2h__delivery { order: 2; }
-    .gn-v2h__trust { order: 3; }
-    .gn-v2h__benefits { order: 4; margin: 14px 0 0; gap: 7px; }
+    .gn-v2h__benefits { margin: 0 0 16px; gap: 7px; }
     .gn-v2h__benefit { font-size: 0.9rem; gap: 8px; }
     .gn-v2h__check { width: 18px; height: 18px; }
-    .gn-v2h__error { order: 0; }
     .gn-v2h__eyebrow { margin-bottom: 2px; font-size: 0.68rem; }
     .gn-v2h__title {
       margin-bottom: 6px;
@@ -416,15 +420,10 @@
       line-height: 1.05;
     }
     .gn-v2h__strip { margin-bottom: 8px; gap: 4px 8px; }
-    /* Keep title/rating; clamp long copy so setups stay above the fold */
     .gn-v2h__sub {
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      line-height: 1.35;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      line-height: 1.45;
     }
     .gn-v2h__fieldset { margin-bottom: 10px; }
     .gn-v2h__legend, .gn-v2h__label { margin-bottom: 5px; }
@@ -454,16 +453,22 @@
     }
     .gn-v2h__trust-item { font-size: 0.7rem; gap: 4px; }
     .gn-v2h__trust-item .gn-trust-icon { width: 22px; height: 22px; }
-    .gn-v2h__sticky { gap: 12px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
+    .gn-v2h__sticky {
+      gap: 12px;
+      padding:
+        10px
+        max(16px, env(safe-area-inset-right, 0px))
+        calc(10px + env(safe-area-inset-bottom, 0px))
+        max(16px, env(safe-area-inset-left, 0px));
+    }
     .gn-v2h__sticky-price { font-size: 1.1rem; }
     .gn-v2h__sticky-name { font-size: 0.72rem; }
     .gn-v2h__sticky .gn-v2h__cta { flex: 1 1 auto; max-width: 200px; min-width: 0; min-height: 46px; font-size: 0.88rem; }
   }
 
-  /* Short phones: pull setups further into the first screen */
-  @media (max-width: 749px) and (max-height: 780px) {
-    .gn-v2h__stage { max-height: min(34vh, 260px); }
-    .gn-v2h__sub { display: none; }
+  /* Landscape phones: keep the square inside the short viewport */
+  @media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+    .gn-v2h__stage { width: min(100%, 78svh); margin-inline: auto; }
   }
   @media (prefers-reduced-motion: reduce) {
     .gn-v2h__panel, .gn-v2h__sticky { transition: none; }
@@ -510,14 +515,36 @@
         {%- if use_figma_gallery -%}
           {%- for asset_name in theme_gallery -%}
             <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
+              {%- liquid
+                assign gw = gallery_widths[forloop.index0] | plus: 0
+                assign slide_stem = asset_name | split: '.' | first
+                assign src_480 = slide_stem | append: '-480.jpg' | asset_url
+                assign src_800 = slide_stem | append: '-800.jpg' | asset_url
+                assign src_full = asset_name | asset_url
+                assign srcset = src_480 | append: ' 480w, ' | append: src_800 | append: ' 800w'
+                if gw > 1200
+                  assign src_1200 = slide_stem | append: '-1200.jpg' | asset_url
+                  assign srcset = srcset | append: ', ' | append: src_1200 | append: ' 1200w'
+                endif
+                assign srcset = srcset | append: ', ' | append: src_full | append: ' ' | append: gw | append: 'w'
+              -%}
               <img
-                src="{{ asset_name | asset_url }}"
                 alt="{{ product.title | escape }}"
-                width="1120"
-                height="1400"
-                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                {% if forloop.first %}fetchpriority="high"{% endif %}
-                style="object-fit: contain; padding: 0;"
+                width="{{ gw }}"
+                height="{{ gw }}"
+                decoding="async"
+                {% if forloop.first %}
+                  src="{{ src_800 }}"
+                  srcset="{{ srcset }}"
+                  sizes="{{ gallery_sizes }}"
+                  loading="eager"
+                  fetchpriority="high"
+                {% else %}
+                  data-src="{{ src_800 }}"
+                  data-srcset="{{ srcset }}"
+                  data-sizes="{{ gallery_sizes }}"
+                  loading="lazy"
+                {% endif %}
               >
             </div>
           {%- endfor -%}
@@ -528,9 +555,18 @@
               {%- case media.media_type -%}
                 {%- when 'image' -%}
                   {%- if forloop.first -%}
-                    {{ media.preview_image | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 560px, 100vw' }}
+                    {{ media.preview_image | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'eager', fetchpriority: 'high', decoding: 'async', widths: '480, 800, 1200', sizes: gallery_sizes }}
                   {%- else -%}
-                    {{ media.preview_image | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'lazy', widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 560px, 100vw' }}
+                    <img
+                      alt="{{ media_alt | escape }}"
+                      width="{{ media.preview_image.width }}"
+                      height="{{ media.preview_image.height }}"
+                      data-src="{{ media.preview_image | image_url: width: 1200 }}"
+                      data-srcset="{{ media.preview_image | image_url: width: 480 }} 480w, {{ media.preview_image | image_url: width: 800 }} 800w, {{ media.preview_image | image_url: width: 1200 }} 1200w"
+                      data-sizes="{{ gallery_sizes }}"
+                      loading="lazy"
+                      decoding="async"
+                    >
                   {%- endif -%}
                 {%- when 'video' -%}
                   {{ media | video_tag: controls: true, image_size: '1200x' }}
@@ -545,19 +581,41 @@
           {%- endfor -%}
         {%- elsif section.settings.fallback_image != blank -%}
           <div class="gn-v2h__panel is-active" data-gn-panel data-media-id="fallback">
-            {{ section.settings.fallback_image | image_url: width: 1200 | image_tag: alt: product.title, loading: 'eager' }}
+            {{ section.settings.fallback_image | image_url: width: 1200 | image_tag: alt: product.title, loading: 'eager', fetchpriority: 'high', decoding: 'async', widths: '480, 800, 1200', sizes: gallery_sizes }}
           </div>
         {%- else -%}
           {%- for asset_name in theme_gallery -%}
             <div class="gn-v2h__panel{% if forloop.first %} is-active{% endif %}" data-gn-panel data-media-id="theme-{{ forloop.index }}">
+              {%- liquid
+                assign gw = gallery_widths[forloop.index0] | plus: 0
+                assign slide_stem = asset_name | split: '.' | first
+                assign src_480 = slide_stem | append: '-480.jpg' | asset_url
+                assign src_800 = slide_stem | append: '-800.jpg' | asset_url
+                assign src_full = asset_name | asset_url
+                assign srcset = src_480 | append: ' 480w, ' | append: src_800 | append: ' 800w'
+                if gw > 1200
+                  assign src_1200 = slide_stem | append: '-1200.jpg' | asset_url
+                  assign srcset = srcset | append: ', ' | append: src_1200 | append: ' 1200w'
+                endif
+                assign srcset = srcset | append: ', ' | append: src_full | append: ' ' | append: gw | append: 'w'
+              -%}
               <img
-                src="{{ asset_name | asset_url }}"
                 alt="{{ product.title | escape }}"
-                width="1120"
-                height="1400"
-                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                {% if forloop.first %}fetchpriority="high"{% endif %}
-                style="object-fit: contain; padding: 0;"
+                width="{{ gw }}"
+                height="{{ gw }}"
+                decoding="async"
+                {% if forloop.first %}
+                  src="{{ src_800 }}"
+                  srcset="{{ srcset }}"
+                  sizes="{{ gallery_sizes }}"
+                  loading="eager"
+                  fetchpriority="high"
+                {% else %}
+                  data-src="{{ src_800 }}"
+                  data-srcset="{{ srcset }}"
+                  data-sizes="{{ gallery_sizes }}"
+                  loading="lazy"
+                {% endif %}
               >
             </div>
           {%- endfor -%}
@@ -567,7 +625,10 @@
         <div class="gn-v2h__thumbs" aria-label="Choose product image">
           {%- for asset_name in theme_gallery -%}
             <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="theme-{{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
-              <img src="{{ asset_name | asset_url }}" alt="" width="160" height="160" loading="lazy" style="object-fit: cover;">
+              {%- liquid
+                assign thumb_src = asset_name | split: '.' | first | append: '-160.jpg' | asset_url
+              -%}
+              <img src="{{ thumb_src }}" alt="" width="160" height="160" loading="lazy" decoding="async">
             </button>
           {%- endfor -%}
         </div>
@@ -580,7 +641,7 @@
         <div class="gn-v2h__thumbs" aria-label="Choose product image">
           {%- for media in product.media -%}
             <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="{{ media.id }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
-              {{ media.preview_image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' }}
+              {{ media.preview_image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy', decoding: 'async', widths: '96, 160', sizes: '80px' }}
             </button>
           {%- endfor -%}
         </div>
@@ -593,7 +654,10 @@
         <div class="gn-v2h__thumbs" aria-label="Choose product image">
           {%- for asset_name in theme_gallery -%}
             <button class="gn-v2h__thumb" type="button" data-gn-thumb data-media-id="theme-{{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">
-              <img src="{{ asset_name | asset_url }}" alt="" width="160" height="160" loading="lazy" style="object-fit: cover;">
+              {%- liquid
+                assign thumb_src = asset_name | split: '.' | first | append: '-160.jpg' | asset_url
+              -%}
+              <img src="{{ thumb_src }}" alt="" width="160" height="160" loading="lazy" decoding="async">
             </button>
           {%- endfor -%}
         </div>
@@ -767,6 +831,8 @@
                   assign is_default = false
                   if forloop.index == default_index
                     assign is_default = true
+                    assign initial_price = card_price
+                    assign initial_label = block.settings.label
                   endif
 
                 -%}
@@ -839,7 +905,7 @@
             <button type="button" data-gn-qty-plus aria-label="Increase quantity">+</button>
           </div>
           <button class="gn-v2h__cta" type="submit" name="add" data-gn-submit{% unless current_variant.available %} disabled aria-disabled="true"{% endunless %}>
-            <span data-gn-submit-label>{% if current_variant.available %}{{ section.settings.add_to_cart_text }} &mdash; {{ arc_price | money }}{% else %}{{ sold_label }}{% endif %}</span>
+            <span data-gn-submit-label>{% if current_variant.available %}{{ section.settings.add_to_cart_text }} &mdash; {{ initial_price | money }}{% else %}{{ sold_label }}{% endif %}</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
             <span class="gn-v2h__spinner" data-gn-spinner hidden aria-hidden="true"></span>
           </button>
@@ -877,8 +943,8 @@
   {%- if section.settings.show_sticky_atc -%}
     <div class="gn-v2h__sticky" data-gn-sticky aria-hidden="true">
       <div class="gn-v2h__sticky-meta">
-        <span class="gn-v2h__sticky-price" data-gn-sticky-price>{{ arc_price | money }}</span>
-        <span class="gn-v2h__sticky-name" data-gn-sticky-name>{{ product.title }}</span>
+        <span class="gn-v2h__sticky-price" data-gn-sticky-price>{{ initial_price | money }}</span>
+        <span class="gn-v2h__sticky-name" data-gn-sticky-name>{{ initial_label | escape }}</span>
         <span class="gn-v2h__sticky-note" data-gn-sticky-note hidden>Free shipping</span>
       </div>
       <button class="gn-v2h__cta" type="button" data-gn-sticky-button tabindex="-1">
@@ -954,12 +1020,35 @@
     const thumbs = [...root.querySelectorAll('[data-gn-thumb]')];
     const dots = [...root.querySelectorAll('[data-gn-dot]')];
     let activeIndex = 0;
+    const hydratePanel = (panel) => {
+      if (!panel) return;
+      const img = panel.querySelector('img[data-src]');
+      if (!img) return;
+      if (img.dataset.srcset) img.setAttribute('srcset', img.dataset.srcset);
+      if (img.dataset.sizes) img.setAttribute('sizes', img.dataset.sizes);
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+      img.removeAttribute('data-srcset');
+      img.removeAttribute('data-sizes');
+    };
     const showIndex = (i) => {
       if (!panels.length) return;
       activeIndex = (i + panels.length) % panels.length;
       panels.forEach((p, idx) => p.classList.toggle('is-active', idx === activeIndex));
       thumbs.forEach((t, idx) => t.setAttribute('aria-current', String(idx === activeIndex)));
       dots.forEach((d, idx) => d.classList.toggle('is-active', idx === activeIndex));
+      hydratePanel(panels[activeIndex]);
+      hydratePanel(panels[(activeIndex + 1) % panels.length]);
+      const activeThumb = thumbs[activeIndex];
+      const scroller = activeThumb && activeThumb.parentElement;
+      if (activeThumb && scroller) {
+        if (scroller.scrollHeight > scroller.clientHeight + 1) {
+          scroller.scrollTop = Math.max(0, activeThumb.offsetTop - scroller.offsetTop - 8);
+        }
+        if (scroller.scrollWidth > scroller.clientWidth + 1) {
+          scroller.scrollLeft = Math.max(0, activeThumb.offsetLeft - scroller.offsetLeft - 8);
+        }
+      }
     };
     const showMedia = (id) => {
       const idx = panels.findIndex((p) => p.dataset.mediaId === String(id));
@@ -1002,6 +1091,15 @@
 
     const selectedCard = () => cards.find((c) => c.querySelector('input').checked && !c.classList.contains('is-disabled'));
     const getQty = () => Math.max(1, Math.min(20, parseInt(qtyInput.value, 10) || 1));
+    const selectedHandLabel = () => {
+      const opt = data.handPosition > 0
+        ? optInputs.find((i) => i.checked && Number(i.dataset.pos) === data.handPosition)
+        : null;
+      const input = opt || handInputs.find((i) => i.checked);
+      if (!input) return '';
+      const span = input.parentElement ? input.parentElement.querySelector('span') : null;
+      return (span ? span.textContent : input.value).replace(/\s+/g, ' ').trim();
+    };
 
     let lastVariantId = null;
     const refresh = () => {
@@ -1069,7 +1167,14 @@
         totalSave.textContent = totals.save > 0 ? 'Save ' + formatMoney(totals.save * qty) : '';
         if (stickyPrice) stickyPrice.textContent = formatMoney(totals.price * qty);
       }
-      if (stickyName) stickyName.textContent = active ? active.dataset.label : {{ product.title | json }};
+      if (stickyName) {
+        const bits = [];
+        if (active && active.dataset.label) bits.push(active.dataset.label);
+        const handLabel = selectedHandLabel();
+        if (handLabel) bits.push(handLabel);
+        if (qty > 1) bits.push('Qty ' + qty);
+        stickyName.textContent = bits.length ? bits.join(' · ') : {{ product.title | json }};
+      }
       if (stickyNote) {
         const shipsFree = !!(active && (active.dataset.link === 'true' || active.dataset.line === 'true'));
         stickyNote.hidden = !shipsFree;
@@ -1265,8 +1370,18 @@
       const setSticky = (visible) => {
         sticky.classList.toggle('is-visible', visible);
         sticky.setAttribute('aria-hidden', String(!visible));
-        stickyBtn.tabIndex = visible ? 0 : -1;
+        if (stickyBtn) stickyBtn.tabIndex = visible ? 0 : -1;
+        document.body.classList.toggle('gn-v2h-sticky-pad', visible);
+        if (visible) {
+          const h = Math.ceil(sticky.getBoundingClientRect().height);
+          document.documentElement.style.setProperty('--gn-v2h-sticky-offset', h + 'px');
+        } else {
+          document.documentElement.style.removeProperty('--gn-v2h-sticky-offset');
+        }
       };
+      window.addEventListener('resize', () => {
+        if (sticky.classList.contains('is-visible')) setSticky(true);
+      });
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const above = entry.boundingClientRect.top < 0;
