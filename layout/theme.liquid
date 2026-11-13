@@ -219,6 +219,9 @@
     const SESSION_MIRROR_KEY = "ps_v3_query_params";
     const SESSION_TOUCH_STORAGE_KEY = "ps_session_touch_params";
     const NATIVE_FALLBACK_KEY = "ps_native_fallback";
+    const CLICK_ID_STORAGE_KEY = "ps_click_id";
+    const CLICK_ID_COOKIE_NAME = "ps_click_id";
+    const CLICK_ID_PARAMS = ["clickid", "click_id"];
     const DEBUG_SESSION_KEY = "ps_debug";
     const CART_SYNC_TIMEOUT_MS = 2000;
     const REDIRECT_STALL_MS = 3000;
@@ -319,6 +322,7 @@
     let pssid = "";
     let firstTouchParams = "";
     let sessionTouchParams = "";
+    let latestClickId = "";
     let activeCheckoutAttemptId = "";
     let activeNativeAction = null;
     let redirectPending = false;
@@ -1076,6 +1080,76 @@
         }
         catch (e) { }
     }
+    function isUsableClickId(value) {
+        return /^[A-Za-z0-9._-]{1,128}$/.test(String(value || ""));
+    }
+    function readUrlClickId() {
+        try {
+            const params = new URLSearchParams(window.location.search || "");
+            for (let i = 0; i < CLICK_ID_PARAMS.length; i++) {
+                const value = String(params.get(CLICK_ID_PARAMS[i]) || "").trim();
+                if (isUsableClickId(value))
+                    return value;
+            }
+        }
+        catch (e) { }
+        return "";
+    }
+    function parseClickIdRecord(value) {
+        if (!value)
+            return "";
+        try {
+            const record = JSON.parse(value);
+            if (!record ||
+                !isUsableClickId(record.value) ||
+                typeof record.expiresAt !== "number" ||
+                record.expiresAt <= Date.now()) {
+                return "";
+            }
+            return record.value;
+        }
+        catch (e) {
+            return "";
+        }
+    }
+    function readStoredClickId() {
+        let value = "";
+        try {
+            value = parseClickIdRecord(window.localStorage.getItem(CLICK_ID_STORAGE_KEY));
+        }
+        catch (e) { }
+        return value || parseClickIdRecord(safeDecode(getCookie(CLICK_ID_COOKIE_NAME)));
+    }
+    function writeStoredClickId(value) {
+        const serialized = JSON.stringify({
+            value: value,
+            expiresAt: Date.now() + CONFIG.firstTouchTtlMs,
+        });
+        try {
+            window.localStorage.setItem(CLICK_ID_STORAGE_KEY, serialized);
+        }
+        catch (e) { }
+        try {
+            document.cookie =
+                CLICK_ID_COOKIE_NAME +
+                    "=" +
+                    encodeURIComponent(serialized) +
+                    "; Max-Age=" +
+                    Math.floor(CONFIG.firstTouchTtlMs / 1000) +
+                    "; Path=/; SameSite=Lax" +
+                    (window.location.protocol === "https:" ? "; Secure" : "");
+        }
+        catch (e) { }
+    }
+    function captureClickId() {
+        const fromUrl = readUrlClickId();
+        if (fromUrl)
+            writeStoredClickId(fromUrl);
+        latestClickId = fromUrl || readStoredClickId();
+    }
+    function currentClickId() {
+        return readUrlClickId() || latestClickId || readStoredClickId();
+    }
     function getLandingDetail() {
         return firstTouchParams || "";
     }
@@ -1617,12 +1691,21 @@
         runHooks("buildExtraParams", candidates);
         candidates.forEach(function (value, key) {
             const normalizedKey = String(key || "").toLowerCase();
+            if (CLICK_ID_PARAMS.indexOf(normalizedKey) !== -1 &&
+                !isUsableClickId(value)) {
+                return;
+            }
             if (SR_QUERY_ALLOWLIST.indexOf(normalizedKey) !== -1 &&
                 value &&
                 String(value).length <= 256) {
                 url.searchParams.set(normalizedKey, String(value));
             }
         });
+        const clickId = currentClickId();
+        if (clickId) {
+            url.searchParams.set("clickid", clickId);
+            url.searchParams.delete("click_id");
+        }
         if (configuredOverrideDomain) {
             url.searchParams.set("ovr_domain", configuredOverrideDomain.toLowerCase());
         }
@@ -2406,6 +2489,7 @@
     }
     function setupAttributionListeners() {
         window.addEventListener("popstate", function () {
+            captureClickId();
             if (!firstTouchParams && hasUsableParams(window.location.search)) {
                 captureFirstTouchParams();
             }
@@ -2438,6 +2522,7 @@
             return getLandingDetail();
         },
         getLandingDetail: getLandingDetail,
+        getClickId: currentClickId,
         registerHook: function (name, fn) {
             if (!hooks[name])
                 hooks[name] = [];
@@ -2452,6 +2537,7 @@
         pssid = getOrCreatePssid();
         clearStaleNativeFallback();
         preconnectApi();
+        captureClickId();
         captureFirstTouchParams();
         captureSessionTouchParams();
         setupAttributionListeners();
@@ -2773,6 +2859,24 @@
     return safeDecode(match[1]);
   }
 
+  function getVisitorId() {
+    try {
+      return window.localStorage.getItem('ps_visitor_id') || getCookie('ps_visitor_id');
+    } catch (e) {
+      return getCookie('ps_visitor_id');
+    }
+  }
+
+  function getStoredClickId() {
+    try {
+      return window.PS && typeof window.PS.getClickId === 'function'
+        ? safeString(window.PS.getClickId())
+        : '';
+    } catch (e) {
+      return '';
+    }
+  }
+
   function getCurrentParamsObject() {
     var params = {};
 
@@ -2896,6 +3000,8 @@
     url.searchParams.set('query_string', window.location.search || '');
     url.searchParams.set('referrer', document.referrer || '');
     url.searchParams.set('landing_detail', getCookie('_landing_detail'));
+    url.searchParams.set('pssid', getVisitorId());
+    url.searchParams.set('stored_click_id', getStoredClickId());
 
     url.searchParams.set('browser', device.browser);
     url.searchParams.set('browser_version', device.browser_version);
