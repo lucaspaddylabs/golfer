@@ -53,18 +53,7 @@
           {% if settings.show_installments %}
             <span class="cart__summary-item cart__installments display-block mt10">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
           {% endif %}
-          {%- if cart.cart_level_discount_applications.size > 0 -%}
-          <div class="mt10">
-            <ul class="discounts unstyle-ul body2" role="list" aria-label="{{ 'customer.order.discount' | t }}">
-              {%- for discount in cart.cart_level_discount_applications -%}
-              <li class="discounts__discount cart-item-message__content">
-                {%- render 'icon-discount' -%}
-                <span class="cart-item-message__content__text">{{ discount.title }}(-{{ discount.total_allocated_amount | money }})</span>
-              </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-          {%- endif -%}
+          {%- comment -%} Cart-level discount codes still apply; code names are hidden on the cart page. {%- endcomment -%}
 
           {%- capture _content -%}
           {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}

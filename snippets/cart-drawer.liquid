@@ -141,6 +141,10 @@ component-swiper-slider.css
                     if cart_item_save < 0
                       assign cart_item_save = 0
                     endif
+                    # Round SAVE badges to whole dollars (e.g. $15.30 → $15.00)
+                    if cart_item_save > 0
+                      assign cart_item_save = cart_item_save | plus: 50 | divided_by: 100 | times: 100
+                    endif
                     assign cart_item_unit_display = item.original_price
                   -%}
                   <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
@@ -364,18 +368,7 @@ component-swiper-slider.css
               {% if settings.show_installments %}
                 <span class="cart__summary-item cart__installments display-block body2 mt8">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
               {% endif %}
-              {%- if cart.cart_level_discount_applications.size > 0 -%}
-              <div class="mt6">
-                <ul class="discounts unstyle-ul body3" role="list" aria-label="{{ 'customer.order.discount' | t }}">
-                  {%- for discount in cart.cart_level_discount_applications -%}
-                  <li class="discounts__discount cart-item-message__content">
-                    {%- render 'icon-discount' -%}
-                    <span class="cart-item-message__content__text">{{ discount.title }}(-{{ discount.total_allocated_amount | money }})</span>
-                  </li>
-                  {%- endfor -%}
-                </ul>
-              </div>
-              {%- endif -%}
+              {%- comment -%} Cart-level discount codes still apply; code names are hidden from the drawer. {%- endcomment -%}
             </div>
 
             {%- if settings.terms_and_condition_checkbox -%}

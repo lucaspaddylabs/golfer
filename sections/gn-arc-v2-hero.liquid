@@ -40,6 +40,14 @@
 
   assign arc_price = current_variant.price
   assign arc_compare = current_variant.compare_at_price | at_least: arc_price
+  comment
+    Round compare-at so SAVE badges land on whole dollars ($61.25 → $60.95 for a $15 save).
+  endcomment
+  assign arc_save_raw = arc_compare | minus: arc_price
+  if arc_save_raw > 0
+    assign arc_save_round = arc_save_raw | plus: 50 | divided_by: 100 | times: 100
+    assign arc_compare = arc_price | plus: arc_save_round
+  endif
   assign setup_blocks = section.blocks | where: 'type', 'setup'
   assign trust_blocks = section.blocks | where: 'type', 'trust'
   assign default_index = section.settings.default_setup | plus: 0
@@ -868,11 +876,21 @@
                   if inc_link and link_ok
                     assign card_price = card_price | plus: link_v.price
                     assign link_cmp = link_v.compare_at_price | at_least: link_v.price
+                    assign link_save_raw = link_cmp | minus: link_v.price
+                    if link_save_raw > 0
+                      assign link_save_round = link_save_raw | plus: 50 | divided_by: 100 | times: 100
+                      assign link_cmp = link_v.price | plus: link_save_round
+                    endif
                     assign card_compare = card_compare | plus: link_cmp
                   endif
                   if inc_line and line_ok
                     assign card_price = card_price | plus: line_v.price
                     assign line_cmp = line_v.compare_at_price | at_least: line_v.price
+                    assign line_save_raw = line_cmp | minus: line_v.price
+                    if line_save_raw > 0
+                      assign line_save_round = line_save_raw | plus: 50 | divided_by: 100 | times: 100
+                      assign line_cmp = line_v.price | plus: line_save_round
+                    endif
                     assign card_compare = card_compare | plus: line_cmp
                   endif
                   assign card_price = card_price | minus: save_cents
@@ -1169,11 +1187,24 @@
       return variants.find((v) => v.options.every((o, idx) => o === picked[idx]));
     };
 
+    const roundCompare = (price, compare) => {
+      const base = Math.max(compare || 0, price || 0);
+      const raw = Math.max(0, base - price);
+      if (!raw) return base;
+      return price + Math.round(raw / 100) * 100;
+    };
+
     const cardTotals = (card, variant) => {
       let price = variant.price;
-      let compare = Math.max(variant.compare_at_price || 0, variant.price);
-      if (card.dataset.link === 'true' && data.link) { price += data.link.price; compare += Math.max(data.link.compare, data.link.price); }
-      if (card.dataset.line === 'true' && data.line) { price += data.line.price; compare += Math.max(data.line.compare, data.line.price); }
+      let compare = roundCompare(variant.price, variant.compare_at_price);
+      if (card.dataset.link === 'true' && data.link) {
+        price += data.link.price;
+        compare += roundCompare(data.link.price, data.link.compare);
+      }
+      if (card.dataset.line === 'true' && data.line) {
+        price += data.line.price;
+        compare += roundCompare(data.line.price, data.line.compare);
+      }
       const saveCents = Math.max(0, Number(card.dataset.saveCents) || 0);
       price = Math.max(0, price - saveCents);
       return { price, compare, save: Math.max(0, compare - price), saveCents };

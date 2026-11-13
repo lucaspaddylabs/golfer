@@ -1,5 +1,14 @@
 {%- liquid
   assign save_cents = target.compare_at_price | minus: target.price
+  if save_cents < 0
+    assign save_cents = 0
+  endif
+  comment
+    Round to whole dollars so badges stay clean ($15.30 → $15.00).
+  endcomment
+  if save_cents > 0
+    assign save_cents = save_cents | plus: 50 | divided_by: 100 | times: 100
+  endif
   assign save_money = save_cents | money | replace: 'US$', '$' | replace: 'US $', '$'
   echo save_money
 -%}
