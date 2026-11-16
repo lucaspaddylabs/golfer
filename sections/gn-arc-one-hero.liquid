@@ -2,8 +2,13 @@
   assign current_variant = product.selected_or_first_available_variant
   assign product_form_id = 'gn-arc-form-' | append: section.id
   assign show_sale_badge = false
-  if current_variant.compare_at_price > current_variant.price
+  assign display_price = current_variant.price
+  assign display_compare = current_variant.compare_at_price
+  if display_compare > display_price
     assign show_sale_badge = true
+    assign save_raw = display_compare | minus: display_price
+    assign save_round = save_raw | plus: 50 | divided_by: 100 | times: 100
+    assign display_compare = display_price | plus: save_round
   endif
   assign hero_product_image = section.settings.product_image_override
   assign hero_image_alt = section.settings.product_image_alt | default: product.title
@@ -1166,13 +1171,13 @@
 
       <div id="ProductForm-{{ section.id }}" data-gn-form-wrap>
         <div class="gn-arc-hero__price-row" data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}" data-gn-price-row>
-          <span class="gn-arc-hero__price" data-gn-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+          <span class="gn-arc-hero__price" data-gn-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ display_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
           <span class="gn-arc-hero__compare" data-gn-compare data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}"{% unless show_sale_badge %} hidden{% endunless %}>
-            {{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+            {{ display_compare | money | replace: 'US$', '$' | replace: 'US $', '$' }}
           </span>
           <span class="gn-arc-hero__sale" data-gn-sale-badge{% unless show_sale_badge %} hidden{% endunless %}>
             {% if show_sale_badge %}
-              SAVE {{ current_variant.compare_at_price | minus: current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
+              SAVE {{ display_compare | minus: display_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}
             {% endif %}
           </span>
         </div>
@@ -1218,8 +1223,8 @@
                   {%- for block in bundle_blocks -%}
                     {%- liquid
                       assign bundle_qty = block.settings.quantity
-                      assign bundle_unit_price = current_variant.price
-                      assign bundle_unit_compare = current_variant.compare_at_price
+                      assign bundle_unit_price = display_price
+                      assign bundle_unit_compare = display_compare
                       if bundle_unit_compare == blank or bundle_unit_compare <= bundle_unit_price
                         assign bundle_unit_compare = bundle_unit_price
                       endif
@@ -1229,6 +1234,10 @@
                       assign bundle_total_save_cents = bundle_was | minus: bundle_total
                       if bundle_total_save_cents < 0
                         assign bundle_total_save_cents = 0
+                      endif
+                      if bundle_total_save_cents > 0
+                        assign bundle_total_save_cents = bundle_total_save_cents | plus: 50 | divided_by: 100 | times: 100
+                        assign bundle_was = bundle_total | plus: bundle_total_save_cents
                       endif
                     -%}
                     <div
@@ -1430,9 +1439,9 @@
         {% if current_variant.available %}
           ADD TO CART –
           {% if show_sale_badge %}
-            <s data-gn-sticky-compare data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ current_variant.compare_at_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
+            <s data-gn-sticky-compare data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ display_compare | money | replace: 'US$', '$' | replace: 'US $', '$' }}</s>
           {% endif %}
-          <span data-gn-sticky-sale-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ current_variant.price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+          <span data-gn-sticky-sale-price data-product-id="{{ product.id }}" data-variant-id="{{ current_variant.id }}">{{ display_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
         {% else %}
           {{ section.settings.sold_out_text }}
         {% endif %}
@@ -1557,12 +1566,18 @@
       }
     };
 
+    const roundCompareAt = (price, compareAt) => {
+      if (!compareAt || compareAt <= price) return null;
+      const saveRound = Math.round((compareAt - price) / 100) * 100;
+      return price + saveRound;
+    };
+
     const getVariantDisplayPrices = (variant) => {
       const igPrice = getIgPriceCents(variant.id);
       const igCompare = getIgCompareCents(variant.id);
       const price = igPrice != null ? igPrice : variant.price;
       let compareAt = igCompare != null ? igCompare : variant.compare_at_price;
-      if (!compareAt || compareAt <= price) compareAt = null;
+      compareAt = roundCompareAt(price, compareAt);
       return { price, compareAt };
     };
 
@@ -1685,8 +1700,12 @@
       const { price, compareAt } = getVariantDisplayPrices(variant);
       const unitCompare = compareAt && compareAt > price ? compareAt : price;
       const bundleTotal = price * qty - volumeSaveCents;
-      const bundleWas = unitCompare * qty;
-      const totalSave = Math.max(0, bundleWas - bundleTotal);
+      let bundleWas = unitCompare * qty;
+      let totalSave = Math.max(0, bundleWas - bundleTotal);
+      if (totalSave > 0) {
+        totalSave = Math.round(totalSave / 100) * 100;
+        bundleWas = bundleTotal + totalSave;
+      }
       return { bundleTotal, bundleWas, totalSave };
     };
 
