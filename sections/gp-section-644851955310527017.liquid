@@ -222,7 +222,7 @@
     <gp-row
       data-id="gB2Row0001" id="gB2Row0001" data-same-height-subgrid-container
       class="gB2Row0001 gp-relative gp-mx-auto gp-mb-0 gp-grid gp-max-w-full gp-transition-colors gp-duration-200 gp-ease-in-out [&_*]:gp-max-w-full gp-grid-rows-[1fr]"
-      style="--ml:auto;--mb:0px;--mr:auto;--pt:12px;--pl:16px;--pb:12px;--pr:16px;--pt-mobile:8px;--pl-mobile:10px;--pb-mobile:8px;--pr-mobile:10px;--pt-tablet:12px;--pl-tablet:16px;--pb-tablet:12px;--pr-tablet:16px;--d:grid;--d-tablet:grid;--d-mobile:grid;--bs:none;--bw:1px 1px 1px 1px;--bc:var(--g-c-line-3, line-3);--bblr:0px;--bbrr:0px;--btlr:0px;--btrr:0px;--op:100%;--cg:16px;--cg-mobile:8px;--rg:16px;--rg-tablet:16px;--rg-mobile:16px;--gtc:minmax(0, 8fr) minmax(0, 4fr);--gtc-mobile:minmax(0, 7fr) minmax(0, 5fr);--w:860px;--w-tablet:100%;--h:auto;--pc:start"
+      style="--ml:auto;--mb:0px;--mr:auto;--pt:12px;--pl:16px;--pb:12px;--pr:16px;--pt-mobile:8px;--pl-mobile:10px;--pb-mobile:8px;--pr-mobile:10px;--pt-tablet:12px;--pl-tablet:16px;--pb-tablet:12px;--pr-tablet:16px;--d:grid;--d-tablet:grid;--d-mobile:grid;--bs:none;--bw:1px 1px 1px 1px;--bc:var(--g-c-line-3, line-3);--bblr:0px;--bbrr:0px;--btlr:0px;--btrr:0px;--op:100%;--cg:16px;--cg-mobile:8px;--rg:16px;--rg-tablet:16px;--rg-mobile:16px;--gtc:minmax(0, 7fr) minmax(0, 1fr) minmax(0, 4fr);--gtc-mobile:minmax(0, 6fr) minmax(0, 1fr) minmax(0, 5fr);--w:860px;--w-tablet:100%;--h:auto;--pc:start"
     >
       <script gp-data type="application/json">{"background":{},"uid":"gB2Row0001"}</script>
       
@@ -314,6 +314,28 @@
     </div><div
       data-same-height-display-contents
       style="--jc:center;--o:1"
+      class="gB2ColA001 gp-relative gp-flex gp-flex-col"
+    >
+      
+    {% assign locationOrigin = request.origin | append: routes.root_url | split: '/' | join: '/' %}
+    <div data-id="gB2Arrow01"
+      class="gB2Arrow01"
+      style="--ta:center;--d:block;--d-tablet:block;--d-mobile:block;--bs:none;--bw:1px 1px 1px 1px;--bc:var(--g-c-line-3, line-3);--bblr:0px;--bbrr:0px;--btlr:0px;--btrr:0px;--op:100%;--dynamic-source-color:#F4F4F4"
+    >
+      <div class="gp-flex" style="--jc:center">
+        <div
+          data-gp-text
+          class=" gp-text-instant gp-text"
+          style="--w:100%;--w-tablet:100%;--w-mobile:100%;--tdt:auto;--b:none;--bc:#121212;--bw:1px 1px 1px 1px;--bblr:0px;--bbrr:0px;--btlr:0px;--btrr:0px;--shadow:none;--ts:none;--ta:center;--line-clamp:unset;--line-clamp-tablet:unset;--line-clamp-mobile:unset;--fs:normal;--ff:var(--g-font-Inter, 'Inter'), var(--g-font-body, body);--weight:700;--size:34px;--size-mobile:22px;--lh:100%;--ls:normal;--c:#E0B062;--tt:none;word-break:break-word;--bgc:transparent;--bgi:url();--bgp:50% 50%;--bgs:cover;--bgr:no-repeat;--bga:scroll;overflow:hidden"
+        >
+          {{ section.settings.ggB2Arrow01_text | replace: '$locationOrigin', locationOrigin }}
+        </div>
+      </div>
+    </div>
+    
+    </div><div
+      data-same-height-display-contents
+      style="--jc:center;--o:2"
       class="gB2ColR001 gp-relative gp-flex gp-flex-col"
     >
       
@@ -352,10 +374,10 @@
   }</style>
         
         <a
-          data-id="gB2Btn0001" dataId="gB2Btn0001" data-state="idle" aria-label="Shop the deal →"
+          data-id="gB2Btn0001" dataId="gB2Btn0001" data-state="idle" aria-label="BUY NOW"
           
           href="https://golfernow.com/products/pro-swing-click-trainer" target="_self"
-          style="--w:Auto;--w-tablet:Auto;--w-mobile:100%;--h:Auto;--h-tablet:Auto;--h-mobile:Auto;--pl:24px;--pr:24px;--pt:16px;--pb:16px;--pl-mobile:10px;--pr-mobile:10px;--pt-mobile:14px;--pb-mobile:14px;--bblr:6px;--bbrr:6px;--btlr:6px;--btrr:6px;--hvr-bblr:6px;--hvr-bbrr:6px;--hvr-btlr:6px;--hvr-btrr:6px;--bg:#B5813A;--hvr-bg:#9E6F2F;--c:#1A1F1C;--ff:var(--g-font-Inter, 'Inter'), var(--g-font-body, body);--weight:600;--size:16px;--size-mobile:14px;--lh:130%"
+          style="--w:Auto;--w-tablet:Auto;--w-mobile:100%;--h:Auto;--h-tablet:Auto;--h-mobile:Auto;--pl:24px;--pr:24px;--pt:16px;--pb:16px;--pl-mobile:10px;--pr-mobile:10px;--pt-mobile:14px;--pb-mobile:14px;--bblr:6px;--bbrr:6px;--btlr:6px;--btrr:6px;--hvr-bblr:6px;--hvr-bbrr:6px;--hvr-btlr:6px;--hvr-btrr:6px;--hvr-bg:#16A34A;--bg:#22C55E;--c:#0E0E0E;--ff:var(--g-font-Inter, 'Inter'), var(--g-font-body, body);--weight:600;--size:16px;--size-mobile:14px;--lh:130%"
           class="gB2Btn0001 gp-text-center gp-button-base gp-group gp-relative gp-inline-flex gp-max-w-full gp-items-center gp-justify-center gp-no-underline gp-transition-colors gp-duration-200 disabled:gp-btn-disabled disabled:gp-opacity-30 gp-text-g-text-3 "
         >
         
@@ -394,7 +416,7 @@
     "name": "Section 12",
     "tag": "section",
     "class": "gps-644851955310527017 gps gpsil",
-    "settings": [{"type":"paragraph","content":"Section design by GemPages. [Click here to start design](https://admin.shopify.com/store/bvam01-ut/apps/gempages-cro/app/shopify/edit?pageType=GP_STATIC&editorId=644851424093537043&sectionId=644851955310527017)"},{"type":"select","label":"Section Preload","id":"section_preload","options":[{"label":"On","value":"true"},{"label":"Off","value":"false"},{"label":"Off Lazy Script","value":"off_lazy_script"}],"default":"false"},{"type":"text","label":"Checksum","id":"checksum"},{"type":"html","id":"ggB2Tx00001_text","label":"ggB2Tx00001_text","default":"<p><span style=\"background-color:#B5813A;color:#0E0E0E;font-size:12px;letter-spacing:2px\"><strong>&nbsp;BLACK FRIDAY&nbsp;</strong></span>&nbsp; <strong>Buy more, save up to $75.90</strong></p><p><span style=\"color:#C9C3B6;font-size:13px\">ARC ONE from $45.95 · free shipping on 2+ · deal price for:</span></p>"},{"type":"html","id":"ggB2Cd00001_dayLabel","label":"ggB2Cd00001_dayLabel","default":"Day"},{"type":"html","id":"ggB2Cd00001_hourLabel","label":"ggB2Cd00001_hourLabel","default":"Hour"},{"type":"html","id":"ggB2Cd00001_minuteLabel","label":"ggB2Cd00001_minuteLabel","default":"min"},{"type":"html","id":"ggB2Cd00001_secondLabel","label":"ggB2Cd00001_secondLabel","default":"sec"},{"type":"html","id":"ggB2Cd00001_weekLabel","label":"ggB2Cd00001_weekLabel","default":"Week"},{"type":"html","id":"ggB2Btn0001_label","label":"ggB2Btn0001_label","default":"<p>Shop the deal →</p>"}],
+    "settings": [{"type":"paragraph","content":"Section design by GemPages. [Click here to start design](https://admin.shopify.com/store/bvam01-ut/apps/gempages-cro/app/shopify/edit?pageType=GP_STATIC&editorId=644851424093537043&sectionId=644851955310527017)"},{"type":"select","label":"Section Preload","id":"section_preload","options":[{"label":"On","value":"true"},{"label":"Off","value":"false"},{"label":"Off Lazy Script","value":"off_lazy_script"}],"default":"false"},{"type":"text","label":"Checksum","id":"checksum"},{"type":"html","id":"ggB2Tx00001_text","label":"ggB2Tx00001_text","default":"<p><span style=\"background-color:#B5813A;color:#0E0E0E;font-size:12px;letter-spacing:2px\"><strong>&nbsp;BLACK FRIDAY&nbsp;</strong></span>&nbsp; <strong>Buy more, save up to $75.90</strong></p><p><span style=\"color:#E0B062;font-size:14px;letter-spacing:1px\">★★★★★</span><span style=\"color:#C9C3B6;font-size:13px\"> 4.8 · 10,000+ sold · 30-day money-back guarantee</span></p>"},{"type":"html","id":"ggB2Cd00001_dayLabel","label":"ggB2Cd00001_dayLabel","default":"Day"},{"type":"html","id":"ggB2Cd00001_hourLabel","label":"ggB2Cd00001_hourLabel","default":"Hour"},{"type":"html","id":"ggB2Cd00001_minuteLabel","label":"ggB2Cd00001_minuteLabel","default":"min"},{"type":"html","id":"ggB2Cd00001_secondLabel","label":"ggB2Cd00001_secondLabel","default":"sec"},{"type":"html","id":"ggB2Cd00001_weekLabel","label":"ggB2Cd00001_weekLabel","default":"Week"},{"type":"html","id":"ggB2Arrow01_text","label":"ggB2Arrow01_text","default":"<p>➜</p>"},{"type":"html","id":"ggB2Btn0001_label","label":"ggB2Btn0001_label","default":"<p><strong>BUY NOW</strong></p>"}],
     "blocks": [{"type": "@app"}],
     "locales": {}
   }
