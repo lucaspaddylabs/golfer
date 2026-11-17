@@ -1,6 +1,91 @@
 {
   "name": "Popups",
   "type": "custom.popups",
-  "sections": {},
-  "order": []
+  "sections": {
+    "gn_bf_popup": {
+      "type": "gn-black-friday-popup",
+      "blocks": {
+        "offer_arc_line": {
+          "type": "offer",
+          "settings": {
+            "label": "ARC + LINE",
+            "description": "Swing + putting",
+            "badge": "",
+            "include_link": false,
+            "include_line": true,
+            "include_trace": false,
+            "include_accessories": false,
+            "save_amount": 15,
+            "discount_code": "ARC-LINE-15",
+            "accessories_code": "",
+            "preselected": false
+          }
+        },
+        "offer_swing": {
+          "type": "offer",
+          "settings": {
+            "label": "Swing System",
+            "description": "LINK + ARC + LINE",
+            "badge": "",
+            "include_link": true,
+            "include_line": true,
+            "include_trace": false,
+            "include_accessories": false,
+            "save_amount": 20,
+            "discount_code": "SWING-SYSTEM-20",
+            "accessories_code": "",
+            "preselected": false
+          }
+        },
+        "offer_complete": {
+          "type": "offer",
+          "settings": {
+            "label": "Complete System",
+            "description": "All four tools, accessories free",
+            "badge": "Best value",
+            "include_link": true,
+            "include_line": true,
+            "include_trace": true,
+            "include_accessories": true,
+            "save_amount": 30,
+            "discount_code": "COMPLETE-SYSTEM-30",
+            "accessories_code": "BF-ACCESSORIES-FREE",
+            "preselected": true
+          }
+        }
+      },
+      "block_order": [
+        "offer_arc_line",
+        "offer_swing",
+        "offer_complete"
+      ],
+      "settings": {
+        "enabled": true,
+        "eyebrow": "Black Friday",
+        "heading": "The full practice system, for less.",
+        "savings_prefix": "Up to",
+        "savings_caption": "off the Golfer Now system. Bundles only.",
+        "image_asset": "gn-arc-cta-bg.jpg",
+        "deadline": "2026-11-27T23:59:00+00:00",
+        "tab_label": "Black Friday",
+        "button_prefix": "Get",
+        "trust_text": "30-day risk-free returns",
+        "error_text": "Could not add this bundle. Try again.",
+        "arc_handle": "pro-swing-click-trainer",
+        "link_handle": "golf-training-belt",
+        "line_handle": "golf-putting-tutor",
+        "trace_handle": "swing-detection-training-mat",
+        "towel_handle": "magnetic-golf-towel",
+        "marker_handle": "golf-ball-marker-fork",
+        "brush_handle": "golf-club-brush-groove-sharpener-tool",
+        "card_color": "#101712",
+        "text_color": "#F5F1E8",
+        "accent_color": "#1D3D2A",
+        "gold_color": "#C9A249"
+      }
+    }
+  },
+  "order": [
+    "gn_bf_popup"
+  ]
 }

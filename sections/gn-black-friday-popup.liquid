@@ -1,0 +1,829 @@
+{%- comment -%}
+  Black Friday popup v1.
+  Opens once per browser session, then stays as a tab on the right.
+  Prices are live product prices, minus the same bundle discounts as Variant C.
+  Accessories on the complete offer are shown at $0 and removed with a second discount code.
+{%- endcomment -%}
+{%- liquid
+  assign popup_expired = false
+  if section.settings.deadline != blank
+    assign deadline_ts = section.settings.deadline | date: '%s' | plus: 0
+    assign now_ts = 'now' | date: '%s' | plus: 0
+    if deadline_ts > 0 and now_ts > deadline_ts
+      assign popup_expired = true
+    endif
+  endif
+
+  assign arc_product = all_products[section.settings.arc_handle]
+  assign link_product = all_products[section.settings.link_handle]
+  assign line_product = all_products[section.settings.line_handle]
+  assign trace_product = all_products[section.settings.trace_handle]
+  assign towel_product = all_products[section.settings.towel_handle]
+  assign marker_product = all_products[section.settings.marker_handle]
+  assign brush_product = all_products[section.settings.brush_handle]
+
+  assign max_save = 0
+  assign offer_blocks = section.blocks | where: 'type', 'offer'
+-%}
+
+{%- if section.settings.enabled and popup_expired == false and offer_blocks.size > 0 -%}
+  {%- capture offers_html -%}
+    {%- for block in offer_blocks -%}
+      {%- liquid
+        assign offer_price = 0
+        assign offer_compare = 0
+        assign offer_items = ''
+        assign offer_thumbs = ''
+        assign offer_ok = true
+        assign offer_missing = false
+        assign slots = 'arc,link,line,trace,towel,marker,brush' | split: ','
+
+        for slot in slots
+          assign slot_on = false
+          assign slot_free = false
+          assign slot_product = blank
+          case slot
+            when 'arc'
+              assign slot_on = true
+              assign slot_product = arc_product
+            when 'link'
+              assign slot_on = block.settings.include_link
+              assign slot_product = link_product
+            when 'line'
+              assign slot_on = block.settings.include_line
+              assign slot_product = line_product
+            when 'trace'
+              assign slot_on = block.settings.include_trace
+              assign slot_product = trace_product
+            when 'towel'
+              assign slot_on = block.settings.include_accessories
+              assign slot_free = true
+              assign slot_product = towel_product
+            when 'marker'
+              assign slot_on = block.settings.include_accessories
+              assign slot_free = true
+              assign slot_product = marker_product
+            when 'brush'
+              assign slot_on = block.settings.include_accessories
+              assign slot_free = true
+              assign slot_product = brush_product
+          endcase
+
+          if slot_on
+            if slot_product.title == blank
+              assign offer_missing = true
+            else
+              assign slot_variant = slot_product.selected_or_first_available_variant
+              if slot_variant == blank or slot_variant.available == false
+                assign offer_ok = false
+              else
+                assign slot_cmp = slot_variant.compare_at_price | at_least: slot_variant.price
+                assign slot_save_raw = slot_cmp | minus: slot_variant.price
+                if slot_save_raw > 0
+                  assign slot_save_round = slot_save_raw | plus: 50 | divided_by: 100 | times: 100
+                  assign slot_cmp = slot_variant.price | plus: slot_save_round
+                endif
+                assign offer_compare = offer_compare | plus: slot_cmp
+                unless slot_free
+                  assign offer_price = offer_price | plus: slot_variant.price
+                endunless
+                if offer_items != blank
+                  assign offer_items = offer_items | append: ','
+                endif
+                assign offer_items = offer_items | append: '{"id":' | append: slot_variant.id | append: ',"quantity":1}'
+                unless slot_free
+                  assign thumb_src = ''
+                  if slot_product.featured_image
+                    assign thumb_src = slot_product.featured_image | image_url: width: 96
+                  else
+                    assign thumb_asset = ''
+                    case slot_product.handle
+                      when 'golf-training-belt'
+                        assign thumb_asset = 'gn-link-one-product.png'
+                      when 'pro-swing-click-trainer'
+                        assign thumb_asset = 'gn-arc-one-product.png'
+                      when 'swing-detection-training-mat'
+                        assign thumb_asset = 'gn-trace-one-product.png'
+                      when 'golf-putting-tutor'
+                        assign thumb_asset = 'gn-line-one-product.png'
+                    endcase
+                    if thumb_asset != blank
+                      assign thumb_src = thumb_asset | asset_url
+                    endif
+                  endif
+                  if thumb_src != blank
+                    assign offer_thumbs = offer_thumbs | append: '<img src="' | append: thumb_src | append: '" alt="" width="36" height="36" loading="lazy">'
+                  endif
+                endunless
+              endif
+            endif
+          endif
+        endfor
+
+        assign save_major = block.settings.save_amount | default: 0
+        if save_major < 0
+          assign save_major = 0
+        endif
+        assign save_cents = save_major | times: 100
+        assign offer_price = offer_price | minus: save_cents
+        if offer_price < 0
+          assign offer_price = 0
+        endif
+        assign offer_save = offer_compare | minus: offer_price
+        if offer_save < 0
+          assign offer_save = 0
+        endif
+        if offer_ok and offer_missing == false and offer_save > max_save
+          assign max_save = offer_save
+        endif
+
+        assign price_label = offer_price | money | replace: 'US$', '$' | replace: 'US $', '$'
+        assign compare_label = offer_compare | money | replace: 'US$', '$' | replace: 'US $', '$'
+        assign save_label = offer_save | money | replace: 'US$', '$' | replace: 'US $', '$'
+        assign discount_codes = block.settings.discount_code | strip
+        if block.settings.include_accessories and block.settings.accessories_code != blank
+          if discount_codes != blank
+            assign discount_codes = discount_codes | append: ',' | append: block.settings.accessories_code | strip
+          else
+            assign discount_codes = block.settings.accessories_code | strip
+          endif
+        endif
+      -%}
+      {%- if offer_missing -%}
+        {%- if request.design_mode -%}
+          <p class="gn-bfp__hint" {{ block.shopify_attributes }}>“{{ block.settings.label }}” is hidden until every product in that bundle is available.</p>
+        {%- endif -%}
+      {%- else -%}
+        <label
+          class="gn-bfp__offer{% if block.settings.preselected and offer_ok %} is-selected{% endif %}{% unless offer_ok %} is-disabled{% endunless %}"
+          data-gn-bfp-offer
+          data-label="{{ block.settings.label | escape }}"
+          data-price-label="{{ price_label | escape }}"
+          data-codes="{{ discount_codes | escape }}"
+          data-items='[{{ offer_items }}]'
+          data-preselected="{% if block.settings.preselected and offer_ok %}true{% else %}false{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <input type="radio" name="gn-bfp-offer-{{ section.id }}" value="{{ block.id }}"{% if block.settings.preselected and offer_ok %} checked{% endif %}{% unless offer_ok %} disabled{% endunless %}>
+          {%- if block.settings.badge != blank -%}
+            <span class="gn-bfp__badge">{{ block.settings.badge }}</span>
+          {%- endif -%}
+          <span class="gn-bfp__radio" aria-hidden="true"></span>
+          <span class="gn-bfp__thumbs" aria-hidden="true">{{ offer_thumbs }}</span>
+          <span class="gn-bfp__offer-copy">
+            <span class="gn-bfp__offer-label">{{ block.settings.label }}</span>
+            {%- if block.settings.description != blank -%}
+              <span class="gn-bfp__offer-desc">{{ block.settings.description }}</span>
+            {%- endif -%}
+            {%- if offer_ok and offer_save > 0 -%}
+              <span class="gn-bfp__offer-note">
+                Save {{ save_label }}
+                {%- if block.settings.include_accessories -%}
+                  · Accessories free
+                {%- else -%}
+                  · Free shipping
+                {%- endif -%}
+              </span>
+            {%- elsif offer_ok == false -%}
+              <span class="gn-bfp__offer-note">Sold out</span>
+            {%- endif -%}
+          </span>
+          <span class="gn-bfp__offer-price">
+            <span class="gn-bfp__now">{{ price_label }}</span>
+            {%- if offer_save > 0 -%}
+              <span class="gn-bfp__was">{{ compare_label }}</span>
+            {%- endif -%}
+          </span>
+        </label>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- assign max_save_label = max_save | money | replace: 'US$', '$' | replace: 'US $', '$' -%}
+
+  <style>
+    #shopify-section-{{ section.id }} { margin: 0; padding: 0; }
+    .gn-bfp-tab {
+      position: fixed;
+      z-index: 40;
+      right: 0;
+      top: 46%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 148px;
+      padding: 16px 10px;
+      border: 0;
+      border-radius: 12px 0 0 12px;
+      background: {{ section.settings.accent_color }};
+      color: {{ section.settings.gold_color }};
+      box-shadow: -6px 8px 24px rgba(0, 0, 0, 0.28);
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: var(--font-body-family), sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .gn-bfp-tab[hidden] { display: none; }
+    .gn-bfp-tab:hover { filter: brightness(1.08); }
+    .gn-bfp-tab:focus-visible { outline: 2px solid {{ section.settings.gold_color }}; outline-offset: 3px; }
+
+    .gn-bfp {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      display: grid;
+      place-items: center;
+      padding: 20px 16px;
+      font-family: var(--font-body-family), sans-serif;
+      color: {{ section.settings.text_color }};
+    }
+    .gn-bfp[hidden] { display: none; }
+    .gn-bfp__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(6, 12, 8, 0.62);
+    }
+    .gn-bfp__dialog {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      width: min(980px, 100%);
+      max-height: min(760px, calc(100vh - 40px));
+      overflow: auto;
+      border-radius: 20px;
+      background: {{ section.settings.card_color }};
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    }
+    .gn-bfp__media {
+      position: relative;
+      min-height: 420px;
+      background: #102117 center / cover no-repeat;
+      color: #fff;
+    }
+    .gn-bfp__media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gn-bfp__media-copy {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 28px 24px 26px;
+      background: linear-gradient(180deg, rgba(8, 14, 10, 0) 0%, rgba(8, 14, 10, 0.88) 58%);
+    }
+    .gn-bfp__upto {
+      margin: 0 0 4px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: {{ section.settings.gold_color }};
+    }
+    .gn-bfp__save {
+      margin: 0;
+      font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: {{ section.settings.gold_color }};
+    }
+    .gn-bfp__caption {
+      margin: 8px 0 0;
+      max-width: 22ch;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .gn-bfp__panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 28px 24px 22px;
+      min-width: 0;
+    }
+    .gn-bfp__close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      cursor: pointer;
+    }
+    .gn-bfp__close:hover { background: rgba(255, 255, 255, 0.16); }
+    .gn-bfp__close:focus-visible { outline: 2px solid {{ section.settings.gold_color }}; outline-offset: 2px; }
+    .gn-bfp__eyebrow {
+      margin: 0;
+      align-self: flex-start;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: {{ section.settings.gold_color }};
+      color: #1a1406;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .gn-bfp__heading {
+      margin: 0;
+      max-width: 16ch;
+      padding-right: 36px;
+      font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
+      font-size: clamp(1.6rem, 2.4vw, 2.05rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: #fff;
+    }
+    .gn-bfp__timer {
+      display: flex;
+      gap: 8px;
+    }
+    .gn-bfp__timer[hidden] { display: none; }
+    .gn-bfp__unit {
+      min-width: 58px;
+      padding: 8px 6px 7px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      text-align: center;
+    }
+    .gn-bfp__num {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+      line-height: 1;
+    }
+    .gn-bfp__cap {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.62);
+    }
+    .gn-bfp__offers { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+    .gn-bfp__offer {
+      position: relative;
+      display: grid;
+      grid-template-columns: 18px auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 74px;
+      margin: 0;
+      padding: 10px 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+    }
+    .gn-bfp__offer.is-selected {
+      border-color: {{ section.settings.gold_color }};
+      background: rgba(201, 162, 73, 0.12);
+      box-shadow: 0 0 0 1px {{ section.settings.gold_color }};
+    }
+    .gn-bfp__offer.is-disabled { opacity: 0.5; cursor: not-allowed; }
+    .gn-bfp__offer input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+    .gn-bfp__offer:has(input:focus-visible) { outline: 2px solid {{ section.settings.gold_color }}; outline-offset: 2px; }
+    .gn-bfp__badge {
+      position: absolute;
+      top: -9px;
+      right: 12px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: {{ section.settings.gold_color }};
+      color: #1a1406;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .gn-bfp__radio {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gn-bfp__offer.is-selected .gn-bfp__radio { border-color: {{ section.settings.gold_color }}; }
+    .gn-bfp__offer.is-selected .gn-bfp__radio::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: {{ section.settings.gold_color }};
+    }
+    .gn-bfp__thumbs { display: flex; align-items: center; }
+    .gn-bfp__thumbs:empty { display: none; }
+    .gn-bfp__thumbs img {
+      width: 36px;
+      height: 36px;
+      margin-right: -8px;
+      border: 2px solid {{ section.settings.card_color }};
+      border-radius: 50%;
+      object-fit: cover;
+      background: #fff;
+    }
+    .gn-bfp__thumbs img:last-child { margin-right: 0; }
+    .gn-bfp__offer-copy { min-width: 0; display: grid; gap: 1px; }
+    .gn-bfp__offer-label { font-size: 0.95rem; font-weight: 800; line-height: 1.15; color: #fff; }
+    .gn-bfp__offer-desc { font-size: 0.76rem; line-height: 1.25; color: rgba(255, 255, 255, 0.68); }
+    .gn-bfp__offer-note { font-size: 0.72rem; font-weight: 700; line-height: 1.25; color: {{ section.settings.gold_color }}; }
+    .gn-bfp__offer-price { text-align: right; white-space: nowrap; }
+    .gn-bfp__now { display: block; font-size: 1rem; font-weight: 800; color: #fff; }
+    .gn-bfp__was { display: block; margin-top: 2px; font-size: 0.74rem; color: rgba(255, 255, 255, 0.55); text-decoration: line-through; }
+    .gn-bfp__cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 52px;
+      margin-top: 2px;
+      border: 0;
+      border-radius: 12px;
+      background: {{ section.settings.gold_color }};
+      color: #1a1406;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .gn-bfp__cta:hover { filter: brightness(1.05); }
+    .gn-bfp__cta:disabled { opacity: 0.55; cursor: not-allowed; }
+    .gn-bfp__cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    .gn-bfp__spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(26, 20, 6, 0.25);
+      border-top-color: #1a1406;
+      border-radius: 50%;
+      animation: gn-bfp-spin 700ms linear infinite;
+    }
+    .gn-bfp__spinner[hidden] { display: none; }
+    @keyframes gn-bfp-spin { to { transform: rotate(360deg); } }
+    .gn-bfp__trust {
+      margin: 0;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .gn-bfp__error {
+      margin: 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #3a1616;
+      color: #ffd0d0;
+      font-size: 0.84rem;
+    }
+    .gn-bfp__error[hidden] { display: none; }
+    .gn-bfp__hint { margin: 0; font-size: 0.8rem; color: #ffd27a; }
+    @media (max-width: 800px) {
+      .gn-bfp { padding: 10px; align-items: end; }
+      .gn-bfp__dialog {
+        grid-template-columns: 1fr;
+        max-height: calc(100vh - 20px);
+        border-radius: 16px;
+      }
+      .gn-bfp__media { min-height: 168px; }
+      .gn-bfp__media-copy { padding: 16px; }
+      .gn-bfp__save { font-size: 2.4rem; }
+      .gn-bfp__panel { padding: 18px 14px 16px; }
+      .gn-bfp__unit { min-width: 0; flex: 1; }
+      .gn-bfp-tab { min-height: 124px; padding: 12px 8px; font-size: 0.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gn-bfp__spinner { animation: none; }
+    }
+  </style>
+
+  <button class="gn-bfp-tab" type="button" data-gn-bfp-open hidden>{{ section.settings.tab_label }}</button>
+
+  <div class="gn-bfp" id="gn-bfp-{{ section.id }}" data-gn-bfp hidden data-deadline="{{ section.settings.deadline | escape }}">
+    <div class="gn-bfp__overlay" data-gn-bfp-close></div>
+    <div class="gn-bfp__dialog" role="dialog" aria-modal="true" aria-labelledby="gn-bfp-title-{{ section.id }}">
+      <div class="gn-bfp__media"{% if section.settings.image == blank %} style="background-image: url('{{ section.settings.image_asset | asset_url }}');"{% endif %}>
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: alt: '', loading: 'eager', widths: '480, 720, 1000, 1200', sizes: '(min-width: 800px) 440px, 100vw' }}
+        {%- endif -%}
+        <div class="gn-bfp__media-copy">
+          <p class="gn-bfp__upto">{{ section.settings.savings_prefix }}</p>
+          <p class="gn-bfp__save">{{ max_save_label }}</p>
+          <p class="gn-bfp__caption">{{ section.settings.savings_caption }}</p>
+        </div>
+      </div>
+      <div class="gn-bfp__panel">
+        <button class="gn-bfp__close" type="button" data-gn-bfp-close aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="gn-bfp__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="gn-bfp__heading" id="gn-bfp-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        {%- if section.settings.deadline != blank -%}
+          <div class="gn-bfp__timer" data-gn-bfp-timer aria-label="Offer countdown">
+            <span class="gn-bfp__unit"><span class="gn-bfp__num" data-gn-bfp-days>00</span><span class="gn-bfp__cap">Days</span></span>
+            <span class="gn-bfp__unit"><span class="gn-bfp__num" data-gn-bfp-hours>00</span><span class="gn-bfp__cap">Hrs</span></span>
+            <span class="gn-bfp__unit"><span class="gn-bfp__num" data-gn-bfp-mins>00</span><span class="gn-bfp__cap">Min</span></span>
+            <span class="gn-bfp__unit"><span class="gn-bfp__num" data-gn-bfp-secs>00</span><span class="gn-bfp__cap">Sec</span></span>
+          </div>
+        {%- endif -%}
+        <fieldset class="gn-bfp__offers">
+          <legend class="visually-hidden">Choose a bundle</legend>
+          {{ offers_html }}
+        </fieldset>
+        <p class="gn-bfp__error" data-gn-bfp-error hidden></p>
+        <button class="gn-bfp__cta" type="button" data-gn-bfp-add>
+          <span data-gn-bfp-add-label>{{ section.settings.button_prefix }}</span>
+          <span class="gn-bfp__spinner" data-gn-bfp-spinner hidden aria-hidden="true"></span>
+        </button>
+        {%- if section.settings.trust_text != blank -%}
+          <p class="gn-bfp__trust">{{ section.settings.trust_text }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('gn-bfp-{{ section.id }}');
+      const tab = document.querySelector('#shopify-section-{{ section.id }} [data-gn-bfp-open]');
+      if (!root || !tab || root.dataset.gnBound === 'true') return;
+      root.dataset.gnBound = 'true';
+
+      const seenKey = 'gn-bfp-seen';
+      const offers = [...root.querySelectorAll('[data-gn-bfp-offer]')];
+      const addBtn = root.querySelector('[data-gn-bfp-add]');
+      const addLabel = root.querySelector('[data-gn-bfp-add-label]');
+      const spinner = root.querySelector('[data-gn-bfp-spinner]');
+      const errorBox = root.querySelector('[data-gn-bfp-error]');
+      const prefix = {{ section.settings.button_prefix | json }};
+      const errorText = {{ section.settings.error_text | json }};
+      let busy = false;
+      let lastFocus = null;
+
+      const selected = () => offers.find((offer) => offer.classList.contains('is-selected') && !offer.classList.contains('is-disabled'));
+
+      const refresh = () => {
+        let active = selected();
+        if (!active) {
+          active = offers.find((offer) => offer.dataset.preselected === 'true' && !offer.classList.contains('is-disabled'))
+            || offers.find((offer) => !offer.classList.contains('is-disabled'));
+          if (active) {
+            const input = active.querySelector('input');
+            if (input) input.checked = true;
+          }
+        }
+        offers.forEach((offer) => offer.classList.toggle('is-selected', offer === active));
+        if (addLabel) {
+          addLabel.textContent = active
+            ? prefix + ' ' + active.dataset.label + ' — ' + active.dataset.priceLabel
+            : prefix;
+        }
+        if (addBtn) {
+          addBtn.disabled = !active;
+          addBtn.setAttribute('aria-disabled', String(!active || busy));
+        }
+      };
+
+      const open = (fromUser) => {
+        if (!fromUser) sessionStorage.setItem(seenKey, '1');
+        lastFocus = document.activeElement;
+        root.hidden = false;
+        tab.hidden = true;
+        document.body.style.overflow = 'hidden';
+        const closeBtn = root.querySelector('.gn-bfp__close');
+        if (closeBtn) closeBtn.focus();
+      };
+
+      const close = () => {
+        root.hidden = true;
+        tab.hidden = false;
+        document.body.style.overflow = '';
+        sessionStorage.setItem(seenKey, '1');
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+        else tab.focus();
+      };
+
+      tab.addEventListener('click', () => open(true));
+      root.querySelectorAll('[data-gn-bfp-close]').forEach((el) => el.addEventListener('click', close));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !root.hidden) close();
+      });
+      offers.forEach((offer) => {
+        const input = offer.querySelector('input');
+        if (!input) return;
+        input.addEventListener('change', () => {
+          offers.forEach((item) => item.classList.toggle('is-selected', item === offer));
+          refresh();
+        });
+      });
+
+      const pad = (n) => String(n).padStart(2, '0');
+      const timer = root.querySelector('[data-gn-bfp-timer]');
+      const deadline = root.dataset.deadline ? Date.parse(root.dataset.deadline) : NaN;
+      if (timer && !Number.isNaN(deadline)) {
+        const tick = () => {
+          const left = Math.max(0, deadline - Date.now());
+          const total = Math.floor(left / 1000);
+          timer.querySelector('[data-gn-bfp-days]').textContent = pad(Math.floor(total / 86400));
+          timer.querySelector('[data-gn-bfp-hours]').textContent = pad(Math.floor((total % 86400) / 3600));
+          timer.querySelector('[data-gn-bfp-mins]').textContent = pad(Math.floor((total % 3600) / 60));
+          timer.querySelector('[data-gn-bfp-secs]').textContent = pad(total % 60);
+          if (left <= 0) timer.hidden = true;
+        };
+        tick();
+        setInterval(tick, 1000);
+      }
+
+      const sectionIdsFor = (cart) => {
+        if (cart && typeof cart.getSectionsToRender === 'function') {
+          return cart.getSectionsToRender().map((s) => s.id);
+        }
+        return ['cart-drawer', 'cart-icon-bubble', 'cart-icon-bubble--mobile', 'cart-free-delivery'];
+      };
+
+      const showError = (msg) => {
+        if (!errorBox) return;
+        errorBox.textContent = msg || '';
+        errorBox.hidden = !msg;
+      };
+
+      const applyCodes = async (codes, cart) => {
+        const wanted = codes.map((code) => code.trim()).filter(Boolean);
+        if (!wanted.length) return;
+        const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+        const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
+        const current = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
+        const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
+        const merged = existing.slice();
+        wanted.forEach((code) => {
+          if (!merged.some((item) => item.toLowerCase() === code.toLowerCase())) merged.push(code);
+        });
+        if (merged.length === existing.length) return;
+        await fetch(updateUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+          body: JSON.stringify({
+            discount: merged.join(','),
+            sections: sectionIdsFor(cart),
+            sections_url: window.location.pathname
+          })
+        });
+      };
+
+      const addToCart = async () => {
+        const active = selected();
+        if (busy || !active || !addBtn || addBtn.disabled) return;
+        busy = true;
+        showError('');
+        if (spinner) spinner.hidden = false;
+        refresh();
+        let items = [];
+        try { items = JSON.parse(active.getAttribute('data-items') || '[]'); } catch (e) { items = []; }
+        items = items.map((item) => Object.assign({}, item, {
+          properties: { _gn_bundle: active.dataset.label || '' }
+        }));
+        const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+        const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
+        try {
+          const res = await fetch(base.replace(/\.js$/, '') + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({
+              items: items,
+              sections: sectionIdsFor(cart),
+              sections_url: window.location.pathname
+            })
+          });
+          const json = await res.json();
+          if (!res.ok || json.status) {
+            showError(json.description || json.message || errorText);
+            return;
+          }
+          const codes = (active.dataset.codes || '').split(',').filter(Boolean);
+          try { await applyCodes(codes, cart); } catch (discountErr) { console.warn('Popup discount could not be applied', discountErr); }
+          const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+          const ids = sectionIdsFor(cart);
+          const [cartJson, sections] = await Promise.all([
+            fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json()),
+            fetch('/?sections=' + ids.join(',')).then((r) => r.json())
+          ]);
+          const state = Object.assign({}, cartJson, { sections: sections });
+          const first = Array.isArray(state.items) && state.items.length ? state.items[0] : {};
+          Object.assign(state, { key: first.key, id: first.id });
+          close();
+          if (cart && typeof cart.renderContents === 'function') {
+            if (typeof cart.setActiveElement === 'function') cart.setActiveElement(tab);
+            if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+            cart.renderContents(state);
+          } else {
+            window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+          }
+        } catch (err) {
+          console.error(err);
+          showError(errorText);
+        } finally {
+          busy = false;
+          if (spinner) spinner.hidden = true;
+          refresh();
+        }
+      };
+
+      if (addBtn) addBtn.addEventListener('click', addToCart);
+      refresh();
+      if (sessionStorage.getItem(seenKey)) {
+        tab.hidden = false;
+      } else {
+        window.setTimeout(() => open(false), 500);
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Black Friday popup",
+  "tag": "section",
+  "limit": 1,
+  "enabled_on": { "groups": ["custom.popups"] },
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Badge", "default": "Black Friday" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The full practice system, for less." },
+    { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Up to", "info": "Shown above the largest live savings across the bundles." },
+    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "off the Golfer Now system. Bundles only." },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "image_asset", "label": "Photo asset fallback", "default": "gn-arc-cta-bg.jpg" },
+    { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-11-27T23:59:00+00:00", "info": "Fixed date with timezone. The popup hides after this." },
+    { "type": "text", "id": "tab_label", "label": "Side tab label", "default": "Black Friday" },
+    { "type": "text", "id": "button_prefix", "label": "Button prefix", "default": "Get" },
+    { "type": "text", "id": "trust_text", "label": "Trust line", "default": "30-day risk-free returns" },
+    { "type": "text", "id": "error_text", "label": "Add to cart error", "default": "Could not add this bundle. Try again." },
+    { "type": "header", "content": "Products" },
+    { "type": "text", "id": "arc_handle", "label": "ARC ONE handle", "default": "pro-swing-click-trainer" },
+    { "type": "text", "id": "link_handle", "label": "LINK ONE handle", "default": "golf-training-belt" },
+    { "type": "text", "id": "line_handle", "label": "LINE ONE handle", "default": "golf-putting-tutor" },
+    { "type": "text", "id": "trace_handle", "label": "TRACE ONE handle", "default": "swing-detection-training-mat" },
+    { "type": "text", "id": "towel_handle", "label": "Towel handle", "default": "magnetic-golf-towel" },
+    { "type": "text", "id": "marker_handle", "label": "Marker handle", "default": "golf-ball-marker-fork" },
+    { "type": "text", "id": "brush_handle", "label": "Brush handle", "default": "golf-club-brush-groove-sharpener-tool" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "card_color", "label": "Card", "default": "#101712" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1E8" },
+    { "type": "color", "id": "accent_color", "label": "Tab", "default": "#1D3D2A" },
+    { "type": "color", "id": "gold_color", "label": "Gold", "default": "#C9A249" }
+  ],
+  "blocks": [
+    {
+      "type": "offer",
+      "name": "Bundle",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Name", "default": "ARC + LINE" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Swing + putting" },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "Optional. Example: Best value." },
+        { "type": "checkbox", "id": "include_link", "label": "Include LINK ONE", "default": false },
+        { "type": "checkbox", "id": "include_line", "label": "Include LINE ONE", "default": true },
+        { "type": "checkbox", "id": "include_trace", "label": "Include TRACE ONE", "default": false },
+        { "type": "checkbox", "id": "include_accessories", "label": "Include accessories free", "default": false, "info": "Towel, marker, and brush are added at no charge. Their live prices count as savings." },
+        { "type": "number", "id": "save_amount", "label": "Extra dollars off", "default": 0, "info": "Taken off the live product total, on top of each product’s sale price. Match the Shopify discount code." },
+        { "type": "text", "id": "discount_code", "label": "Discount code", "info": "Applied after add to cart so checkout matches the live price shown here." },
+        { "type": "text", "id": "accessories_code", "label": "Accessories-free code", "info": "Applied with the discount code when accessories are included. Must be 100% off the towel, marker, and brush." },
+        { "type": "checkbox", "id": "preselected", "label": "Selected when the popup opens", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Black Friday popup",
+      "blocks": [
+        { "type": "offer", "settings": { "label": "ARC + LINE", "description": "Swing + putting", "include_line": true, "save_amount": 15, "discount_code": "ARC-LINE-15" } },
+        { "type": "offer", "settings": { "label": "Swing System", "description": "LINK + ARC + LINE", "include_link": true, "include_line": true, "save_amount": 20, "discount_code": "SWING-SYSTEM-20" } },
+        { "type": "offer", "settings": { "label": "Complete System", "description": "All four tools, accessories free", "badge": "Best value", "include_link": true, "include_line": true, "include_trace": true, "include_accessories": true, "save_amount": 30, "discount_code": "COMPLETE-SYSTEM-30", "accessories_code": "BF-ACCESSORIES-FREE", "preselected": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}
