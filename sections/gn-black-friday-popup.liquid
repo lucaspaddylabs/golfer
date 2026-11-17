@@ -139,14 +139,8 @@
           assign offer_price = 0
         endif
 
+        # target_save is marketing-only (SAVE $160). Live price = sale total minus save_amount.
         assign target_save = block.settings.target_save | default: 0
-        if target_save > 0
-          assign target_cents = target_save | times: 100
-          assign offer_price = offer_compare | minus: target_cents
-          if offer_price < 0
-            assign offer_price = 0
-          endif
-        endif
 
         assign offer_save = offer_compare | minus: offer_price
         if offer_save < 0
@@ -885,7 +879,7 @@
         { "type": "checkbox", "id": "include_trace", "label": "Include TRACE ONE", "default": false },
         { "type": "checkbox", "id": "include_accessories", "label": "Include accessories free", "default": false, "info": "Towel, marker, and brush are added at no charge. Their live prices count as savings." },
         { "type": "number", "id": "save_amount", "label": "Extra dollars off", "default": 0, "info": "Taken off the live product total, on top of each product’s sale price. Match the Shopify discount code. Ignored when Target save is set." },
-        { "type": "number", "id": "target_save", "label": "Target save (dollars)", "default": 0, "info": "Optional. Forces the offer to save this many dollars from the live compare-at total. Use 160 for the Complete System." },
+        { "type": "number", "id": "target_save", "label": "Promo save label (dollars)", "default": 0, "info": "Marketing only — e.g. 160 shows “SAVE $160 + FREE GIFTS…”. Does not change the live checkout price." },
         { "type": "text", "id": "discount_code", "label": "Discount code", "info": "Applied after add to cart so checkout matches the live price shown here." },
         { "type": "text", "id": "accessories_code", "label": "Accessories-free code", "info": "Applied first when accessories are included. Must be 100% off the towel, marker, and brush in Shopify Admin." },
         { "type": "checkbox", "id": "preselected", "label": "Selected when the popup opens", "default": false }
