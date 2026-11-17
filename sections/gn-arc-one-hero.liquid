@@ -12,6 +12,18 @@
   endif
   assign hero_product_image = section.settings.product_image_override
   assign hero_image_alt = section.settings.product_image_alt | default: product.title
+  assign use_curated_gallery = false
+  if section.settings.use_curated_gallery
+    assign use_curated_gallery = true
+  endif
+  assign theme_gallery = 'gn-arc-v2-gallery-01.jpg,gn-arc-v2-gallery-02.jpg,gn-arc-v2-gallery-03.jpg,gn-arc-v2-gallery-04.jpg,gn-arc-v2-gallery-05.jpg,gn-arc-v2-gallery-06.jpg' | split: ','
+  assign gallery_widths = '1024,896,1024,1024,1024,1024' | split: ','
+  assign gallery_alts = 'ARC ONE trains the perfect grip and swing to hit drives further||Grip, swing, listen: line up the V marker, make a practice swing, notice the click||Same grip every swing — line up your hands with the V marker||ARC ONE fits in your golf bag, telescopic 15.5 to 26 inches||Verified buyer Dave Ridge: hitting drives 20 to 30 yards further||Hear your release — a click tells you when you release' | split: '||'
+  assign gallery_sizes = '(min-width: 990px) 46vw, 100vw'
+  assign gallery_slide_count = product.media.size
+  if use_curated_gallery
+    assign gallery_slide_count = theme_gallery.size
+  endif
 
   # Preview A/B: ?gn_stars=yellow|green and ?gn_bestfor=emphasized|muted (handled in JS)
   assign star_color = section.settings.star_color | default: 'yellow'
@@ -57,6 +69,11 @@
     align-items: center;
     gap: 6px 8px;
     margin: 0 0 12px;
+    color: inherit;
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} a.gn-arc-hero__review-strip:hover .gn-arc-hero__review-copy {
+    text-decoration: underline;
   }
   #shopify-section-{{ section.id }} .gn-arc-hero__review-rating {
     margin: 0;
@@ -1076,6 +1093,90 @@
       gap: 8px;
     }
   }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery {
+    background-image: none;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.ink_color }};
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage-bg,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage-overlay,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage-label,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__signals {
+    display: none;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage-content {
+    height: auto;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__media-wrap {
+    flex: 0 1 auto;
+    width: 100%;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage {
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__panel,
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__panel.is-active {
+    position: absolute;
+    inset: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__panel.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__dots {
+    margin-top: 0;
+    padding-top: 16px;
+    padding-bottom: 4px;
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__dot {
+    background: rgba(24, 43, 32, 0.22);
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__dot.is-active {
+    background: {{ section.settings.accent_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__gallery-arrow {
+    border-color: rgba(24, 43, 32, 0.12);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery {
+      padding: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__stage {
+      border-radius: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      z-index: 5;
+      margin: 0;
+      padding: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__dot {
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 0 0 1px rgba(11, 28, 18, 0.28);
+    }
+    #shopify-section-{{ section.id }} .gn-arc-hero__stage-col.has-curated-gallery .gn-arc-hero__dot.is-active {
+      background: #fff;
+    }
+  }
 </style>
 
 <section
@@ -1087,6 +1188,7 @@
   data-variant-id="{{ current_variant.id }}"
   data-money-format="{{ shop.money_format | escape }}"
   data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+  {% if use_curated_gallery %}data-curated-gallery="true"{% endif %}
 >
   <div class="gn-arc-hero__inner">
     <div class="gn-arc-hero__buy-col">
@@ -1113,10 +1215,18 @@
         {%- endif -%}
       </div>
       {%- if section.settings.show_review_strip -%}
-        <div
-          class="gn-arc-hero__review-strip"
-          aria-label="{{ section.settings.review_rating }} out of 5 · {{ section.settings.review_sold_text | escape }}"
-        >
+        {%- if section.settings.review_link != blank -%}
+          <a
+            class="gn-arc-hero__review-strip"
+            href="{{ section.settings.review_link }}"
+            aria-label="{{ section.settings.review_rating }} out of 5 · {{ section.settings.review_sold_text | escape }}"
+          >
+        {%- else -%}
+          <div
+            class="gn-arc-hero__review-strip"
+            aria-label="{{ section.settings.review_rating }} out of 5 · {{ section.settings.review_sold_text | escape }}"
+          >
+        {%- endif -%}
           <p class="gn-arc-hero__review-rating">{{ section.settings.review_rating }}</p>
           <span class="gn-arc-hero__stars" aria-hidden="true" data-gn-stars data-default-star="{{ star_color }}" data-star-yellow="#E4B53C" data-star-green="{{ section.settings.accent_color | default: '#1d3d2a' }}">
             {%- for i in (1..5) -%}
@@ -1124,7 +1234,11 @@
             {%- endfor -%}
           </span>
           <p class="gn-arc-hero__review-copy">{{ section.settings.review_sold_text }}</p>
-        </div>
+        {%- if section.settings.review_link != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
       {%- endif -%}
       {%- if section.settings.show_bestfor -%}
         <div class="gn-arc-hero__bestfor-wrap" data-gn-bestfor-wrap data-default-style="{{ bestfor_style }}">
@@ -1314,7 +1428,7 @@
       </div>
     </div>
 
-    <div class="gn-arc-hero__stage-col">
+    <div class="gn-arc-hero__stage-col{% if use_curated_gallery %} has-curated-gallery{% endif %}">
       {%- if section.settings.stage_image != blank -%}
         <div class="gn-arc-hero__stage-bg">
           {{ section.settings.stage_image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 900px) 50vw, 100vw' }}
@@ -1326,8 +1440,8 @@
           <p class="gn-arc-hero__stage-label">{{ section.settings.stage_label }}</p>
         {%- endif -%}
         <div class="gn-arc-hero__media-wrap">
-          <div class="gn-arc-hero__stage{% if section.settings.enable_pulse %} has-pulse{% endif %}">
-            {% if product.media.size > 1 %}
+          <div class="gn-arc-hero__stage{% if section.settings.enable_pulse and use_curated_gallery == false %} has-pulse{% endif %}">
+            {% if gallery_slide_count > 1 %}
               <button class="gn-arc-hero__gallery-arrow gn-arc-hero__gallery-arrow--prev" type="button" data-gn-gallery-prev aria-label="Previous image">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 18l-6-6 6-6"/>
@@ -1339,7 +1453,44 @@
                 </svg>
               </button>
             {% endif %}
-            {% if product.media.size > 0 %}
+            {% if use_curated_gallery %}
+              {%- for asset_name in theme_gallery -%}
+                <div
+                  class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}"
+                  data-gn-media-panel
+                  data-media-id="theme-{{ forloop.index }}"
+                >
+                  {%- liquid
+                    assign gw = gallery_widths[forloop.index0] | plus: 0
+                    assign slide_alt = gallery_alts[forloop.index0] | default: product.title
+                    assign slide_stem = asset_name | split: '.' | first
+                    assign src_480 = slide_stem | append: '-480.jpg' | asset_url
+                    assign src_800 = slide_stem | append: '-800.jpg' | asset_url
+                    assign src_full = asset_name | asset_url
+                    assign srcset = src_480 | append: ' 480w, ' | append: src_800 | append: ' 800w'
+                    assign srcset = srcset | append: ', ' | append: src_full | append: ' ' | append: gw | append: 'w'
+                  -%}
+                  <img
+                    alt="{{ slide_alt | escape }}"
+                    width="{{ gw }}"
+                    height="{{ gw }}"
+                    decoding="async"
+                    {% if forloop.first %}
+                      src="{{ src_800 }}"
+                      srcset="{{ srcset }}"
+                      sizes="{{ gallery_sizes }}"
+                      loading="eager"
+                      fetchpriority="high"
+                    {% else %}
+                      data-src="{{ src_800 }}"
+                      data-srcset="{{ srcset }}"
+                      data-sizes="{{ gallery_sizes }}"
+                      loading="lazy"
+                    {% endif %}
+                  >
+                </div>
+              {%- endfor -%}
+            {% elsif product.media.size > 0 %}
               {% for media in product.media %}
                 <div
                   class="gn-arc-hero__panel{% if forloop.first %} is-active{% endif %}"
@@ -1383,7 +1534,23 @@
             {% endif %}
           </div>
 
-          {% if product.media.size > 1 %}
+          {% if use_curated_gallery %}
+            <div class="gn-arc-hero__thumbs" aria-label="Choose product media">
+              {%- for asset_name in theme_gallery -%}
+                <button
+                  class="gn-arc-hero__thumb"
+                  type="button"
+                  data-gn-thumbnail
+                  data-media-id="theme-{{ forloop.index }}"
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-label="Show image {{ forloop.index }}"
+                >
+                  {%- assign thumb_src = asset_name | split: '.' | first | append: '-160.jpg' | asset_url -%}
+                  <img src="{{ thumb_src }}" alt="" width="160" height="160" loading="lazy" decoding="async">
+                </button>
+              {%- endfor -%}
+            </div>
+          {% elsif product.media.size > 1 %}
             <div class="gn-arc-hero__thumbs" aria-label="Choose product media">
               {% for media in product.media %}
                 {% liquid
@@ -1404,7 +1571,18 @@
           {% endif %}
         </div>
 
-        {% if product.media.size > 1 %}
+        {% if use_curated_gallery %}
+          <div class="gn-arc-hero__dots" aria-hidden="true" data-gn-dots>
+            {%- for asset_name in theme_gallery -%}
+              <button
+                class="gn-arc-hero__dot{% if forloop.first %} is-active{% endif %}"
+                type="button"
+                data-gn-dot
+                data-media-id="theme-{{ forloop.index }}"
+              ></button>
+            {%- endfor -%}
+          </div>
+        {% elsif product.media.size > 1 %}
           <div class="gn-arc-hero__dots" aria-hidden="true" data-gn-dots>
             {% for media in product.media %}
               <button
@@ -1590,10 +1768,23 @@
       return variants.find((variant) => variant.options.every((option, index) => option === selected[index]));
     };
 
+    const hydratePanel = (panel) => {
+      if (!panel) return;
+      const img = panel.querySelector('img[data-src]');
+      if (!img) return;
+      if (img.dataset.srcset) img.setAttribute('srcset', img.dataset.srcset);
+      if (img.dataset.sizes) img.setAttribute('sizes', img.dataset.sizes);
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+      img.removeAttribute('data-srcset');
+      img.removeAttribute('data-sizes');
+    };
+
     const showMedia = (mediaId) => {
       if (!mediaId) return;
       const target = section.querySelector(`[data-gn-media-panel][data-media-id="${mediaId}"]`);
       if (!target) return;
+      hydratePanel(target);
       section.querySelectorAll('[data-gn-media-panel]').forEach((panel) => {
         panel.classList.toggle('is-active', panel === target);
       });
@@ -1687,7 +1878,7 @@
           if (hasCompare) stickyCompare.textContent = formatMoney(compareAt);
         }
       }
-      if (variant.featured_media && variant.featured_media.id) showMedia(variant.featured_media.id);
+      if (section.dataset.curatedGallery !== 'true' && variant.featured_media && variant.featured_media.id) showMedia(variant.featured_media.id);
     };
 
     section.querySelectorAll('[data-gn-thumbnail]').forEach((button) => {
@@ -1923,6 +2114,7 @@
     { "type": "checkbox", "id": "show_review_strip", "label": "Show review & sales strip", "default": true, "info": "Locked under the product title (below ARC ONE / SWING TRAINER)." },
     { "type": "text", "id": "review_rating", "label": "Rating number", "default": "4.8" },
     { "type": "text", "id": "review_sold_text", "label": "Sold text", "default": "10,000+ sold" },
+    { "type": "text", "id": "review_link", "label": "Review strip link", "info": "Optional. Example: #gn-v2-reviews. Makes the rating strip jump to a reviews section on this page." },
     {
       "type": "select",
       "id": "star_color",
@@ -1974,7 +2166,8 @@
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true },
     { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky mobile add to cart", "default": true },
     { "type": "header", "content": "Images" },
-    { "type": "image_picker", "id": "product_image_override", "label": "Product image override", "info": "Optional. Replaces the product gallery on the stage — use a transparent PNG to show the course background through the product." },
+    { "type": "checkbox", "id": "use_curated_gallery", "label": "Use curated gallery images", "default": false, "info": "Shows the six ARC ONE gallery images instead of the product photo on the course background." },
+    { "type": "image_picker", "id": "product_image_override", "label": "Product image override", "info": "Optional. Replaces the product gallery on the stage — use a transparent PNG to show the course background through the product. Ignored when the curated gallery is on." },
     { "type": "text", "id": "product_image_alt", "label": "Override image alt text", "info": "Optional. Defaults to the product title." },
     { "type": "image_picker", "id": "fallback_image", "label": "Fallback product image", "info": "Used only when the product has no images and no override is set." },
     { "type": "image_picker", "id": "stage_image", "label": "Stage background image" },

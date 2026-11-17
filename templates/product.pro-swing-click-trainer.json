@@ -86,6 +86,7 @@
         "sale_badge_text": "Sale",
         "show_dynamic_checkout": false,
         "show_sticky_atc": true,
+        "use_curated_gallery": true,
         "product_image_override": "shopify://shop_images/7434f057-4497-4de3-b1d3-9c707429cd9d.png",
         "product_image_alt": "",
         "enable_pulse": false,
@@ -111,10 +112,80 @@
         "bestfor_muted_text": "Grip and swing",
         "review_rating": "4.8",
         "review_sold_text": "10,000+ sold",
+        "review_link": "#gn-v2-reviews",
         "show_viewer_badge": true,
         "viewer_min": 126,
         "viewer_max": 134,
         "viewer_interval": 9
+      }
+    },
+    "reviews": {
+      "type": "gn-arc-v2-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "asset_fallback": "gn-arc-review-01.png",
+            "stars": 5,
+            "quote": "It works! I'm hitting my drives 20-30 yards further. My partner in my scramble league is very happy. We won our league this year. The long par 4s are reachable again!",
+            "name": "D.R.",
+            "hcp": "HCP 18 → 14",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "asset_fallback": "gn-arc-review-02.png",
+            "stars": 5,
+            "quote": "The perfect size for indoor practice. It has completely transformed my swing tempo!",
+            "name": "M.G.",
+            "hcp": "HCP 24",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "asset_fallback": "gn-arc-review-03.png",
+            "stars": 4,
+            "quote": "Using the swing trainer is an easy way to evaluate your swing without going to the driving range.",
+            "name": "J.K.",
+            "hcp": "HCP 9",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "eyebrow": "REVIEWS",
+        "heading": "What buyers are saying.",
+        "show_score": true,
+        "rating": "4.8",
+        "review_count": "",
+        "score_text": "Based on verified reviews",
+        "bar_5": 84,
+        "bar_4": 11,
+        "bar_3": 3,
+        "bar_2": 1,
+        "bar_1": 1,
+        "button_label": "Read all reviews",
+        "verified_text": "Verified buyer",
+        "background_color": "#f2eee3",
+        "card_color": "#ffffff",
+        "ink_color": "#182b20",
+        "muted_color": "#4a4a44",
+        "accent_color": "#1d3d2a",
+        "highlight_color": "#4d846e",
+        "pale_color": "#e7f0ea",
+        "gold_color": "#E4B53C",
+        "border_color": "#d8d3c4",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "band": {
@@ -382,6 +453,7 @@
   },
   "order": [
     "hero",
+    "reviews",
     "band",
     "story",
     "system",
