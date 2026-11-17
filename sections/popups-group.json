@@ -41,7 +41,7 @@
           "type": "offer",
           "settings": {
             "label": "Complete System",
-            "description": "All four tools, accessories free",
+            "description": "",
             "badge": "Best value",
             "include_link": true,
             "include_line": true,
