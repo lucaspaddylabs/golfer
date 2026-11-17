@@ -34,6 +34,7 @@
         assign offer_compare = 0
         assign offer_items = ''
         assign offer_thumbs = ''
+        assign free_ids = ''
         assign offer_ok = true
         assign offer_missing = false
         assign slots = 'arc,link,line,trace,towel,marker,brush' | split: ','
@@ -90,7 +91,15 @@
                 if offer_items != blank
                   assign offer_items = offer_items | append: ','
                 endif
-                assign offer_items = offer_items | append: '{"id":' | append: slot_variant.id | append: ',"quantity":1}'
+                if slot_free
+                  assign offer_items = offer_items | append: '{"id":' | append: slot_variant.id | append: ',"quantity":1,"free":true}'
+                  if free_ids != blank
+                    assign free_ids = free_ids | append: ','
+                  endif
+                  assign free_ids = free_ids | append: slot_variant.id
+                else
+                  assign offer_items = offer_items | append: '{"id":' | append: slot_variant.id | append: ',"quantity":1,"free":false}'
+                endif
                 unless slot_free
                   assign thumb_src = ''
                   if slot_product.featured_image
@@ -129,6 +138,16 @@
         if offer_price < 0
           assign offer_price = 0
         endif
+
+        assign target_save = block.settings.target_save | default: 0
+        if target_save > 0
+          assign target_cents = target_save | times: 100
+          assign offer_price = offer_compare | minus: target_cents
+          if offer_price < 0
+            assign offer_price = 0
+          endif
+        endif
+
         assign offer_save = offer_compare | minus: offer_price
         if offer_save < 0
           assign offer_save = 0
@@ -140,12 +159,18 @@
         assign price_label = offer_price | money | replace: 'US$', '$' | replace: 'US $', '$'
         assign compare_label = offer_compare | money | replace: 'US$', '$' | replace: 'US $', '$'
         assign save_label = offer_save | money | replace: 'US$', '$' | replace: 'US $', '$'
-        assign discount_codes = block.settings.discount_code | strip
+        comment
+          Apply the free-accessories code first, then the bundle amount-off code.
+        endcomment
+        assign discount_codes = ''
         if block.settings.include_accessories and block.settings.accessories_code != blank
+          assign discount_codes = block.settings.accessories_code | strip
+        endif
+        if block.settings.discount_code != blank
           if discount_codes != blank
-            assign discount_codes = discount_codes | append: ',' | append: block.settings.accessories_code | strip
+            assign discount_codes = discount_codes | append: ',' | append: block.settings.discount_code | strip
           else
-            assign discount_codes = block.settings.accessories_code | strip
+            assign discount_codes = block.settings.discount_code | strip
           endif
         endif
       -%}
@@ -160,6 +185,7 @@
           data-label="{{ block.settings.label | escape }}"
           data-price-label="{{ price_label | escape }}"
           data-codes="{{ discount_codes | escape }}"
+          data-free-ids="{{ free_ids | escape }}"
           data-items='[{{ offer_items }}]'
           data-preselected="{% if block.settings.preselected and offer_ok %}true{% else %}false{% endif %}"
           {{ block.shopify_attributes }}
@@ -675,22 +701,40 @@
         if (!wanted.length) return;
         const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
         const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
+        const rootUrl = (window.routes && window.routes.root_url) || '/';
+
+        // Seed each code through /discount/CODE first, then merge into the cart.
+        for (const code of wanted) {
+          try {
+            await fetch(rootUrl.replace(/\/?$/, '/') + 'discount/' + encodeURIComponent(code), {
+              credentials: 'same-origin',
+              redirect: 'manual'
+            });
+          } catch (e) { /* redirect responses are fine */ }
+        }
+
         const current = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
         const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
         const merged = existing.slice();
         wanted.forEach((code) => {
           if (!merged.some((item) => item.toLowerCase() === code.toLowerCase())) merged.push(code);
         });
-        if (merged.length === existing.length) return;
-        await fetch(updateUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-          body: JSON.stringify({
-            discount: merged.join(','),
+
+        // Apply one growing list so earlier free-gift codes stay active with the amount-off code.
+        let last = null;
+        for (let i = 0; i < merged.length; i += 1) {
+          const payload = {
+            discount: merged.slice(0, i + 1).join(','),
             sections: sectionIdsFor(cart),
             sections_url: window.location.pathname
-          })
-        });
+          };
+          last = await fetch(updateUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify(payload)
+          }).then((r) => r.json());
+        }
+        return last;
       };
 
       const addToCart = async () => {
@@ -700,11 +744,17 @@
         showError('');
         if (spinner) spinner.hidden = false;
         refresh();
-        let items = [];
-        try { items = JSON.parse(active.getAttribute('data-items') || '[]'); } catch (e) { items = []; }
-        items = items.map((item) => Object.assign({}, item, {
-          properties: { _gn_bundle: active.dataset.label || '' }
-        }));
+        let rawItems = [];
+        try { rawItems = JSON.parse(active.getAttribute('data-items') || '[]'); } catch (e) { rawItems = []; }
+        const freeIds = new Set(String(active.dataset.freeIds || '').split(',').map((id) => String(id.trim())).filter(Boolean));
+        const items = rawItems.map((item) => {
+          const props = { _gn_bundle: active.dataset.label || '' };
+          if (item.free || freeIds.has(String(item.id))) {
+            props._gn_gift = 'Free';
+            props.Gift = 'Free with Complete System';
+          }
+          return { id: item.id, quantity: item.quantity || 1, properties: props };
+        });
         const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
         const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
         try {
@@ -722,7 +772,7 @@
             showError(json.description || json.message || errorText);
             return;
           }
-          const codes = (active.dataset.codes || '').split(',').filter(Boolean);
+          const codes = (active.dataset.codes || '').split(',').map((c) => c.trim()).filter(Boolean);
           try { await applyCodes(codes, cart); } catch (discountErr) { console.warn('Popup discount could not be applied', discountErr); }
           const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
           const ids = sectionIdsFor(cart);
@@ -808,9 +858,10 @@
         { "type": "checkbox", "id": "include_line", "label": "Include LINE ONE", "default": true },
         { "type": "checkbox", "id": "include_trace", "label": "Include TRACE ONE", "default": false },
         { "type": "checkbox", "id": "include_accessories", "label": "Include accessories free", "default": false, "info": "Towel, marker, and brush are added at no charge. Their live prices count as savings." },
-        { "type": "number", "id": "save_amount", "label": "Extra dollars off", "default": 0, "info": "Taken off the live product total, on top of each product’s sale price. Match the Shopify discount code." },
+        { "type": "number", "id": "save_amount", "label": "Extra dollars off", "default": 0, "info": "Taken off the live product total, on top of each product’s sale price. Match the Shopify discount code. Ignored when Target save is set." },
+        { "type": "number", "id": "target_save", "label": "Target save (dollars)", "default": 0, "info": "Optional. Forces the offer to save this many dollars from the live compare-at total. Use 160 for the Complete System." },
         { "type": "text", "id": "discount_code", "label": "Discount code", "info": "Applied after add to cart so checkout matches the live price shown here." },
-        { "type": "text", "id": "accessories_code", "label": "Accessories-free code", "info": "Applied with the discount code when accessories are included. Must be 100% off the towel, marker, and brush." },
+        { "type": "text", "id": "accessories_code", "label": "Accessories-free code", "info": "Applied first when accessories are included. Must be 100% off the towel, marker, and brush in Shopify Admin." },
         { "type": "checkbox", "id": "preselected", "label": "Selected when the popup opens", "default": false }
       ]
     }
@@ -821,7 +872,7 @@
       "blocks": [
         { "type": "offer", "settings": { "label": "ARC + LINE", "description": "Swing + putting", "include_line": true, "save_amount": 15, "discount_code": "ARC-LINE-15" } },
         { "type": "offer", "settings": { "label": "Swing System", "description": "LINK + ARC + LINE", "include_link": true, "include_line": true, "save_amount": 20, "discount_code": "SWING-SYSTEM-20" } },
-        { "type": "offer", "settings": { "label": "Complete System", "description": "All four tools, accessories free", "badge": "Best value", "include_link": true, "include_line": true, "include_trace": true, "include_accessories": true, "save_amount": 30, "discount_code": "COMPLETE-SYSTEM-30", "accessories_code": "BF-ACCESSORIES-FREE", "preselected": true } }
+        { "type": "offer", "settings": { "label": "Complete System", "description": "All four tools, accessories free", "badge": "Best value", "include_link": true, "include_line": true, "include_trace": true, "include_accessories": true, "save_amount": 30, "target_save": 160, "discount_code": "COMPLETE-SYSTEM-30", "accessories_code": "BF-ACCESSORIES-FREE", "preselected": true } }
       ]
     }
   ]

@@ -48,6 +48,7 @@
             "include_trace": true,
             "include_accessories": true,
             "save_amount": 30,
+            "target_save": 160,
             "discount_code": "COMPLETE-SYSTEM-30",
             "accessories_code": "BF-ACCESSORIES-FREE",
             "preselected": true

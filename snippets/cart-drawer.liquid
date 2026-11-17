@@ -142,10 +142,13 @@ component-swiper-slider.css
                       assign cart_item_save = 0
                     endif
                     # Round SAVE badges to whole dollars (e.g. $15.30 → $15.00)
-                    if cart_item_save > 0
+                    if cart_item_save > 0 and cart_item_pay > 0
                       assign cart_item_save = cart_item_save | plus: 50 | divided_by: 100 | times: 100
                     endif
                     assign cart_item_unit_display = item.original_price
+                    if cart_item_pay == 0
+                      assign cart_item_unit_display = 0
+                    endif
                   -%}
                   <div class="drawer__cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
                     <div class="drawer__cart-item__content">
@@ -215,13 +218,11 @@ component-swiper-slider.css
                           <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                           {%- endif -%}
 
-                          {%- if cart_item_save > 0 -%}
+                          {%- if cart_item_pay == 0 -%}
+                            <span class="cart-item__discount-badge">Free</span>
+                          {%- elsif cart_item_save > 0 -%}
                             <span class="cart-item__discount-badge">
-                              {%- if cart_item_pay == 0 -%}
-                                Free
-                              {%- else -%}
-                                Save {{ cart_item_save | money | replace: 'US$', '$' | replace: 'US $', '$' }}
-                              {%- endif -%}
+                              Save {{ cart_item_save | money | replace: 'US$', '$' | replace: 'US $', '$' }}
                             </span>
                           {%- endif -%}
 
