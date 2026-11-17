@@ -406,6 +406,18 @@
       line-height: 1.05;
       color: #fff;
     }
+    .gn-bfp__heading-save {
+      display: none;
+      margin: 6px 0 0;
+      padding-right: 36px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      color: #ffe08a;
+      text-shadow: 0 0 18px rgba(255, 214, 120, 0.45);
+    }
     .gn-bfp__timer {
       display: flex;
       gap: 8px;
@@ -578,6 +590,7 @@
         border-radius: 0;
       }
       .gn-bfp__media { display: none; }
+      .gn-bfp__heading-save { display: block; }
       .gn-bfp__offer-note--promo { font-size: 0.72rem; letter-spacing: 0.01em; }
       .gn-bfp__panel {
         padding: max(18px, env(safe-area-inset-top, 0px)) 14px calc(16px + env(safe-area-inset-bottom, 0px));
@@ -615,6 +628,9 @@
           <p class="gn-bfp__eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
         <h2 class="gn-bfp__heading" id="gn-bfp-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        {%- if display_save > 0 -%}
+          <p class="gn-bfp__heading-save">SAVE ${{ display_save }}</p>
+        {%- endif -%}
         {%- if section.settings.deadline != blank -%}
           <div class="gn-bfp__timer" data-gn-bfp-timer aria-label="Offer countdown">
             <span class="gn-bfp__unit"><span class="gn-bfp__num" data-gn-bfp-days>00</span><span class="gn-bfp__cap">Days</span></span>
