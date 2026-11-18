@@ -1,6 +1,7 @@
 {%- comment -%}
   Black Friday popup v1.
-  Opens once per browser session, then stays as a tab on the right.
+  Opens once per browser session on first user interaction (scroll, click, key, etc.),
+  then stays as a tab on the right.
   Prices are live product prices, minus the same bundle discounts as Variant C.
   Accessories on the complete offer are shown at $0 and removed with a second discount code.
 {%- endcomment -%}
@@ -286,6 +287,12 @@
       color: {{ section.settings.text_color }};
     }
     .gn-bfp[hidden] { display: none; }
+    .gn-bfp:not([hidden]) .gn-bfp__overlay {
+      animation: gn-bfp-fade 280ms ease-out both;
+    }
+    .gn-bfp:not([hidden]) .gn-bfp__dialog {
+      animation: gn-bfp-pop 420ms cubic-bezier(0.22, 1.2, 0.36, 1) both;
+    }
     .gn-bfp__overlay {
       position: absolute;
       inset: 0;
@@ -304,6 +311,21 @@
       border-radius: 20px;
       background: {{ section.settings.card_color }};
       box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      transform-origin: center center;
+    }
+    @keyframes gn-bfp-fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes gn-bfp-pop {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
     .gn-bfp__media {
       position: relative;
@@ -601,7 +623,9 @@
       .gn-bfp-tab { min-height: 124px; padding: 12px 8px; font-size: 0.7rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .gn-bfp__spinner { animation: none; }
+      .gn-bfp__spinner,
+      .gn-bfp:not([hidden]) .gn-bfp__overlay,
+      .gn-bfp:not([hidden]) .gn-bfp__dialog { animation: none; }
     }
   </style>
 
@@ -870,7 +894,23 @@
       if (sessionStorage.getItem(seenKey)) {
         tab.hidden = false;
       } else {
-        window.setTimeout(() => open(false), 500);
+        let opened = false;
+        const intentEvents = ['pointerdown', 'keydown', 'scroll', 'wheel', 'touchstart'];
+        const onFirstIntent = () => {
+          if (opened || sessionStorage.getItem(seenKey)) return;
+          opened = true;
+          intentEvents.forEach((type) => {
+            window.removeEventListener(type, onFirstIntent, true);
+          });
+          open(false);
+        };
+        // Skip load-time scroll restoration so "first interaction" means a real user action.
+        window.setTimeout(() => {
+          if (opened || sessionStorage.getItem(seenKey)) return;
+          intentEvents.forEach((type) => {
+            window.addEventListener(type, onFirstIntent, { capture: true, passive: true });
+          });
+        }, 350);
       }
     })();
   </script>
