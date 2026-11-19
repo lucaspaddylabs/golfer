@@ -363,12 +363,7 @@ component-swiper-slider.css
                   {%- for discount in cart.cart_level_discount_applications -%}
                     <div class="gn-cart-totals__row gn-cart-totals__row--discount">
                       <span class="gn-cart-totals__label">
-                        <span class="gn-cart-totals__discount-text">
-                          Discount
-                          {%- if discount.title != blank -%}
-                            <span class="gn-cart-totals__discount-name">‘{{ discount.title }}’</span>
-                          {%- endif -%}
-                        </span>
+                        <span class="gn-cart-totals__discount-text">Discount Extra</span>
                         {%- if discount.title != blank -%}
                           <button
                             type="button"

@@ -863,9 +863,6 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-#CartDrawer .gn-cart-totals__discount-name {
-  font-weight: 600;
-}
 #CartDrawer .gn-cart-totals__discount-remove {
   display: inline-flex;
   align-items: center;
