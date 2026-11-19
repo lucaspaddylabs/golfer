@@ -849,43 +849,10 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   color: var(--gn-muted);
 }
 #CartDrawer .gn-cart-totals__row--discount .gn-cart-totals__label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   font-size: 0.8rem;
   font-weight: 500;
   color: #c62828;
   letter-spacing: 0.01em;
-}
-#CartDrawer .gn-cart-totals__discount-text {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-#CartDrawer .gn-cart-totals__discount-remove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: #c62828;
-  cursor: pointer;
-  opacity: 0.65;
-}
-#CartDrawer .gn-cart-totals__discount-remove svg {
-  width: 10px;
-  height: 10px;
-  display: block;
-}
-#CartDrawer .gn-cart-totals__discount-remove:hover {
-  opacity: 1;
-  background: rgba(198, 40, 40, 0.08);
 }
 #CartDrawer .gn-cart-totals__value--discount {
   font-size: 0.8rem;
