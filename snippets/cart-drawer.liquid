@@ -374,7 +374,7 @@ component-swiper-slider.css
                     <span class="gn-cart-totals__value">{{ cart_compare_subtotal | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                   </div>
                   <div class="gn-cart-totals__row gn-cart-totals__row--discount">
-                    <span class="gn-cart-totals__label">Discount Extra</span>
+                    <span class="gn-cart-totals__label">Total saving</span>
                     <span class="gn-cart-totals__value gn-cart-totals__value--discount">−{{ cart_total_discount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                   </div>
                   {%- for discount in cart.cart_level_discount_applications -%}
