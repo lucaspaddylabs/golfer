@@ -848,16 +848,12 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   font-weight: 500;
   color: var(--gn-muted);
 }
-#CartDrawer .gn-cart-totals__row--discount .gn-cart-totals__label {
-  font-size: 0.8rem;
-  font-weight: 500;
+#CartDrawer .gn-cart-totals__discount-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
   color: #c62828;
   letter-spacing: 0.01em;
-}
-#CartDrawer .gn-cart-totals__value--discount {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #c62828;
+  white-space: nowrap;
 }
 #CartDrawer .gn-cart-totals.has-discount .gn-cart-totals__row--order {
   margin-top: 2px;
