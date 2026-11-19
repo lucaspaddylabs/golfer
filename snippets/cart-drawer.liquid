@@ -338,10 +338,64 @@ component-swiper-slider.css
               assign estimated_shipping_cents = 0
             endif
             assign order_total_with_shipping = cart.total_price | plus: estimated_shipping_cents
+            assign cart_level_discount_total = 0
+            for discount in cart.cart_level_discount_applications
+              assign cart_level_discount_total = cart_level_discount_total | plus: discount.total_allocated_amount
+            endfor
+            assign cart_subtotal_before_order_discount = cart.total_price | plus: cart_level_discount_total
+            if cart_subtotal_before_order_discount < cart.items_subtotal_price
+              assign cart_subtotal_before_order_discount = cart.items_subtotal_price
+            endif
+            assign show_order_discount = false
+            if cart_level_discount_total > 0 or cart.original_total_price > cart.total_price
+              assign show_order_discount = true
+            endif
           -%}
+
           <div class="cart__footer__information gn-cart-checkout-sticky">
+            {%- if settings.show_add_discount_code and cart != empty -%}
+              {%- capture gn_cart_discount_html -%}
+                {%- render 'cart-discount', section_id: section.id -%}
+              {%- endcapture -%}
+              <toggle-component class="cart-drawer__toggle chm-toggle--accordion gn-cart-discount-toggle">
+                <details class="chm-toggle{% if gn_cart_discount_html contains 'cart-discount__pill' %} toggle-opening toggle-opening-auto{% endif %}"{% if gn_cart_discount_html contains 'cart-discount__pill' %} open{% endif %}>
+                  <summary>
+                    <div class="chm-toggle__button">
+                      <h6 class="mt0 mb0">{{ 'general.cart.drawer_discount_heading' | t }}</h6>
+                      <div class="plusminus"></div>
+                    </div>
+                  </summary>
+                  <div class="chm-toggle__content section__richtext__editor">{{ gn_cart_discount_html }}</div>
+                </details>
+              </toggle-component>
+            {%- endif -%}
+
             <div class="cart__footer__content js-contents body3" {{ block.shopify_attributes }}>
-              <div class="totals gn-cart-totals{% if qualifies_free_shipping %} is-free-shipping{% endif %}">
+              <div class="totals gn-cart-totals{% if qualifies_free_shipping %} is-free-shipping{% endif %}{% if show_order_discount %} has-discount{% endif %}">
+                {%- if show_order_discount -%}
+                  <div class="gn-cart-totals__row gn-cart-totals__row--subtotal">
+                    <span class="gn-cart-totals__label">Subtotal</span>
+                    <span class="gn-cart-totals__value">{{ cart_subtotal_before_order_discount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                  </div>
+                  {%- if cart.cart_level_discount_applications.size > 0 -%}
+                    {%- for discount in cart.cart_level_discount_applications -%}
+                      <div class="gn-cart-totals__row gn-cart-totals__row--discount">
+                        <span class="gn-cart-totals__label">
+                          <span class="gn-cart-totals__discount-label">Discount</span>
+                          {%- if discount.title != blank -%}
+                            <span class="gn-cart-totals__discount-code">{{ discount.title }}</span>
+                          {%- endif -%}
+                        </span>
+                        <span class="gn-cart-totals__value gn-cart-totals__value--discount">−{{ discount.total_allocated_amount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                      </div>
+                    {%- endfor -%}
+                  {%- elsif cart.original_total_price > cart.total_price -%}
+                    <div class="gn-cart-totals__row gn-cart-totals__row--discount">
+                      <span class="gn-cart-totals__label">Discount</span>
+                      <span class="gn-cart-totals__value gn-cart-totals__value--discount">−{{ cart.original_total_price | minus: cart.total_price | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
                 <div class="gn-cart-totals__row gn-cart-totals__row--order">
                   <span class="gn-cart-totals__label">Total</span>
                   <span class="gn-cart-totals__value">
@@ -359,7 +413,6 @@ component-swiper-slider.css
               {% if settings.show_installments %}
                 <span class="cart__summary-item cart__installments display-block body2 mt8">{% form 'cart', cart %}{{ form | payment_terms }}{% endform %}</span>
               {% endif %}
-              {%- comment -%} Cart-level discount codes still apply; code names are hidden from the drawer. {%- endcomment -%}
             </div>
 
             {%- if settings.terms_and_condition_checkbox -%}

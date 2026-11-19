@@ -803,9 +803,11 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   }
 }
 
-/* Compact single-line total (shipping folded into the value) */
+/* Compact totals with optional order-discount breakdown */
 #CartDrawer .gn-cart-totals {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 #CartDrawer .gn-cart-totals__row {
   display: flex;
@@ -820,7 +822,7 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   border-bottom: 0 !important;
 }
 #CartDrawer .gn-cart-totals__label {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   font-size: 0.88rem;
   font-weight: 800;
   color: var(--gn-ink);
@@ -838,6 +840,40 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   text-align: right;
   line-height: 1.25;
 }
+#CartDrawer .gn-cart-totals__row--subtotal .gn-cart-totals__label,
+#CartDrawer .gn-cart-totals__row--subtotal .gn-cart-totals__value,
+#CartDrawer .gn-cart-totals__row--discount .gn-cart-totals__label,
+#CartDrawer .gn-cart-totals__row--discount .gn-cart-totals__value {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gn-muted);
+}
+#CartDrawer .gn-cart-totals__row--discount .gn-cart-totals__label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+#CartDrawer .gn-cart-totals__discount-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+#CartDrawer .gn-cart-totals__discount-code {
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+#CartDrawer .gn-cart-totals__value--discount {
+  color: var(--gn-accent);
+  font-weight: 700;
+}
+#CartDrawer .gn-cart-totals.has-discount .gn-cart-totals__row--order {
+  border-top: 1px solid var(--gn-divider);
+  margin-top: 2px;
+  padding-top: 8px;
+}
 #CartDrawer .gn-cart-totals__ship-add {
   font-size: 0.72rem;
   font-weight: 600;
@@ -850,6 +886,39 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 }
 #CartDrawer .gn-cart-totals.is-free-shipping .gn-cart-totals__value {
   color: var(--gn-ink);
+}
+#CartDrawer .gn-cart-discount-toggle {
+  margin: 0 0 8px;
+  border-top: 0;
+  border-bottom: 1px solid var(--gn-divider);
+}
+#CartDrawer .gn-cart-discount-toggle .chm-toggle__button {
+  padding: 4px 0;
+}
+#CartDrawer .gn-cart-discount-toggle h6 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gn-muted);
+}
+#CartDrawer .gn-cart-discount-toggle .chm-toggle__content {
+  padding: 0 0 8px;
+}
+#CartDrawer .gn-cart-discount-toggle .cart-discount__form {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+#CartDrawer .gn-cart-discount-toggle .cart-discount__form .btn {
+  min-height: 40px;
+  height: 40px;
+  min-width: 84px;
+  flex: 0 0 auto;
+  font-size: 0.74rem;
+}
+#CartDrawer .gn-cart-discount-toggle .cart-discount__codes:not(:empty) {
+  margin-top: 8px;
 }
 
 /* Frequently Bought With — compact pinned strip, left-aligned with scroll arrows */
