@@ -33,13 +33,7 @@
       <div class="cart__notes__container">{{ notes }}</div>
       <div class="cart__blocks">
         <div class="cart__footer__content js-contents body3">
-          {%- if settings.show_add_discount_code -%}
-          <div class="discount-container">
-            <h6 class="mt0 mb16 cart-page__message-discount">{{ "general.cart.heading_discount" | t }}</h6>
-            {%- render "cart-discount", section_id:section.id -%}
-          </div>
-          {%- endif -%}
-          <div class="totals{% if settings.show_add_discount_code %} mt40{% endif %}">
+          <div class="totals">
             <h3 class="mt0 mb0 totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h3>
             {%- if cart.original_total_price > cart.total_price -%}
               <p class="mt0 h3 totals__subtotal-value totals__subtotal-value--sale">
@@ -63,6 +57,11 @@
                   </li>
                 {%- endfor -%}
               </ul>
+            </div>
+          {%- endif -%}
+          {%- if settings.show_add_discount_code -%}
+            <div class="discount-container gn-cart-promo mt16">
+              {%- render "cart-discount", section_id: section.id -%}
             </div>
           {%- endif -%}
 

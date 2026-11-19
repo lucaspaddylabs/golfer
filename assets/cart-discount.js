@@ -83,24 +83,27 @@ class CartDiscount extends HTMLElement {
         }
     }
     handleDynamicClick(event){
-        if (event.target.classList.contains('cart-discount__pill-remove')) {
+        const removeBtn = event.target instanceof Element
+            ? event.target.closest('.cart-discount__pill-remove')
+            : null;
+        if (removeBtn) {
             event.preventDefault();
             event.stopPropagation();
-            this.removeDiscount(event);
+            this.removeDiscount(event, removeBtn);
         }
     }
-    async removeDiscount(event){
+    async removeDiscount(event, removeBtn){
         event.preventDefault();
         event.stopPropagation();
         if (
             (event instanceof KeyboardEvent && event.key !== 'Enter') ||
             !(event instanceof MouseEvent) ||
-            !(event.target instanceof HTMLElement) ||
             typeof this.dataset.sectionId !== 'string'
         ) {
             return;
         }
-        const pill = event.target.closest('.cart-discount__pill');
+        const pill = (removeBtn || event.target).closest('.cart-discount__pill');
+        if (!pill) return;
         const discountCode = pill.dataset.discountCode;
         if (!discountCode) return;
 
