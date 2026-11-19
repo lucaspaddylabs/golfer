@@ -6,9 +6,29 @@ class CartDiscount extends HTMLElement {
         this.cartDiscountErrorShipping = this.querySelector('[ref="cartDiscountErrorShipping"]');
 
         this.form = this.querySelector('form');
-        this.addEventListener('submit', this.submitHandler.bind(this));
-        this.addEventListener('click', this.handleDynamicClick.bind(this));
+        this._onSubmit = this.submitHandler.bind(this);
+        this._onClick = this.handleDynamicClick.bind(this);
+        this.addEventListener('submit', this._onSubmit);
+        this.addEventListener('click', this._onClick);
     }
+
+    connectedCallback() {
+        this.cartDiscountError = this.querySelector('[ref="cartDiscountError"]');
+        this.cartDiscountErrorDiscountCode = this.querySelector('[ref="cartDiscountErrorDiscountCode"]');
+        this.cartDiscountErrorShipping = this.querySelector('[ref="cartDiscountErrorShipping"]');
+        this.drawer = this.closest('cart-drawer');
+        if (this.drawer) {
+            this.drawer.addEventListener('click', this._onClick);
+        }
+    }
+
+    disconnectedCallback() {
+        if (this.drawer) {
+            this.drawer.removeEventListener('click', this._onClick);
+            this.drawer = null;
+        }
+    }
+
     async submitHandler(event){
         event.preventDefault();
         event.stopPropagation();
@@ -19,15 +39,16 @@ class CartDiscount extends HTMLElement {
         const discountCode = form.querySelector('input[name="discount"]');
         if (!(discountCode instanceof HTMLInputElement) || typeof this.dataset.sectionId !== 'string') return;
 
-        const discountCodeValue = discountCode.value;
+        const discountCodeValue = discountCode.value.trim();
+        if (!discountCodeValue) return;
 
         try {
             const existingDiscounts = this.existingDiscounts();
             if (existingDiscounts.includes(discountCodeValue)) return;
 
-            this.cartDiscountError.classList.add('hidden');
-            this.cartDiscountErrorDiscountCode.classList.add('hidden');
-            this.cartDiscountErrorShipping.classList.add('hidden');
+            this.cartDiscountError?.classList.add('hidden');
+            this.cartDiscountErrorDiscountCode?.classList.add('hidden');
+            this.cartDiscountErrorShipping?.classList.add('hidden');
 
             const config = this.fetchConfig('json', {
                 body: JSON.stringify({
@@ -52,7 +73,7 @@ class CartDiscount extends HTMLElement {
             const newHtml = data.sections[this.dataset.sectionId];
             const parsedHtml = new DOMParser().parseFromString(newHtml, 'text/html');
             const section = parsedHtml.getElementById(`shopify-section-${this.dataset.sectionId}`);
-            const discountCodes = section?.querySelectorAll('.cart-discount__pill') || [];
+            const discountCodes = section?.querySelectorAll('[data-discount-code]') || [];
             if (section) {
                 const codes = Array.from(discountCodes)
                 .map((element) => (element.dataset.discountCode))
@@ -82,9 +103,10 @@ class CartDiscount extends HTMLElement {
         catch (error) {
         }
     }
+
     handleDynamicClick(event){
         const removeBtn = event.target instanceof Element
-            ? event.target.closest('.cart-discount__pill-remove')
+            ? event.target.closest('.cart-discount__pill-remove, .gn-cart-totals__discount-remove')
             : null;
         if (removeBtn) {
             event.preventDefault();
@@ -92,6 +114,7 @@ class CartDiscount extends HTMLElement {
             this.removeDiscount(event, removeBtn);
         }
     }
+
     async removeDiscount(event, removeBtn){
         event.preventDefault();
         event.stopPropagation();
@@ -102,9 +125,9 @@ class CartDiscount extends HTMLElement {
         ) {
             return;
         }
-        const pill = (removeBtn || event.target).closest('.cart-discount__pill');
-        if (!pill) return;
-        const discountCode = pill.dataset.discountCode;
+
+        const discountCode = removeBtn?.dataset?.discountCode
+            || removeBtn?.closest('[data-discount-code]')?.dataset?.discountCode;
         if (!discountCode) return;
 
         const existingDiscounts = this.existingDiscounts();
@@ -132,26 +155,30 @@ class CartDiscount extends HTMLElement {
         }
         catch (error) {
         }
-    };
+    }
 
     updateToggleTab(){
         this.closest('toggle-component')&&this.closest('toggle-component').resizeHandler();
     }
+
     existingDiscounts() {
         const discountCodes = [];
-        const discountPills = this.querySelectorAll('.cart-discount__pill');
-        for (const pill of discountPills) {
-            if (typeof pill.dataset.discountCode === 'string') {
-                discountCodes.push(pill.dataset.discountCode);
+        const scope = this.closest('cart-drawer') || this.closest('[id="main-cart-footer"]') || this;
+        const nodes = scope.querySelectorAll('[data-discount-code]');
+        for (const node of nodes) {
+            if (typeof node.dataset.discountCode === 'string' && node.dataset.discountCode) {
+                discountCodes.push(node.dataset.discountCode);
             }
         }
-        return discountCodes;
+        return [...new Set(discountCodes)];
     }
+
     handleDiscountError(type) {
         const target = type === 'discount_code' ? this.cartDiscountErrorDiscountCode : this.cartDiscountErrorShipping;
-        this.cartDiscountError.classList.remove('hidden');
-        target.classList.remove('hidden');
+        this.cartDiscountError?.classList.remove('hidden');
+        target?.classList.remove('hidden');
     }
+
     fetchConfig(type = 'json', config = {}) {
         const headers = { 'Content-Type': 'application/json', Accept: `application/${type}`, ...config.headers };
         if (type === 'javascript') {
