@@ -130,22 +130,23 @@ component-swiper-slider.css
                 <div class="drawer__cart-items-wrapper">
                   {%- for item in cart.items -%}
                   {%- liquid
-                    # Match PDP Buy More Save More: was = compare-at × qty, SAVE = was − final pay.
+                    # Match PDP: round compare-at at the unit ($61.25 → $60.95), then × qty.
+                    # Do not re-round the line save or Buy 2 becomes SAVE $46 instead of $45.
                     assign cart_item_pay = item.final_line_price
+                    assign cart_item_unit_display = item.original_price
                     assign cart_item_compare_unit = item.variant.compare_at_price
                     if cart_item_compare_unit == blank or cart_item_compare_unit <= item.original_price
                       assign cart_item_compare_unit = item.original_price
+                    endif
+                    if cart_item_compare_unit > item.original_price
+                      assign cart_unit_save = cart_item_compare_unit | minus: item.original_price | plus: 50 | divided_by: 100 | times: 100
+                      assign cart_item_compare_unit = item.original_price | plus: cart_unit_save
                     endif
                     assign cart_item_compare_line = cart_item_compare_unit | times: item.quantity
                     assign cart_item_save = cart_item_compare_line | minus: cart_item_pay
                     if cart_item_save < 0
                       assign cart_item_save = 0
                     endif
-                    # Round SAVE badges to whole dollars (e.g. $15.30 → $15.00)
-                    if cart_item_save > 0 and cart_item_pay > 0
-                      assign cart_item_save = cart_item_save | plus: 50 | divided_by: 100 | times: 100
-                    endif
-                    assign cart_item_unit_display = item.original_price
                     if cart_item_pay == 0
                       assign cart_item_unit_display = 0
                     endif
