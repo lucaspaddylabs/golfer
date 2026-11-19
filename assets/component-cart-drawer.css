@@ -854,25 +854,32 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   gap: 6px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: var(--gn-muted);
+  color: #c62828;
   letter-spacing: 0.01em;
 }
 #CartDrawer .gn-cart-totals__discount-text {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#CartDrawer .gn-cart-totals__discount-name {
+  font-weight: 600;
 }
 #CartDrawer .gn-cart-totals__discount-remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
   width: 16px;
   height: 16px;
   padding: 0;
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: var(--gn-muted);
+  color: #c62828;
   cursor: pointer;
-  opacity: 0.55;
+  opacity: 0.65;
 }
 #CartDrawer .gn-cart-totals__discount-remove svg {
   width: 10px;
@@ -881,13 +888,12 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 }
 #CartDrawer .gn-cart-totals__discount-remove:hover {
   opacity: 1;
-  color: var(--gn-ink);
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(198, 40, 40, 0.08);
 }
 #CartDrawer .gn-cart-totals__value--discount {
   font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--gn-accent);
+  font-weight: 700;
+  color: #c62828;
 }
 #CartDrawer .gn-cart-totals.has-discount .gn-cart-totals__row--order {
   margin-top: 2px;
