@@ -807,13 +807,16 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 #CartDrawer .gn-cart-totals {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 4px;
+  width: 100%;
 }
 #CartDrawer .gn-cart-totals__row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
 }
 #CartDrawer .gn-cart-totals__label,
 #CartDrawer .gn-cart-totals__value,
