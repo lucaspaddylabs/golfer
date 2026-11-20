@@ -887,13 +887,14 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
 #CartDrawer .gn-cart-totals__savings-detail {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 2px 0 2px 12px;
+  gap: 1px;
+  padding: 4px 0 2px 22px;
 }
 #CartDrawer .gn-cart-totals__row--detail .gn-cart-totals__label,
 #CartDrawer .gn-cart-totals__row--detail .gn-cart-totals__value {
-  font-size: 0.72rem;
-  font-weight: 500;
+  font-size: 0.66rem;
+  font-weight: 450;
+  line-height: 1.35;
   color: var(--gn-muted);
 }
 #CartDrawer .gn-cart-totals.has-discount .gn-cart-totals__row--order {
