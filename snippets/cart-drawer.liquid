@@ -404,13 +404,13 @@ component-swiper-slider.css
                             <span class="gn-cart-totals__value">−{{ product_savings | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                           </div>
                         {%- endif -%}
+                        {%- if code_discount_total > 0 -%}
+                          <div class="gn-cart-totals__row gn-cart-totals__row--detail">
+                            <span class="gn-cart-totals__label">Bundle Discount</span>
+                            <span class="gn-cart-totals__value">−{{ code_discount_total | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                          </div>
+                        {%- endif -%}
                         {%- for discount in cart.cart_level_discount_applications -%}
-                          {%- if discount.total_allocated_amount > 0 -%}
-                            <div class="gn-cart-totals__row gn-cart-totals__row--detail">
-                              <span class="gn-cart-totals__label">{{ discount.title | escape }}</span>
-                              <span class="gn-cart-totals__value">−{{ discount.total_allocated_amount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                            </div>
-                          {%- endif -%}
                           {%- if discount.title != blank -%}
                             <span class="visually-hidden" data-discount-code="{{ discount.title | escape }}"></span>
                           {%- endif -%}
