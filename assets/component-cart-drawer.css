@@ -852,6 +852,9 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   color: var(--gn-muted);
 }
 #CartDrawer .gn-cart-totals__row--discount .gn-cart-totals__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 0.8rem;
   font-weight: 500;
   color: #c62828;
@@ -861,6 +864,37 @@ cart-drawer .chm-toggle[open].toggle-opening .chm-toggle__content{
   font-size: 0.8rem;
   font-weight: 700;
   color: #c62828;
+}
+#CartDrawer .gn-cart-totals__savings {
+  width: 100%;
+}
+#CartDrawer .gn-cart-totals__savings-summary {
+  list-style: none;
+  cursor: pointer;
+}
+#CartDrawer .gn-cart-totals__savings-summary::-webkit-details-marker,
+#CartDrawer .gn-cart-totals__savings-summary::marker {
+  display: none;
+}
+#CartDrawer .gn-cart-totals__chevron {
+  flex: 0 0 auto;
+  color: #c62828;
+  transition: transform 0.18s ease;
+}
+#CartDrawer .gn-cart-totals__savings:not([open]) .gn-cart-totals__chevron {
+  transform: rotate(-90deg);
+}
+#CartDrawer .gn-cart-totals__savings-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0 2px 12px;
+}
+#CartDrawer .gn-cart-totals__row--detail .gn-cart-totals__label,
+#CartDrawer .gn-cart-totals__row--detail .gn-cart-totals__value {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gn-muted);
 }
 #CartDrawer .gn-cart-totals.has-discount .gn-cart-totals__row--order {
   margin-top: 2px;

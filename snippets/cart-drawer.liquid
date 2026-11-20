@@ -340,7 +340,8 @@ component-swiper-slider.css
             assign order_total_with_shipping = cart.total_price | plus: estimated_shipping_cents
             comment
               Subtotal = rounded unit compare-at × qty across the cart.
-              Discount Extra = that compare-at total minus what the customer pays.
+              Total Saving = that compare-at total minus what the customer pays.
+              Breakdown: product savings (list → pre-code) + cart-level codes.
             endcomment
             assign cart_compare_subtotal = 0
             for item in cart.items
@@ -359,9 +360,21 @@ component-swiper-slider.css
             if cart_total_discount < 0
               assign cart_total_discount = 0
             endif
+            assign product_savings = cart_compare_subtotal | minus: cart.items_subtotal_price
+            if product_savings < 0
+              assign product_savings = 0
+            endif
+            assign code_discount_total = 0
+            for discount in cart.cart_level_discount_applications
+              assign code_discount_total = code_discount_total | plus: discount.total_allocated_amount
+            endfor
             assign show_order_discount = false
             if cart_total_discount > 0
               assign show_order_discount = true
+            endif
+            assign show_savings_detail = false
+            if product_savings > 0 or code_discount_total > 0
+              assign show_savings_detail = true
             endif
           -%}
 
@@ -373,15 +386,43 @@ component-swiper-slider.css
                     <span class="gn-cart-totals__label">Subtotal</span>
                     <span class="gn-cart-totals__value">{{ cart_compare_subtotal | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
                   </div>
-                  <div class="gn-cart-totals__row gn-cart-totals__row--discount">
-                    <span class="gn-cart-totals__label">Total Saving</span>
-                    <span class="gn-cart-totals__value gn-cart-totals__value--discount">−{{ cart_total_discount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
-                  </div>
-                  {%- for discount in cart.cart_level_discount_applications -%}
-                    {%- if discount.title != blank -%}
-                      <span class="visually-hidden" data-discount-code="{{ discount.title | escape }}"></span>
-                    {%- endif -%}
-                  {%- endfor -%}
+                  {%- if show_savings_detail -%}
+                    <details class="gn-cart-totals__savings" open>
+                      <summary class="gn-cart-totals__row gn-cart-totals__row--discount gn-cart-totals__savings-summary">
+                        <span class="gn-cart-totals__label">
+                          Total Saving
+                          <svg class="gn-cart-totals__chevron" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
+                            <path d="M2.2 3.6 5 6.4l2.8-2.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        <span class="gn-cart-totals__value gn-cart-totals__value--discount">−{{ cart_total_discount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                      </summary>
+                      <div class="gn-cart-totals__savings-detail">
+                        {%- if product_savings > 0 -%}
+                          <div class="gn-cart-totals__row gn-cart-totals__row--detail">
+                            <span class="gn-cart-totals__label">Product savings</span>
+                            <span class="gn-cart-totals__value">−{{ product_savings | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                          </div>
+                        {%- endif -%}
+                        {%- for discount in cart.cart_level_discount_applications -%}
+                          {%- if discount.total_allocated_amount > 0 -%}
+                            <div class="gn-cart-totals__row gn-cart-totals__row--detail">
+                              <span class="gn-cart-totals__label">{{ discount.title | escape }}</span>
+                              <span class="gn-cart-totals__value">−{{ discount.total_allocated_amount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                            </div>
+                          {%- endif -%}
+                          {%- if discount.title != blank -%}
+                            <span class="visually-hidden" data-discount-code="{{ discount.title | escape }}"></span>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    </details>
+                  {%- else -%}
+                    <div class="gn-cart-totals__row gn-cart-totals__row--discount">
+                      <span class="gn-cart-totals__label">Total Saving</span>
+                      <span class="gn-cart-totals__value gn-cart-totals__value--discount">−{{ cart_total_discount | money | replace: 'US$', '$' | replace: 'US $', '$' }}</span>
+                    </div>
+                  {%- endif -%}
                 {%- endif -%}
                 <div class="gn-cart-totals__row gn-cart-totals__row--order">
                   <span class="gn-cart-totals__label">Total</span>
