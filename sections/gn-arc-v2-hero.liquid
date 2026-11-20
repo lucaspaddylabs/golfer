@@ -314,7 +314,7 @@
   .gn-v2h__trust-item .gn-trust-icon svg { width: 100%; height: 100%; }
   .gn-v2h__hint { margin: 0 0 8px; font-size: 0.85rem; color: #8a2a1f; }
 
-  /* Sticky ATC — all breakpoints; slides up once main CTA scrolls out */
+  /* Sticky ATC — always on mobile; desktop slides up once main CTA scrolls out */
   .gn-v2h__sticky {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
     display: flex; gap: 16px; align-items: center; justify-content: space-between;
@@ -330,6 +330,12 @@
     pointer-events: none;
   }
   .gn-v2h__sticky.is-visible { transform: translateY(0); pointer-events: auto; }
+  @media (max-width: 749px) {
+    .gn-v2h__sticky {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
   body.overflow-hidden .gn-v2h__sticky { display: none; }
   .gn-v2h__sticky-meta { min-width: 0; }
   .gn-v2h__sticky-price { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
@@ -1486,8 +1492,9 @@
     form.addEventListener('submit', (e) => { e.preventDefault(); addToCart(); });
     if (stickyBtn) stickyBtn.addEventListener('click', addToCart);
 
-    /* ---------- Sticky bar: show once the main button leaves the viewport ---------- */
-    if (sticky && 'IntersectionObserver' in window) {
+    /* ---------- Sticky bar: always on mobile; desktop once main CTA scrolls away ---------- */
+    if (sticky) {
+      const isMobileSticky = () => window.matchMedia('(max-width: 749px)').matches;
       const setSticky = (visible) => {
         sticky.classList.toggle('is-visible', visible);
         sticky.setAttribute('aria-hidden', String(!visible));
@@ -1500,16 +1507,25 @@
           document.documentElement.style.removeProperty('--gn-v2h-sticky-offset');
         }
       };
-      window.addEventListener('resize', () => {
-        if (sticky.classList.contains('is-visible')) setSticky(true);
-      });
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const above = entry.boundingClientRect.top < 0;
-          setSticky(!entry.isIntersecting && above);
-        });
-      }, { threshold: 0 });
-      io.observe(submit);
+      const syncSticky = () => {
+        if (isMobileSticky()) {
+          setSticky(true);
+          return;
+        }
+        if (!submit) {
+          setSticky(false);
+          return;
+        }
+        const rect = submit.getBoundingClientRect();
+        setSticky(rect.bottom <= 0);
+      };
+      window.addEventListener('resize', syncSticky);
+      window.addEventListener('scroll', syncSticky, { passive: true });
+      if ('IntersectionObserver' in window && submit) {
+        const io = new IntersectionObserver(() => syncSticky(), { threshold: 0 });
+        io.observe(submit);
+      }
+      syncSticky();
     }
 
     refresh();
@@ -1572,7 +1588,7 @@
     { "type": "text", "id": "adding_text", "label": "Adding text", "default": "Adding..." },
     { "type": "text", "id": "sold_out_text", "label": "Sold out text", "default": "Sold out" },
     { "type": "text", "id": "error_text", "label": "Generic error text", "default": "Could not add to cart. Try again." },
-    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to cart when main CTA scrolls away", "default": true },
+    { "type": "checkbox", "id": "show_sticky_atc", "label": "Show sticky add to cart (always on mobile; when CTA scrolls away on desktop)", "default": true },
 
     { "type": "header", "content": "Delivery estimate" },
     { "type": "checkbox", "id": "show_delivery", "label": "Show delivery estimate", "default": true },
