@@ -2576,6 +2576,52 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "yy2528grb0");
     </script>
+    {%- comment -%} Force Variant C sticky ATC always visible on mobile (survives section sync lag). {%- endcomment -%}
+    <style id="gn-v2h-sticky-always">
+      @media (max-width: 900px) {
+        .gn-v2h__sticky,
+        body > .gn-v2h__sticky[data-gn-sticky] {
+          transform: translateY(0) !important;
+          pointer-events: auto !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+        body.overflow-hidden .gn-v2h__sticky,
+        body.overflow-hidden > .gn-v2h__sticky[data-gn-sticky] {
+          display: none !important;
+        }
+      }
+    </style>
+    <script>
+      (() => {
+        const MOBILE = '(max-width: 900px)';
+        const forceSticky = () => {
+          const sticky = document.querySelector('.gn-v2h__sticky[data-gn-sticky], .gn-v2h__sticky');
+          if (!sticky) return;
+          if (document.body.classList.contains('overflow-hidden')) return;
+          if (!window.matchMedia(MOBILE).matches) return;
+          sticky.classList.add('is-visible');
+          sticky.setAttribute('aria-hidden', 'false');
+          const btn = sticky.querySelector('[data-gn-sticky-button]');
+          if (btn) btn.tabIndex = 0;
+          sticky.style.setProperty('transform', 'translateY(0)', 'important');
+          sticky.style.setProperty('pointer-events', 'auto', 'important');
+          document.body.classList.add('gn-v2h-sticky-pad');
+          const h = Math.ceil(sticky.getBoundingClientRect().height) || 64;
+          document.documentElement.style.setProperty('--gn-v2h-sticky-offset', h + 'px');
+        };
+        const boot = () => {
+          forceSticky();
+          window.addEventListener('resize', forceSticky);
+          window.addEventListener('scroll', forceSticky, { passive: true });
+          if (window.MutationObserver) {
+            new MutationObserver(forceSticky).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+          }
+        };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+        else boot();
+      })();
+    </script>
   </head>
 
   <body{% if request.design_mode %} data-supportcode="{{ settings.supportcode }}"{% endif %}>        
