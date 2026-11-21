@@ -315,8 +315,9 @@
   .gn-v2h__hint { margin: 0 0 8px; font-size: 0.85rem; color: #8a2a1f; }
 
   /* Sticky ATC — always on mobile; desktop slides up once main CTA scrolls out */
-  .gn-v2h__sticky {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+  .gn-v2h__sticky,
+  body > .gn-v2h__sticky[data-gn-sticky] {
+    position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 90 !important;
     display: flex; gap: 16px; align-items: center; justify-content: space-between;
     width: 100%; box-sizing: border-box;
     padding:
@@ -324,19 +325,25 @@
       max(24px, env(safe-area-inset-right, 0px), calc((100% - 1100px) / 2))
       calc(12px + env(safe-area-inset-bottom, 0px))
       max(24px, env(safe-area-inset-left, 0px), calc((100% - 1100px) / 2));
-    background: var(--gn-card); border-top: 1px solid var(--gn-border);
+    background: var(--gn-card, #fff); border-top: 1px solid var(--gn-border, #e5e5e5);
     box-shadow: 0 -8px 24px rgba(11, 28, 18, 0.08);
     transform: translateY(110%); transition: transform 0.22s ease;
     pointer-events: none;
   }
-  .gn-v2h__sticky.is-visible { transform: translateY(0); pointer-events: auto; }
-  @media (max-width: 749px) {
-    .gn-v2h__sticky {
-      transform: translateY(0);
-      pointer-events: auto;
+  .gn-v2h__sticky.is-visible,
+  body > .gn-v2h__sticky[data-gn-sticky].is-visible {
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+  }
+  @media (max-width: 900px) {
+    .gn-v2h__sticky,
+    body > .gn-v2h__sticky[data-gn-sticky] {
+      transform: translateY(0) !important;
+      pointer-events: auto !important;
     }
   }
-  body.overflow-hidden .gn-v2h__sticky { display: none; }
+  body.overflow-hidden .gn-v2h__sticky,
+  body.overflow-hidden > .gn-v2h__sticky[data-gn-sticky] { display: none !important; }
   .gn-v2h__sticky-meta { min-width: 0; }
   .gn-v2h__sticky-price { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
   .gn-v2h__sticky-name { display: block; font-size: 0.78rem; font-weight: 600; color: var(--gn-muted); white-space: normal; overflow: visible; }
@@ -1021,13 +1028,13 @@
   </div>
 
   {%- if section.settings.show_sticky_atc -%}
-    <div class="gn-v2h__sticky" data-gn-sticky aria-hidden="true">
+    <div class="gn-v2h__sticky is-visible" data-gn-sticky aria-hidden="false">
       <div class="gn-v2h__sticky-meta">
         <span class="gn-v2h__sticky-price" data-gn-sticky-price>{{ initial_price | money }}</span>
         <span class="gn-v2h__sticky-name" data-gn-sticky-name>{{ initial_label | escape }}</span>
         <span class="gn-v2h__sticky-note" data-gn-sticky-note hidden>Free shipping</span>
       </div>
-      <button class="gn-v2h__cta" type="button" data-gn-sticky-button tabindex="-1">
+      <button class="gn-v2h__cta" type="button" data-gn-sticky-button tabindex="0">
         <span data-gn-sticky-label>{{ section.settings.add_to_cart_text }}</span>
       </button>
     </div>
@@ -1494,20 +1501,39 @@
 
     /* ---------- Sticky bar: always on mobile; desktop once main CTA scrolls away ---------- */
     if (sticky) {
-      const isMobileSticky = () => window.matchMedia('(max-width: 749px)').matches;
+      const copyStickyVars = () => {
+        const styles = getComputedStyle(root);
+        [
+          '--gn-bg', '--gn-card', '--gn-ink', '--gn-muted', '--gn-green',
+          '--gn-forest', '--gn-mid', '--gn-pale', '--gn-soft', '--gn-gold', '--gn-border'
+        ].forEach((name) => {
+          const value = styles.getPropertyValue(name);
+          if (value) sticky.style.setProperty(name, value);
+        });
+      };
+      copyStickyVars();
+      if (sticky.parentElement !== document.body) {
+        document.body.appendChild(sticky);
+      }
+
+      const isMobileSticky = () => window.matchMedia('(max-width: 900px)').matches;
       const setSticky = (visible) => {
         sticky.classList.toggle('is-visible', visible);
         sticky.setAttribute('aria-hidden', String(!visible));
         if (stickyBtn) stickyBtn.tabIndex = visible ? 0 : -1;
         document.body.classList.toggle('gn-v2h-sticky-pad', visible);
         if (visible) {
-          const h = Math.ceil(sticky.getBoundingClientRect().height);
+          const h = Math.ceil(sticky.getBoundingClientRect().height) || 64;
           document.documentElement.style.setProperty('--gn-v2h-sticky-offset', h + 'px');
         } else {
           document.documentElement.style.removeProperty('--gn-v2h-sticky-offset');
         }
       };
       const syncSticky = () => {
+        if (document.body.classList.contains('overflow-hidden')) {
+          setSticky(false);
+          return;
+        }
         if (isMobileSticky()) {
           setSticky(true);
           return;
@@ -1521,10 +1547,14 @@
       };
       window.addEventListener('resize', syncSticky);
       window.addEventListener('scroll', syncSticky, { passive: true });
+      if (window.matchMedia) {
+        window.matchMedia('(max-width: 900px)').addEventListener('change', syncSticky);
+      }
       if ('IntersectionObserver' in window && submit) {
         const io = new IntersectionObserver(() => syncSticky(), { threshold: 0 });
         io.observe(submit);
       }
+      setSticky(isMobileSticky());
       syncSticky();
     }
 
