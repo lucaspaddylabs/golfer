@@ -1,0 +1,177 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "gp_section_647487375865283446": {
+      "settings": {
+        "checksum": "f72696aef6503a11e1e478617c2f4741360b1788a2e36e2e580c9a360b71782b_1_1_1_0__1",
+        "ggB2Arrow01_text": "<p><span>➜</span><span>➜</span><span>➜</span></p>",
+        "ggB2Btn0001_label": "<p><strong>BUY NOW</strong></p>",
+        "ggB2Cd00001_dayLabel": "Day",
+        "ggB2Cd00001_hourLabel": "Hour",
+        "ggB2Cd00001_minuteLabel": "min",
+        "ggB2Cd00001_secondLabel": "sec",
+        "ggB2Cd00001_weekLabel": "Week",
+        "ggB2Tx00001_text": "<p><span style=\"background-color:#B5813A;color:#0E0E0E;font-size:12px;letter-spacing:2px\"><strong>&nbsp;BLACK FRIDAY&nbsp;</strong></span>&nbsp; <strong>Buy more, save up to $75.90</strong></p><p><span style=\"color:#E0B062;font-size:14px;letter-spacing:1px\">★★★★★</span><span style=\"color:#C9C3B6;font-size:13px\"> 4.8 · 10,000+ sold · 30-day money-back guarantee</span></p>"
+      },
+      "type": "gp-section-647487375865283446"
+    },
+    "gp_section_647487375865348982": {
+      "settings": {
+        "checksum": "a581da8db01f76f2f2f0a799dce7df38500c7945cba6f337bea408af0ee6a9d7_1_1_1_0__1",
+        "ggEI6YVxD8A_text": "<p>A pocket-size click trainer that tells you, on every single swing, whether you let the club go too early. Here’s what it does well — and where it won’t help.</p>",
+        "ggHJCHahAZ1_text": "<p>— GEAR GUIDE · TRAINING AIDS</p>",
+        "ggSLENtW9mX_text": "<p>Left: early release. Right: holding lag into impact.</p>",
+        "gggWGBPwFMA_alt": "Early release versus holding lag at impact",
+        "gggWGBPwFMA_srcSet_desktop_src": "https://www.golf-reviews.com/assets/before-after.webp",
+        "ggq8g8rJ2Bw_text": "<p><strong>Golfer Now Team</strong> · 9 min read</p>",
+        "ggwSeRluabx_text": "The 10-minute garage drill that’s quietly reshaping <span style=\"color:#22332A\"><i>weekend</i></span> amateur swings."
+      },
+      "type": "gp-section-647487375865348982"
+    },
+    "gp_section_647487375865414518": {
+      "settings": {
+        "checksum": "418ddb5818549cf6a1e2baba31d0a83522c993eaef5f3f28d14f7b9d12ea2b4f_1_1_1_0__1",
+        "ggA1Brand01_text": "<u>Golfer Now</u>",
+        "ggA1Tag0001_text": "<p>ADVERTORIAL</p>",
+        "section_preload": "true"
+      },
+      "type": "gp-section-647487375865414518"
+    },
+    "gp_section_647487375865480054": {
+      "settings": {
+        "checksum": "7dca3147baf9fb46360898c34ad57b644fa72ad47cd2692f6744505b9af1f2a8_1_1_1_0__1",
+        "ggA2By00001_text": "<p><strong>Golfer Now Team</strong> · 9 min read</p>",
+        "ggA2Cap0001_text": "<p>Left: early release. Right: holding lag into impact.</p>",
+        "ggA2Dek0001_text": "<p>A pocket-size click trainer that tells you, on every single swing, whether you let the club go too early. Here’s what it does well — and where it won’t help.</p>",
+        "ggA2H10001_text": "The 5-minute home drill that’s quietly reshaping <span style=\"color:#22332A\"><i>weekend</i></span> amateur swings.",
+        "ggA2Img0001_alt": "Early release versus holding lag at impact",
+        "ggA2Img0001_srcSet_desktop_src": "https://www.golf-reviews.com/assets/before-after.webp",
+        "ggA2Kick001_text": "<p>— GEAR GUIDE · TRAINING AIDS</p>"
+      },
+      "type": "gp-section-647487375865480054"
+    },
+    "gp_section_647487375865545590": {
+      "settings": {
+        "checksum": "f69557f6fbf4477ba23454bb56a2771a21e49b0b3fbdf35bf9cf7467e7516f47_1_1_1_0__1",
+        "ggA5H30001_text": "A pocket-size telescoping shaft with a weighted head.",
+        "ggA5Img0001_alt": "ARC ONE compact and extended lengths compared",
+        "ggA5Img0001_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/07a37c0d-134a-4601-ab39-c54a20b7353f.png?v=1787152761",
+        "ggA5Lab0001_text": "<p>THE OBJECT ITSELF</p>",
+        "ggA5Spec001_text": "<p><span style=\"color:#C9C3B6;font-size:11px;letter-spacing:1.5px\">STOWED</span><br>15.2 in (38.5 cm) · fits in your golf bag</p><hr style=\"border:0;border-top:1px solid #3E5146\"><p><span style=\"color:#C9C3B6;font-size:11px;letter-spacing:1.5px\">EXTENDED</span><br>25.6 in (65 cm) for training</p><hr style=\"border:0;border-top:1px solid #3E5146\"><p><span style=\"color:#C9C3B6;font-size:11px;letter-spacing:1.5px\">BUILD</span><br>Stainless steel shaft, resin head, rubber grip</p><hr style=\"border:0;border-top:1px solid #3E5146\"><p><span style=\"color:#C9C3B6;font-size:11px;letter-spacing:1.5px\">SIGNAL</span><br>Audible click when you release</p><hr style=\"border:0;border-top:1px solid #3E5146\"><p><span style=\"color:#C9C3B6;font-size:11px;letter-spacing:1.5px\">SETUP</span><br>No app, no batteries, no subscription</p>"
+      },
+      "type": "gp-section-647487375865545590"
+    },
+    "gp_section_647487375865611126": {
+      "settings": {
+        "checksum": "5bf747aadbac25753d9269189635a68be2841042e8f49c441121a573c517e391_1_1_1_0__1",
+        "ggA8H20001_text": "<span style=\"color:#B5813A;font-size:18px;font-weight:400\">04</span> What golfers say",
+        "ggA8Img0001_alt": "A golfer smiling after a clean swing with the ARC ONE in hand",
+        "ggA8Img0001_srcSet_desktop_src": "https://stefanbrain.com/s/pro-swing-click-trainer/~r/5b9258a9-c62e-407c-8d21-023ce47ea78b/steps/s1/img/way-7.jpg",
+        "ggA8Lab0001_text": "<p>— FROM OUR CUSTOMERS</p>",
+        "ggA8Rv00001_text": "<p><span style=\"color:#B5813A;font-size:16px;letter-spacing:2px\">★★★★★</span></p><p>Dropped four shots off my handicap in three weeks. Didn’t change anything else. Just started releasing when the click told me to.</p><p><span style=\"font-family:Inter,sans-serif;font-size:13px;color:#6B6B6B\">Rob K. · Phoenix, AZ · 9 Hcp</span></p>",
+        "ggA8Rv00002_text": "<p><span style=\"color:#B5813A;font-size:16px;letter-spacing:2px\">★★★★★</span></p><p>My ball striking went from embarrassing to the best it’s been in ten years. All from ten minutes a day in the garage.</p><p><span style=\"font-family:Inter,sans-serif;font-size:13px;color:#6B6B6B\">Steve M. · Sydney, NSW · 18 Hcp</span></p>",
+        "ggA8Rv00003_text": "<p><span style=\"color:#B5813A;font-size:16px;letter-spacing:2px\">★★★★★</span></p><p>First training aid I’ve bought that actually told me something useful. The click doesn’t lie.</p><p><span style=\"font-family:Inter,sans-serif;font-size:13px;color:#6B6B6B\">Craig B. · Denver, CO · 13 Hcp</span></p>",
+        "ggA8Rv00004_text": "<p><span style=\"color:#B5813A;font-size:16px;letter-spacing:2px\">★★★★★</span></p><p>Finally understand what holding lag actually feels like. My pro’s been telling me for years — this showed me in one session.</p><p><span style=\"font-family:Inter,sans-serif;font-size:13px;color:#6B6B6B\">Dan R. · Austin, TX · 14 Hcp</span></p>"
+      },
+      "type": "gp-section-647487375865611126"
+    },
+    "gp_section_647487375865676662": {
+      "settings": {
+        "checksum": "66fa647840ce5f6226e4a4be04dd9bc33d5b415fe85ec1729c7ad24fd3f72f55_1_1_1_0__1",
+        "ggA3Quote01_text": "<p><i>“The click doesn’t lie.”</i> <span style=\"font-family:Inter,sans-serif;font-size:13px;font-style:normal;color:#6B6B6B\">— Craig B., 13 Hcp</span></p>",
+        "ggA3Star001_text": "<p>★★★★★</p>",
+        "ggA3Trust01_text": "<p><span style=\"color:#2F7A3F\"><strong>✓</strong></span> 30-day money-back guarantee &nbsp;&nbsp;&nbsp; <span style=\"color:#2F7A3F\"><strong>✓</strong></span> Free shipping on 2+ &nbsp;&nbsp;&nbsp; <span style=\"color:#2F7A3F\"><strong>✓</strong></span> Ships worldwide</p>",
+        "ggA3Txt0001_text": "<p><strong>Rated 4.8 by ARC ONE customers</strong> · 10,000+ sold</p>"
+      },
+      "type": "gp-section-647487375865676662"
+    },
+    "gp_section_647487375865742198": {
+      "settings": {
+        "checksum": "660b31a938305bec454ec180f1e8c7c1df421cae437c6f9f7cce837afdc10b33_1_1_1_0__1",
+        "ggA7H20001_text": "<span style=\"color:#B5813A;font-size:18px;font-weight:400\">03</span> Ten minutes a day, anywhere in the house",
+        "ggA7StT0001_text": "<p><span style=\"font-family:'Source Serif 4',serif;font-size:42px;color:#22332A\"><strong>10</strong></span></p><p>MINUTES A DAY</p>",
+        "ggA7StT0002_text": "<p><span style=\"font-family:'Source Serif 4',serif;font-size:42px;color:#22332A\"><strong>0</strong></span></p><p>BALLS, APPS OR BATTERIES</p>",
+        "ggA7StT0003_text": "<p><span style=\"font-family:'Source Serif 4',serif;font-size:42px;color:#22332A\"><strong>15.2\"</strong></span></p><p>FOLDED, FITS YOUR BAG</p>",
+        "ggA7TxA0001_text": "<p>The routine is simple. Ten minutes a day. No balls, no net, no new clubs, no tweaks to your setup. Just the trainer, in whatever corner of the house you have space — then five swings before you leave for the course.</p>",
+        "ggA7TxB0001_text": "<p>Results vary from golfer to golfer. But the first real <i>click</i> at the ball is usually the moment something clicks in your head, too.</p>"
+      },
+      "type": "gp-section-647487375865742198"
+    },
+    "gp_section_647487375865807734": {
+      "settings": {
+        "checksum": "593c5e2f487c42b64fac6c67563860f320e821aa7dde3e2fc39243d60d8c9c71_1_1_1_0__1",
+        "ggA4H20001_text": "<span style=\"color:#B5813A;font-size:18px;font-weight:400\">01</span> The click tells you the truth before your body has time to lie",
+        "ggA4Qt00001_text": "<p><i>“You don’t learn the swing. You learn what the click feels like — and then your body quietly arranges itself around producing it.”</i></p>",
+        "ggA4TxA0001_text": "<p><span style=\"font-size:64px;line-height:0.9;color:#22332A\"><strong>Y</strong></span>ou’ve taken lessons. You’ve bought the video app. You’ve filmed yourself in slow motion. And the same flaw keeps showing up: you let the club go from the top, and the ball comes off the face weak and drifting.</p><p>&nbsp;</p><p>Most training aids end up in a bin labeled <i>good idea, bad execution</i>. They look great in the marketing and do nothing on the range.</p><p>&nbsp;</p><p>ARC ONE is different, and here’s why without the usual gushing. It isn’t magic. It’s feedback. But the <i>kind</i> of feedback matters more than almost anyone talks about.</p>",
+        "ggA4TxB0001_text": "<p>Think back to your last lesson. Your coach watched you swing and told you what you did wrong. By the time the words reached your ears, your body had already moved on and filed that rep away as normal.</p><p>&nbsp;</p><p>Feedback that lands two seconds after the swing trains almost nothing. It’s a diagnosis, not a correction.</p><p>&nbsp;</p><p>ARC ONE talks back in real time. A weighted mechanism inside the shaft clicks the moment you release. Click near the top? You cast it. Click at the ball? That’s lag — and that’s the sound you’re chasing.</p>",
+        "ggA4TxC0001_text": "<p>That immediacy is the whole point. Your body gets the signal while the movement is still happening, which is exactly when muscle memory forms. Not what good timing looks like on video. What it <i>feels like</i>.</p>"
+      },
+      "type": "gp-section-647487375865807734"
+    },
+    "gp_section_647487375865873270": {
+      "settings": {
+        "checksum": "123b8085e0947b8f64cc518038b0df5fa8725340cb726f62186b49f35100bab3_1_1_1_0__1",
+        "ggA6Aft0001_text": "<p><span style=\"background-color:#D9E6DC;color:#22332A;font-size:11px;letter-spacing:1.5px\"><strong>&nbsp;AFTER&nbsp;</strong></span></p><p><span style=\"font-family:'Source Serif 4',serif;font-size:19px\"><strong>What the click trains, session after session</strong></span></p><p>✓ Holding lag through the bottom of the swing</p><p>✓ More compressed, consistent ball striking</p><p>✓ Straighter flight, tighter dispersion</p><p>✓ More solid strikes with the same effort</p>",
+        "ggA6Bef0001_text": "<p><span style=\"background-color:#F0D9D3;color:#8A3B2A;font-size:11px;letter-spacing:1.5px\"><strong>&nbsp;BEFORE&nbsp;</strong></span></p><p><span style=\"font-family:'Source Serif 4',serif;font-size:19px\"><strong>What early release costs you</strong></span></p><p>— Casting the club from the top of the downswing</p><p>— Weak impact, thin and fat contact</p><p>— Ball flight that drifts right (for right-handers)</p><p>— Lost carry with the driver</p>",
+        "ggA6H20001_text": "<span style=\"color:#B5813A;font-size:18px;font-weight:400\">02</span> What it fixes, specifically",
+        "ggA6OffB001_label": "<p>See today’s offer →</p>",
+        "ggA6OffT001_text": "<p><span style=\"color:#B5813A\"><strong>25% off</strong></span> plus free shipping on $50+ orders.</p>",
+        "ggA6TxA0001_text": "<p>Most amateur golfers fight one of two timing problems. They release too early (the dreaded casting motion), or they hang on too long and block the face open. Both produce the same outcome: weak contact, lost distance, and a ball that never quite goes where you aimed it.</p><p>&nbsp;</p><p>ARC ONE cuts through the vocabulary. You don’t need to memorize what <i>lag</i> feels like or study frame-by-frame video. You just swing until the click shows up at the ball. Then you swing again and make it show up in the same place.</p>",
+        "ggA6TxB0001_text": "<p>It’s worth saying the quiet part out loud: this isn’t new physics. Coaches have taught lag and release timing for a hundred years. What’s new is feeling it happen in your own hands without paying for a studio session.</p>"
+      },
+      "type": "gp-section-647487375865873270"
+    },
+    "gp_section_647487375865938806": {
+      "settings": {
+        "checksum": "400fe82eab622c344bdbea296e59b2ae5076965f4701215286311c81fb0fd716_1_1_1_0__1",
+        "ggB1Cpy0001_text": "<p>© 2026 Golfer Now</p>",
+        "ggB1Dis0001_text": "<p><strong>Disclosure.</strong> This article is an advertisement from Golfer Now, the maker of ARC ONE. Reviews are from Golfer Now customers. Results vary. ARC ONE is not a medical or therapeutic device.</p>"
+      },
+      "type": "gp-section-647487375865938806"
+    },
+    "gp_section_647487375866004342": {
+      "settings": {
+        "checksum": "ac81246ede57626bf04a474061152db7533956193b4042f0798c1239bc7ac920_1_1_1_0__1",
+        "ggA9H20001_text": "<span style=\"color:#B5813A;font-size:18px;font-weight:400\">05</span> Where it won’t help",
+        "ggA9Tx00001_text": "<p>It is not a simulator and it is not a coach. If you’ve never held a golf club before, take a lesson first. ARC ONE assumes you have some idea of what a swing looks like, and it works by sharpening what’s already there.</p><p>&nbsp;</p><p>Also: ten minutes a day is a <i>floor</i>, not a ceiling. The more reps you give it, the faster the click starts showing up in the right place.</p><p>&nbsp;</p><p>The honest framing is this. A single lesson often costs more than the trainer, and the feeling fades within weeks. ARC ONE is a one-time purchase, and it gives you the same honest feedback on rep one as it does on rep ten thousand.</p>"
+      },
+      "type": "gp-section-647487375866004342"
+    },
+    "gp_section_647487375866069878": {
+      "settings": {
+        "checksum": "d43da9dc33ffcceec47cae1c7441264942ff32582d3170491a585ec69de70340_1_1_1_0__1",
+        "ggB0BfTag01_text": "<p><span style=\"background-color:#B5813A;color:#0E0E0E\"><strong>&nbsp;BLACK FRIDAY SPECIAL&nbsp;</strong></span></p>",
+        "ggB0BfTbl01_text": "<p><span style=\"color:#9FB0A5\">Buy 1</span>&nbsp;&nbsp; <strong>$45.95</strong> <span style=\"color:#9FB0A5\"><s>$61.25</s> · save $15.30</span></p><p><span style=\"color:#E0B062\"><strong>Buy 2 · Most popular</strong></span>&nbsp;&nbsp; <strong>$76.90</strong> <span style=\"color:#9FB0A5\"><s>$122.50</s> · save $45.60 · free shipping</span></p><p><span style=\"color:#E0B062\"><strong>Buy 3 · Best value</strong></span>&nbsp;&nbsp; <strong>$107.85</strong> <span style=\"color:#9FB0A5\"><s>$183.75</s> · save $75.90 · free shipping</span></p>",
+        "ggB0Btn0001_label": "<p>Claim the Black Friday deal →</p>",
+        "ggB0H30001_text": "Buy more, save more — <span style=\"color:#E0B062\">save up to $75.90</span>.",
+        "ggB0Sm00001_text": "<p>PICK YOUR BUNDLE ON THE NEXT PAGE · RIGHT OR LEFT HAND</p>",
+        "ggB0Tr00001_text": "<p>● 30-day returns &nbsp; ● Free shipping on $50+ orders &nbsp; ● 4.8 ★ · 10,000+ sold</p>",
+        "ggB0Tx00001_text": "<p>Grab one for you and one for your playing partner. The more you add, the less each ARC ONE costs — down to $35.95 each in the 3-pack. 30-day returns, no questions asked.</p>"
+      },
+      "type": "gp-section-647487375866069878"
+    }
+  },
+  "order": [
+    "gp_section_647487375865414518",
+    "gp_section_647487375865480054",
+    "gp_section_647487375865676662",
+    "gp_section_647487375865807734",
+    "gp_section_647487375865545590",
+    "gp_section_647487375865873270",
+    "gp_section_647487375865742198",
+    "gp_section_647487375865611126",
+    "gp_section_647487375866004342",
+    "gp_section_647487375866069878",
+    "gp_section_647487375865938806",
+    "gp_section_647487375865348982",
+    "gp_section_647487375865283446"
+  ]
+}
