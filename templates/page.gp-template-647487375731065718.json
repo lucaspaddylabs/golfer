@@ -11,15 +11,13 @@
   "sections": {
     "gp_section_647487375865283446": {
       "settings": {
-        "checksum": "f72696aef6503a11e1e478617c2f4741360b1788a2e36e2e580c9a360b71782b_1_1_1_0__1",
-        "ggB2Arrow01_text": "<p><span>➜</span><span>➜</span><span>➜</span></p>",
-        "ggB2Btn0001_label": "<p><strong>BUY NOW</strong></p>",
+        "checksum": "f315f66d97441566fa5a978053f157fd87da55db403ba379dd3d444838fe99f3_1_1_1_0__1",
+        "ggB2Btn0001_label": "BLACK FRIDAY - UP TO 30% OFF",
         "ggB2Cd00001_dayLabel": "Day",
         "ggB2Cd00001_hourLabel": "Hour",
         "ggB2Cd00001_minuteLabel": "min",
         "ggB2Cd00001_secondLabel": "sec",
-        "ggB2Cd00001_weekLabel": "Week",
-        "ggB2Tx00001_text": "<p><span style=\"background-color:#B5813A;color:#0E0E0E;font-size:12px;letter-spacing:2px\"><strong>&nbsp;BLACK FRIDAY&nbsp;</strong></span>&nbsp; <strong>Buy more, save up to $75.90</strong></p><p><span style=\"color:#E0B062;font-size:14px;letter-spacing:1px\">★★★★★</span><span style=\"color:#C9C3B6;font-size:13px\"> 4.8 · 10,000+ sold · 30-day money-back guarantee</span></p>"
+        "ggB2Cd00001_weekLabel": "Week"
       },
       "type": "gp-section-647487375865283446"
     },
@@ -105,12 +103,12 @@
     },
     "gp_section_647487375865873270": {
       "settings": {
-        "checksum": "123b8085e0947b8f64cc518038b0df5fa8725340cb726f62186b49f35100bab3_1_1_1_0__1",
+        "checksum": "81fb126efa3c3c55b036bb1109bfb25f069e46fc2734449187fe85b1b7c642e1_1_1_1_0__1",
         "ggA6Aft0001_text": "<p><span style=\"background-color:#D9E6DC;color:#22332A;font-size:11px;letter-spacing:1.5px\"><strong>&nbsp;AFTER&nbsp;</strong></span></p><p><span style=\"font-family:'Source Serif 4',serif;font-size:19px\"><strong>What the click trains, session after session</strong></span></p><p>✓ Holding lag through the bottom of the swing</p><p>✓ More compressed, consistent ball striking</p><p>✓ Straighter flight, tighter dispersion</p><p>✓ More solid strikes with the same effort</p>",
         "ggA6Bef0001_text": "<p><span style=\"background-color:#F0D9D3;color:#8A3B2A;font-size:11px;letter-spacing:1.5px\"><strong>&nbsp;BEFORE&nbsp;</strong></span></p><p><span style=\"font-family:'Source Serif 4',serif;font-size:19px\"><strong>What early release costs you</strong></span></p><p>— Casting the club from the top of the downswing</p><p>— Weak impact, thin and fat contact</p><p>— Ball flight that drifts right (for right-handers)</p><p>— Lost carry with the driver</p>",
         "ggA6H20001_text": "<span style=\"color:#B5813A;font-size:18px;font-weight:400\">02</span> What it fixes, specifically",
-        "ggA6OffB001_label": "<p>See today’s offer →</p>",
-        "ggA6OffT001_text": "<p><span style=\"color:#B5813A\"><strong>25% off</strong></span> plus free shipping on $50+ orders.</p>",
+        "ggA6OffB001_label": "<p>SEE TODAY’S OFFER →</p>",
+        "ggA6OffT001_text": "<p><span style=\"color:#B5813A\"><strong>30% off</strong></span> plus free shipping on $50+ orders.</p>",
         "ggA6TxA0001_text": "<p>Most amateur golfers fight one of two timing problems. They release too early (the dreaded casting motion), or they hang on too long and block the face open. Both produce the same outcome: weak contact, lost distance, and a ball that never quite goes where you aimed it.</p><p>&nbsp;</p><p>ARC ONE cuts through the vocabulary. You don’t need to memorize what <i>lag</i> feels like or study frame-by-frame video. You just swing until the click shows up at the ball. Then you swing again and make it show up in the same place.</p>",
         "ggA6TxB0001_text": "<p>It’s worth saying the quiet part out loud: this isn’t new physics. Coaches have taught lag and release timing for a hundred years. What’s new is feeling it happen in your own hands without paying for a studio session.</p>"
       },
@@ -134,10 +132,10 @@
     },
     "gp_section_647487375866069878": {
       "settings": {
-        "checksum": "d43da9dc33ffcceec47cae1c7441264942ff32582d3170491a585ec69de70340_1_1_1_0__1",
+        "checksum": "045e693c70024da16f274ed54acfc87d1a3a924df7b8c3450caecfde14c7bfbe_1_1_1_0__1",
         "ggB0BfTag01_text": "<p><span style=\"background-color:#B5813A;color:#0E0E0E\"><strong>&nbsp;BLACK FRIDAY SPECIAL&nbsp;</strong></span></p>",
         "ggB0BfTbl01_text": "<p><span style=\"color:#9FB0A5\">Buy 1</span>&nbsp;&nbsp; <strong>$45.95</strong> <span style=\"color:#9FB0A5\"><s>$61.25</s> · save $15.30</span></p><p><span style=\"color:#E0B062\"><strong>Buy 2 · Most popular</strong></span>&nbsp;&nbsp; <strong>$76.90</strong> <span style=\"color:#9FB0A5\"><s>$122.50</s> · save $45.60 · free shipping</span></p><p><span style=\"color:#E0B062\"><strong>Buy 3 · Best value</strong></span>&nbsp;&nbsp; <strong>$107.85</strong> <span style=\"color:#9FB0A5\"><s>$183.75</s> · save $75.90 · free shipping</span></p>",
-        "ggB0Btn0001_label": "<p>Claim the Black Friday deal →</p>",
+        "ggB0Btn0001_label": "BLACK FRIDAY - UP TO 30% OFF",
         "ggB0H30001_text": "Buy more, save more — <span style=\"color:#E0B062\">save up to $75.90</span>.",
         "ggB0Sm00001_text": "<p>PICK YOUR BUNDLE ON THE NEXT PAGE · RIGHT OR LEFT HAND</p>",
         "ggB0Tr00001_text": "<p>● 30-day returns &nbsp; ● Free shipping on $50+ orders &nbsp; ● 4.8 ★ · 10,000+ sold</p>",
