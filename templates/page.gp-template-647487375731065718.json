@@ -11,13 +11,8 @@
   "sections": {
     "gp_section_647487375865283446": {
       "settings": {
-        "checksum": "f315f66d97441566fa5a978053f157fd87da55db403ba379dd3d444838fe99f3_1_1_1_0__1",
-        "ggB2Btn0001_label": "BLACK FRIDAY - UP TO 30% OFF",
-        "ggB2Cd00001_dayLabel": "Day",
-        "ggB2Cd00001_hourLabel": "Hour",
-        "ggB2Cd00001_minuteLabel": "min",
-        "ggB2Cd00001_secondLabel": "sec",
-        "ggB2Cd00001_weekLabel": "Week"
+        "checksum": "55715145a0b65be66b7b05f660164d583cbf510949bab3103eb6ec7bfaa470dd_1_1_1_0__1",
+        "ggB2Btn0001_label": "BLACK FRIDAY - UP TO 30% OFF"
       },
       "type": "gp-section-647487375865283446"
     },
