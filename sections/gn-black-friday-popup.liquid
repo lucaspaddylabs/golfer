@@ -16,7 +16,10 @@
   endif
 
   assign popup_hidden_here = false
-  if section.settings.hide_on_handles != blank and page.handle != blank
+  if request.page_type == 'page' or template.name == 'page'
+    assign popup_hidden_here = true
+  endif
+  if popup_hidden_here == false and section.settings.hide_on_handles != blank and page.handle != blank
     assign hide_handles = section.settings.hide_on_handles | split: ','
     for hide_handle in hide_handles
       assign hide_handle_clean = hide_handle | strip
@@ -971,7 +974,7 @@
   "enabled_on": { "groups": ["custom.popups"] },
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
-    { "type": "textarea", "id": "hide_on_handles", "label": "Hide on page handles", "default": "the-10-minute-garage-drill-thats-quietly-reshaping-weekend-amateur", "info": "Comma-separated page handles where this popup should not appear (e.g. advertorials)." },
+    { "type": "textarea", "id": "hide_on_handles", "label": "Hide on page handles", "default": "the-10-minute-garage-drill-thats-quietly-reshaping-weekend-amateur", "info": "Comma-separated page handles. The popup is already hidden on all /pages/ routes." },
     { "type": "text", "id": "eyebrow", "label": "Badge", "default": "Black Friday" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "The full practice system, for less." },
     { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Up to", "info": "Shown above the headline savings number." },
