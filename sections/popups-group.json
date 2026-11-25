@@ -25,6 +25,7 @@
             "include_trace": false,
             "include_accessories": false,
             "save_amount": 15,
+            "target_save": 0,
             "discount_code": "ARC-LINE-15",
             "accessories_code": "",
             "preselected": false
@@ -41,6 +42,7 @@
             "include_trace": false,
             "include_accessories": false,
             "save_amount": 20,
+            "target_save": 0,
             "discount_code": "SWING-SYSTEM-20",
             "accessories_code": "",
             "preselected": false
@@ -70,7 +72,7 @@
         "offer_complete"
       ],
       "settings": {
-        "enabled": true,
+        "enabled": false,
         "hide_on_handles": "the-10-minute-garage-drill-thats-quietly-reshaping-weekend-amateur",
         "eyebrow": "Black Friday",
         "heading": "The full practice system, for less.",
@@ -91,9 +93,9 @@
         "marker_handle": "golf-ball-marker-fork",
         "brush_handle": "golf-club-brush-groove-sharpener-tool",
         "card_color": "#101712",
-        "text_color": "#F5F1E8",
-        "accent_color": "#1D3D2A",
-        "gold_color": "#C9A249"
+        "text_color": "#f5f1e8",
+        "accent_color": "#1d3d2a",
+        "gold_color": "#c9a249"
       }
     }
   },
