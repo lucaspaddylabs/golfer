@@ -83,15 +83,31 @@
     position: absolute;
     top: 0;
     left: 0;
+    display: grid;
+    gap: 8px;
     max-width: min(34ch, calc(100% - 40px));
     margin: 0;
     padding: clamp(20px, 3.5vw, 36px);
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.45);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__media-stars {
+    display: inline-flex;
+    gap: 3px;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__media-stars svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    fill: var(--bfl-gold);
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.35));
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__media-proof-text {
+    margin: 0;
     font-size: clamp(0.95rem, 1.6vw, 1.15rem);
     font-weight: 700;
     letter-spacing: 0.02em;
     line-height: 1.35;
-    color: #fff;
-    text-shadow: 0 1px 12px rgba(0,0,0,0.45);
   }
   #shopify-section-{{ section.id }} .gn-bfl__media-copy {
     position: absolute;
@@ -410,6 +426,9 @@
     #shopify-section-{{ section.id }} .gn-bfl__media-proof {
       padding: 16px 18px;
       max-width: min(30ch, calc(100% - 28px));
+      gap: 6px;
+    }
+    #shopify-section-{{ section.id }} .gn-bfl__media-proof-text {
       font-size: 0.92rem;
     }
     #shopify-section-{{ section.id }} .gn-bfl__media-copy {
@@ -658,7 +677,14 @@
   >
     <div class="gn-bfl__media" aria-hidden="true">
       {%- if section.settings.social_proof != blank -%}
-        <p class="gn-bfl__media-proof">{{ section.settings.social_proof }}</p>
+        <div class="gn-bfl__media-proof">
+          <span class="gn-bfl__media-stars" role="img" aria-label="5 out of 5 stars">
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.35 4.76 5.25.76-3.8 3.7.9 5.22L10 13.77l-4.7 2.47.9-5.22-3.8-3.7 5.25-.76L10 1.5z"/></svg>
+            {%- endfor -%}
+          </span>
+          <p class="gn-bfl__media-proof-text">{{ section.settings.social_proof }}</p>
+        </div>
       {%- endif -%}
       <div class="gn-bfl__media-copy">
         <p class="gn-bfl__brand">Golfer Now</p>
