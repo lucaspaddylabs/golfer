@@ -95,25 +95,37 @@
     color: #fff;
   }
   #shopify-section-{{ section.id }} .gn-bfl__upto {
-    margin: 0 0 6px;
-    font-size: 0.82rem;
+    margin: 0 0 8px;
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
     font-weight: 800;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--bfl-gold);
+    color: #fff;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.35);
   }
   #shopify-section-{{ section.id }} .gn-bfl__save {
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.28em 0.35em;
     font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
-    font-size: clamp(3rem, 7vw, 5.4rem);
     font-weight: 800;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.04em;
     line-height: 0.92;
     color: var(--bfl-gold);
   }
+  #shopify-section-{{ section.id }} .gn-bfl__save-amount {
+    font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__save-off {
+    font-size: clamp(1.55rem, 3.4vw, 2.35rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
   #shopify-section-{{ section.id }} .gn-bfl__caption {
-    margin: 12px 0 0;
-    max-width: 24ch;
+    margin: 14px 0 0;
+    max-width: 26ch;
     font-size: 1.05rem;
     font-weight: 600;
     line-height: 1.35;
@@ -639,7 +651,10 @@
       <div class="gn-bfl__media-copy">
         <p class="gn-bfl__brand">Golfer Now</p>
         <p class="gn-bfl__upto">{{ section.settings.savings_prefix }}</p>
-        <p class="gn-bfl__save">{{ max_save_label }}</p>
+        <p class="gn-bfl__save">
+          <span class="gn-bfl__save-amount">{{ max_save_label }}</span>
+          <span class="gn-bfl__save-off">{{ section.settings.savings_off_label }}</span>
+        </p>
         <p class="gn-bfl__caption">{{ section.settings.savings_caption }}</p>
       </div>
     </div>
@@ -845,8 +860,31 @@
           return { id: item.id, quantity: item.quantity || 1, properties: props };
         });
         const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+        const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+        const clearUrl = ((window.routes && window.routes.cart_clear_url) || '/cart/clear').replace(/\.js$/, '') + '.js';
+        const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
         const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
         try {
+          const existing = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
+          const hasItems = existing && Number(existing.item_count) > 0;
+          const hasCodes = existing && Array.isArray(existing.discount_codes) && existing.discount_codes.length > 0;
+          if (hasItems) {
+            const cleared = await fetch(clearUrl, {
+              method: 'POST',
+              headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+            }).then((r) => r.json());
+            if (!cleared || (cleared.item_count != null && Number(cleared.item_count) > 0)) {
+              throw new Error('cart_clear_failed');
+            }
+          }
+          if (hasCodes) {
+            await fetch(updateUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+              body: JSON.stringify({ discount: '' })
+            });
+          }
+
           const res = await fetch(base.replace(/\.js$/, '') + '.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
@@ -903,9 +941,10 @@
     { "type": "text", "id": "eyebrow", "label": "Badge", "default": "Black Friday" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "The full practice system, for less." },
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pick your bundle. Live prices. Free shipping on every option." },
-    { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Up to" },
+    { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Save up to" },
     { "type": "number", "id": "display_save", "label": "Headline save (dollars)", "default": 160 },
-    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "off the Golfer Now system. Bundles only." },
+    { "type": "text", "id": "savings_off_label", "label": "Amount suffix", "default": "OFF" },
+    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "the Golfer Now system. Bundles only." },
     { "type": "image_picker", "id": "image", "label": "Hero photo" },
     { "type": "text", "id": "image_asset", "label": "Hero asset fallback", "default": "gn-arc-cta-bg.jpg" },
     { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-11-27T23:59:00+00:00" },
