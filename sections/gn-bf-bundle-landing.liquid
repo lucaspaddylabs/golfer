@@ -867,7 +867,7 @@
           const cartJson = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
           const token = cartJson && cartJson.token;
           if (token) {
-            window.location.href = 'https://checkout.golfernow.com?token=' + encodeURIComponent(token);
+            window.location.href = 'https://checkout.golfernow.com/checkout?token=' + encodeURIComponent(token);
           } else {
             window.location.href = '/checkout';
           }
