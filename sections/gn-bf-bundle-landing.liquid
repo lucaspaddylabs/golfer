@@ -863,14 +863,11 @@
           }
           const codes = (active.dataset.codes || '').split(',').map((c) => c.trim()).filter(Boolean);
           try { await applyCodes(codes, cart); } catch (discountErr) { console.warn('Landing discount could not be applied', discountErr); }
-          const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
-          const cartJson = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
-          const token = cartJson && cartJson.token;
-          if (token) {
-            window.location.href = 'https://checkout.golfernow.com/checkout?token=' + encodeURIComponent(token);
-          } else {
-            window.location.href = '/checkout';
+          if (window.PS && typeof window.PS.startCheckout === 'function') {
+            window.PS.startCheckout(addBtn);
+            return;
           }
+          window.location.assign('/checkout');
           return;
         } catch (err) {
           console.error(err);
