@@ -95,33 +95,23 @@
     color: #fff;
   }
   #shopify-section-{{ section.id }} .gn-bfl__upto {
-    margin: 0 0 8px;
-    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    margin: 0 0 6px;
+    font-size: clamp(1.55rem, 3.6vw, 2.4rem);
     font-weight: 800;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    line-height: 1.05;
     color: #fff;
     text-shadow: 0 1px 10px rgba(0,0,0,0.35);
   }
   #shopify-section-{{ section.id }} .gn-bfl__save {
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.28em 0.35em;
     font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
+    font-size: clamp(2rem, 4.4vw, 3.1rem);
     font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 0.92;
+    letter-spacing: -0.03em;
+    line-height: 1;
     color: var(--bfl-gold);
-  }
-  #shopify-section-{{ section.id }} .gn-bfl__save-amount {
-    font-size: clamp(2.8rem, 6.5vw, 4.8rem);
-  }
-  #shopify-section-{{ section.id }} .gn-bfl__save-off {
-    font-size: clamp(1.55rem, 3.4vw, 2.35rem);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
   #shopify-section-{{ section.id }} .gn-bfl__caption {
     margin: 14px 0 0;
@@ -651,10 +641,7 @@
       <div class="gn-bfl__media-copy">
         <p class="gn-bfl__brand">Golfer Now</p>
         <p class="gn-bfl__upto">{{ section.settings.savings_prefix }}</p>
-        <p class="gn-bfl__save">
-          <span class="gn-bfl__save-amount">{{ max_save_label }}</span>
-          <span class="gn-bfl__save-off">{{ section.settings.savings_off_label }}</span>
-        </p>
+        <p class="gn-bfl__save">{{ max_save_label }}</p>
         <p class="gn-bfl__caption">{{ section.settings.savings_caption }}</p>
       </div>
     </div>
@@ -943,8 +930,7 @@
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pick your bundle. Live prices. Free shipping on every option." },
     { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Save up to" },
     { "type": "number", "id": "display_save", "label": "Headline save (dollars)", "default": 160 },
-    { "type": "text", "id": "savings_off_label", "label": "Amount suffix", "default": "OFF" },
-    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "the Golfer Now system. Bundles only." },
+    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "off the Golfer Now system — plus FREE accessory gifts. Bundles only." },
     { "type": "image_picker", "id": "image", "label": "Hero photo" },
     { "type": "text", "id": "image_asset", "label": "Hero asset fallback", "default": "gn-arc-cta-bg.jpg" },
     { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-11-27T23:59:00+00:00" },
