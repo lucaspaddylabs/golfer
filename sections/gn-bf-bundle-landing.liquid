@@ -106,16 +106,20 @@
   }
   #shopify-section-{{ section.id }} .gn-bfl__save {
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.22em 0.35em;
     font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
-    font-size: clamp(2rem, 4.4vw, 3.1rem);
+    font-size: clamp(1.65rem, 3.6vw, 2.55rem);
     font-weight: 800;
     letter-spacing: -0.03em;
-    line-height: 1;
+    line-height: 1.05;
     color: var(--bfl-gold);
   }
   #shopify-section-{{ section.id }} .gn-bfl__caption {
     margin: 14px 0 0;
-    max-width: 26ch;
+    max-width: 28ch;
     font-size: 1.05rem;
     font-weight: 600;
     line-height: 1.35;
@@ -641,7 +645,12 @@
       <div class="gn-bfl__media-copy">
         <p class="gn-bfl__brand">Golfer Now</p>
         <p class="gn-bfl__upto">{{ section.settings.savings_prefix }}</p>
-        <p class="gn-bfl__save">{{ max_save_label }}</p>
+        <p class="gn-bfl__save">
+          <span>{{ max_save_label }}</span>
+          {%- if section.settings.savings_extra != blank -%}
+            <span>{{ section.settings.savings_extra }}</span>
+          {%- endif -%}
+        </p>
         <p class="gn-bfl__caption">{{ section.settings.savings_caption }}</p>
       </div>
     </div>
@@ -930,7 +939,8 @@
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pick your bundle. Live prices. Free shipping on every option." },
     { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Save up to" },
     { "type": "number", "id": "display_save", "label": "Headline save (dollars)", "default": 160 },
-    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "off the Golfer Now system — plus FREE accessory gifts. Bundles only." },
+    { "type": "text", "id": "savings_extra", "label": "Savings extra line", "default": "+ free accessories" },
+    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "with the Golfer Now Black Friday Bundle." },
     { "type": "image_picker", "id": "image", "label": "Hero photo" },
     { "type": "text", "id": "image_asset", "label": "Hero asset fallback", "default": "gn-arc-cta-bg.jpg" },
     { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-11-27T23:59:00+00:00" },
