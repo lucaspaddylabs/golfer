@@ -103,8 +103,8 @@
           "type": "message",
           "settings": {
             "badge": "Black Friday",
-            "text": "Save up to $80 on system bundles — ends Mon 30 Nov, 23:59",
-            "link": "",
+            "text": "Save over $160 + FREE accessories — ends Mon 30 Nov, 23:59",
+            "link": "/pages/black-friday",
             "show_icon": false,
             "icon": "sparkle"
           }

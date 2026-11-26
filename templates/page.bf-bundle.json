@@ -1,8 +1,7 @@
 /*
  * ------------------------------------------------------------
- * Black Friday / bundle landing — page template.
- * Create a page in Admin (e.g. /pages/black-friday) and assign
- * the "bf-bundle" template for a clean linkable URL.
+ * Black Friday / bundle landing — standalone page template.
+ * Live URL: /pages/black-friday (template: bf-bundle).
  * ------------------------------------------------------------
  */
 {

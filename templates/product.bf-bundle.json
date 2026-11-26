@@ -1,8 +1,8 @@
 /*
  * ------------------------------------------------------------
- * Black Friday / bundle landing — product template variation.
- * Assign to ARC ONE (or any product) in Admin, or open with:
- * /products/pro-swing-click-trainer?view=bf-bundle
+ * Black Friday / bundle landing — product template fallback.
+ * Prefer the standalone page: /pages/black-friday
+ * Alternate: /products/pro-swing-click-trainer?view=bf-bundle
  * ------------------------------------------------------------
  */
 {
