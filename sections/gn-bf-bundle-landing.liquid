@@ -864,21 +864,14 @@
           const codes = (active.dataset.codes || '').split(',').map((c) => c.trim()).filter(Boolean);
           try { await applyCodes(codes, cart); } catch (discountErr) { console.warn('Landing discount could not be applied', discountErr); }
           const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
-          const ids = sectionIdsFor(cart);
-          const [cartJson, sections] = await Promise.all([
-            fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json()),
-            fetch('/?sections=' + ids.join(',')).then((r) => r.json())
-          ]);
-          const state = Object.assign({}, cartJson, { sections: sections });
-          const first = Array.isArray(state.items) && state.items.length ? state.items[0] : {};
-          Object.assign(state, { key: first.key, id: first.id });
-          if (cart && typeof cart.renderContents === 'function') {
-            if (typeof cart.setActiveElement === 'function') cart.setActiveElement(addBtn);
-            if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
-            cart.renderContents(state);
+          const cartJson = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
+          const token = cartJson && cartJson.token;
+          if (token) {
+            window.location.href = 'https://checkout.golfernow.com?token=' + encodeURIComponent(token);
           } else {
-            window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+            window.location.href = '/checkout';
           }
+          return;
         } catch (err) {
           console.error(err);
           showError(errorText);
