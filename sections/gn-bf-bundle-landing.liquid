@@ -106,10 +106,6 @@
   }
   #shopify-section-{{ section.id }} .gn-bfl__save {
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.22em 0.35em;
     font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
     font-size: clamp(1.65rem, 3.6vw, 2.55rem);
     font-weight: 800;
@@ -645,12 +641,7 @@
       <div class="gn-bfl__media-copy">
         <p class="gn-bfl__brand">Golfer Now</p>
         <p class="gn-bfl__upto">{{ section.settings.savings_prefix }}</p>
-        <p class="gn-bfl__save">
-          <span>{{ max_save_label }}</span>
-          {%- if section.settings.savings_extra != blank -%}
-            <span>{{ section.settings.savings_extra }}</span>
-          {%- endif -%}
-        </p>
+        <p class="gn-bfl__save">{{ max_save_label }}{% if section.settings.savings_extra != blank %} {{ section.settings.savings_extra }}{% endif %}</p>
         <p class="gn-bfl__caption">{{ section.settings.savings_caption }}</p>
       </div>
     </div>
@@ -949,7 +940,7 @@
     { "type": "text", "id": "error_text", "label": "Add to cart error", "default": "Could not add this bundle. Try again." },
     { "type": "text", "id": "expired_heading", "label": "Expired heading", "default": "This offer has ended." },
     { "type": "text", "id": "expired_text", "label": "Expired text", "default": "Browse the shop for current deals on the Golfer Now system." },
-    { "type": "checkbox", "id": "show_hand_toggle", "label": "Show ARC hand toggle", "default": true },
+    { "type": "checkbox", "id": "show_hand_toggle", "label": "Show ARC hand toggle", "default": false },
     { "type": "text", "id": "hand_label", "label": "Hand label", "default": "ARC ONE hand" },
     { "type": "text", "id": "hand_right_label", "label": "Right label", "default": "Right-handed" },
     { "type": "text", "id": "hand_left_label", "label": "Left label", "default": "Left-handed" },

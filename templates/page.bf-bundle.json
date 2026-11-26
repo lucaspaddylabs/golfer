@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------
  * Black Friday / bundle landing — standalone page template.
- * Live URL: /pages/black-friday (template: bf-bundle).
+ * Live URL: /pages/bundle-offer (template: bf-bundle).
  * ------------------------------------------------------------
  */
 {
@@ -81,7 +81,7 @@
         "error_text": "Could not add this bundle. Try again.",
         "expired_heading": "This offer has ended.",
         "expired_text": "Browse the shop for current deals on the Golfer Now system.",
-        "show_hand_toggle": true,
+        "show_hand_toggle": false,
         "hand_label": "ARC ONE hand",
         "hand_right_label": "Right-handed",
         "hand_left_label": "Left-handed",
