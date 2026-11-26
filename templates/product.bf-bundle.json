@@ -1,0 +1,231 @@
+/*
+ * ------------------------------------------------------------
+ * Black Friday / bundle landing — product template variation.
+ * Assign to ARC ONE (or any product) in Admin, or open with:
+ * /products/pro-swing-click-trainer?view=bf-bundle
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "landing": {
+      "type": "gn-bf-bundle-landing",
+      "blocks": {
+        "offer_arc_line": {
+          "type": "offer",
+          "settings": {
+            "label": "ARC + LINE",
+            "description": "Swing + putting",
+            "badge": "",
+            "include_link": false,
+            "include_line": true,
+            "include_trace": false,
+            "include_accessories": false,
+            "save_amount": 15,
+            "target_save": 0,
+            "discount_code": "ARC-LINE-15",
+            "accessories_code": "",
+            "preselected": false
+          }
+        },
+        "offer_swing": {
+          "type": "offer",
+          "settings": {
+            "label": "Swing System",
+            "description": "LINK + ARC + LINE",
+            "badge": "",
+            "include_link": true,
+            "include_line": true,
+            "include_trace": false,
+            "include_accessories": false,
+            "save_amount": 20,
+            "target_save": 0,
+            "discount_code": "SWING-SYSTEM-20",
+            "accessories_code": "",
+            "preselected": false
+          }
+        },
+        "offer_complete": {
+          "type": "offer",
+          "settings": {
+            "label": "Complete System",
+            "description": "",
+            "badge": "Best value",
+            "include_link": true,
+            "include_line": true,
+            "include_trace": true,
+            "include_accessories": true,
+            "save_amount": 30,
+            "target_save": 160,
+            "discount_code": "COMPLETE-SYSTEM-30",
+            "accessories_code": "BF-ACCESSORIES-FREE",
+            "preselected": true
+          }
+        }
+      },
+      "block_order": [
+        "offer_arc_line",
+        "offer_swing",
+        "offer_complete"
+      ],
+      "settings": {
+        "eyebrow": "Black Friday",
+        "heading": "The full practice system, for less.",
+        "subheading": "Pick your bundle. Live prices. Free shipping on every option.",
+        "savings_prefix": "Up to",
+        "display_save": 160,
+        "savings_caption": "off the Golfer Now system. Bundles only.",
+        "image_asset": "gn-arc-cta-bg.jpg",
+        "deadline": "2026-11-27T23:59:00+00:00",
+        "button_prefix": "Get",
+        "trust_text": "30-day risk-free returns · Free shipping on bundles",
+        "error_text": "Could not add this bundle. Try again.",
+        "expired_heading": "This offer has ended.",
+        "expired_text": "Browse the shop for current deals on the Golfer Now system.",
+        "show_hand_toggle": true,
+        "hand_label": "ARC ONE hand",
+        "hand_right_label": "Right-handed",
+        "hand_left_label": "Left-handed",
+        "arc_handle": "pro-swing-click-trainer",
+        "link_handle": "golf-training-belt",
+        "line_handle": "golf-putting-tutor",
+        "trace_handle": "swing-detection-training-mat",
+        "towel_handle": "magnetic-golf-towel",
+        "marker_handle": "golf-ball-marker-fork",
+        "brush_handle": "golf-club-brush-groove-sharpener-tool",
+        "card_color": "#101712",
+        "text_color": "#f5f1e8",
+        "accent_color": "#1d3d2a",
+        "gold_color": "#c9a249"
+      }
+    },
+    "reviews": {
+      "type": "gn-arc-v2-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "asset_fallback": "gn-arc-review-01.png",
+            "stars": 5,
+            "quote": "It works! I'm hitting my drives 20-30 yards further. My partner in my scramble league is very happy. We won our league this year. The long par 4s are reachable again!",
+            "name": "D.R.",
+            "hcp": "HCP 18 → 14",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "asset_fallback": "gn-arc-review-02.png",
+            "stars": 5,
+            "quote": "The perfect size for indoor practice. It has completely transformed my swing tempo!",
+            "name": "M.G.",
+            "hcp": "HCP 24",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "asset_fallback": "gn-arc-review-03.png",
+            "stars": 4,
+            "quote": "Using the swing trainer is an easy way to evaluate your swing without going to the driving range.",
+            "name": "J.K.",
+            "hcp": "HCP 9",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "eyebrow": "REVIEWS",
+        "heading": "What buyers are saying.",
+        "show_score": true,
+        "rating": "4.8",
+        "review_count": "",
+        "score_text": "Based on verified reviews",
+        "bar_5": 84,
+        "bar_4": 11,
+        "bar_3": 3,
+        "bar_2": 1,
+        "bar_1": 1,
+        "button_label": "Read all reviews",
+        "verified_text": "Verified buyer",
+        "background_color": "#F5F1E8",
+        "card_color": "#FFFFFF",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "highlight_color": "#3A8A5B",
+        "pale_color": "#DDEFE3",
+        "gold_color": "#C9A249",
+        "border_color": "#E8E2D4",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "faq": {
+      "type": "gn-arc-v2-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What’s in each bundle?",
+            "answer": "<p>ARC + LINE is the swing trainer and putting tutor. Swing System adds LINK ONE. Complete System adds TRACE ONE plus free towel, marker, and brush.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to hit balls with ARC ONE?",
+            "answer": "<p>No. It’s built for practice swings. No ball, net, or app needed.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is shipping free?",
+            "answer": "<p>Yes — free shipping on every bundle on this page.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What if it doesn’t work for me?",
+            "answer": "<p>Send it back within 30 days for a full refund.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "eyebrow": "COMMON QUESTIONS",
+        "heading": "Before you buy.",
+        "copy": "Still unsure? Our team answers within one working day.",
+        "open_first": true,
+        "contact_label": "Contact us",
+        "background_color": "#FFFFFF",
+        "card_color": "#FFFFFF",
+        "ink_color": "#0B1C12",
+        "muted_color": "#4B5A50",
+        "accent_color": "#1D3D2A",
+        "highlight_color": "#3A8A5B",
+        "border_color": "#E8E2D4",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "landing",
+    "reviews",
+    "faq"
+  ]
+}

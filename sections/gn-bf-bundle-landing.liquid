@@ -1,0 +1,977 @@
+{%- comment -%}
+  Black Friday / bundle landing page.
+  Full-page version of the BF popup picker: live product prices, same codes, same ATC flow.
+{%- endcomment -%}
+{%- liquid
+  assign landing_expired = false
+  if section.settings.deadline != blank
+    assign deadline_ts = section.settings.deadline | date: '%s' | plus: 0
+    assign now_ts = 'now' | date: '%s' | plus: 0
+    if deadline_ts > 0 and now_ts > deadline_ts
+      assign landing_expired = true
+    endif
+  endif
+
+  assign arc_product = all_products[section.settings.arc_handle]
+  assign link_product = all_products[section.settings.link_handle]
+  assign line_product = all_products[section.settings.line_handle]
+  assign trace_product = all_products[section.settings.trace_handle]
+  assign towel_product = all_products[section.settings.towel_handle]
+  assign marker_product = all_products[section.settings.marker_handle]
+  assign brush_product = all_products[section.settings.brush_handle]
+
+  assign arc_right_id = ''
+  assign arc_left_id = ''
+  if arc_product != blank
+    for v in arc_product.variants
+      assign v_title = v.title | downcase
+      if v_title contains 'left'
+        if arc_left_id == blank
+          assign arc_left_id = v.id
+        endif
+      else
+        if arc_right_id == blank
+          assign arc_right_id = v.id
+        endif
+      endif
+    endfor
+    if arc_right_id == blank and arc_product.selected_or_first_available_variant
+      assign arc_right_id = arc_product.selected_or_first_available_variant.id
+    endif
+  endif
+
+  assign max_save = 0
+  assign offer_blocks = section.blocks | where: 'type', 'offer'
+-%}
+
+{%- if section.settings.image != blank -%}
+  {%- assign bfl_hero_url = section.settings.image | image_url: width: 1600 -%}
+{%- elsif section.settings.image_asset != blank -%}
+  {%- assign bfl_hero_url = section.settings.image_asset | asset_url -%}
+{%- else -%}
+  {%- assign bfl_hero_url = '' -%}
+{%- endif -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    margin: 0;
+    padding: 0;
+    --bfl-card: {{ section.settings.card_color }};
+    --bfl-text: {{ section.settings.text_color }};
+    --bfl-accent: {{ section.settings.accent_color }};
+    --bfl-gold: {{ section.settings.gold_color }};
+  }
+  #shopify-section-{{ section.id }} .gn-bfl {
+    position: relative;
+    min-height: min(92vh, 920px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    color: var(--bfl-text);
+    background: var(--bfl-card);
+    font-family: var(--font-body-family), sans-serif;
+    {%- if bfl_hero_url != blank -%}
+    --gn-bfl-hero: url('{{ bfl_hero_url }}');
+    {%- endif -%}
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__media {
+    position: relative;
+    min-height: 520px;
+    background: #0c1610 center / cover no-repeat;
+    {% if bfl_hero_url != blank %}background-image: linear-gradient(180deg, rgba(8,14,10,0.18) 0%, rgba(8,14,10,0.72) 70%, rgba(16,23,18,0.95) 100%), var(--gn-bfl-hero);{% endif %}
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__media-copy {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: clamp(28px, 5vw, 56px);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__brand {
+    margin: 0 0 18px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__upto {
+    margin: 0 0 6px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bfl-gold);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__save {
+    margin: 0;
+    font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    color: var(--bfl-gold);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__caption {
+    margin: 12px 0 0;
+    max-width: 24ch;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: rgba(255,255,255,0.88);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px);
+    min-width: 0;
+    background: var(--bfl-card);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__eyebrow {
+    margin: 0;
+    align-self: flex-start;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--bfl-gold);
+    color: #1a1406;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__heading {
+    margin: 0;
+    max-width: 16ch;
+    font-family: var(--font-heading-family, var(--font-body-family)), sans-serif;
+    font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__subhead {
+    margin: 0;
+    max-width: 38ch;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: rgba(245,241,232,0.72);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__timer {
+    display: flex;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__timer[hidden] { display: none; }
+  #shopify-section-{{ section.id }} .gn-bfl__unit {
+    min-width: 58px;
+    flex: 1;
+    padding: 10px 6px 8px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__num {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    line-height: 1;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__cap {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.62);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__hand {
+    display: grid;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__hand-label {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__hand-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__hand-btn {
+    min-height: 44px;
+    border: 1.5px solid rgba(255,255,255,0.14);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__hand-btn.is-active {
+    border-color: var(--bfl-gold);
+    background: rgba(201,162,73,0.14);
+    box-shadow: 0 0 0 1px var(--bfl-gold);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offers {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    min-height: 74px;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer.is-selected {
+    border-color: var(--bfl-gold);
+    background: rgba(201,162,73,0.12);
+    box-shadow: 0 0 0 1px var(--bfl-gold);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer.is-disabled { opacity: 0.5; cursor: not-allowed; }
+  #shopify-section-{{ section.id }} .gn-bfl__offer input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__badge {
+    position: absolute;
+    top: -9px;
+    right: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--bfl-gold);
+    color: #1a1406;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__radio {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.45);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer.is-selected .gn-bfl__radio { border-color: var(--bfl-gold); }
+  #shopify-section-{{ section.id }} .gn-bfl__offer.is-selected .gn-bfl__radio::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bfl-gold);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__thumbs { display: flex; align-items: center; }
+  #shopify-section-{{ section.id }} .gn-bfl__thumbs:empty { display: none; }
+  #shopify-section-{{ section.id }} .gn-bfl__thumbs img {
+    width: 36px;
+    height: 36px;
+    margin-right: -8px;
+    border: 2px solid var(--bfl-card);
+    border-radius: 50%;
+    object-fit: cover;
+    background: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__thumbs img:last-child { margin-right: 0; }
+  #shopify-section-{{ section.id }} .gn-bfl__offer-copy { min-width: 0; display: grid; gap: 2px; }
+  #shopify-section-{{ section.id }} .gn-bfl__offer-label {
+    font-size: 0.98rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer-desc {
+    font-size: 0.78rem;
+    line-height: 1.25;
+    color: rgba(255,255,255,0.68);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer-note {
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--bfl-gold);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer-note--promo {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffe08a;
+    text-shadow: 0 0 16px rgba(255,214,120,0.35);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__offer-price { text-align: right; white-space: nowrap; }
+  #shopify-section-{{ section.id }} .gn-bfl__now {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__was {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.76rem;
+    color: rgba(255,255,255,0.55);
+    text-decoration: line-through;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 54px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--bfl-gold);
+    color: #1a1406;
+    font-size: 1.02rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__cta:hover { filter: brightness(1.05); }
+  #shopify-section-{{ section.id }} .gn-bfl__cta:disabled { opacity: 0.55; cursor: not-allowed; }
+  #shopify-section-{{ section.id }} .gn-bfl__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(26,20,6,0.25);
+    border-top-color: #1a1406;
+    border-radius: 50%;
+    animation: gn-bfl-spin 700ms linear infinite;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__spinner[hidden] { display: none; }
+  @keyframes gn-bfl-spin { to { transform: rotate(360deg); } }
+  #shopify-section-{{ section.id }} .gn-bfl__trust {
+    margin: 0;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__error {
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #3a1616;
+    color: #ffd0d0;
+    font-size: 0.84rem;
+  }
+  #shopify-section-{{ section.id }} .gn-bfl__error[hidden] { display: none; }
+  #shopify-section-{{ section.id }} .gn-bfl__expired {
+    padding: 48px 24px;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+  }
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gn-bfl {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    #shopify-section-{{ section.id }} .gn-bfl__media {
+      min-height: 240px;
+    }
+    #shopify-section-{{ section.id }} .gn-bfl__media-copy {
+      padding: 24px 20px;
+    }
+    #shopify-section-{{ section.id }} .gn-bfl__panel {
+      padding: 22px 16px 28px;
+      gap: 14px;
+    }
+    #shopify-section-{{ section.id }} .gn-bfl__offer {
+      grid-template-columns: 18px minmax(0, 1fr) auto;
+    }
+    #shopify-section-{{ section.id }} .gn-bfl__thumbs { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .gn-bfl__spinner { animation: none; }
+  }
+</style>
+
+{%- if landing_expired -%}
+  <div class="gn-bfl">
+    <div class="gn-bfl__media" aria-hidden="true"></div>
+    <div class="gn-bfl__panel">
+      <div class="gn-bfl__expired">
+        <p class="gn-bfl__eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1 class="gn-bfl__heading">{{ section.settings.expired_heading }}</h1>
+        <p class="gn-bfl__subhead">{{ section.settings.expired_text }}</p>
+      </div>
+    </div>
+  </div>
+{%- elsif offer_blocks.size > 0 -%}
+  {%- capture offers_html -%}
+    {%- for block in offer_blocks -%}
+      {%- liquid
+        assign offer_price = 0
+        assign offer_compare = 0
+        assign offer_items = ''
+        assign offer_thumbs = ''
+        assign free_ids = ''
+        assign offer_ok = true
+        assign offer_missing = false
+        assign slots = 'arc,link,line,trace,towel,marker,brush' | split: ','
+
+        for slot in slots
+          assign slot_on = false
+          assign slot_free = false
+          assign slot_product = blank
+          case slot
+            when 'arc'
+              assign slot_on = true
+              assign slot_product = arc_product
+            when 'link'
+              assign slot_on = block.settings.include_link
+              assign slot_product = link_product
+            when 'line'
+              assign slot_on = block.settings.include_line
+              assign slot_product = line_product
+            when 'trace'
+              assign slot_on = block.settings.include_trace
+              assign slot_product = trace_product
+            when 'towel'
+              assign slot_on = block.settings.include_accessories
+              assign slot_free = true
+              assign slot_product = towel_product
+            when 'marker'
+              assign slot_on = block.settings.include_accessories
+              assign slot_free = true
+              assign slot_product = marker_product
+            when 'brush'
+              assign slot_on = block.settings.include_accessories
+              assign slot_free = true
+              assign slot_product = brush_product
+          endcase
+
+          if slot_on
+            if slot_product.title == blank
+              assign offer_missing = true
+            else
+              assign slot_variant = slot_product.selected_or_first_available_variant
+              if slot == 'arc' and arc_right_id != blank
+                for v in slot_product.variants
+                  if v.id == arc_right_id
+                    assign slot_variant = v
+                    break
+                  endif
+                endfor
+              endif
+              if slot_variant == blank or slot_variant.available == false
+                assign offer_ok = false
+              else
+                assign slot_cmp = slot_variant.compare_at_price | at_least: slot_variant.price
+                assign slot_save_raw = slot_cmp | minus: slot_variant.price
+                if slot_save_raw > 0
+                  assign slot_save_round = slot_save_raw | plus: 50 | divided_by: 100 | times: 100
+                  assign slot_cmp = slot_variant.price | plus: slot_save_round
+                endif
+                assign offer_compare = offer_compare | plus: slot_cmp
+                unless slot_free
+                  assign offer_price = offer_price | plus: slot_variant.price
+                endunless
+                if offer_items != blank
+                  assign offer_items = offer_items | append: ','
+                endif
+                if slot_free
+                  assign offer_items = offer_items | append: '{"id":' | append: slot_variant.id | append: ',"quantity":1,"free":true,"slot":"' | append: slot | append: '"}'
+                  if free_ids != blank
+                    assign free_ids = free_ids | append: ','
+                  endif
+                  assign free_ids = free_ids | append: slot_variant.id
+                else
+                  assign offer_items = offer_items | append: '{"id":' | append: slot_variant.id | append: ',"quantity":1,"free":false,"slot":"' | append: slot | append: '"}'
+                endif
+                unless slot_free
+                  assign thumb_src = ''
+                  if slot_product.featured_image
+                    assign thumb_src = slot_product.featured_image | image_url: width: 96
+                  else
+                    assign thumb_asset = ''
+                    case slot_product.handle
+                      when 'golf-training-belt'
+                        assign thumb_asset = 'gn-link-one-product.png'
+                      when 'pro-swing-click-trainer'
+                        assign thumb_asset = 'gn-arc-one-product.png'
+                      when 'swing-detection-training-mat'
+                        assign thumb_asset = 'gn-trace-one-product.png'
+                      when 'golf-putting-tutor'
+                        assign thumb_asset = 'gn-line-one-product.png'
+                    endcase
+                    if thumb_asset != blank
+                      assign thumb_src = thumb_asset | asset_url
+                    endif
+                  endif
+                  if thumb_src != blank
+                    assign offer_thumbs = offer_thumbs | append: '<img src="' | append: thumb_src | append: '" alt="" width="36" height="36" loading="lazy">'
+                  endif
+                endunless
+              endif
+            endif
+          endif
+        endfor
+
+        assign save_major = block.settings.save_amount | default: 0
+        if save_major < 0
+          assign save_major = 0
+        endif
+        assign save_cents = save_major | times: 100
+        assign offer_price = offer_price | minus: save_cents
+        if offer_price < 0
+          assign offer_price = 0
+        endif
+
+        assign offer_save = offer_compare | minus: offer_price
+        if offer_save < 0
+          assign offer_save = 0
+        endif
+        if offer_ok and offer_missing == false and offer_save > max_save
+          assign max_save = offer_save
+        endif
+
+        assign price_label = offer_price | money | replace: 'US$', '$' | replace: 'US $', '$'
+        assign compare_label = offer_compare | money | replace: 'US$', '$' | replace: 'US $', '$'
+        assign save_label = offer_save | money | replace: 'US$', '$' | replace: 'US $', '$'
+
+        assign discount_codes = ''
+        if block.settings.include_accessories and block.settings.accessories_code != blank
+          assign discount_codes = block.settings.accessories_code | strip
+        endif
+        if block.settings.discount_code != blank
+          if discount_codes != blank
+            assign discount_codes = discount_codes | append: ',' | append: block.settings.discount_code | strip
+          else
+            assign discount_codes = block.settings.discount_code | strip
+          endif
+        endif
+      -%}
+      {%- if offer_missing -%}
+        {%- if request.design_mode -%}
+          <p class="gn-bfl__subhead" {{ block.shopify_attributes }}>“{{ block.settings.label }}” needs every product in the bundle to be available.</p>
+        {%- endif -%}
+      {%- else -%}
+        <label
+          class="gn-bfl__offer{% if block.settings.preselected and offer_ok %} is-selected{% endif %}{% unless offer_ok %} is-disabled{% endunless %}"
+          data-gn-bfl-offer
+          data-label="{{ block.settings.label | escape }}"
+          data-price-label="{{ price_label | escape }}"
+          data-codes="{{ discount_codes | escape }}"
+          data-free-ids="{{ free_ids | escape }}"
+          data-items='[{{ offer_items }}]'
+          data-preselected="{% if block.settings.preselected and offer_ok %}true{% else %}false{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <input type="radio" name="gn-bfl-offer-{{ section.id }}" value="{{ block.id }}"{% if block.settings.preselected and offer_ok %} checked{% endif %}{% unless offer_ok %} disabled{% endunless %}>
+          {%- if block.settings.badge != blank -%}
+            <span class="gn-bfl__badge">{{ block.settings.badge }}</span>
+          {%- endif -%}
+          <span class="gn-bfl__radio" aria-hidden="true"></span>
+          <span class="gn-bfl__thumbs" aria-hidden="true">{{ offer_thumbs }}</span>
+          <span class="gn-bfl__offer-copy">
+            <span class="gn-bfl__offer-label">{{ block.settings.label }}</span>
+            {%- if block.settings.include_accessories == false and block.settings.description != blank -%}
+              <span class="gn-bfl__offer-desc">{{ block.settings.description }}</span>
+            {%- endif -%}
+            {%- if offer_ok and offer_save > 0 -%}
+              {%- if block.settings.include_accessories -%}
+                {%- assign promo_save = block.settings.target_save | default: 0 -%}
+                {%- if promo_save <= 0 -%}
+                  {%- assign promo_save = offer_save | divided_by: 100 -%}
+                {%- endif -%}
+                <span class="gn-bfl__offer-note gn-bfl__offer-note--promo">
+                  SAVE ${{ promo_save }} + FREE GIFTS + FREE SHIPPING
+                </span>
+              {%- else -%}
+                <span class="gn-bfl__offer-note">
+                  Save {{ save_label }} · Free shipping
+                </span>
+              {%- endif -%}
+            {%- elsif offer_ok == false -%}
+              <span class="gn-bfl__offer-note">Sold out</span>
+            {%- endif -%}
+          </span>
+          <span class="gn-bfl__offer-price">
+            <span class="gn-bfl__now">{{ price_label }}</span>
+            {%- if offer_save > 0 -%}
+              <span class="gn-bfl__was">{{ compare_label }}</span>
+            {%- endif -%}
+          </span>
+        </label>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- assign display_save = section.settings.display_save | default: 0 -%}
+  {%- if display_save > 0 -%}
+    {%- assign max_save_label = '$' | append: display_save -%}
+  {%- else -%}
+    {%- assign max_save_label = max_save | money | replace: 'US$', '$' | replace: 'US $', '$' -%}
+  {%- endif -%}
+
+  <div
+    class="gn-bfl"
+    id="gn-bfl-{{ section.id }}"
+    data-gn-bfl
+    data-deadline="{{ section.settings.deadline | escape }}"
+    data-arc-right="{{ arc_right_id }}"
+    data-arc-left="{{ arc_left_id }}"
+  >
+    <div class="gn-bfl__media" aria-hidden="true">
+      <div class="gn-bfl__media-copy">
+        <p class="gn-bfl__brand">Golfer Now</p>
+        <p class="gn-bfl__upto">{{ section.settings.savings_prefix }}</p>
+        <p class="gn-bfl__save">{{ max_save_label }}</p>
+        <p class="gn-bfl__caption">{{ section.settings.savings_caption }}</p>
+      </div>
+    </div>
+
+    <div class="gn-bfl__panel">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="gn-bfl__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="gn-bfl__heading">{{ section.settings.heading }}</h1>
+      {%- if section.settings.subheading != blank -%}
+        <p class="gn-bfl__subhead">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.deadline != blank -%}
+        <div class="gn-bfl__timer" data-gn-bfl-timer aria-label="Offer countdown">
+          <span class="gn-bfl__unit"><span class="gn-bfl__num" data-gn-bfl-days>00</span><span class="gn-bfl__cap">Days</span></span>
+          <span class="gn-bfl__unit"><span class="gn-bfl__num" data-gn-bfl-hours>00</span><span class="gn-bfl__cap">Hrs</span></span>
+          <span class="gn-bfl__unit"><span class="gn-bfl__num" data-gn-bfl-mins>00</span><span class="gn-bfl__cap">Min</span></span>
+          <span class="gn-bfl__unit"><span class="gn-bfl__num" data-gn-bfl-secs>00</span><span class="gn-bfl__cap">Sec</span></span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_hand_toggle and arc_right_id != blank and arc_left_id != blank -%}
+        <div class="gn-bfl__hand">
+          <p class="gn-bfl__hand-label">{{ section.settings.hand_label }}</p>
+          <div class="gn-bfl__hand-toggle" role="group" aria-label="{{ section.settings.hand_label | escape }}">
+            <button type="button" class="gn-bfl__hand-btn is-active" data-gn-bfl-hand="right">{{ section.settings.hand_right_label }}</button>
+            <button type="button" class="gn-bfl__hand-btn" data-gn-bfl-hand="left">{{ section.settings.hand_left_label }}</button>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <fieldset class="gn-bfl__offers">
+        <legend class="visually-hidden">Choose a bundle</legend>
+        {{ offers_html }}
+      </fieldset>
+
+      <p class="gn-bfl__error" data-gn-bfl-error hidden></p>
+      <button class="gn-bfl__cta" type="button" data-gn-bfl-add>
+        <span data-gn-bfl-add-label>{{ section.settings.button_prefix }}</span>
+        <span class="gn-bfl__spinner" data-gn-bfl-spinner hidden aria-hidden="true"></span>
+      </button>
+      {%- if section.settings.trust_text != blank -%}
+        <p class="gn-bfl__trust">{{ section.settings.trust_text }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('gn-bfl-{{ section.id }}');
+      if (!root || root.dataset.gnBound === 'true') return;
+      root.dataset.gnBound = 'true';
+
+      const offers = [...root.querySelectorAll('[data-gn-bfl-offer]')];
+      const addBtn = root.querySelector('[data-gn-bfl-add]');
+      const addLabel = root.querySelector('[data-gn-bfl-add-label]');
+      const spinner = root.querySelector('[data-gn-bfl-spinner]');
+      const errorBox = root.querySelector('[data-gn-bfl-error]');
+      const handBtns = [...root.querySelectorAll('[data-gn-bfl-hand]')];
+      const prefix = {{ section.settings.button_prefix | json }};
+      const errorText = {{ section.settings.error_text | json }};
+      const arcRight = root.dataset.arcRight || '';
+      const arcLeft = root.dataset.arcLeft || '';
+      let hand = 'right';
+      let busy = false;
+
+      const selected = () => offers.find((offer) => offer.classList.contains('is-selected') && !offer.classList.contains('is-disabled'));
+
+      const withHand = (items) => {
+        const arcId = hand === 'left' && arcLeft ? Number(arcLeft) : Number(arcRight || 0);
+        if (!arcId) return items;
+        return items.map((item) => {
+          if (item.slot === 'arc') return Object.assign({}, item, { id: arcId });
+          return item;
+        });
+      };
+
+      const refresh = () => {
+        let active = selected();
+        if (!active) {
+          active = offers.find((offer) => offer.dataset.preselected === 'true' && !offer.classList.contains('is-disabled'))
+            || offers.find((offer) => !offer.classList.contains('is-disabled'));
+          if (active) {
+            const input = active.querySelector('input');
+            if (input) input.checked = true;
+          }
+        }
+        offers.forEach((offer) => offer.classList.toggle('is-selected', offer === active));
+        if (addLabel) {
+          addLabel.textContent = active
+            ? prefix + ' ' + active.dataset.label + ' — ' + active.dataset.priceLabel
+            : prefix;
+        }
+        if (addBtn) {
+          addBtn.disabled = !active || busy;
+          addBtn.setAttribute('aria-disabled', String(!active || busy));
+        }
+      };
+
+      offers.forEach((offer) => {
+        const input = offer.querySelector('input');
+        if (!input) return;
+        input.addEventListener('change', () => {
+          offers.forEach((item) => item.classList.toggle('is-selected', item === offer));
+          refresh();
+        });
+      });
+
+      handBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          hand = btn.dataset.gnBflHand || 'right';
+          handBtns.forEach((el) => el.classList.toggle('is-active', el === btn));
+        });
+      });
+
+      const pad = (n) => String(n).padStart(2, '0');
+      const timer = root.querySelector('[data-gn-bfl-timer]');
+      const deadline = root.dataset.deadline ? Date.parse(root.dataset.deadline) : NaN;
+      if (timer && !Number.isNaN(deadline)) {
+        const tick = () => {
+          const left = Math.max(0, deadline - Date.now());
+          const total = Math.floor(left / 1000);
+          timer.querySelector('[data-gn-bfl-days]').textContent = pad(Math.floor(total / 86400));
+          timer.querySelector('[data-gn-bfl-hours]').textContent = pad(Math.floor((total % 86400) / 3600));
+          timer.querySelector('[data-gn-bfl-mins]').textContent = pad(Math.floor((total % 3600) / 60));
+          timer.querySelector('[data-gn-bfl-secs]').textContent = pad(total % 60);
+          if (left <= 0) timer.hidden = true;
+        };
+        tick();
+        setInterval(tick, 1000);
+      }
+
+      const sectionIdsFor = (cart) => {
+        if (cart && typeof cart.getSectionsToRender === 'function') {
+          return cart.getSectionsToRender().map((s) => s.id);
+        }
+        return ['cart-drawer', 'cart-icon-bubble', 'cart-icon-bubble--mobile', 'cart-free-delivery'];
+      };
+
+      const showError = (msg) => {
+        if (!errorBox) return;
+        errorBox.textContent = msg || '';
+        errorBox.hidden = !msg;
+      };
+
+      const applyCodes = async (codes, cart) => {
+        const wanted = codes.map((code) => code.trim()).filter(Boolean);
+        if (!wanted.length) return;
+        const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+        const updateUrl = ((window.routes && window.routes.cart_update_url) || '/cart/update').replace(/\.js$/, '') + '.js';
+        const rootUrl = (window.routes && window.routes.root_url) || '/';
+
+        for (const code of wanted) {
+          try {
+            await fetch(rootUrl.replace(/\/?$/, '/') + 'discount/' + encodeURIComponent(code), {
+              credentials: 'same-origin',
+              redirect: 'manual'
+            });
+          } catch (e) { /* redirect responses are fine */ }
+        }
+
+        const current = await fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json());
+        const existing = (current.discount_codes || []).map((d) => d.code).filter(Boolean);
+        const merged = existing.slice();
+        wanted.forEach((code) => {
+          if (!merged.some((item) => item.toLowerCase() === code.toLowerCase())) merged.push(code);
+        });
+
+        let last = null;
+        for (let i = 0; i < merged.length; i += 1) {
+          const payload = {
+            discount: merged.slice(0, i + 1).join(','),
+            sections: sectionIdsFor(cart),
+            sections_url: window.location.pathname
+          };
+          last = await fetch(updateUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify(payload)
+          }).then((r) => r.json());
+        }
+        return last;
+      };
+
+      const addToCart = async () => {
+        const active = selected();
+        if (busy || !active || !addBtn || addBtn.disabled) return;
+        busy = true;
+        showError('');
+        if (spinner) spinner.hidden = false;
+        refresh();
+        let rawItems = [];
+        try { rawItems = JSON.parse(active.getAttribute('data-items') || '[]'); } catch (e) { rawItems = []; }
+        rawItems = withHand(rawItems);
+        const freeIds = new Set(String(active.dataset.freeIds || '').split(',').map((id) => String(id.trim())).filter(Boolean));
+        const items = rawItems.map((item) => {
+          const props = { _gn_bundle: active.dataset.label || '' };
+          if (item.free || freeIds.has(String(item.id))) {
+            props._gn_gift = 'Free';
+            props.Gift = 'Free with Complete System';
+          }
+          return { id: item.id, quantity: item.quantity || 1, properties: props };
+        });
+        const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+        const base = (window.routes && window.routes.cart_add_url) || '/cart/add';
+        try {
+          const res = await fetch(base.replace(/\.js$/, '') + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({
+              items: items,
+              sections: sectionIdsFor(cart),
+              sections_url: window.location.pathname
+            })
+          });
+          const json = await res.json();
+          if (!res.ok || json.status) {
+            showError(json.description || json.message || errorText);
+            return;
+          }
+          const codes = (active.dataset.codes || '').split(',').map((c) => c.trim()).filter(Boolean);
+          try { await applyCodes(codes, cart); } catch (discountErr) { console.warn('Landing discount could not be applied', discountErr); }
+          const cartUrl = ((window.routes && window.routes.cart_url) || '/cart').replace(/\/$/, '') + '.js';
+          const ids = sectionIdsFor(cart);
+          const [cartJson, sections] = await Promise.all([
+            fetch(cartUrl, { headers: { Accept: 'application/json' } }).then((r) => r.json()),
+            fetch('/?sections=' + ids.join(',')).then((r) => r.json())
+          ]);
+          const state = Object.assign({}, cartJson, { sections: sections });
+          const first = Array.isArray(state.items) && state.items.length ? state.items[0] : {};
+          Object.assign(state, { key: first.key, id: first.id });
+          if (cart && typeof cart.renderContents === 'function') {
+            if (typeof cart.setActiveElement === 'function') cart.setActiveElement(addBtn);
+            if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+            cart.renderContents(state);
+          } else {
+            window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+          }
+        } catch (err) {
+          console.error(err);
+          showError(errorText);
+        } finally {
+          busy = false;
+          if (spinner) spinner.hidden = true;
+          refresh();
+        }
+      };
+
+      if (addBtn) addBtn.addEventListener('click', addToCart);
+      refresh();
+    })();
+  </script>
+{%- elsif request.design_mode -%}
+  <div class="gn-bfl">
+    <div class="gn-bfl__panel">
+      <p class="gn-bfl__subhead">Add at least one Bundle block to show offers.</p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BF bundle landing",
+  "tag": "section",
+  "class": "section-gn-bf-bundle-landing",
+  "enabled_on": {
+    "templates": ["product", "page"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Badge", "default": "Black Friday" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The full practice system, for less." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pick your bundle. Live prices. Free shipping on every option." },
+    { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Up to" },
+    { "type": "number", "id": "display_save", "label": "Headline save (dollars)", "default": 160 },
+    { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "off the Golfer Now system. Bundles only." },
+    { "type": "image_picker", "id": "image", "label": "Hero photo" },
+    { "type": "text", "id": "image_asset", "label": "Hero asset fallback", "default": "gn-arc-cta-bg.jpg" },
+    { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-11-27T23:59:00+00:00" },
+    { "type": "text", "id": "button_prefix", "label": "Button prefix", "default": "Get" },
+    { "type": "text", "id": "trust_text", "label": "Trust line", "default": "30-day risk-free returns · Free shipping on bundles" },
+    { "type": "text", "id": "error_text", "label": "Add to cart error", "default": "Could not add this bundle. Try again." },
+    { "type": "text", "id": "expired_heading", "label": "Expired heading", "default": "This offer has ended." },
+    { "type": "text", "id": "expired_text", "label": "Expired text", "default": "Browse the shop for current deals on the Golfer Now system." },
+    { "type": "checkbox", "id": "show_hand_toggle", "label": "Show ARC hand toggle", "default": true },
+    { "type": "text", "id": "hand_label", "label": "Hand label", "default": "ARC ONE hand" },
+    { "type": "text", "id": "hand_right_label", "label": "Right label", "default": "Right-handed" },
+    { "type": "text", "id": "hand_left_label", "label": "Left label", "default": "Left-handed" },
+    { "type": "header", "content": "Products" },
+    { "type": "text", "id": "arc_handle", "label": "ARC ONE handle", "default": "pro-swing-click-trainer" },
+    { "type": "text", "id": "link_handle", "label": "LINK ONE handle", "default": "golf-training-belt" },
+    { "type": "text", "id": "line_handle", "label": "LINE ONE handle", "default": "golf-putting-tutor" },
+    { "type": "text", "id": "trace_handle", "label": "TRACE ONE handle", "default": "swing-detection-training-mat" },
+    { "type": "text", "id": "towel_handle", "label": "Towel handle", "default": "magnetic-golf-towel" },
+    { "type": "text", "id": "marker_handle", "label": "Marker handle", "default": "golf-ball-marker-fork" },
+    { "type": "text", "id": "brush_handle", "label": "Brush handle", "default": "golf-club-brush-groove-sharpener-tool" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "card_color", "label": "Panel", "default": "#101712" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1E8" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1D3D2A" },
+    { "type": "color", "id": "gold_color", "label": "Gold", "default": "#C9A249" }
+  ],
+  "blocks": [
+    {
+      "type": "offer",
+      "name": "Bundle",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Name", "default": "ARC + LINE" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Swing + putting" },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "checkbox", "id": "include_link", "label": "Include LINK ONE", "default": false },
+        { "type": "checkbox", "id": "include_line", "label": "Include LINE ONE", "default": true },
+        { "type": "checkbox", "id": "include_trace", "label": "Include TRACE ONE", "default": false },
+        { "type": "checkbox", "id": "include_accessories", "label": "Include accessories free", "default": false },
+        { "type": "number", "id": "save_amount", "label": "Extra dollars off", "default": 0 },
+        { "type": "number", "id": "target_save", "label": "Promo save label (dollars)", "default": 0 },
+        { "type": "text", "id": "discount_code", "label": "Discount code" },
+        { "type": "text", "id": "accessories_code", "label": "Accessories-free code" },
+        { "type": "checkbox", "id": "preselected", "label": "Selected by default", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BF bundle landing",
+      "blocks": [
+        { "type": "offer", "settings": { "label": "ARC + LINE", "description": "Swing + putting", "include_line": true, "save_amount": 15, "discount_code": "ARC-LINE-15" } },
+        { "type": "offer", "settings": { "label": "Swing System", "description": "LINK + ARC + LINE", "include_link": true, "include_line": true, "save_amount": 20, "discount_code": "SWING-SYSTEM-20" } },
+        { "type": "offer", "settings": { "label": "Complete System", "badge": "Best value", "include_link": true, "include_line": true, "include_trace": true, "include_accessories": true, "save_amount": 30, "target_save": 160, "discount_code": "COMPLETE-SYSTEM-30", "accessories_code": "BF-ACCESSORIES-FREE", "preselected": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}
