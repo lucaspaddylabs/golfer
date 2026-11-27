@@ -284,26 +284,37 @@
           (function(){
   var MAP = {fbclid:'fbclid', utm_campaign:'sub1', utm_term:'sub2', utm_content:'sub3'};
   var HOST = 'clicks.metricszoom.com';
+  var OFFER_LINK = 'https://clicks.metricszoom.com/click?pid=51&offer_id=381';
+  var PRODUCT_PATH = '/products/pro-swing-click-trainer';
   var KEY = 'gn_affise_params';
   var vals = {};
   try { vals = JSON.parse(sessionStorage.getItem(KEY) || '{}'); } catch(e) {}
   var q = new URLSearchParams(location.search);
   for (var k in MAP) { if (q.get(k)) vals[k] = q.get(k); }
   try { sessionStorage.setItem(KEY, JSON.stringify(vals)); } catch(e) {}
+  function getCookie(n){
+    var m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function inCart(a){ return !!(a.closest && a.closest('[class*="drawer__cart"], cart-drawer, .cart-drawer')); }
   function tag(href){
     try {
       var u = new URL(href, location.href);
+      if (u.hostname === location.hostname && u.pathname.indexOf(PRODUCT_PATH) === 0) { u = new URL(OFFER_LINK); }
       if (u.hostname !== HOST) return href;
       for (var k in MAP) { if (vals[k]) u.searchParams.set(MAP[k], vals[k]); }
+      var fbp = getCookie('_fbp');
+      if (fbp) u.searchParams.set('sub4', fbp);
       return u.toString();
     } catch(e) { return href; }
   }
+  var SEL = 'a[href*="' + HOST + '"], a[href*="' + PRODUCT_PATH + '"]';
   function run(){
-    document.querySelectorAll('a[href*="' + HOST + '"]').forEach(function(a){ a.href = tag(a.href); });
+    document.querySelectorAll(SEL).forEach(function(a){ if (!inCart(a)) a.href = tag(a.href); });
   }
   document.addEventListener('click', function(ev){
-    var a = ev.target && ev.target.closest ? ev.target.closest('a[href*="' + HOST + '"]') : null;
-    if (a) a.href = tag(a.href);
+    var a = ev.target && ev.target.closest ? ev.target.closest(SEL) : null;
+    if (a && !inCart(a)) a.href = tag(a.href);
   }, true);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('load', run);
