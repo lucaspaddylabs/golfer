@@ -1,0 +1,628 @@
+{%- comment -%}
+  GN Fairway Advertorial
+  Golf-reviews.com style advertorial for Golfer Now / ARC ONE.
+  Self-contained: fonts, CSS, markup and JS (Affise param tagging, sticky CTA, countdown, progress bar).
+{%- endcomment -%}
+
+{%- liquid
+  assign cta_url = section.settings.cta_url | default: 'https://clicks.metricszoom.com/click?pid=51&offer_id=381'
+
+  if section.settings.hero_image != blank
+    assign hero_src = section.settings.hero_image | image_url: width: 1600
+  else
+    assign hero_src = section.settings.hero_image_url
+  endif
+
+  assign use_schematic = section.settings.use_schematic
+  if section.settings.spec_image != blank
+    assign spec_src = section.settings.spec_image | image_url: width: 1200
+    assign use_schematic = false
+  elsif section.settings.spec_image_url != blank
+    assign spec_src = section.settings.spec_image_url
+  else
+    assign spec_src = blank
+  endif
+
+  if section.settings.figure_image != blank
+    assign figure_src = section.settings.figure_image | image_url: width: 1600
+  else
+    assign figure_src = section.settings.figure_image_url
+  endif
+-%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f5f1ea;--paper:#fbf8f2;--ink:#14201a;--ink-2:#3a4a42;--muted:#6b7a72;
+    --rule:#d9d2c4;--green:#1d3b2a;--green-2:#24513a;--accent:#c8862a;--accent-2:#8d3b2a;
+    --maxw:720px;
+    --font-serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-sans: Inter, system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  /* Hide theme chrome */
+  .shopify-section-group-header-group,
+  #shopify-section-header,
+  #shopify-section-announcement-bar,
+  .shopify-section-header,
+  .announcement-bar-section,
+  sticky-header,
+  header-component,
+  .shopify-section-group-footer-group,
+  #shopify-section-footer,
+  footer.footer,
+  .gn-footer-main,
+  [id*="gn_footer"],
+  [id*="footer_sticky"] {
+    display: none !important;
+  }
+
+  body:has(.review){background:var(--bg)}
+
+  /* Defensive resets so theme styles don't leak in */
+  .review,.review *,.review *::before,.review *::after{box-sizing:border-box}
+  .review img{max-width:100%}
+  .review h1,.review h2,.review h3,.review h4{text-transform:none}
+  .review a{text-decoration:none}
+  .review .body a{text-decoration:underline}
+  .review .masthead-logo{text-decoration:underline;text-underline-offset:3px}
+
+  /* ===== Reference CSS (golf-reviews.com) ===== */
+  .review{font-family:var(--font-serif);font-optical-sizing:auto;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizelegibility;font-size:18px;line-height:1.65}
+  .review .masthead{border-bottom:1px solid var(--rule);background:var(--paper)}
+  .review .masthead-inner{max-width:1100px;font-family:var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);justify-content:space-between;align-items:center;margin:0 auto;padding:14px 24px;font-size:12px;display:flex}
+  .review .masthead-logo{font-family:var(--font-serif);letter-spacing:-.01em;text-transform:none;color:var(--ink);font-size:22px;font-style:italic;font-weight:700}
+  .review .masthead-nav{gap:22px;display:flex}
+  .review .masthead-nav a{color:var(--ink-2);text-decoration:none}
+  .review .masthead-nav a:hover{color:var(--ink)}
+  .review .masthead-meta{color:var(--muted);font-size:11px}
+  @media (max-width:720px){.review .masthead-nav{display:none}}
+  .review article{max-width:var(--maxw);margin:0 auto;padding:48px 24px 160px}
+  @media (max-width:640px){.review article{padding:28px 20px 180px}.review{font-size:17px}}
+  .review .eyebrow{font-family:var(--font-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);align-items:center;gap:10px;margin:0 0 18px;font-size:12px;font-weight:600;display:flex}
+  .review .eyebrow:before{content:"";background:var(--accent-2);width:28px;height:2px;display:inline-block}
+  .review h1.deck{font-family:var(--font-serif);letter-spacing:-.02em;text-wrap:balance;margin:0 0 22px;font-size:clamp(34px,5.2vw,54px);font-weight:700;line-height:1.04}
+  .review h1.deck em{color:var(--green);font-style:italic}
+  .review .standfirst{color:var(--ink-2);text-wrap:pretty;max-width:58ch;margin:0 0 28px;font-size:clamp(18px,2.1vw,22px);line-height:1.5}
+  .review .byline{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-family:var(--font-sans);color:var(--ink-2);align-items:center;gap:14px;margin-bottom:36px;padding:18px 0;font-size:13px;display:flex}
+  .review .byline .avatar{width:40px;height:40px;box-shadow:inset 0 0 0 2px var(--paper);background:radial-gradient(circle at 30% 30%,#6b8a76,#1d3b2a 70%);border-radius:50%;flex-shrink:0}
+  .review .byline .who{color:var(--ink);font-weight:600}
+  .review .byline .dot{color:var(--rule)}
+  .review .hero{margin:0 -24px 36px;position:relative}
+  @media (min-width:720px){.review .hero{margin:0 0 40px}}
+  .review .hero-img{aspect-ratio:1;object-fit:contain;background:#0c1a14;width:100%;display:block}
+  @media (min-width:720px){.review .hero-img{aspect-ratio:16/10;object-fit:cover;object-position:center 38%;border-radius:4px}}
+  .review .hero-caption{font-family:var(--font-sans);color:var(--muted);justify-content:space-between;gap:16px;padding:10px 24px 0;font-size:12px;display:flex}
+  @media (min-width:720px){.review .hero-caption{padding:10px 0 0}}
+  .review .hero-caption span:last-child{text-transform:uppercase;letter-spacing:.08em}
+  .review .body p{text-wrap:pretty;margin:0 0 22px}
+  .review .body>p:first-of-type:first-letter{font-family:var(--font-serif);float:left;color:var(--green);padding:6px 10px 0 0;font-size:68px;font-weight:700;line-height:.85}
+  .review .body h2{font-family:var(--font-serif);letter-spacing:-.01em;text-wrap:balance;margin:48px 0 18px;font-size:clamp(24px,3vw,30px);font-weight:700;line-height:1.2}
+  .review .body h2 .num{font-family:var(--font-mono);color:var(--accent);vertical-align:.3em;letter-spacing:.02em;margin-right:10px;font-size:.55em;font-weight:500;display:inline-block}
+  .review .body a{color:var(--green)}
+  .review blockquote{border-left:3px solid var(--green);color:var(--ink);text-wrap:balance;margin:32px 0;padding:4px 0 4px 22px;font-size:22px;font-style:italic;line-height:1.4}
+  .review blockquote cite{font-style:normal;font-family:var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:10px;font-size:12px;display:block}
+  .review .pull{background:var(--paper);border:1px solid var(--rule);border-radius:2px;margin:40px -8px;padding:28px 24px 28px 52px;position:relative}
+  .review .pull:before{content:"“";font-family:var(--font-serif);color:var(--green);font-size:84px;line-height:1;position:absolute;top:-8px;left:14px}
+  .review .pull p{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:22px;font-style:italic;line-height:1.4}
+  .review figure{margin:36px -24px}
+  @media (min-width:720px){.review figure{margin:36px 0}}
+  .review figure img{background:#111;width:100%;display:block}
+  @media (min-width:720px){.review figure img{border-radius:4px}}
+  .review figcaption{font-family:var(--font-sans);color:var(--muted);justify-content:space-between;gap:16px;padding:10px 24px 0;font-size:12px;display:flex}
+  @media (min-width:720px){.review figcaption{padding:10px 0 0}}
+  .review .stat-row{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);grid-template-columns:repeat(3,1fr);gap:0;margin:36px 0;display:grid}
+  .review .stat{text-align:center;border-right:1px solid var(--rule);padding:22px 16px}
+  .review .stat:last-child{border-right:0}
+  .review .stat-num{font-family:var(--font-serif);letter-spacing:-.02em;color:var(--green);font-size:clamp(32px,5vw,44px);font-weight:700;line-height:1}
+  .review .stat-label{font-family:var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;font-size:11px}
+  @media (max-width:520px){.review .stat-row{grid-template-columns:1fr}.review .stat{border-right:0;border-bottom:1px solid var(--rule)}.review .stat:last-child{border-bottom:0}}
+  .review .inline-tag{font-family:var(--font-sans);letter-spacing:.1em;text-transform:uppercase;background:var(--green);color:#e9f0ea;vertical-align:2px;border-radius:2px;margin:0 4px;padding:4px 10px;font-size:11px;font-weight:600;display:inline-block}
+  .review .spec-strip{background:var(--green);color:#eef2ed;grid-template-columns:1.3fr 1fr;gap:0;margin:36px -24px;display:grid;overflow:hidden}
+  @media (min-width:720px){.review .spec-strip{border-radius:4px;margin:36px 0}}
+  @media (max-width:640px){.review .spec-strip{grid-template-columns:1fr}}
+  .review .spec-strip .photo{aspect-ratio:4/3;background:linear-gradient(135deg,#00000040,#0000 60%),repeating-linear-gradient(45deg,#0f2419 0 16px,#13291d 16px 32px);position:relative;overflow:hidden}
+  .review .spec-strip .photo svg{width:100%;height:100%;position:absolute;inset:0}
+  .review .spec-strip .meta{flex-direction:column;justify-content:center;gap:18px;padding:28px 26px;display:flex}
+  .review .spec-strip .tag{font-family:var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:#c8d6cc;font-size:11px}
+  .review .spec-strip .title{font-family:var(--font-serif);letter-spacing:-.01em;text-wrap:balance;font-size:26px;font-weight:700;line-height:1.2}
+  .review .spec-list{gap:10px;display:grid}
+  .review .spec-list .row{font-family:var(--font-sans);border-top:1px solid #ffffff24;grid-template-columns:110px 1fr;padding:10px 0;font-size:13px;display:grid}
+  .review .spec-list .row .k{color:#a6b8ae;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+  .review .spec-list .row .v{color:#eef2ed}
+  .review .testi-wrap{background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:44px -24px;padding:30px 24px}
+  @media (min-width:720px){.review .testi-wrap{border:1px solid var(--rule);border-radius:4px;margin:44px 0}}
+  .review .testi-head{font-family:var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-items:center;gap:10px;margin-bottom:18px;font-size:11px;display:flex}
+  .review .testi-head:before{content:"";background:var(--rule);width:24px;height:1px}
+  .review .testi-grid{grid-template-columns:1fr 1fr;gap:22px 28px;display:grid}
+  @media (max-width:560px){.review .testi-grid{grid-template-columns:1fr}}
+  .review .testi{font-family:var(--font-serif)}
+  .review .testi p{text-wrap:pretty;margin:0 0 10px;font-size:17px;line-height:1.5}
+  .review .testi .who{font-family:var(--font-sans);color:var(--muted);letter-spacing:.04em;font-size:12px}
+  .review .stars{color:var(--accent);letter-spacing:2px;margin-bottom:6px;font-size:13px;display:block}
+  .review .compare{background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);grid-template-columns:1fr 1fr;margin:36px -24px;display:grid}
+  @media (min-width:720px){.review .compare{border:1px solid var(--rule);border-radius:4px;margin:36px 0}}
+  .review .compare .col{padding:22px 22px 24px}
+  .review .compare .col.before{border-right:1px solid var(--rule)}
+  .review .compare .tag{font-family:var(--font-sans);letter-spacing:.14em;text-transform:uppercase;border-radius:2px;margin-bottom:14px;padding:4px 8px;font-size:10px;font-weight:700;display:inline-block}
+  .review .tag.bad{color:#8d3b2a;background:#f3e1dd}
+  .review .tag.good{color:#1d3b2a;background:#dde9df}
+  .review .compare h4{font-family:var(--font-serif);margin:0 0 10px;font-size:18px;font-weight:700;line-height:1.25}
+  .review .compare ul{font-family:var(--font-sans);color:var(--ink-2);margin:0;padding:0;font-size:14px;line-height:1.55;list-style:none}
+  .review .compare li{padding:6px 0 6px 22px;position:relative}
+  .review .compare li:before{font-family:var(--font-sans);font-size:13px;font-weight:700;position:absolute;top:6px;left:0}
+  .review .compare .bad li:before{content:"—";color:#8d3b2a}
+  .review .compare .good li:before{content:"✓";color:#1d3b2a}
+  .review .cta-inline{background:var(--ink);color:#f5f1ea;border-radius:4px;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;margin:32px 0;padding:24px;display:flex}
+  .review .cta-inline .label{font-family:var(--font-serif);text-wrap:pretty;max-width:34ch;font-size:18px;line-height:1.35}
+  .review .cta-inline .label b{color:var(--accent);font-weight:600}
+  .review .cta-inline a{font-family:var(--font-sans);letter-spacing:.06em;background:var(--accent);color:var(--ink);white-space:nowrap;border-radius:2px;padding:12px 18px;font-size:13px;font-weight:600;text-decoration:none;transition:transform .15s,background .15s}
+  .review .cta-inline a:hover{background:#e09a34;transform:translateY(-1px)}
+  .review .trust{font-family:var(--font-sans);color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);flex-wrap:wrap;align-items:center;gap:10px 16px;margin:28px 0;padding:14px 0;font-size:12px;display:flex}
+  .review .trust .badge{align-items:center;gap:6px;display:inline-flex}
+  .review .trust .dot{background:var(--green);border-radius:50%;width:6px;height:6px}
+  .review .kicker{background:var(--green);color:#e9efe9;border-radius:4px;margin:56px 0 0;padding:28px 24px}
+  .review .kicker h3{font-family:var(--font-serif);text-wrap:balance;margin:0 0 10px;font-size:24px;font-weight:700;line-height:1.2}
+  .review .kicker p{color:#c7d2c8;margin:0 0 16px;font-size:16px;line-height:1.55}
+  .review .kicker a.primary{background:var(--accent);color:var(--ink);font-family:var(--font-sans);letter-spacing:.06em;border-radius:2px;padding:14px 22px;font-size:13px;font-weight:600;text-decoration:none;display:inline-block}
+  .review .kicker .micro{font-family:var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:#8ea395;margin-top:12px;font-size:11px;display:block}
+  .review footer.article-foot{max-width:var(--maxw);border-top:1px solid var(--rule);font-family:var(--font-sans);color:var(--muted);flex-wrap:wrap;justify-content:space-between;gap:24px;margin:0 auto;padding:40px 24px 120px;font-size:12px;display:flex}
+  .review footer.article-foot .disc{max-width:60ch;line-height:1.6}
+  .review .fcta{z-index:90;padding:10px env(safe-area-inset-right) calc(10px + env(safe-area-inset-bottom)) env(safe-area-inset-left);pointer-events:none;background:linear-gradient(#14201a00,#14201afa 40%);transition:transform .4s cubic-bezier(.2,.7,.2,1);position:fixed;bottom:0;left:0;right:0;transform:translateY(calc(100% + 40px))}
+  .review .fcta.visible{transform:translateY(0)}
+  .review .fcta-inner{pointer-events:auto;color:#f5f1ea;background:#14201a;border:1px solid #2a3a31;border-radius:10px;align-items:center;gap:16px;max-width:860px;margin:0 auto;padding:16px 20px 16px 22px;display:flex;box-shadow:0 18px 40px -14px #00000073,inset 0 2px #ffffff0a}
+  .review .fcta-pulse{background:#6ee08a;border-radius:50%;flex-shrink:0;width:12px;height:12px;animation:1.8s infinite gnfw-pulse;box-shadow:0 0 #6ee08aa6}
+  @keyframes gnfw-pulse{0%{box-shadow:0 0 #6ee08a8c}70%{box-shadow:0 0 0 10px #6ee08a00}to{box-shadow:0 0 #6ee08a00}}
+  .review .fcta-copy{min-width:0;font-family:var(--font-sans);flex:1;line-height:1.25}
+  .review .fcta-head{color:#f5f1ea;white-space:nowrap;text-overflow:ellipsis;font-size:17px;font-weight:600;overflow:hidden}
+  .review .fcta-sub{color:#a6b8ae;letter-spacing:.04em;white-space:nowrap;text-overflow:ellipsis;margin-top:3px;font-size:13px;overflow:hidden}
+  .review .fcta-sub .strike{color:#6b7a72;margin-right:6px;text-decoration:line-through}
+  .review .fcta-sub b{color:#f3c46a;font-weight:600}
+  .review .fcta-btn{font-family:var(--font-sans);letter-spacing:.03em;background:var(--accent);color:#14201a;white-space:nowrap;border:0;border-radius:9px;align-items:center;gap:8px;padding:15px 24px;font-size:15px;font-weight:700;text-decoration:none;transition:transform .15s,background .15s,box-shadow .15s;display:inline-flex;box-shadow:0 6px 16px -4px #c8862a80}
+  .review .fcta-btn:hover{background:#e09a34;transform:translateY(-1px)}
+  .review .fcta-btn svg{width:16px;height:16px}
+  .review .fcta-close{color:#6b7a72;cursor:pointer;background:0 0;border:0;border-radius:6px;padding:6px;line-height:0}
+  .review .fcta-close:hover{color:#c7d2c8;background:#ffffff0a}
+  .review .fcta-timer{font-family:var(--font-mono);color:#f3c46a;font-size:13px}
+  @media (max-width:600px){.review .fcta-inner{border-radius:12px;gap:10px;padding:14px 12px 14px 14px}.review .fcta-head{white-space:normal;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:13px;line-height:1.2;display:-webkit-box}.review .fcta-sub{white-space:normal;text-overflow:clip;font-size:10px;overflow:visible}.review .fcta-timer{font-size:10px}.review .fcta-btn{border-radius:8px;padding:14px;font-size:12px}.review .fcta-close{display:none}}
+  .review .progress{background:var(--green);z-index:100;width:0%;height:2px;transition:width .12s linear;position:fixed;top:0;left:0}
+  .review .fcta.style-pill .fcta-inner{border-radius:999px;padding:8px 8px 8px 18px}
+  .review .fcta.style-pill .fcta-btn{border-radius:999px}
+  @media (min-width:900px){.review .fcta.style-side{background:0 0;max-width:340px;padding:0;bottom:24px;left:auto;right:24px;transform:translate(calc(100% + 40px))}.review .fcta.style-side.visible{transform:translate(0)}.review .fcta.style-side .fcta-inner{border-radius:14px;flex-direction:column;align-items:stretch;gap:12px;padding:18px}.review .fcta.style-side .fcta-copy{order:1}.review .fcta.style-side .fcta-pulse{order:0;align-self:flex-start}.review .fcta.style-side .fcta-btn{order:2;justify-content:center;padding:14px 18px}.review .fcta.style-side .fcta-close{position:absolute;top:10px;right:10px}}
+
+  /* ===== Golfer Now additions ===== */
+  .review .kicker .bf-tag{display:inline-block;background:var(--accent);color:var(--ink);font-family:var(--font-sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:4px 8px;border-radius:2px;margin-bottom:14px}
+  .review .kicker .price-rows{margin:4px 0 22px}
+  .review .kicker .price-row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #ffffff24;padding:10px 0;font-family:var(--font-sans);font-size:14px}
+  .review .kicker .price-row:last-child{border-bottom:1px solid #ffffff24}
+  .review .kicker .price-row .amt{text-align:right}
+  .review .kicker .price-row .amt strong{color:#fff;font-weight:700;margin-right:4px}
+  .review .kicker .price-row .was{color:#9FB0A5;text-decoration:line-through}
+  .review .kicker .price-row .save{color:#9FB0A5}
+  .review .kicker .price-row.featured{color:#E0B062;font-weight:600}
+  .review .kicker .trust{border-color:#ffffff24;color:#a9bbb0;margin:22px 0 0;padding:14px 0 0;border-bottom:0}
+  .review .kicker .trust .dot{background:var(--accent)}
+  .review .kicker .trust b{color:#e9efe9;font-weight:600}
+  .review .kicker a.primary{text-align:center}
+  @media (max-width:520px){
+    .review .kicker a.primary{display:block}
+    .review .kicker .price-row{flex-direction:column;gap:2px}
+    .review .kicker .price-row .amt{text-align:left}
+  }
+  .review .trust .stars-inline{color:var(--accent);letter-spacing:2px;font-size:13px}
+  .review .trust .rated b{color:var(--ink);font-weight:600}
+  .review .trust .quote-note{font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--ink-2)}
+  .review .trust .check{color:#2F7A3F;font-weight:700}
+  .review .spec-strip .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:18px;background:transparent}
+  .review .pull cite{display:block;margin-top:12px;font-family:var(--font-sans);font-style:normal;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .review .masthead-logo{color:var(--ink)}
+</style>
+
+<div class="review" data-gn-fairway>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="masthead-logo" href="/">{{ section.settings.brand_name | default: 'Golfer Now' }}</a>
+      <span class="masthead-meta">{{ section.settings.masthead_meta | default: 'Advertorial' }}</span>
+    </div>
+  </header>
+
+  <article>
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h1 class="deck">{{ section.settings.headline }}</h1>
+    <p class="standfirst">{{ section.settings.standfirst }}</p>
+
+    <div class="byline">
+      <span class="avatar" aria-hidden="true"></span>
+      <span><span class="who">{{ section.settings.byline_name }}</span></span>
+      <span class="dot">·</span>
+      <span>{{ section.settings.read_time }}</span>
+    </div>
+
+    <div class="hero">
+      {%- if hero_src != blank -%}
+        <img class="hero-img" src="{{ hero_src }}" alt="{{ section.settings.hero_alt | escape }}" width="1600" height="1000" fetchpriority="high">
+      {%- endif -%}
+    </div>
+    <p class="hero-caption"><span>{{ section.settings.hero_caption }}</span><span>{{ section.settings.brand_name | default: 'Golfer Now' }}</span></p>
+
+    <div class="trust">
+      <span class="badge rated"><span class="stars-inline" aria-hidden="true">★★★★★</span> <span><b>Rated 4.8 by ARC ONE customers</b> · 10,000+ sold</span></span>
+      <span class="quote-note">“The click doesn’t lie.” — Craig B., 13 Hcp</span>
+    </div>
+    <div class="trust">
+      <span class="badge"><span class="check">✓</span> 30-day money-back guarantee</span>
+      <span class="badge"><span class="check">✓</span> Free shipping on 2+</span>
+      <span class="badge"><span class="check">✓</span> Ships worldwide</span>
+    </div>
+
+    <div class="cta-inline">
+      <div class="label">{{ section.settings.early_cta_text }}</div>
+      <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="early" rel="sponsored noopener">{{ section.settings.cta_label }}</a>
+    </div>
+
+    <section class="body">
+      <p>You’ve taken lessons. You’ve bought the video app. You’ve filmed yourself in slow motion. And the same flaw keeps showing up: you let the club go from the top, and the ball comes off the face weak and drifting.</p>
+      <p>Most training aids end up in a bin labeled <em>good idea, bad execution</em>. They look great in the marketing and do nothing on the range.</p>
+      <p>ARC ONE is different, and here’s why without the usual gushing. It isn’t magic. It’s feedback. But the <em>kind</em> of feedback matters more than almost anyone talks about.</p>
+
+      <h2><span class="num">01</span>The click tells you the truth before your body has time to lie</h2>
+      <p>Think back to your last lesson. Your coach watched you swing and told you what you did wrong. By the time the words reached your ears, your body had already moved on and filed that rep away as normal.</p>
+      <p>Feedback that lands two seconds after the swing trains almost nothing. It’s a diagnosis, not a correction.</p>
+      <p>ARC ONE talks back in real time. A weighted mechanism inside the shaft clicks the moment you release. Click near the top? You cast it. Click at the ball? That’s lag — and that’s the sound you’re chasing.</p>
+
+      <div class="pull">
+        <p>You don’t learn the swing. You learn what the click <em>feels like</em> — and then your body quietly arranges itself around producing it.</p>
+      </div>
+
+      <p>That immediacy is the whole point. Your body gets the signal while the movement is still happening, which is exactly when muscle memory forms. Not what good timing looks like on video. What it <em>feels like</em>.</p>
+
+      <div class="spec-strip">
+        <div class="photo">
+          {%- if use_schematic -%}
+            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="gnfwGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffffff" stop-opacity=".14"></stop>
+                  <stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="300" fill="url(#gnfwGlow)"></rect>
+              <g transform="translate(60,150) rotate(-22)" stroke="#d4e3d8" stroke-width="1.2" fill="none" opacity=".85">
+                <rect x="0" y="-10" width="200" height="20" rx="10" fill="#1a2f22" stroke="#e5efe8"></rect>
+                <rect x="200" y="-14" width="70" height="28" rx="4" fill="#0c1a14" stroke="#e5efe8"></rect>
+                <line x1="205" y1="-14" x2="205" y2="14"></line>
+                <line x1="215" y1="-14" x2="215" y2="14"></line>
+                <line x1="225" y1="-14" x2="225" y2="14"></line>
+                <line x1="235" y1="-14" x2="235" y2="14"></line>
+                <line x1="245" y1="-14" x2="245" y2="14"></line>
+                <line x1="255" y1="-14" x2="255" y2="14"></line>
+                <circle cx="-14" cy="0" r="14" fill="#fbf8f2" stroke="#e5efe8"></circle>
+                <g stroke="#a6b8ae" stroke-width=".8" stroke-dasharray="2 3">
+                  <line x1="-14" y1="40" x2="270" y2="40"></line>
+                  <line x1="-14" y1="36" x2="-14" y2="44"></line>
+                  <line x1="270" y1="36" x2="270" y2="44"></line>
+                </g>
+                <text x="128" y="56" fill="#c7d2c8" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle" letter-spacing="1">25.6 in · extended</text>
+              </g>
+              <g transform="translate(60,210) rotate(-22)" stroke="#d4e3d8" stroke-width="1.2" fill="none" opacity=".6">
+                <rect x="60" y="-8" width="140" height="16" rx="8" fill="#1a2f22" stroke="#e5efe8"></rect>
+                <rect x="200" y="-12" width="70" height="24" rx="4" fill="#0c1a14" stroke="#e5efe8"></rect>
+                <circle cx="46" cy="0" r="12" fill="#fbf8f2" stroke="#e5efe8"></circle>
+                <g stroke="#a6b8ae" stroke-width=".8" stroke-dasharray="2 3">
+                  <line x1="46" y1="36" x2="270" y2="36"></line>
+                  <line x1="46" y1="32" x2="46" y2="40"></line>
+                  <line x1="270" y1="32" x2="270" y2="40"></line>
+                </g>
+                <text x="158" y="52" fill="#c7d2c8" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle" letter-spacing="1">15.2 in · compact</text>
+              </g>
+              <text x="28" y="40" fill="#e9efe9" font-family="Source Serif 4, serif" font-style="italic" font-size="18" opacity=".85">ARC ONE</text>
+              <text x="28" y="58" fill="#a6b8ae" font-family="Inter, sans-serif" font-size="10" letter-spacing="2" opacity=".8">SCHEMATIC · NOT TO SCALE</text>
+            </svg>
+          {%- elsif spec_src != blank -%}
+            <img src="{{ spec_src }}" alt="{{ section.settings.spec_alt | escape }}" loading="lazy" width="1200" height="900">
+          {%- endif -%}
+        </div>
+        <div class="meta">
+          <div class="tag">The object itself</div>
+          <div class="title">A pocket-size telescoping shaft with a weighted head.</div>
+          <div class="spec-list">
+            <div class="row"><span class="k">Stowed</span><span class="v">15.2 in (38.5 cm) · fits in your golf bag</span></div>
+            <div class="row"><span class="k">Extended</span><span class="v">25.6 in (65 cm) for training</span></div>
+            <div class="row"><span class="k">Build</span><span class="v">Stainless steel shaft, resin head, rubber grip</span></div>
+            <div class="row"><span class="k">Signal</span><span class="v">Audible click when you release</span></div>
+            <div class="row"><span class="k">Setup</span><span class="v">No app, no batteries, no subscription</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-inline">
+        <div class="label">Black Friday pricing is live on <b>ARC ONE</b>.</div>
+        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="specs" rel="sponsored noopener">{{ section.settings.cta_label_specs }}</a>
+      </div>
+
+      <h2><span class="num">02</span>What it fixes, specifically</h2>
+      <p>Most amateur golfers fight one of two timing problems. They release too early (the dreaded casting motion), or they hang on too long and block the face open. Both produce the same outcome: weak contact, lost distance, and a ball that never quite goes where you aimed it.</p>
+      <p>ARC ONE cuts through the vocabulary. You don’t need to memorize what <em>lag</em> feels like or study frame-by-frame video. You just swing until the click shows up at the ball. Then you swing again and make it show up in the same place.</p>
+
+      <div class="compare" aria-label="Swing outcomes before and after">
+        <div class="col before">
+          <span class="tag bad">Before</span>
+          <h4>What early release costs you</h4>
+          <ul class="bad">
+            <li>Casting the club from the top of the downswing</li>
+            <li>Weak impact, thin and fat contact</li>
+            <li>Ball flight that drifts right (for right-handers)</li>
+            <li>Lost carry with the driver</li>
+          </ul>
+        </div>
+        <div class="col after">
+          <span class="tag good">After</span>
+          <h4>What the click trains, session after session</h4>
+          <ul class="good">
+            <li>Holding lag through the bottom of the swing</li>
+            <li>More compressed, consistent ball striking</li>
+            <li>Straighter flight, tighter dispersion</li>
+            <li>More solid strikes with the same effort</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>It’s worth saying the quiet part out loud: this isn’t new physics. Coaches have taught lag and release timing for a hundred years. What’s new is feeling it happen in your own hands without paying for a studio session.</p>
+
+      <div class="cta-inline">
+        <div class="label"><b>30% off</b> plus free shipping on $50+ orders.</div>
+        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="mid" rel="sponsored noopener">{{ section.settings.cta_label }}</a>
+      </div>
+
+      <h2><span class="num">03</span>Five minutes a day, anywhere in the house</h2>
+      <p>The routine is simple. Five minutes a day. No balls, no net, no new clubs, no tweaks to your setup. Just the trainer, in whatever corner of the house you have space — then five swings before you leave for the course.</p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">5</div><div class="stat-label">Minutes a day</div></div>
+        <div class="stat"><div class="stat-num">0</div><div class="stat-label">Balls, apps or batteries</div></div>
+        <div class="stat"><div class="stat-num">15.2"</div><div class="stat-label">Folded</div></div>
+      </div>
+
+      <p>Results vary from golfer to golfer. But the first real <em>click</em> at the ball is usually the moment something clicks in your head, too.</p>
+
+      {%- if figure_src != blank -%}
+        <figure>
+          <img src="{{ figure_src }}" alt="{{ section.settings.figure_alt | escape }}" loading="lazy">
+          <figcaption><span>{{ section.settings.figure_caption }}</span><span>{{ section.settings.figure_credit | default: 'Golfer Now' }}</span></figcaption>
+        </figure>
+      {%- endif -%}
+
+      <h2><span class="num">04</span>What golfers say</h2>
+
+      <div class="testi-wrap">
+        <div class="testi-head">From our customers</div>
+        <div class="testi-grid">
+          <div class="testi">
+            <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+            <p>Dropped four shots off my handicap in three weeks. Didn’t change anything else. Just started releasing when the click told me to.</p>
+            <div class="who">Rob K. · Phoenix, AZ · 9 Hcp</div>
+          </div>
+          <div class="testi">
+            <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+            <p>My ball striking went from embarrassing to the best it’s been in ten years. All from ten minutes a day in the garage.</p>
+            <div class="who">Steve M. · Sydney, NSW · 18 Hcp</div>
+          </div>
+          <div class="testi">
+            <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+            <p>First training aid I’ve bought that actually told me something useful. The click doesn’t lie.</p>
+            <div class="who">Craig B. · Denver, CO · 13 Hcp</div>
+          </div>
+          <div class="testi">
+            <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+            <p>Finally understand what holding lag actually feels like. My pro’s been telling me for years — this showed me in one session.</p>
+            <div class="who">Dan R. · Austin, TX · 14 Hcp</div>
+          </div>
+        </div>
+      </div>
+
+      <h2><span class="num">05</span>Where it won’t help</h2>
+      <p>It is not a simulator and it is not a coach. If you’ve never held a golf club before, take a lesson first. ARC ONE assumes you have some idea of what a swing looks like, and it works by sharpening what’s already there.</p>
+      <p>Also: five minutes a day is a <em>floor</em>, not a ceiling. The more reps you give it, the faster the click starts showing up in the right place.</p>
+      <p>The honest framing is this. A single lesson often costs more than the trainer, and the feeling fades within weeks. ARC ONE is a one-time purchase, and it gives you the same honest feedback on rep one as it does on rep ten thousand.</p>
+
+      <div class="kicker">
+        <span class="bf-tag">Black Friday Special</span>
+        <h3>Buy more, save more — <span style="color:#E0B062">save up to $75.90</span>.</h3>
+        <p>Grab one for you and one for your playing partner. The more you add, the less each ARC ONE costs — down to $35.95 each in the 3-pack. 30-day returns, no questions asked.</p>
+
+        <div class="price-rows">
+          <div class="price-row">
+            <span class="lbl">Buy 1</span>
+            <span class="amt"><strong>$45.95</strong> <span class="was">$61.25</span> <span class="save">· save $15.30</span></span>
+          </div>
+          <div class="price-row featured">
+            <span class="lbl">Buy 2 · Most popular</span>
+            <span class="amt"><strong>$76.90</strong> <span class="was">$122.50</span> <span class="save">· save $45.60 · free shipping</span></span>
+          </div>
+          <div class="price-row featured">
+            <span class="lbl">Buy 3 · Best value</span>
+            <span class="amt"><strong>$107.85</strong> <span class="was">$183.75</span> <span class="save">· save $75.90 · free shipping</span></span>
+          </div>
+        </div>
+
+        <a class="primary" href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="kicker" rel="sponsored noopener">{{ section.settings.final_cta_label }}</a>
+        <span class="micro">Pick your bundle on the next page · Right or left hand</span>
+      </div>
+
+      <div class="trust" aria-label="Trust signals">
+        <span class="badge"><span class="dot"></span> 30-day returns</span>
+        <span class="badge"><span class="dot"></span> Free shipping on $50+ orders</span>
+        <span class="badge"><span class="dot"></span> 4.8 ★ · 10,000+ sold</span>
+      </div>
+    </section>
+  </article>
+
+  <footer class="article-foot">
+    <div class="disc">{{ section.settings.disclosure }}</div>
+    <div>© {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | default: 'Golfer Now' }}</div>
+  </footer>
+
+  <div class="fcta style-dark-bar" role="region" aria-label="Black Friday offer"
+       data-show-after="{{ section.settings.sticky_show_after | default: 400 }}"
+       data-offer-end="{{ section.settings.offer_end | escape }}">
+    <div class="fcta-inner">
+      <span class="fcta-pulse" aria-hidden="true"></span>
+      <div class="fcta-copy">
+        <div class="fcta-head">{{ section.settings.sticky_head }}</div>
+        <div class="fcta-sub"><b>{{ section.settings.sticky_discount }}</b> · {{ section.settings.sticky_shipping }} · ends <span class="fcta-timer" data-gn-timer>--:--:--</span></div>
+      </div>
+      <a class="fcta-btn" href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="sticky" rel="sponsored noopener">
+        {{ section.settings.sticky_button }}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+      <button class="fcta-close" type="button" aria-label="Dismiss offer bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* Affise param tagging */
+  (function(){
+    var MAP = {fbclid:'fbclid', utm_campaign:'sub1', utm_term:'sub2', utm_content:'sub3'};
+    var HOST = 'clicks.metricszoom.com';
+    var KEY = 'gn_affise_params';
+    var vals = {};
+    try { vals = JSON.parse(sessionStorage.getItem(KEY) || '{}'); } catch(e) {}
+    var q = new URLSearchParams(location.search);
+    for (var k in MAP) { if (q.get(k)) vals[k] = q.get(k); }
+    try { sessionStorage.setItem(KEY, JSON.stringify(vals)); } catch(e) {}
+    function tag(href){
+      try {
+        var u = new URL(href, location.href);
+        if (u.hostname !== HOST) return href;
+        for (var k in MAP) { if (vals[k]) u.searchParams.set(MAP[k], vals[k]); }
+        return u.toString();
+      } catch(e) { return href; }
+    }
+    function run(){
+      document.querySelectorAll('a[href*="' + HOST + '"]').forEach(function(a){ a.href = tag(a.href); });
+    }
+    document.addEventListener('click', function(ev){
+      var a = ev.target && ev.target.closest ? ev.target.closest('a[href*="' + HOST + '"]') : null;
+      if (a) a.href = tag(a.href);
+    }, true);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+    window.addEventListener('load', run);
+  })();
+
+  /* Progress bar, sticky CTA, countdown */
+  (function(){
+    var root = document.querySelector('[data-gn-fairway]');
+    if (!root) return;
+    var bar = root.querySelector('.progress');
+    var fcta = root.querySelector('.fcta');
+    var timerEl = root.querySelector('[data-gn-timer]');
+    var closeBtn = root.querySelector('.fcta-close');
+    var showAfter = parseInt(fcta.getAttribute('data-show-after'), 10);
+    if (isNaN(showAfter)) showAfter = 400;
+    var dismissed = false;
+
+    function onScroll(){
+      var doc = document.documentElement;
+      var y = window.pageYOffset || doc.scrollTop || 0;
+      var max = (doc.scrollHeight - window.innerHeight) || 1;
+      bar.style.width = Math.min(100, Math.max(0, (y / max) * 100)) + '%';
+      if (!dismissed) fcta.classList.toggle('visible', y > showAfter);
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    if (closeBtn) closeBtn.addEventListener('click', function(){
+      dismissed = true;
+      fcta.classList.remove('visible');
+    });
+
+    /* Countdown to offer end (local time). Accepts "YYYY-MM-DDTHH:MM[:SS]" */
+    var raw = (fcta.getAttribute('data-offer-end') || '').trim();
+    var m = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T\s](\d{2}):(\d{2})(?::(\d{2}))?)?$/);
+    var end = m
+      ? new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 23), +(m[5] || 59), +(m[6] || 59)).getTime()
+      : new Date(2026, 10, 30, 23, 59, 59).getTime();
+
+    function pad(n){ return n < 10 ? '0' + n : '' + n; }
+    function tick(){
+      if (!timerEl) return;
+      var diff = end - Date.now();
+      if (diff <= 0) { timerEl.textContent = '00:00:00'; return; }
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var mi = Math.floor(s / 60); s -= mi * 60;
+      timerEl.textContent = (d > 0 ? d + 'd ' : '') + pad(h) + ':' + pad(mi) + ':' + pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "GN Fairway Advertorial",
+  "class": "section-gn-fairway-advertorial",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Branding" },
+    { "type": "text", "id": "brand_name", "label": "Brand name (masthead + footer)", "default": "Golfer Now" },
+    { "type": "text", "id": "masthead_meta", "label": "Masthead label", "default": "Advertorial" },
+
+    { "type": "header", "content": "Headline" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gear Guide · Training Aids" },
+    { "type": "inline_richtext", "id": "headline", "label": "Headline", "info": "Wrap a word in italics for the green emphasis.", "default": "The 5-minute home drill that’s quietly reshaping <em>weekend</em> amateur swings." },
+    { "type": "inline_richtext", "id": "standfirst", "label": "Standfirst", "default": "A pocket-size click trainer that tells you, on every single swing, whether you let the club go too early. Here’s what it does well — and where it won’t help." },
+    { "type": "text", "id": "byline_name", "label": "Byline name", "default": "Golfer Now Team" },
+    { "type": "text", "id": "read_time", "label": "Read time", "default": "9 min read" },
+
+    { "type": "header", "content": "Hero image" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image (overrides URL below)" },
+    { "type": "text", "id": "hero_image_url", "label": "Hero image URL (fallback)", "default": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/gn-fairway-before-after.webp?v=1795781666" },
+    { "type": "text", "id": "hero_alt", "label": "Hero image alt text", "default": "Early release versus holding lag at impact" },
+    { "type": "text", "id": "hero_caption", "label": "Hero caption", "default": "Left: early release. Right: holding lag into impact." },
+
+    { "type": "header", "content": "Offer link & CTAs" },
+    { "type": "text", "id": "cta_url", "label": "CTA URL (Affise tracking link)", "default": "https://clicks.metricszoom.com/click?pid=51&offer_id=381" },
+    { "type": "inline_richtext", "id": "early_cta_text", "label": "Early CTA text", "default": "<b>BLACK FRIDAY:</b> up to 30% off ARC ONE, plus free shipping on $50+ orders." },
+    { "type": "text", "id": "cta_label", "label": "Inline CTA button label", "default": "SEE TODAY’S OFFER →" },
+    { "type": "text", "id": "cta_label_specs", "label": "CTA after specs label", "default": "CHECK TODAY’S BLACK FRIDAY PRICE →" },
+    { "type": "text", "id": "final_cta_label", "label": "Final (kicker) CTA label", "default": "BLACK FRIDAY - UP TO 30% OFF" },
+
+    { "type": "header", "content": "Spec strip & figure images" },
+    { "type": "checkbox", "id": "use_schematic", "label": "Use schematic SVG in spec strip (golf-reviews style)", "default": true },
+    { "type": "image_picker", "id": "spec_image", "label": "Product image (overrides schematic)" },
+    { "type": "text", "id": "spec_image_url", "label": "Product image URL (used only if schematic off and no picker image)", "default": "" },
+    { "type": "text", "id": "spec_alt", "label": "Product image alt text", "default": "ARC ONE compact and extended lengths compared" },
+    { "type": "image_picker", "id": "figure_image", "label": "Figure image (overrides URL below)" },
+    { "type": "text", "id": "figure_image_url", "label": "Figure image URL (fallback; leave blank to hide)", "default": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/gn-fairway-testimonials-range.webp?v=1795781666" },
+    { "type": "text", "id": "figure_alt", "label": "Figure alt text", "default": "Side-by-side comparison of early release versus compact impact" },
+    { "type": "text", "id": "figure_caption", "label": "Figure caption", "default": "Same swing speed, different contact — early release vs holding lag." },
+    { "type": "text", "id": "figure_credit", "label": "Figure credit (right side)", "default": "Golfer Now" },
+
+    { "type": "header", "content": "Sticky CTA bar" },
+    { "type": "text", "id": "sticky_head", "label": "Headline", "default": "Improve your swing in 5 minutes a day" },
+    { "type": "text", "id": "sticky_discount", "label": "Highlighted discount", "default": "up to 30% off" },
+    { "type": "text", "id": "sticky_shipping", "label": "Shipping text", "default": "free shipping on $50+" },
+    { "type": "text", "id": "sticky_button", "label": "Button label", "default": "Get Black Friday deal" },
+    { "type": "range", "id": "sticky_show_after", "label": "Show after scrolling (px)", "min": 0, "max": 1500, "step": 50, "default": 400 },
+    { "type": "text", "id": "offer_end", "label": "Offer end (local time)", "info": "Format: YYYY-MM-DDTHH:MM:SS", "default": "2026-11-30T23:59:59" },
+
+    { "type": "header", "content": "Footer" },
+    { "type": "inline_richtext", "id": "disclosure", "label": "Disclosure", "default": "<b>Disclosure.</b> This article is an advertisement from Golfer Now, the maker of ARC ONE. Reviews are from Golfer Now customers. Results vary. ARC ONE is not a medical or therapeutic device." }
+  ],
+  "presets": [
+    { "name": "GN Fairway Advertorial" }
+  ]
+}
+{% endschema %}
