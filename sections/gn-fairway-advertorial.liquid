@@ -225,14 +225,32 @@
 <div class="review" data-gn-fairway>
   <div class="progress" aria-hidden="true"></div>
 
-  <header class="masthead">
+  <header class="masthead" data-gnfw-masthead="v2">
     <div class="masthead-inner">
       <a class="masthead-logo" href="/">{{ section.settings.brand_name | default: 'Golfer Now' }}</a>
     </div>
   </header>
 
   <article>
-    <p class="eyebrow">{{ section.settings.eyebrow | default: 'Gear Review · Training Aids' }}</p>
+    {%- liquid
+      assign gnfw_eyebrow = section.settings.eyebrow
+      if gnfw_eyebrow == blank or gnfw_eyebrow == 'Gear Guide · Training Aids'
+        assign gnfw_eyebrow = 'Gear Review · Training Aids'
+      endif
+      assign gnfw_cta = section.settings.cta_label
+      if gnfw_cta == blank or gnfw_cta == 'SEE TODAY’S OFFER →'
+        assign gnfw_cta = 'See today’s offer →'
+      endif
+      assign gnfw_cta_specs = section.settings.cta_label_specs
+      if gnfw_cta_specs == blank or gnfw_cta_specs == 'CHECK TODAY’S BLACK FRIDAY PRICE →'
+        assign gnfw_cta_specs = 'Check today’s Black Friday price →'
+      endif
+      assign gnfw_cta_final = section.settings.final_cta_label
+      if gnfw_cta_final == blank or gnfw_cta_final == 'BLACK FRIDAY - UP TO 30% OFF'
+        assign gnfw_cta_final = 'Get Black Friday deal →'
+      endif
+    -%}
+    <p class="eyebrow">{{ gnfw_eyebrow }}</p>
     <h1 class="deck">{{ section.settings.headline }}</h1>
     <p class="standfirst">{{ section.settings.standfirst }}</p>
 
@@ -260,7 +278,7 @@
 
       <div class="cta-inline">
         <div class="label">{{ section.settings.early_cta_text }}</div>
-        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="early" rel="sponsored noopener">{{ section.settings.cta_label }}</a>
+        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="early" rel="sponsored noopener">{{ gnfw_cta }}</a>
       </div>
 
       <h2><span class="num">01</span>The click tells you the truth before your body has time to lie</h2>
@@ -335,7 +353,7 @@
 
       <div class="cta-inline">
         <div class="label">Black Friday pricing is live on <b>ARC ONE</b>.</div>
-        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="specs" rel="sponsored noopener">{{ section.settings.cta_label_specs }}</a>
+        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="specs" rel="sponsored noopener">{{ gnfw_cta_specs }}</a>
       </div>
 
       <h2><span class="num">02</span>What it fixes, specifically</h2>
@@ -369,7 +387,7 @@
 
       <div class="cta-inline">
         <div class="label"><b>30% off</b> plus free shipping on $50+ orders.</div>
-        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="mid" rel="sponsored noopener">{{ section.settings.cta_label }}</a>
+        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="mid" rel="sponsored noopener">{{ gnfw_cta }}</a>
       </div>
 
       <h2><span class="num">03</span>Five minutes a day, anywhere in the house</h2>
@@ -443,7 +461,7 @@
           </div>
         </div>
 
-        <a class="primary" href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="kicker" rel="sponsored noopener">{{ section.settings.final_cta_label }}</a>
+        <a class="primary" href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="kicker" rel="sponsored noopener">{{ gnfw_cta_final }}</a>
         <span class="micro">Pick your bundle on the next page · Right or left hand</span>
       </div>
 
