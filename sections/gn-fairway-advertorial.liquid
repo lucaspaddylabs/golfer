@@ -228,7 +228,9 @@
   <header class="masthead">
     <div class="masthead-inner">
       <a class="masthead-logo" href="/">{{ section.settings.brand_name | default: 'Golfer Now' }}</a>
-      <span class="masthead-meta">{{ section.settings.masthead_meta | default: 'Advertorial' }}</span>
+      {%- if section.settings.masthead_meta != blank -%}
+        <span class="masthead-meta">{{ section.settings.masthead_meta }}</span>
+      {%- endif -%}
     </div>
   </header>
 
@@ -239,7 +241,12 @@
 
     <div class="byline">
       <span class="avatar" aria-hidden="true"></span>
-      <span><span class="who">{{ section.settings.byline_name }}</span></span>
+      <span>
+        <span class="who">{{ section.settings.byline_name }}</span>
+        {%- if section.settings.byline_role != blank -%}
+          <span class="dot"> · </span>{{ section.settings.byline_role }}
+        {%- endif -%}
+      </span>
       <span class="dot">·</span>
       <span>{{ section.settings.read_time }}</span>
     </div>
@@ -251,25 +258,15 @@
     </div>
     <p class="hero-caption"><span>{{ section.settings.hero_caption }}</span><span>{{ section.settings.brand_name | default: 'Golfer Now' }}</span></p>
 
-    <div class="trust">
-      <span class="badge rated"><span class="stars-inline" aria-hidden="true">★★★★★</span> <span><b>Rated 4.8 by ARC ONE customers</b> · 10,000+ sold</span></span>
-      <span class="quote-note">“The click doesn’t lie.” — Craig B., 13 Hcp</span>
-    </div>
-    <div class="trust">
-      <span class="badge"><span class="check">✓</span> 30-day money-back guarantee</span>
-      <span class="badge"><span class="check">✓</span> Free shipping on 2+</span>
-      <span class="badge"><span class="check">✓</span> Ships worldwide</span>
-    </div>
-
-    <div class="cta-inline">
-      <div class="label">{{ section.settings.early_cta_text }}</div>
-      <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="early" rel="sponsored noopener">{{ section.settings.cta_label }}</a>
-    </div>
-
     <section class="body">
       <p>You’ve taken lessons. You’ve bought the video app. You’ve filmed yourself in slow motion. And the same flaw keeps showing up: you let the club go from the top, and the ball comes off the face weak and drifting.</p>
       <p>Most training aids end up in a bin labeled <em>good idea, bad execution</em>. They look great in the marketing and do nothing on the range.</p>
       <p>ARC ONE is different, and here’s why without the usual gushing. It isn’t magic. It’s feedback. But the <em>kind</em> of feedback matters more than almost anyone talks about.</p>
+
+      <div class="cta-inline">
+        <div class="label">{{ section.settings.early_cta_text }}</div>
+        <a href="{{ cta_url | escape }}" data-click-url="{{ cta_url | escape }}" data-gn-cta="early" rel="sponsored noopener">{{ section.settings.cta_label }}</a>
+      </div>
 
       <h2><span class="num">01</span>The click tells you the truth before your body has time to lie</h2>
       <p>Think back to your last lesson. Your coach watched you swing and told you what you did wrong. By the time the words reached your ears, your body had already moved on and filed that rep away as normal.</p>
@@ -577,13 +574,14 @@
   "settings": [
     { "type": "header", "content": "Branding" },
     { "type": "text", "id": "brand_name", "label": "Brand name (masthead + footer)", "default": "Golfer Now" },
-    { "type": "text", "id": "masthead_meta", "label": "Masthead label", "default": "Advertorial" },
+    { "type": "text", "id": "masthead_meta", "label": "Masthead right label (optional — leave empty to match Fairway Review)" },
 
     { "type": "header", "content": "Headline" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gear Guide · Training Aids" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gear Review · Training Aids" },
     { "type": "inline_richtext", "id": "headline", "label": "Headline", "info": "Wrap a word in italics for the green emphasis.", "default": "The 5-minute home drill that’s quietly reshaping <em>weekend</em> amateur swings." },
     { "type": "inline_richtext", "id": "standfirst", "label": "Standfirst", "default": "A pocket-size click trainer that tells you, on every single swing, whether you let the club go too early. Here’s what it does well — and where it won’t help." },
     { "type": "text", "id": "byline_name", "label": "Byline name", "default": "Golfer Now Team" },
+    { "type": "text", "id": "byline_role", "label": "Byline role", "default": "Staff Writer" },
     { "type": "text", "id": "read_time", "label": "Read time", "default": "9 min read" },
 
     { "type": "header", "content": "Hero image" },
@@ -594,10 +592,10 @@
 
     { "type": "header", "content": "Offer link & CTAs" },
     { "type": "text", "id": "cta_url", "label": "CTA URL (Affise tracking link)", "default": "https://clicks.metricszoom.com/click?pid=51&offer_id=381" },
-    { "type": "inline_richtext", "id": "early_cta_text", "label": "Early CTA text", "default": "<b>BLACK FRIDAY:</b> up to 30% off ARC ONE, plus free shipping on $50+ orders." },
-    { "type": "text", "id": "cta_label", "label": "Inline CTA button label", "default": "SEE TODAY’S OFFER →" },
-    { "type": "text", "id": "cta_label_specs", "label": "CTA after specs label", "default": "CHECK TODAY’S BLACK FRIDAY PRICE →" },
-    { "type": "text", "id": "final_cta_label", "label": "Final (kicker) CTA label", "default": "BLACK FRIDAY - UP TO 30% OFF" },
+    { "type": "inline_richtext", "id": "early_cta_text", "label": "Early CTA text", "default": "<b>Black Friday:</b> up to 30% off ARC ONE, plus free shipping on $50+ orders." },
+    { "type": "text", "id": "cta_label", "label": "Inline CTA button label", "default": "See today’s offer →" },
+    { "type": "text", "id": "cta_label_specs", "label": "CTA after specs label", "default": "Check today’s Black Friday price →" },
+    { "type": "text", "id": "final_cta_label", "label": "Final (kicker) CTA label", "default": "Get Black Friday deal →" },
 
     { "type": "header", "content": "Spec strip & figure images" },
     { "type": "checkbox", "id": "use_schematic", "label": "Use schematic SVG in spec strip (golf-reviews style)", "default": true },
