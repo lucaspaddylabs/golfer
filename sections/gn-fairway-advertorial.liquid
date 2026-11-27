@@ -228,27 +228,22 @@
   <header class="masthead">
     <div class="masthead-inner">
       <a class="masthead-logo" href="/">{{ section.settings.brand_name | default: 'Golfer Now' }}</a>
-      {%- if section.settings.masthead_meta != blank -%}
-        <span class="masthead-meta">{{ section.settings.masthead_meta }}</span>
-      {%- endif -%}
     </div>
   </header>
 
   <article>
-    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <p class="eyebrow">{{ section.settings.eyebrow | default: 'Gear Review · Training Aids' }}</p>
     <h1 class="deck">{{ section.settings.headline }}</h1>
     <p class="standfirst">{{ section.settings.standfirst }}</p>
 
     <div class="byline">
       <span class="avatar" aria-hidden="true"></span>
       <span>
-        <span class="who">{{ section.settings.byline_name }}</span>
-        {%- if section.settings.byline_role != blank -%}
-          <span class="dot"> · </span>{{ section.settings.byline_role }}
-        {%- endif -%}
+        <span class="who">{{ section.settings.byline_name | default: 'Golfer Now Team' }}</span>
+        <span class="dot"> · </span>{{ section.settings.byline_role | default: 'Staff Writer' }}
       </span>
       <span class="dot">·</span>
-      <span>{{ section.settings.read_time }}</span>
+      <span>{{ section.settings.read_time | default: '9 min read' }}</span>
     </div>
 
     <div class="hero">
@@ -574,7 +569,6 @@
   "settings": [
     { "type": "header", "content": "Branding" },
     { "type": "text", "id": "brand_name", "label": "Brand name (masthead + footer)", "default": "Golfer Now" },
-    { "type": "text", "id": "masthead_meta", "label": "Masthead right label (optional — leave empty to match Fairway Review)" },
 
     { "type": "header", "content": "Headline" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gear Review · Training Aids" },

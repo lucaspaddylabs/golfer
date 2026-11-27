@@ -13,18 +13,21 @@
       "type": "gn-fairway-advertorial",
       "settings": {
         "brand_name": "Golfer Now",
-        "masthead_meta": "",
         "eyebrow": "Gear Review · Training Aids",
         "byline_name": "Golfer Now Team",
+        "byline_role": "Staff Writer",
         "read_time": "9 min read",
-        "hero_image_url": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/gn-fairway-before-after.webp?v=1795781666",
+        "early_cta_text": "<b>Black Friday:</b> up to 30% off ARC ONE, plus free shipping on $50+ orders.",
         "cta_label": "See today’s offer →",
         "cta_label_specs": "Check today’s Black Friday price →",
         "final_cta_label": "Get Black Friday deal →",
-        "use_schematic": true,
-        "figure_image_url": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/gn-fairway-testimonials-range.webp?v=1795781666",
         "sticky_head": "Improve your swing in 5 minutes a day",
-        "sticky_button": "Get Black Friday deal"
+        "sticky_discount": "up to 30% off",
+        "sticky_shipping": "free shipping on $50+",
+        "sticky_button": "Get Black Friday deal",
+        "hero_image_url": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/gn-fairway-before-after.webp?v=1795781666",
+        "figure_image_url": "https://cdn.shopify.com/s/files/1/0986/1755/7338/files/gn-fairway-testimonials-range.webp?v=1795781666",
+        "use_schematic": true
       }
     }
   },
