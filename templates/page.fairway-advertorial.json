@@ -9,11 +9,13 @@
  */
 {
   "sections": {
-    "main": {
+    "fairway": {
       "type": "gn-fairway-advertorial",
       "settings": {
         "brand_name": "Golfer Now",
         "eyebrow": "Gear Review · Training Aids",
+        "headline": "The 5-minute home drill that’s quietly reshaping <em>weekend</em> amateur swings.",
+        "standfirst": "A pocket-size click trainer that tells you, on every single swing, whether you let the club go too early. Here’s what it does well — and where it won’t help.",
         "byline_name": "Golfer Now Team",
         "byline_role": "Staff Writer",
         "read_time": "9 min read",
@@ -32,6 +34,6 @@
     }
   },
   "order": [
-    "main"
+    "fairway"
   ]
 }
