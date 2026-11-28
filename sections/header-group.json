@@ -102,8 +102,8 @@
         "msg_black_friday": {
           "type": "message",
           "settings": {
-            "badge": "Black Friday",
-            "text": "Save over $160 + FREE accessories — ends Mon 30 Nov, 23:59",
+            "badge": "Cyber Monday",
+            "text": "Save over $160 + FREE accessories — ends Mon 1 Dec, 23:59",
             "link": "/pages/bundle-offer",
             "show_icon": false,
             "icon": "sparkle"

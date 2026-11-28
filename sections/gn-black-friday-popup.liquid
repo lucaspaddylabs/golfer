@@ -7,13 +7,6 @@
 {%- endcomment -%}
 {%- liquid
   assign popup_expired = false
-  if section.settings.deadline != blank
-    assign deadline_ts = section.settings.deadline | date: '%s' | plus: 0
-    assign now_ts = 'now' | date: '%s' | plus: 0
-    if deadline_ts > 0 and now_ts > deadline_ts
-      assign popup_expired = true
-    endif
-  endif
 
   assign popup_hidden_here = false
   if request.page_type == 'page' or template.name == 'page'
@@ -815,7 +808,7 @@
           timer.querySelector('[data-gn-bfp-hours]').textContent = pad(Math.floor((total % 86400) / 3600));
           timer.querySelector('[data-gn-bfp-mins]').textContent = pad(Math.floor((total % 3600) / 60));
           timer.querySelector('[data-gn-bfp-secs]').textContent = pad(total % 60);
-          if (left <= 0) timer.hidden = true;
+          /* Keep timer visible at 00:00:00 — do not hide the offer */
         };
         tick();
         setInterval(tick, 1000);
@@ -975,15 +968,15 @@
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
     { "type": "textarea", "id": "hide_on_handles", "label": "Hide on page handles", "default": "the-10-minute-garage-drill-thats-quietly-reshaping-weekend-amateur", "info": "Comma-separated page handles. The popup is already hidden on all /pages/ routes." },
-    { "type": "text", "id": "eyebrow", "label": "Badge", "default": "Black Friday" },
+    { "type": "text", "id": "eyebrow", "label": "Badge", "default": "Cyber Monday" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "The full practice system, for less." },
     { "type": "text", "id": "savings_prefix", "label": "Savings label", "default": "Up to", "info": "Shown above the headline savings number." },
     { "type": "number", "id": "display_save", "label": "Headline save (dollars)", "default": 160, "info": "Fixed marketing number on the left (e.g. 160 → $160). Set 0 to use the largest live bundle save instead." },
     { "type": "text", "id": "savings_caption", "label": "Savings caption", "default": "off the Golfer Now system. Bundles only." },
     { "type": "image_picker", "id": "image", "label": "Photo" },
     { "type": "text", "id": "image_asset", "label": "Photo asset fallback", "default": "gn-arc-cta-bg.jpg" },
-    { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-11-27T23:59:00+00:00", "info": "Fixed date with timezone. The popup hides after this." },
-    { "type": "text", "id": "tab_label", "label": "Side tab label", "default": "Black Friday" },
+    { "type": "text", "id": "deadline", "label": "Offer ends", "default": "2026-12-01T23:59:00+00:00", "info": "Countdown target. Offer stays visible after this time." },
+    { "type": "text", "id": "tab_label", "label": "Side tab label", "default": "Cyber Monday" },
     { "type": "text", "id": "button_prefix", "label": "Button prefix", "default": "Get" },
     { "type": "text", "id": "trust_text", "label": "Trust line", "default": "30-day risk-free returns" },
     { "type": "text", "id": "error_text", "label": "Add to cart error", "default": "Could not add this bundle. Try again." },
@@ -999,7 +992,7 @@
     { "type": "color", "id": "card_color", "label": "Card", "default": "#101712" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1E8" },
     { "type": "color", "id": "accent_color", "label": "Tab", "default": "#1D3D2A" },
-    { "type": "color", "id": "gold_color", "label": "Gold", "default": "#C9A249" }
+    { "type": "color", "id": "gold_color", "label": "Highlight (buttons / selected)", "default": "#3B82F6" }
   ],
   "blocks": [
     {

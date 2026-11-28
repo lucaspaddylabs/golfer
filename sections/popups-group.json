@@ -74,14 +74,14 @@
       "settings": {
         "enabled": false,
         "hide_on_handles": "the-10-minute-garage-drill-thats-quietly-reshaping-weekend-amateur",
-        "eyebrow": "Black Friday",
+        "eyebrow": "Cyber Monday",
         "heading": "The full practice system, for less.",
         "savings_prefix": "Up to",
         "display_save": 160,
         "savings_caption": "off the Golfer Now system. Bundles only.",
         "image_asset": "gn-arc-cta-bg.jpg",
-        "deadline": "2026-11-27T23:59:00+00:00",
-        "tab_label": "Black Friday",
+        "deadline": "2026-12-01T23:59:00+00:00",
+        "tab_label": "Cyber Monday",
         "button_prefix": "Get",
         "trust_text": "30-day risk-free returns",
         "error_text": "Could not add this bundle. Try again.",
@@ -95,7 +95,7 @@
         "card_color": "#101712",
         "text_color": "#f5f1e8",
         "accent_color": "#1d3d2a",
-        "gold_color": "#c9a249"
+        "gold_color": "#3B82F6"
       }
     }
   },

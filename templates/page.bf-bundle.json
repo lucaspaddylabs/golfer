@@ -1,6 +1,15 @@
 /*
  * ------------------------------------------------------------
- * Black Friday / bundle landing — standalone page template.
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+/*
+ * ------------------------------------------------------------
+ * Cyber Monday / bundle landing — standalone page template.
  * Live URL: /pages/bundle-offer (template: bf-bundle).
  * ------------------------------------------------------------
  */
@@ -67,16 +76,16 @@
         "offer_complete"
       ],
       "settings": {
-        "eyebrow": "Black Friday",
+        "eyebrow": "Cyber Monday",
         "heading": "The full practice system, for less.",
         "subheading": "Pick your bundle. Live prices. Free shipping on every option.",
         "savings_prefix": "Save over",
         "display_save": 160,
         "savings_extra": "+ FREE accessories",
-        "savings_caption": "with the Golfer Now Black Friday Bundle.",
+        "savings_caption": "with the Golfer Now Cyber Monday Bundle.",
         "social_proof": "Trusted by 10,000+ golfers",
         "image_asset": "gn-arc-cta-bg.jpg",
-        "deadline": "2026-11-27T23:59:00+00:00",
+        "deadline": "2026-12-01T23:59:00+00:00",
         "button_prefix": "Get",
         "trust_text": "30-day risk-free returns · Free shipping on bundles",
         "error_text": "Could not add this bundle. Try again.",
@@ -96,7 +105,7 @@
         "card_color": "#101712",
         "text_color": "#f5f1e8",
         "accent_color": "#1d3d2a",
-        "gold_color": "#c9a249"
+        "gold_color": "#3B82F6"
       }
     },
     "reviews": {
