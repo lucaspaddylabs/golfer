@@ -337,7 +337,7 @@
       position: relative;
       min-height: 0;
       height: 100%;
-      background: #102117 center / cover no-repeat;
+      background: #0b1f2e center / cover no-repeat;
       color: #fff;
     }
     .gn-bfp__media img {
@@ -354,7 +354,7 @@
       right: 0;
       bottom: 0;
       padding: 28px 24px 26px;
-      background: linear-gradient(180deg, rgba(8, 14, 10, 0) 0%, rgba(8, 14, 10, 0.88) 58%);
+      background: linear-gradient(180deg, rgba(8, 22, 40, 0) 0%, rgba(8, 22, 40, 0.88) 58%);
     }
     .gn-bfp__upto {
       margin: 0 0 4px;
@@ -362,7 +362,7 @@
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: {{ section.settings.gold_color }};
+      color: #5eead4;
     }
     .gn-bfp__save {
       margin: 0;
@@ -371,7 +371,7 @@
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 0.95;
-      color: {{ section.settings.gold_color }};
+      color: #5eead4;
     }
     .gn-bfp__caption {
       margin: 8px 0 0;
@@ -422,8 +422,8 @@
       align-self: flex-start;
       padding: 5px 10px;
       border-radius: 999px;
-      background: {{ section.settings.gold_color }};
-      color: #1a1406;
+      background: linear-gradient(90deg, #3b82f6, #14b8a6);
+      color: #fff;
       font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: 0.14em;
@@ -449,8 +449,8 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       line-height: 1.2;
-      color: #ffe08a;
-      text-shadow: 0 0 18px rgba(255, 214, 120, 0.45);
+      color: #5eead4;
+      text-shadow: 0 0 18px rgba(94, 234, 212, 0.4);
     }
     .gn-bfp__timer {
       display: flex;
@@ -498,7 +498,7 @@
     }
     .gn-bfp__offer.is-selected {
       border-color: {{ section.settings.gold_color }};
-      background: rgba(201, 162, 73, 0.12);
+      background: rgba(59, 130, 246, 0.14);
       box-shadow: 0 0 0 1px {{ section.settings.gold_color }};
     }
     .gn-bfp__offer.is-disabled { opacity: 0.5; cursor: not-allowed; }
@@ -510,8 +510,8 @@
       right: 12px;
       padding: 2px 8px;
       border-radius: 999px;
-      background: {{ section.settings.gold_color }};
-      color: #1a1406;
+      background: #14b8a6;
+      color: #fff;
       font-size: 0.62rem;
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -549,7 +549,7 @@
     .gn-bfp__offer-copy { min-width: 0; display: grid; gap: 1px; }
     .gn-bfp__offer-label { font-size: 0.95rem; font-weight: 800; line-height: 1.15; color: #fff; }
     .gn-bfp__offer-desc { font-size: 0.76rem; line-height: 1.25; color: rgba(255, 255, 255, 0.68); }
-    .gn-bfp__offer-note { font-size: 0.72rem; font-weight: 700; line-height: 1.25; color: {{ section.settings.gold_color }}; }
+    .gn-bfp__offer-note { font-size: 0.72rem; font-weight: 700; line-height: 1.25; color: #5eead4; }
     .gn-bfp__offer-note--promo {
       margin-top: 1px;
       font-size: 0.78rem;
@@ -557,12 +557,12 @@
       letter-spacing: 0.02em;
       text-transform: uppercase;
       line-height: 1.25;
-      color: #ffe08a;
-      text-shadow: 0 0 16px rgba(255, 214, 120, 0.35);
+      color: #5eead4;
+      text-shadow: 0 0 16px rgba(94, 234, 212, 0.35);
     }
     .gn-bfp__offer.is-selected .gn-bfp__offer-note--promo {
-      color: #fff0b0;
-      text-shadow: 0 0 18px rgba(255, 224, 138, 0.5);
+      color: #99f6e4;
+      text-shadow: 0 0 18px rgba(94, 234, 212, 0.5);
     }
     .gn-bfp__offer-price { text-align: right; white-space: nowrap; }
     .gn-bfp__now { display: block; font-size: 1rem; font-weight: 800; color: #fff; }
@@ -579,20 +579,20 @@
       margin-top: 2px;
       border: 0;
       border-radius: 12px;
-      background: {{ section.settings.gold_color }};
-      color: #1a1406;
+      background: linear-gradient(90deg, #3b82f6, #14b8a6);
+      color: #fff;
       font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
     }
-    .gn-bfp__cta:hover { filter: brightness(1.05); }
+    .gn-bfp__cta:hover { filter: brightness(1.06); }
     .gn-bfp__cta:disabled { opacity: 0.55; cursor: not-allowed; }
     .gn-bfp__cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
     .gn-bfp__spinner {
       width: 16px;
       height: 16px;
-      border: 2px solid rgba(26, 20, 6, 0.25);
-      border-top-color: #1a1406;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
       border-radius: 50%;
       animation: gn-bfp-spin 700ms linear infinite;
     }
@@ -614,7 +614,7 @@
       font-size: 0.84rem;
     }
     .gn-bfp__error[hidden] { display: none; }
-    .gn-bfp__hint { margin: 0; font-size: 0.8rem; color: #ffd27a; }
+    .gn-bfp__hint { margin: 0; font-size: 0.8rem; color: #5eead4; }
     @media (max-width: 800px) {
       .gn-bfp { padding: 0; align-items: stretch; overflow-x: hidden; }
       .gn-bfp__dialog {
@@ -989,9 +989,9 @@
     { "type": "text", "id": "marker_handle", "label": "Marker handle", "default": "golf-ball-marker-fork" },
     { "type": "text", "id": "brush_handle", "label": "Brush handle", "default": "golf-club-brush-groove-sharpener-tool" },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "card_color", "label": "Card", "default": "#101712" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1E8" },
-    { "type": "color", "id": "accent_color", "label": "Tab", "default": "#1D3D2A" },
+    { "type": "color", "id": "card_color", "label": "Card", "default": "#0B1F2E" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#E8F4F8" },
+    { "type": "color", "id": "accent_color", "label": "Tab", "default": "#0D7377" },
     { "type": "color", "id": "gold_color", "label": "Highlight (buttons / selected)", "default": "#3B82F6" }
   ],
   "blocks": [

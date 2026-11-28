@@ -69,8 +69,8 @@
   #shopify-section-{{ section.id }} .gn-bfl__media {
     position: relative;
     min-height: 520px;
-    background: #0c1610 center / cover no-repeat;
-    {% if bfl_hero_url != blank %}background-image: linear-gradient(180deg, rgba(8,14,10,0.18) 0%, rgba(8,14,10,0.72) 70%, rgba(16,23,18,0.95) 100%), var(--gn-bfl-hero);{% endif %}
+    background: #0b1f2e center / cover no-repeat;
+    {% if bfl_hero_url != blank %}background-image: linear-gradient(180deg, rgba(8,22,40,0.18) 0%, rgba(8,22,40,0.72) 70%, rgba(11,31,46,0.95) 100%), var(--gn-bfl-hero);{% endif %}
   }
   #shopify-section-{{ section.id }} .gn-bfl__media-proof {
     position: absolute;
@@ -92,8 +92,8 @@
     width: 17px;
     height: 17px;
     display: block;
-    fill: #f0d078;
-    filter: drop-shadow(0 0 6px rgba(240, 208, 120, 0.55)) drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+    fill: #5eead4;
+    filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.45)) drop-shadow(0 1px 3px rgba(0,0,0,0.4));
   }
   #shopify-section-{{ section.id }} .gn-bfl__media-proof-text {
     margin: 0;
@@ -134,7 +134,7 @@
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.05;
-    color: var(--bfl-gold);
+    color: #5eead4;
   }
   #shopify-section-{{ section.id }} .gn-bfl__caption {
     margin: 14px 0 0;
@@ -157,8 +157,8 @@
     align-self: flex-start;
     padding: 6px 12px;
     border-radius: 999px;
-    background: var(--bfl-gold);
-    color: #1a1406;
+    background: linear-gradient(90deg, #3b82f6, #14b8a6);
+    color: #fff;
     font-size: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.14em;
@@ -240,7 +240,7 @@
   }
   #shopify-section-{{ section.id }} .gn-bfl__hand-btn.is-active {
     border-color: var(--bfl-gold);
-    background: rgba(201,162,73,0.14);
+    background: rgba(59,130,246,0.16);
     box-shadow: 0 0 0 1px var(--bfl-gold);
   }
   #shopify-section-{{ section.id }} .gn-bfl__offers {
@@ -267,7 +267,7 @@
   }
   #shopify-section-{{ section.id }} .gn-bfl__offer.is-selected {
     border-color: var(--bfl-gold);
-    background: rgba(201,162,73,0.12);
+    background: rgba(59,130,246,0.14);
     box-shadow: 0 0 0 1px var(--bfl-gold);
   }
   #shopify-section-{{ section.id }} .gn-bfl__offer.is-disabled { opacity: 0.5; cursor: not-allowed; }
@@ -284,8 +284,8 @@
     right: 12px;
     padding: 2px 8px;
     border-radius: 999px;
-    background: var(--bfl-gold);
-    color: #1a1406;
+    background: #14b8a6;
+    color: #fff;
     font-size: 0.62rem;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -336,15 +336,15 @@
     font-size: 0.74rem;
     font-weight: 700;
     line-height: 1.25;
-    color: var(--bfl-gold);
+    color: #5eead4;
   }
   #shopify-section-{{ section.id }} .gn-bfl__offer-note--promo {
     font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: #ffe08a;
-    text-shadow: 0 0 16px rgba(255,214,120,0.35);
+    color: #5eead4;
+    text-shadow: 0 0 16px rgba(94,234,212,0.35);
   }
   #shopify-section-{{ section.id }} .gn-bfl__offer-price { text-align: right; white-space: nowrap; }
   #shopify-section-{{ section.id }} .gn-bfl__now {
@@ -369,19 +369,19 @@
     min-height: 54px;
     border: 0;
     border-radius: 12px;
-    background: var(--bfl-gold);
-    color: #1a1406;
+    background: linear-gradient(90deg, #3b82f6, #14b8a6);
+    color: #fff;
     font-size: 1.02rem;
     font-weight: 800;
     cursor: pointer;
   }
-  #shopify-section-{{ section.id }} .gn-bfl__cta:hover { filter: brightness(1.05); }
+  #shopify-section-{{ section.id }} .gn-bfl__cta:hover { filter: brightness(1.06); }
   #shopify-section-{{ section.id }} .gn-bfl__cta:disabled { opacity: 0.55; cursor: not-allowed; }
   #shopify-section-{{ section.id }} .gn-bfl__spinner {
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(26,20,6,0.25);
-    border-top-color: #1a1406;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
     border-radius: 50%;
     animation: gn-bfl-spin 700ms linear infinite;
   }
@@ -995,9 +995,9 @@
     { "type": "text", "id": "marker_handle", "label": "Marker handle", "default": "golf-ball-marker-fork" },
     { "type": "text", "id": "brush_handle", "label": "Brush handle", "default": "golf-club-brush-groove-sharpener-tool" },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "card_color", "label": "Panel", "default": "#101712" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1E8" },
-    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1D3D2A" },
+    { "type": "color", "id": "card_color", "label": "Panel", "default": "#0B1F2E" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#E8F4F8" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#0D7377" },
     { "type": "color", "id": "gold_color", "label": "Highlight (buttons / selected)", "default": "#3B82F6" }
   ],
   "blocks": [

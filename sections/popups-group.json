@@ -92,9 +92,9 @@
         "towel_handle": "magnetic-golf-towel",
         "marker_handle": "golf-ball-marker-fork",
         "brush_handle": "golf-club-brush-groove-sharpener-tool",
-        "card_color": "#101712",
-        "text_color": "#f5f1e8",
-        "accent_color": "#1d3d2a",
+        "card_color": "#0B1F2E",
+        "text_color": "#e8f4f8",
+        "accent_color": "#0D7377",
         "gold_color": "#3B82F6"
       }
     }
